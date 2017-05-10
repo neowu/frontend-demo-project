@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Welcome from "../../component/Welcome/Welcome";
+import Welcome from "../../component/welcome/Welcome";
 
 ReactDOM.render(
     <Welcome/>,

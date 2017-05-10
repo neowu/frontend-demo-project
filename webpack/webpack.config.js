@@ -1,14 +1,16 @@
+const glob = require('glob');
 const path = require("path");
 const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const merge = require("webpack-merge");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const StyleLintPlugin = require("stylelint-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
-let commonConfig = {
-    entry: {
-        index: path.resolve(__dirname, '../src'),
-        "page1": path.resolve(__dirname, '../src/page/page1')
-    },
+const production = process.env.NODE_ENV === "production";
+
+const config = {
+    entry: {},
     output: {
         path: path.resolve(__dirname, '../build'),
         filename: 'js/[name].[chunkhash].js'
@@ -69,34 +71,86 @@ let commonConfig = {
         new ExtractTextPlugin({
             filename: 'css/[name].[chunkhash].css',
             disable: process.env.NODE_ENV === "development"
-        }),
-        new HtmlWebpackPlugin({
-            title: 'home page',
-            filename: `index.html`,
-            template: `src/index.html`,
-            chunks: ["vendor", "manifest", "index"],
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeRedundantAttributes: true
-            }
-        }),
-        new HtmlWebpackPlugin({
-            title: 'page 1',
-            filename: `page1.html`,
-            template: `src/page/page1/index.html`,
-            chunks: ["vendor", "manifest", "page1"],
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeRedundantAttributes: true
-            }
         })
     ]
 };
 
+function htmlWebpackPlugin(name, template) {
+    return new HtmlWebpackPlugin({
+        filename: `${name}.html`,
+        template: template,
+        chunks: ["vendor", "manifest", name],
+        minify: production ? {
+            removeComments: true,
+            collapseWhitespace: true,
+            removeRedundantAttributes: true
+        } : false
+    });
+}
+
 module.exports = function (env) {
-    if (env === undefined) env = "dev";
-    commonConfig.resolve.alias = {conf: path.join(__dirname, `../conf/${env}`)};
-    return merge(commonConfig, require(`./webpack.${env}.config.js`));
+    if (env === undefined) env = "local";
+
+    config.resolve.alias = {conf: path.resolve(__dirname, `../conf/${env}`)};
+    config.devtool = production ? 'source-map' : 'cheap-module-source-map';
+
+    config.entry["index"] = path.resolve(__dirname, '../src/index.jsx');
+    config.plugins.push(htmlWebpackPlugin("index", path.resolve(__dirname, '../src/index.html')));
+
+    const pages = glob.sync('*/index.jsx', {cwd: path.resolve(__dirname, "../src/page")});
+    pages.map(page => {
+        const name = page.substr(0, page.indexOf('/'));
+        const entry = page.substr(0, page.lastIndexOf('.'));
+        config.entry[entry] = path.resolve(__dirname, `../src/page/${page}`);
+        config.plugins.push(htmlWebpackPlugin(entry, path.resolve(__dirname, `../src/page/${name}/index.html`)));
+    });
+
+    if (!production) {
+        config.devServer = {
+            historyApiFallback: true,
+            stats: 'minimal',
+            overlay: {
+                errors: true,
+                warnings: true,
+            }
+        }
+    } else {
+        config.module.rules.push({
+            test: /\.(js|jsx)$/,
+            loader: "eslint-loader",
+            exclude: /node_modules/,
+            enforce: "pre",
+            options: {
+                parser: "babel-eslint",
+                configFile: path.resolve(__dirname, './eslint.json'),
+                parserOptions: {"ecmaVersion": 8, "sourceType": "module", "ecmaFeatures": {"jsx": true}},
+                failOnWarning: true,
+                failOnError: true,
+                cache: true
+            }
+        });
+
+        config.plugins.push(...[
+            new CleanWebpackPlugin(path.resolve(__dirname, "../build"), {root: path.resolve(__dirname, "../")}),
+            new webpack.DefinePlugin({'process.env': {NODE_ENV: '"production"'}}),
+            new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
+            new StyleLintPlugin({
+                configFile: path.resolve(__dirname, './stylelint.json'),
+                context: path.resolve(__dirname, '../src'),
+                files: '**/*.scss',
+                syntax: "scss"
+            }),
+            new OptimizeCSSAssetsPlugin({
+                cssProcessor: require("cssnano"),
+                cssProcessorOptions: {
+                    discardComments: {
+                        removeAll: true,
+                    },
+                    safe: true
+                },
+                canPrint: false
+            })]);
+    }
+
+    return config;
 };
