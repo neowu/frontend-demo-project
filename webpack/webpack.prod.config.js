@@ -26,13 +26,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(path.resolve(__dirname, "../build")),
-        // new webpack.SourceMapDevToolPlugin({
-        //     filename: 'js/[name].[chunkhash].js.map',
-        //     exclude: ['vendor.js']
-        // }),
+        new CleanWebpackPlugin(path.resolve(__dirname, "../build"), {root: path.resolve(__dirname, "../")}),
         new webpack.DefinePlugin({'process.env': {NODE_ENV: '"production"'}}),
-        new webpack.optimize.UglifyJsPlugin(),
+        new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
         new StyleLintPlugin({
             configFile: path.resolve(__dirname, './stylelint.json'),
             context: path.resolve(__dirname, '../app'),

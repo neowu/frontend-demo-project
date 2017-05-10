@@ -4,22 +4,19 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const merge = require("webpack-merge");
 
-const PATHS = {
-    app: path.resolve(__dirname, '../app'),
-    build: path.resolve(__dirname, '../build')
-};
-
-const commonConfig = {
+commonConfig = (env) => ({
     entry: {
-        app: PATHS.app,
-        vendor: ["react", "react-dom"]
+        app: path.resolve(__dirname, '../app'),
     },
     output: {
-        path: PATHS.build,
+        path: path.resolve(__dirname, '../build'),
         filename: 'js/[name].[chunkhash].js'
     },
     resolve: {
         extensions: ['.js', '.jsx'],
+        alias: {
+            conf: path.join(__dirname, `conf/${env}/env.js`),
+        },
     },
     module: {
         rules: [
@@ -33,7 +30,7 @@ const commonConfig = {
                 }
             },
             {
-                test: /\.css$/,
+                test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
                     use: [{
                         loader: "css-loader"
@@ -62,23 +59,31 @@ const commonConfig = {
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            names: ['vendor', 'manifest']
+            names: "vendor",
+            minChunks(module, count) {
+                const context = module.context;
+                return context && context.indexOf('node_modules') >= 0;
+            }
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'manifest'
         }),
         new ExtractTextPlugin({
             filename: 'css/[name].[chunkhash].css',
-            // disable: process.env.NODE_ENV === "development"
+            disable: process.env.NODE_ENV === "development"
         }),
         new HtmlWebpackPlugin({
             title: 'Webpack demo',
             template: `app/index.html`,
-            // minify: {
-            //     removeComments: true,
-            //     collapseWhitespace: true
-            // }
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeRedundantAttributes: true
+            }
         })
     ]
-};
+});
 
 module.exports = function (env) {
-    return merge(commonConfig, require(`./webpack.${env}.config.js`));
+    return merge(commonConfig(env), require(`./webpack.${env}.config.js`));
 };
