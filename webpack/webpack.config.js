@@ -4,19 +4,17 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const merge = require("webpack-merge");
 
-commonConfig = (env) => ({
+let commonConfig = {
     entry: {
-        app: path.resolve(__dirname, '../app'),
+        index: path.resolve(__dirname, '../src'),
+        "page1": path.resolve(__dirname, '../src/page/page1')
     },
     output: {
         path: path.resolve(__dirname, '../build'),
         filename: 'js/[name].[chunkhash].js'
     },
     resolve: {
-        extensions: ['.js', '.jsx'],
-        alias: {
-            conf: path.join(__dirname, `conf/${env}/env.js`),
-        },
+        extensions: ['.js', '.jsx']
     },
     module: {
         rules: [
@@ -73,8 +71,21 @@ commonConfig = (env) => ({
             disable: process.env.NODE_ENV === "development"
         }),
         new HtmlWebpackPlugin({
-            title: 'Webpack demo',
-            template: `app/index.html`,
+            title: 'home page',
+            filename: `index.html`,
+            template: `src/index.html`,
+            chunks: ["vendor", "manifest", "index"],
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeRedundantAttributes: true
+            }
+        }),
+        new HtmlWebpackPlugin({
+            title: 'page 1',
+            filename: `page1.html`,
+            template: `src/page/page1/index.html`,
+            chunks: ["vendor", "manifest", "page1"],
             minify: {
                 removeComments: true,
                 collapseWhitespace: true,
@@ -82,8 +93,10 @@ commonConfig = (env) => ({
             }
         })
     ]
-});
+};
 
 module.exports = function (env) {
-    return merge(commonConfig(env), require(`./webpack.${env}.config.js`));
+    if (env === undefined) env = "dev";
+    commonConfig.resolve.alias = {conf: path.join(__dirname, `../conf/${env}`)};
+    return merge(commonConfig, require(`./webpack.${env}.config.js`));
 };
