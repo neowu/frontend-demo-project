@@ -8,11 +8,8 @@ ReactDOM.render(
     document.getElementById("app")
 );
 
-axios.get("http://www.google.com")
-    .then((response) => {
-        document.getElementById("ajax").innerText = response;
-    })
-    .catch((error) => {
-        document.getElementById("ajax").innerText = error;
-    });
-
+axios.get("http://www.google.com").then((response) => {
+    document.getElementById("ajax").innerText = response;
+}).catch((error) => {
+    document.getElementById("ajax").innerText = error;
+});
