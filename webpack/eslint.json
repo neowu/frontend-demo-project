@@ -176,7 +176,12 @@
       "always"
     ],
     "semi-spacing": "error",
-    "sort-imports": "error",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true
+      }
+    ],
     "space-before-blocks": "error",
     "space-in-parens": "error",
     "space-infix-ops": "error",
