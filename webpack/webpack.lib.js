@@ -10,7 +10,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const production = process.env.NODE_ENV === "production";
 
-const config = {
+const webpackConfig = {
     entry: {},
     output: {
         path: path.resolve(__dirname, "../build"),
@@ -59,16 +59,6 @@ const config = {
         ]
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            names: "vendor",
-            minChunks(module, count) {
-                const context = module.context;
-                return context && context.indexOf("node_modules") >= 0;
-            }
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "manifest"
-        }),
         new ExtractTextPlugin({
             filename: "css/[name].[chunkhash].css",
             disable: !production
@@ -77,38 +67,50 @@ const config = {
     ]
 };
 
-function htmlWebpackPlugin(name, template) {
-    return new HtmlWebpackPlugin({
-        filename: `${name}.html`,
-        template: template,
-        chunks: ["vendor", "manifest", name],
-        minify: production ? {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeRedundantAttributes: true
-        } : false
-    });
-}
-
-module.exports = function (env) {
+module.exports = function (env, config) {
     if (env === undefined) env = "local";
 
-    config.resolve.alias = {conf: path.resolve(__dirname, `../conf/${env}`)};
-    config.devtool = production ? "source-map" : "cheap-module-source-map";
+    Object.keys(config.lib).forEach((name) => {
+        const chunks = [];
 
-    config.entry["index"] = path.resolve(__dirname, "../src/index.jsx");
-    config.plugins.push(htmlWebpackPlugin("index", path.resolve(__dirname, "../src/index.html")));
+        Object.keys(config.pages).forEach((pageName) => {
+            if (config.pages[pageName].dependencies.indexOf(name) >= 0) {
+                chunks.push(pageName);
+            }
+        });
 
-    const pages = glob.sync("*/index.jsx", {cwd: path.resolve(__dirname, "../src/page")});
-    pages.map(page => {
-        const name = page.substr(0, page.indexOf("/"));
-        const entry = page.substr(0, page.lastIndexOf("."));
-        config.entry[entry] = path.resolve(__dirname, `../src/page/${page}`);
-        config.plugins.push(htmlWebpackPlugin(entry, path.resolve(__dirname, `../src/page/${name}/index.html`)));
+        webpackConfig.entry[name] = config.lib[name];
+        webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+            name: name,
+            chunks: chunks,
+        }))
     });
 
+    webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+        name: "manifest",
+        minChunks: Infinity
+    }));
+
+    Object.keys(config.pages).forEach((name) => {
+        const page = config.pages[name];
+        webpackConfig.entry[name] = path.resolve(__dirname, `../src/${page.js}`);
+        webpackConfig.plugins.push(new HtmlWebpackPlugin({
+            filename: `${name}.html`,
+            template: path.resolve(__dirname, `../src/${page.template}`),
+            chunks: [...page.dependencies, "manifest", name],
+            minify: production ? {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeRedundantAttributes: true
+            } : false
+        }));
+    });
+
+    webpackConfig.resolve.alias = {conf: path.resolve(__dirname, `../conf/${env}`)};
+    webpackConfig.devtool = production ? "source-map" : "cheap-module-source-map";
+
     if (!production) {
-        config.devServer = {
+        webpackConfig.devServer = {
             historyApiFallback: true,
             stats: "minimal",
             overlay: {
@@ -117,7 +119,7 @@ module.exports = function (env) {
             }
         }
     } else {
-        config.module.rules.push({
+        webpackConfig.module.rules.push({
             test: /\.(js|jsx)$/,
             loader: "eslint-loader",
             exclude: /node_modules/,
@@ -131,7 +133,7 @@ module.exports = function (env) {
             }
         });
 
-        config.plugins.push(...[
+        webpackConfig.plugins.push(...[
             new CleanWebpackPlugin(path.resolve(__dirname, "../build"), {root: path.resolve(__dirname, "../")}),
             new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
             new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
@@ -153,5 +155,7 @@ module.exports = function (env) {
             })]);
     }
 
-    return config;
+    // console.log(JSON.stringify(webpackConfig, null, 2));
+
+    return webpackConfig;
 };
