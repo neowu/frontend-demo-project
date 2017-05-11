@@ -1,6 +1,6 @@
 const webpack = require("./webpack/webpack.lib");
 
-module.exports = function (env) {
+module.exports = (env) => {
     const config = {
         lib: {
             "common": ["react", "react-dom"],

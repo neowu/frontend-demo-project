@@ -8,12 +8,12 @@
     "babel"
   ],
   "rules": {
-    "react/jsx-uses-vars": 1,
-    "react/prop-types": 0,
-    "babel/new-cap": 1,
-    "babel/object-curly-spacing": 1,
-    "babel/no-invalid-this": 1,
-    "babel/semi": 1,
+    "react/jsx-uses-vars": "error",
+    "react/prop-types": "error",
+    "babel/new-cap": "error",
+    "babel/object-curly-spacing": "error",
+    "babel/no-invalid-this": "error",
+    "babel/semi": "error",
     "no-alert": "error",
     "no-array-constructor": "error",
     "no-bitwise": "error",
@@ -157,7 +157,12 @@
     "multiline-ternary": "error",
     "new-cap": "error",
     "new-parens": "error",
-    "object-curly-newline": "error",
+    "object-curly-newline": [
+      "error",
+      {
+        "multiline": true
+      }
+    ],
     "object-curly-spacing": [
       "error",
       "never"

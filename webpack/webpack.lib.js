@@ -67,7 +67,7 @@ const webpackConfig = {
     ]
 };
 
-module.exports = function (env, config) {
+module.exports = (env, config) => {
     if (env === undefined) env = "local";
 
     Object.keys(config.lib).forEach((name) => {
