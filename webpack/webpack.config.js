@@ -2,6 +2,7 @@ const glob = require('glob');
 const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const StyleLintPlugin = require("stylelint-webpack-plugin");
@@ -42,7 +43,7 @@ const config = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
+                loader: "url-loader",
                 query: {
                     limit: 10000,
                     name: "img/[name].[hash:7].[ext]"
@@ -50,7 +51,7 @@ const config = {
             },
             {
                 test: /.(woff|woff2|eot|ttf)(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'file-loader',
+                loader: "file-loader",
                 options: {
                     name: "fonts/[name].[hash:7].[ext]"
                 }
@@ -62,7 +63,7 @@ const config = {
             names: "vendor",
             minChunks(module, count) {
                 const context = module.context;
-                return context && context.indexOf('node_modules') >= 0;
+                return context && context.indexOf("node_modules") >= 0;
             }
         }),
         new webpack.optimize.CommonsChunkPlugin({
@@ -70,8 +71,9 @@ const config = {
         }),
         new ExtractTextPlugin({
             filename: 'css/[name].[chunkhash].css',
-            disable: process.env.NODE_ENV === "development"
-        })
+            disable: !production
+        }),
+        new CopyWebpackPlugin([{from: path.resolve(__dirname, "../static")}])
     ]
 };
 
