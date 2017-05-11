@@ -1,3 +1,4 @@
+import api from "conf/api.json";
 import React from "react";
 import uuid from "uuid";
 import Notes from "./Notes";
@@ -34,7 +35,7 @@ export default class NoteList extends React.Component {
         this.setState({
             notes: this.state.notes.concat([{
                 id: uuid.v4(),
-                task: "New task"
+                task: api.some_service_url
             }])
         });
     };
