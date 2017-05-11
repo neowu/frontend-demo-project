@@ -1,8 +1,8 @@
-import Notes from "./Notes";
 import React from "react";
 import uuid from "uuid";
+import Notes from "./Notes";
 
-export default class App extends React.Component {
+export default class NoteList extends React.Component {
     constructor(props) {
         super(props);
 

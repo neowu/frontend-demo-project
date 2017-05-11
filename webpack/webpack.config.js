@@ -1,8 +1,8 @@
-const glob = require('glob');
+const glob = require("glob");
 const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const StyleLintPlugin = require("stylelint-webpack-plugin");
@@ -13,11 +13,11 @@ const production = process.env.NODE_ENV === "production";
 const config = {
     entry: {},
     output: {
-        path: path.resolve(__dirname, '../build'),
-        filename: 'js/[name].[chunkhash].js'
+        path: path.resolve(__dirname, "../build"),
+        filename: "js/[name].[chunkhash].js"
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: [".js", ".jsx"]
     },
     module: {
         rules: [
@@ -26,7 +26,7 @@ const config = {
                 loader: "babel-loader",
                 exclude: /node_modules/,
                 options: {
-                    presets: ['es2015', 'react', "stage-0"],
+                    presets: ["es2015", "react", "stage-0"],
                     cacheDirectory: true
                 }
             },
@@ -67,10 +67,10 @@ const config = {
             }
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest'
+            name: "manifest"
         }),
         new ExtractTextPlugin({
-            filename: 'css/[name].[chunkhash].css',
+            filename: "css/[name].[chunkhash].css",
             disable: !production
         }),
         new CopyWebpackPlugin([{from: path.resolve(__dirname, "../static")}])
@@ -94,15 +94,15 @@ module.exports = function (env) {
     if (env === undefined) env = "local";
 
     config.resolve.alias = {conf: path.resolve(__dirname, `../conf/${env}`)};
-    config.devtool = production ? 'source-map' : 'cheap-module-source-map';
+    config.devtool = production ? "source-map" : "cheap-module-source-map";
 
-    config.entry["index"] = path.resolve(__dirname, '../src/index.jsx');
-    config.plugins.push(htmlWebpackPlugin("index", path.resolve(__dirname, '../src/index.html')));
+    config.entry["index"] = path.resolve(__dirname, "../src/index.jsx");
+    config.plugins.push(htmlWebpackPlugin("index", path.resolve(__dirname, "../src/index.html")));
 
-    const pages = glob.sync('*/index.jsx', {cwd: path.resolve(__dirname, "../src/page")});
+    const pages = glob.sync("*/index.jsx", {cwd: path.resolve(__dirname, "../src/page")});
     pages.map(page => {
-        const name = page.substr(0, page.indexOf('/'));
-        const entry = page.substr(0, page.lastIndexOf('.'));
+        const name = page.substr(0, page.indexOf("/"));
+        const entry = page.substr(0, page.lastIndexOf("."));
         config.entry[entry] = path.resolve(__dirname, `../src/page/${page}`);
         config.plugins.push(htmlWebpackPlugin(entry, path.resolve(__dirname, `../src/page/${name}/index.html`)));
     });
@@ -110,7 +110,7 @@ module.exports = function (env) {
     if (!production) {
         config.devServer = {
             historyApiFallback: true,
-            stats: 'minimal',
+            stats: "minimal",
             overlay: {
                 errors: true,
                 warnings: true,
@@ -124,7 +124,7 @@ module.exports = function (env) {
             enforce: "pre",
             options: {
                 parser: "babel-eslint",
-                configFile: path.resolve(__dirname, './eslint.json'),
+                configFile: path.resolve(__dirname, "./eslint.json"),
                 parserOptions: {"ecmaVersion": 8, "sourceType": "module", "ecmaFeatures": {"jsx": true}},
                 failOnWarning: true,
                 failOnError: true,
@@ -134,12 +134,12 @@ module.exports = function (env) {
 
         config.plugins.push(...[
             new CleanWebpackPlugin(path.resolve(__dirname, "../build"), {root: path.resolve(__dirname, "../")}),
-            new webpack.DefinePlugin({'process.env': {NODE_ENV: '"production"'}}),
+            new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
             new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
             new StyleLintPlugin({
-                configFile: path.resolve(__dirname, './stylelint.json'),
-                context: path.resolve(__dirname, '../src'),
-                files: '**/*.scss',
+                configFile: path.resolve(__dirname, "./stylelint.json"),
+                context: path.resolve(__dirname, "../src"),
+                files: "**/*.scss",
                 syntax: "scss"
             }),
             new OptimizeCSSAssetsPlugin({
