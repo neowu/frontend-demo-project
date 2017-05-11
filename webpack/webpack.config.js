@@ -127,8 +127,7 @@ module.exports = function (env) {
                 configFile: path.resolve(__dirname, "./eslint.json"),
                 parserOptions: {"ecmaVersion": 8, "sourceType": "module", "ecmaFeatures": {"jsx": true}},
                 failOnWarning: true,
-                failOnError: true,
-                cache: true
+                failOnError: true
             }
         });
 
