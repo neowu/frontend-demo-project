@@ -31,7 +31,7 @@ const webpackConfig = {
                 }
             },
             {
-                test: /\.scss$/,
+                test: /\.(css|scss|sass)$/,
                 use: ExtractTextPlugin.extract({
                     use: [{
                         loader: "css-loader"
