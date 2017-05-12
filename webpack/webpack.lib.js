@@ -1,4 +1,3 @@
-const glob = require("glob");
 const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
@@ -150,10 +149,12 @@ module.exports = (env, config) => {
         webpackConfig.devServer = {
             historyApiFallback: true,
             hot: true,
+            inline: true,
+            compress: true,
             stats: "minimal",
             overlay: {
-                errors: true,
                 warnings: true,
+                errors: true
             }
         };
 
