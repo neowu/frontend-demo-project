@@ -7,6 +7,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const StyleLintPlugin = require("stylelint-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const SpritesmithPlugin = require('webpack-spritesmith');
 
 const production = process.env.NODE_ENV === "production";
 
@@ -14,7 +15,8 @@ const webpackConfig = {
     entry: {},
     output: {
         path: path.resolve(__dirname, "../build"),
-        filename: "js/[name].[chunkhash:8].js"
+        filename: "js/[name].[chunkhash:8].js",
+        publicPath: "/"
     },
     resolve: {
         extensions: [".js", ".jsx"]
@@ -63,14 +65,7 @@ const webpackConfig = {
     ]
 };
 
-module.exports = (env, config) => {
-    if (env === undefined) env = "local";
-
-    webpackConfig.resolve.alias = {
-        conf: path.resolve(__dirname, `../conf/${env}`),
-        lib: path.resolve(__dirname, `../lib`),
-    };
-
+const configurePages = (config) => {
     Object.keys(config.lib).forEach((name) => {
         const chunks = [];
 
@@ -102,11 +97,50 @@ module.exports = (env, config) => {
             minify: production ? {
                 removeComments: true,
                 collapseWhitespace: true,
-                removeRedundantAttributes: true
+                removeRedundantAttributes: true,
+                useShortDoctype: true,
+                removeEmptyAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                keepClosingSlash: true,
+                minifyJS: true,
+                minifyCSS: true,
+                minifyURLs: true,
             } : false
         }));
     });
+};
 
+const configureSprite = (config) => {
+    if (config.sprite === undefined) return;
+
+    webpackConfig.resolve.alias[`${config.sprite.name}.png`] = path.resolve(__dirname, `../generated/${config.sprite.name}.png`);
+    webpackConfig.resolve.alias[`${config.sprite.name}.scss`] = path.resolve(__dirname, `../generated/${config.sprite.name}.scss`);
+    webpackConfig.plugins.push(new SpritesmithPlugin({
+        src: {
+            cwd: path.resolve(__dirname, `../src/${config.sprite.path}`),
+            glob: '**/*.png'
+        },
+        target: {
+            image: path.resolve(__dirname, `../generated/${config.sprite.name}.png`),
+            css: path.resolve(__dirname, `../generated/${config.sprite.name}.scss`)
+        },
+        apiOptions: {
+            cssImageRef: `~${config.sprite.name}.png`
+        }
+    }));
+};
+
+module.exports = (env, config) => {
+    if (env === undefined) env = "local";
+
+    webpackConfig.resolve.alias = {
+        conf: path.resolve(__dirname, `../conf/${env}`),
+        lib: path.resolve(__dirname, `../lib`)
+    };
+
+    configurePages(config);
+
+    configureSprite(config);
 
     webpackConfig.devtool = production ? "source-map" : "cheap-module-source-map";
 

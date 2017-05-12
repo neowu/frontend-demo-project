@@ -3,7 +3,7 @@ import "./index-part2.scss";
 import "lib/3rd-party";
 import React from "react";
 import ReactDOM from "react-dom";
-import Welcome from "./component/welcome/welcome";
+import Welcome from "../../component/welcome/welcome";
 
 ReactDOM.render(
     <Welcome/>,
