@@ -14,7 +14,7 @@ const webpackConfig = {
     entry: {},
     output: {
         path: path.resolve(__dirname, "../build"),
-        filename: "js/[name].[chunkhash].js"
+        filename: "js/[name].[chunkhash:8].js"
     },
     resolve: {
         extensions: [".js", ".jsx"]
@@ -33,34 +33,30 @@ const webpackConfig = {
             {
                 test: /\.(css|scss|sass)$/,
                 use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader"
-                    }, {
-                        loader: "sass-loader"
-                    }],
+                    use: [{loader: "css-loader"}, {loader: "sass-loader"}],
                     fallback: "style-loader"    // use style-loader in development
                 })
             },
             {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                test: /\.(png|jpe?g|gif|svg)$/,
                 loader: "url-loader",
                 query: {
-                    limit: 10000,
-                    name: "img/[name].[hash:7].[ext]"
+                    limit: 1024,
+                    name: "img/[name].[hash:8].[ext]"
                 }
             },
             {
-                test: /.(woff|woff2|eot|ttf)(\?v=\d+\.\d+\.\d+)?$/,
+                test: /.(woff|woff2|eot|ttf)$/,
                 loader: "file-loader",
                 options: {
-                    name: "fonts/[name].[hash:7].[ext]"
+                    name: "font/[name].[hash:8].[ext]"
                 }
             }
         ]
     },
     plugins: [
         new ExtractTextPlugin({
-            filename: "css/[name].[chunkhash].css",
+            filename: "css/[name].[chunkhash:8].css",
             disable: !production
         }),
         new CopyWebpackPlugin([{from: path.resolve(__dirname, "../static")}])
@@ -69,6 +65,11 @@ const webpackConfig = {
 
 module.exports = (env, config) => {
     if (env === undefined) env = "local";
+
+    webpackConfig.resolve.alias = {
+        conf: path.resolve(__dirname, `../conf/${env}`),
+        lib: path.resolve(__dirname, `../lib`),
+    };
 
     Object.keys(config.lib).forEach((name) => {
         const chunks = [];
@@ -106,23 +107,31 @@ module.exports = (env, config) => {
         }));
     });
 
-    webpackConfig.resolve.alias = {conf: path.resolve(__dirname, `../conf/${env}`)};
+
     webpackConfig.devtool = production ? "source-map" : "cheap-module-source-map";
 
     if (!production) {
+        webpackConfig.output.filename = "js/[name].[hash:8].js";    // HMR requires non-chunkhash
+
         webpackConfig.devServer = {
             historyApiFallback: true,
+            hot: true,
             stats: "minimal",
             overlay: {
                 errors: true,
                 warnings: true,
             }
-        }
+        };
+
+        webpackConfig.plugins.push(
+            new webpack.NamedModulesPlugin(),
+            new webpack.HotModuleReplacementPlugin()
+        )
     } else {
         webpackConfig.module.rules.push({
             test: /\.(js|jsx)$/,
             loader: "eslint-loader",
-            exclude: /node_modules/,
+            exclude: [/node_modules/, /lib/],
             enforce: "pre",
             options: {
                 parser: "babel-eslint",
