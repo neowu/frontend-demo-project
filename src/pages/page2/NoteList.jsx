@@ -1,6 +1,6 @@
+import api from "conf/api.json";
 import Notes from "./Notes";
 import React from "react";
-import api from "conf/api.json";
 import uuid from "uuid";
 
 export default class NoteList extends React.Component {
