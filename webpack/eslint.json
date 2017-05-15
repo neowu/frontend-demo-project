@@ -176,10 +176,6 @@
     "quotes": "error",
     "radix": "error",
     "rest-spread-spacing": "error",
-    "semi": [
-      "error",
-      "always"
-    ],
     "semi-spacing": "error",
     "space-before-blocks": "error",
     "space-in-parens": "error",
