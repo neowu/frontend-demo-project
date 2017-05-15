@@ -1,9 +1,9 @@
 @import "~sprite.scss";
 
 #tree {
-  @include sprite($tree);
+    @include sprite($tree);
 }
 
 #flower {
-  @include sprite($flower);
+    @include sprite($flower);
 }
