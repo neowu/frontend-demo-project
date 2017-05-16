@@ -14,7 +14,8 @@ module.exports = (env) => {
                 js: "page/page2/index.jsx",
                 template: "page/page2/index.html",
                 dependencies: ["common", "net"]
-            }
+            },
+            "page3/index": {js: "page/page3/index.jsx", template: "page/page3/index.html", dependencies: ["common"]}
         },
         sprite: {
             name: "sprite-icon1",

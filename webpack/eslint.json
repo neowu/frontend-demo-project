@@ -141,7 +141,13 @@
     "id-blacklist": "error",
     "id-length": "error",
     "id-match": "error",
-    "indent": "error",
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
     "init-declarations": "error",
     "jsx-quotes": "error",
     "key-spacing": "error",
@@ -160,7 +166,10 @@
     "object-curly-newline": [
       "error",
       {
-        "multiline": true
+        "ObjectExpression": {
+          "multiline": true
+        },
+        "ObjectPattern": "never"
       }
     ],
     "object-curly-spacing": [

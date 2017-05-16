@@ -1,25 +1,28 @@
-import api from "conf/api.json";
+import React, {PureComponent} from "react";
+
 import Notes from "./Notes";
-import React from "react";
 import uuid from "uuid";
+import api from "conf/api.json";
 
-export default class NoteList extends React.Component {
-    constructor(props) {
-        super(props);
+export default class NoteList extends PureComponent {
+    state = {
+        notes: [{
+            id: uuid.v4(),
+            task: "Learn React"
+        }, {
+            id: uuid.v4(),
+            task: "Do laundry"
+        }]
+    };
 
-        this.state = {
-            notes: [
-                {
-                    id: uuid.v4(),
-                    task: "Learn React"
-                },
-                {
-                    id: uuid.v4(),
-                    task: "Do laundry"
-                }
-            ]
-        };
-    }
+    addNote = () => {
+        this.setState({
+            notes: this.state.notes.concat([{
+                id: uuid.v4(),
+                task: api.some_service_url
+            }])
+        });
+    };
 
     render() {
         const {notes} = this.state;
@@ -30,13 +33,4 @@ export default class NoteList extends React.Component {
             </div>
         );
     }
-
-    addNote = () => {
-        this.setState({
-            notes: this.state.notes.concat([{
-                id: uuid.v4(),
-                task: api.some_service_url
-            }])
-        });
-    };
 }

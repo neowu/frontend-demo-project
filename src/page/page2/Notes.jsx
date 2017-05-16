@@ -1,12 +1,13 @@
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import React from "react";
 
-export default function Notes({notes}) {
-    return <ul>{notes.map((note) =>
-        <li key={note.id}>{note.task}</li>
-    )}</ul>;
+export default class Notes extends PureComponent {
+    static propTypes = {notes: PropTypes.array.isRequired};
+
+    render() {
+        const {notes} = this.props;
+        return <ul>{notes.map((note) =>
+            <li key={note.id}>{note.task}</li>
+        )}</ul>;
+    }
 }
-
-Notes.displayName = "Notes";
-
-Notes.propTypes = {notes: PropTypes.array.required};
