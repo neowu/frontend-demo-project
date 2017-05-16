@@ -8,7 +8,7 @@ import Lazy from "../../component/Lazy";
 
 ReactDOM.render(
     <Lazy load={loadWelcome}>
-        {(Welcome) => <Welcome/> }
+        {(Welcome) => <Welcome/>}
     </Lazy>,
     document.getElementById("app")
 );

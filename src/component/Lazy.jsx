@@ -22,10 +22,10 @@ export default class Lazy extends React.Component {
     }
 
     render() {
-        if (!this.state.module) {
+        if (this.state.module === null) {
             return null;
         }
-        return this.props.children(this.state.module);
+        return React.Children.only(this.props.children(this.state.module));
     }
 }
 
