@@ -6,17 +6,9 @@ import ReactDOM from "react-dom";
 import loadWelcome from "bundle-loader?lazy&name=[name]!../../component/welcome/welcome";
 import Lazy from "../../component/Lazy";
 
-const Welcome = () =>
-    <Lazy load={loadWelcome}>
-        {(Component) => {
-            if (!Component) {
-                return <div>loading</div>;
-            }
-            return <Component/>;
-        }}
-    </Lazy>;
-
 ReactDOM.render(
-    <Welcome/>,
+    <Lazy load={loadWelcome}>
+        {(Welcome) => <Welcome/> }
+    </Lazy>,
     document.getElementById("app")
 );

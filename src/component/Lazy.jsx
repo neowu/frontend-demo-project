@@ -22,11 +22,14 @@ export default class Lazy extends React.Component {
     }
 
     render() {
+        if (!this.state.module) {
+            return null;
+        }
         return this.props.children(this.state.module);
     }
 }
 
 Lazy.propTypes = {
-    load: PropTypes.any.isRequired,
-    children: PropTypes.any.isRequired
+    load: PropTypes.func.isRequired,
+    children: PropTypes.func.isRequired
 };
