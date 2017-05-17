@@ -3,9 +3,12 @@ import "./index-part2.scss";
 import "lib/3rd-party";
 import React from "react";
 import ReactDOM from "react-dom";
-import Welcome from "components/welcome/welcome";
+import loadWelcome from "bundle-loader?lazy&name=[name]! ../../components/welcome/welcome";
+import Lazy from "components/Lazy";
 
 ReactDOM.render(
-    <Welcome/>,
+    <Lazy load={loadWelcome}>
+        {(Welcome) => <Welcome/> }
+    </Lazy>,
     document.getElementById("app")
 );

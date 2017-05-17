@@ -1,12 +1,12 @@
 const path = require("path");
 const webpack = require("webpack");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CleanPlugin = require("clean-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const StyleLintPlugin = require("stylelint-webpack-plugin");
+const HTMLPlugin = require("html-webpack-plugin");
+const StylelintPlugin = require("stylelint-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const SpritesmithPlugin = require('webpack-spritesmith');
+const SpritesmithPlugin = require("webpack-spritesmith");
 
 const production = process.env.NODE_ENV === "production";
 
@@ -15,6 +15,7 @@ const webpackConfig = {
     output: {
         path: path.resolve(__dirname, "../build"),
         filename: "js/[name].[chunkhash:8].js",
+        chunkFilename: "js/[name]-[id].[chunkhash:8].js",
         publicPath: "/"
     },
     resolve: {
@@ -43,7 +44,7 @@ const webpackConfig = {
                 test: /\.(png|jpe?g|gif|svg)$/,
                 loader: "url-loader",
                 query: {
-                    limit: 1024,
+                    limit: 8192,
                     name: "img/[name].[hash:8].[ext]"
                 }
             },
@@ -61,7 +62,7 @@ const webpackConfig = {
             filename: "css/[name].[chunkhash:8].css",
             disable: !production
         }),
-        new CopyWebpackPlugin([{from: path.resolve(__dirname, "../static")}])
+        new CopyPlugin([{from: path.resolve(__dirname, "../static")}])
     ]
 };
 
@@ -76,10 +77,7 @@ const configurePages = (config) => {
         });
 
         webpackConfig.entry[name] = config.lib[name];
-        webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-            name: name,
-            chunks: chunks,
-        }))
+        webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({name: name, chunks: chunks}))
     });
 
     webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
@@ -90,7 +88,7 @@ const configurePages = (config) => {
     Object.keys(config.pages).forEach((name) => {
         const page = config.pages[name];
         webpackConfig.entry[name] = path.resolve(__dirname, `../src/${page.js}`);
-        webpackConfig.plugins.push(new HtmlWebpackPlugin({
+        webpackConfig.plugins.push(new HTMLPlugin({
             filename: `${name}.html`,
             template: path.resolve(__dirname, `../src/${page.template}`),
             chunks: [...page.dependencies, "manifest", name],
@@ -179,10 +177,10 @@ module.exports = (env, config) => {
         });
 
         webpackConfig.plugins.push(...[
-            new CleanWebpackPlugin(path.resolve(__dirname, "../build"), {root: path.resolve(__dirname, "../")}),
+            new CleanPlugin(path.resolve(__dirname, "../build"), {root: path.resolve(__dirname, "../")}),
             new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
             new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
-            new StyleLintPlugin({
+            new StylelintPlugin({
                 configFile: path.resolve(__dirname, "./stylelint.json"),
                 context: path.resolve(__dirname, "../src"),
                 files: "**/*.scss",
@@ -191,9 +189,7 @@ module.exports = (env, config) => {
             new OptimizeCSSAssetsPlugin({
                 cssProcessor: require("cssnano"),
                 cssProcessorOptions: {
-                    discardComments: {
-                        removeAll: true,
-                    },
+                    discardComments: {removeAll: true},
                     safe: true
                 },
                 canPrint: false
