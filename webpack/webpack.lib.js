@@ -43,7 +43,7 @@ const webpackConfig = {
                 test: /\.(png|jpe?g|gif|svg)$/,
                 loader: "url-loader",
                 query: {
-                    limit: 8192,
+                    limit: 1024,
                     name: "img/[name].[hash:8].[ext]"
                 }
             },
