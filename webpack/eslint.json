@@ -9,6 +9,7 @@
   ],
   "rules": {
     "react/jsx-uses-vars": "error",
+    "react/jsx-no-bind": "error",
     "react/prop-types": "error",
     "babel/new-cap": "error",
     "babel/object-curly-spacing": "error",

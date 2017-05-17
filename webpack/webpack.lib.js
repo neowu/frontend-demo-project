@@ -144,8 +144,13 @@ module.exports = (env, config) => {
     if (!production) {
         webpackConfig.output.filename = "js/[name].[hash:8].js";    // HMR requires non-chunkhash
 
+        const rewrites = [];
+        Object.keys(config.pages).forEach((pageName) => {
+            rewrites.push({from: new RegExp(`\/${pageName}`), to: `/${pageName}.html`});
+        });
+
         webpackConfig.devServer = {
-            historyApiFallback: true,
+            historyApiFallback: {rewrites: rewrites},
             hot: true,
             inline: true,
             compress: true,
