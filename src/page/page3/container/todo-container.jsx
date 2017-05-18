@@ -31,13 +31,11 @@ const AddTodo = ({addTodo}) => {
         input.value = "";
     }
 
-    function ref(node) {
-        input = node;
-    }
-
     return <div>
         <form onSubmit={onSubmit}>
-            <input ref={ref}/>
+            <input ref={(node) => {
+                input = node;
+            }}/>
             <button type="submit">Add Todo</button>
         </form>
     </div>;

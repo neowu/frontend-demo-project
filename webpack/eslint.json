@@ -9,8 +9,40 @@
   ],
   "rules": {
     "react/jsx-uses-vars": "error",
-    "react/jsx-no-bind": "error",
+    "react/jsx-no-bind": [
+      "error",
+      {
+        "ignoreRefs": true,
+        "allowArrowFunctions": true
+      }
+    ],
     "react/prop-types": "error",
+    "react/forbid-prop-types": [
+      "error",
+      {
+        "forbid": [
+          "any",
+          "array",
+          "object"
+        ]
+      }
+    ],
+    "react/jsx-pascal-case": [
+      "error",
+      {
+        "allowAllCaps": true
+      }
+    ],
+    "react/prefer-es6-class": [
+      "error",
+      "always"
+    ],
+    "react/prefer-stateless-function": [
+      "error",
+      {
+        "ignorePureComponents": true
+      }
+    ],
     "babel/new-cap": "error",
     "babel/object-curly-spacing": "error",
     "babel/no-invalid-this": "error",

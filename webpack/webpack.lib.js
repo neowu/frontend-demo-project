@@ -13,7 +13,7 @@ const production = process.env.NODE_ENV === "production";
 const webpackConfig = {
     entry: {},
     output: {
-        path: path.resolve(__dirname, "../build"),
+        path: path.resolve(__dirname, "../build/dist"),
         filename: "js/[name].[chunkhash:8].js",
         chunkFilename: "js/[name]-[id].[chunkhash:8].js",
         publicPath: "/"
@@ -110,16 +110,16 @@ const configurePages = (config) => {
 const configureSprite = (config) => {
     if (config.sprite === undefined) return;
 
-    webpackConfig.resolve.alias[`${config.sprite.name}.png`] = path.resolve(__dirname, `../generated/${config.sprite.name}.png`);
-    webpackConfig.resolve.alias[`${config.sprite.name}.scss`] = path.resolve(__dirname, `../generated/${config.sprite.name}.scss`);
+    webpackConfig.resolve.alias[`${config.sprite.name}.png`] = path.resolve(__dirname, `../build/generated/${config.sprite.name}.png`);
+    webpackConfig.resolve.alias[`${config.sprite.name}.scss`] = path.resolve(__dirname, `../build/generated/${config.sprite.name}.scss`);
     webpackConfig.plugins.push(new SpritesmithPlugin({
         src: {
             cwd: path.resolve(__dirname, `../src/${config.sprite.path}`),
             glob: "**/*.png"
         },
         target: {
-            image: path.resolve(__dirname, `../generated/${config.sprite.name}.png`),
-            css: path.resolve(__dirname, `../generated/${config.sprite.name}.scss`)
+            image: path.resolve(__dirname, `../build/generated/${config.sprite.name}.png`),
+            css: path.resolve(__dirname, `../build/generated/${config.sprite.name}.scss`)
         },
         apiOptions: {
             cssImageRef: `~${config.sprite.name}.png`
