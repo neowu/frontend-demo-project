@@ -1,7 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {connect} from "react-redux";
+
 import TodoList from "../../../component/todo/todo-list";
+import AddTodo from "../../../component/todo/add-todo";
 
 let nextTodoId = 0;
 
@@ -19,35 +20,8 @@ const toggleTodo = id => ({
     id
 });
 
-const AddTodo = ({addTodo}) => {
-    let input = null;
-
-    function onSubmit(event) {
-        event.preventDefault();
-        if (!input.value.trim()) {
-            return;
-        }
-        addTodo(input.value);
-        input.value = "";
-    }
-
-    return <div>
-        <form onSubmit={onSubmit}>
-            <input ref={(node) => {
-                input = node;
-            }}/>
-            <button type="submit">Add Todo</button>
-        </form>
-    </div>;
-};
-
-AddTodo.propTypes = {addTodo: PropTypes.func.isRequired};
-
 const AddTodoContainer = connect(null, {addTodo: addTodoAction})(AddTodo);
-
-const mapStateToProps = state => ({todos: state.todos});
-
-const TodoListContainer = connect(mapStateToProps, {toggleTodo})(TodoList);
+const TodoListContainer = connect(state => ({todos: state.todos}), {toggleTodo})(TodoList);
 
 const TodoPage = () => <div>
     <AddTodoContainer/>

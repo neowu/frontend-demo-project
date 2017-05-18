@@ -7,9 +7,3 @@
 #flower {
     @include sprite($flower);
 }
-
-#logo {
-    content: url("../../asset/img/logo.svg");
-    width: 50px;
-    height: 50px;
-}

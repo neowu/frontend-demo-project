@@ -1,8 +1,6 @@
 import React from "react";
 
 const Welcome = () =>
-    <div>
-        <h2>welcome component</h2>
-    </div>;
+    <article>welcome component</article>;
 
 export default Welcome;

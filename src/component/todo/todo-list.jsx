@@ -12,18 +12,12 @@ Todo.propTypes = {
     text: PropTypes.string.isRequired
 };
 
-
-const TodoList = ({todos, toggleTodo}) => {
-    function onClick(todo) {
-        toggleTodo(todo.id);
-    }
-
-    return <ul>
+const TodoList = ({todos, toggleTodo}) =>
+    <ul>
         {todos.map(todo =>
-            <Todo key={todo.id} {...todo} onClick={onClick(todo)}/>
+            <Todo key={todo.id} {...todo} onClick={() => toggleTodo(todo.id)}/>
         )}
     </ul>;
-};
 
 const todoType = PropTypes.shape({
     id: PropTypes.number.isRequired,
