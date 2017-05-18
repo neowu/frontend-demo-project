@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import "./todo-list.scss";
+
 const Todo = ({onClick, completed, text}) =>
     <li onClick={onClick} style={{textDecoration: completed ? "line-through" : "none"}}>
         {text}
@@ -13,7 +15,7 @@ Todo.propTypes = {
 };
 
 const TodoList = ({todos, toggleTodo}) =>
-    <ul>
+    <ul className="todo">
         {todos.map(todo =>
             <Todo key={todo.id} {...todo} onClick={() => toggleTodo(todo.id)}/>
         )}

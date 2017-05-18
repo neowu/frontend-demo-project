@@ -4,8 +4,11 @@ import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
 import {createStore} from "redux";
 import {Provider} from "react-redux";
 
+import "./page3.scss";
+
+import Lazy from "../../component/Lazy";
 import CounterContainer from "./container/counter-container";
-import TodoContainer from "./container/todo-container";
+import loadTodoContainer from "bundle-loader?lazy&name=[name]!./container/todo-container";
 
 import reducer from "./reducer/reducer";
 
@@ -20,6 +23,11 @@ const About = () =>
     <div>
         <h2>About</h2>
     </div>;
+
+const TodoContainer = () =>
+    <Lazy load={loadTodoContainer}>
+        {TodoList => <TodoList/>}
+    </Lazy>;
 
 render(
     <Provider store={store}>

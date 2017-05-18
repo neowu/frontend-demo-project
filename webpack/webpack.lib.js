@@ -58,8 +58,9 @@ const webpackConfig = {
     },
     plugins: [
         new ExtractTextPlugin({
-            filename: "css/[name].[chunkhash:8].css",
-            disable: !production
+            filename: "css/[name].[contenthash:8].css",
+            disable: !production,
+            allChunks: true
         }),
         new CopyPlugin([{from: path.resolve(__dirname, "../static")}])
     ]
