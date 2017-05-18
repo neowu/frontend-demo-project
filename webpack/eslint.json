@@ -76,7 +76,6 @@
     "no-spaced-func": "error",
     "no-sync": "error",
     "no-tabs": "error",
-    "no-ternary": "error",
     "no-trailing-spaces": "error",
     "no-throw-literal": "error",
     "no-undef-init": "error",
@@ -104,7 +103,13 @@
     "array-bracket-spacing": "error",
     "array-callback-return": "error",
     "arrow-body-style": "error",
-    "arrow-parens": "error",
+    "arrow-parens": [
+      "error",
+      "as-needed",
+      {
+        "requireForBlockBody": true
+      }
+    ],
     "arrow-spacing": "error",
     "accessor-pairs": "error",
     "block-scoped-var": "error",
@@ -161,7 +166,6 @@
     "max-params": "error",
     "max-statements": "error",
     "max-statements-per-line": "error",
-    "multiline-ternary": "error",
     "new-cap": "error",
     "new-parens": "error",
     "object-curly-newline": [

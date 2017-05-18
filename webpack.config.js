@@ -19,7 +19,7 @@ module.exports = (env) => {
         },
         sprite: {
             name: "sprite-icon1",
-            path: "assets/sprite"
+            path: "asset/sprite"
         }
     };
 

@@ -9,7 +9,7 @@ import loadWelcome from "bundle-loader?lazy&name=[name]!../../component/welcome/
 
 ReactDOM.render(
     <Lazy load={loadWelcome}>
-        {(Welcome) => <Welcome/>}
+        {Welcome => <Welcome/>}
     </Lazy>,
     document.getElementById("app")
 );

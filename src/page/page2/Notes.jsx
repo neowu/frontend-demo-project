@@ -6,7 +6,7 @@ export default class Notes extends PureComponent {
 
     render() {
         const {notes} = this.props;
-        return <ul>{notes.map((note) =>
+        return <ul>{notes.map(note =>
             <li key={note.id}>{note.task}</li>
         )}</ul>;
     }
