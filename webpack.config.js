@@ -3,7 +3,7 @@ const webpack = require("./webpack/webpack.lib");
 module.exports = (env) => {
     const config = {
         lib: {
-            "common": ["react", "react-dom"],
+            "common": ["react-dom", "react-redux", "react-router-dom"],
             "net": ["axios"],
             '3rd': ["lib/3rd-party"]
         },

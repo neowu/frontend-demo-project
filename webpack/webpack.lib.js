@@ -26,9 +26,9 @@ const webpackConfig = {
             {
                 test: /\.(js|jsx)$/,
                 loader: "babel-loader",
-                exclude: /node_modules/,
+                include: path.resolve(__dirname, "../src"),
                 options: {
-                    presets: ["es2015", "react", "stage-0"],
+                    presets: ["es2015", "react", "stage-2"],
                     cacheDirectory: true
                 }
             },
@@ -140,7 +140,7 @@ module.exports = (env, config) => {
 
     configureSprite(config);
 
-    webpackConfig.devtool = production ? "source-map" : "cheap-module-source-map";
+    webpackConfig.devtool = production ? "source-map" : "cheap-module-eval-source-map";
 
     if (!production) {
         webpackConfig.output.filename = "js/[name].[hash:8].js";    // HMR requires non-chunkhash
@@ -170,7 +170,7 @@ module.exports = (env, config) => {
         webpackConfig.module.rules.push({
             test: /\.(js|jsx)$/,
             loader: "eslint-loader",
-            exclude: [/node_modules/, /lib/],
+            exclude: [/node_modules/, path.resolve(__dirname, "../lib")],
             enforce: "pre",
             options: {
                 parser: "babel-eslint",
