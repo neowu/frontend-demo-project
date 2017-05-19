@@ -7,7 +7,6 @@ import CopyPlugin from "copy-webpack-plugin";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HTMLPlugin from "html-webpack-plugin";
 import StylelintPlugin from "stylelint-webpack-plugin";
-import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import SpritesmithPlugin from "webpack-spritesmith";
 
 import {validate} from "./webpack.validator";
@@ -43,7 +42,7 @@ const webpackConfig = {
             {
                 test: /\.(css|scss|sass)$/,
                 use: ExtractTextPlugin.extract({
-                    use: [{loader: "css-loader"}, {loader: "sass-loader"}],
+                    use: [{loader: "css-loader", options: {minimize: {safe: true}}}, {loader: "sass-loader"}],
                     fallback: "style-loader"    // use style-loader in development
                 })
             },
@@ -202,7 +201,7 @@ export default (env, config) => {
             }
         });
 
-        webpackConfig.plugins.push(...[
+        webpackConfig.plugins.push(
             new CleanPlugin(resolve("build"), {root: resolve("")}),
             new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
             new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
@@ -211,15 +210,7 @@ export default (env, config) => {
                 context: resolve("src"),
                 files: "**/*.scss",
                 syntax: "scss"
-            }),
-            new OptimizeCSSAssetsPlugin({
-                cssProcessor: require("cssnano"),
-                cssProcessorOptions: {
-                    discardComments: {removeAll: true},
-                    safe: true
-                },
-                canPrint: false
-            })]);
+            }));
     }
 
     // console.log(JSON.stringify(webpackConfig, null, 2));
