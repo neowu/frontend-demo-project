@@ -36,13 +36,19 @@ const webpackConfig = {
                 include: resolve("src"),
                 options: {
                     presets: ["es2015", "react", "stage-2"],
+                    plugins: ["transform-runtime"],
                     cacheDirectory: true
                 }
             },
             {
                 test: /\.(css|scss|sass)$/,
                 use: ExtractTextPlugin.extract({
-                    use: [{loader: "css-loader", options: {minimize: {safe: true}}}, {loader: "sass-loader"}],
+                    use: [{
+                        loader: "css-loader", options: {
+                            minimize: {safe: true},
+                            modules: true
+                        }
+                    }, {loader: "sass-loader"}],
                     fallback: "style-loader"    // use style-loader in development
                 })
             },
@@ -130,7 +136,7 @@ function configureSprite(config) {
                 image: resolve(`build/generated/${sprite}.png`),
                 css: resolve(`build/generated/${sprite}.scss`)
             },
-            apiOptions: {cssImageRef: `~${sprite}.png`}
+            apiOptions: {cssImageRef: `${sprite}.png`}
         }));
     });
 }

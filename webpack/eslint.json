@@ -166,7 +166,10 @@
     "consistent-this": "error",
     "curly": "error",
     "default-case": "error",
-    "dot-location": "error",
+    "dot-location": [
+      "error",
+      "property"
+    ],
     "dot-notation": "error",
     "eqeqeq": [
       "error",
