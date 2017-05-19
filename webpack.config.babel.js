@@ -8,20 +8,19 @@ export default (env) => {
             '3rd': ["lib/3rd-party"]
         },
         pages: {
-            "index": {js: "page/index/index.jsx", template: "page/index/index.html", dependencies: ["common", "3rd"]},
-            "page1": {js: "page/page1/index.jsx", template: "page/page1/index.html", dependencies: ["common"]},
+            "index": {js: "page/index/index.jsx", template: "page/index/index.html", lib: ["common", "3rd"]},
+            "page1": {js: "page/page1/index.jsx", template: "page/page1/index.html", lib: ["common"]},
             "page2": {
                 js: "page/page2/index.jsx",
                 template: "page/page2/index.html",
-                dependencies: ["common", "net"]
+                lib: ["common", "net"]
             },
-            "page3": {js: "page/page3/index.jsx", template: "page/page3/index.html", dependencies: ["common"]}
+            "page3": {js: "page/page3/index.jsx", template: "page/page3/index.html", lib: ["common"]}
         },
         sprite: {
-            name: "sprite-icon1",
-            path: "asset/sprite"
+            "sprite-icon1": "asset/sprite"
         },
-        sys: `conf/${env}/sys.json`
+        sys: "sys.json"
     };
 
     return webpack(env, config);

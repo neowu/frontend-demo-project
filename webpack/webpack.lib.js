@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import webpack from "webpack";
+
 import CleanPlugin from "clean-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
@@ -9,12 +10,18 @@ import StylelintPlugin from "stylelint-webpack-plugin";
 import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import SpritesmithPlugin from "webpack-spritesmith";
 
+import {validate} from "./webpack.validator";
+
 const production = process.env.NODE_ENV === "production";
+
+function resolve(relativePath) {
+    return path.resolve(__dirname, `../${relativePath}`);
+}
 
 const webpackConfig = {
     entry: {},
     output: {
-        path: path.resolve(__dirname, "../build/dist"),
+        path: resolve("build/dist"),
         filename: "js/[name].[chunkhash:8].js",
         chunkFilename: "js/[name]-[id].[chunkhash:8].js",
         publicPath: "/"
@@ -27,7 +34,7 @@ const webpackConfig = {
             {
                 test: /\.(js|jsx)$/,
                 loader: "babel-loader",
-                include: path.resolve(__dirname, "../src"),
+                include: resolve("src"),
                 options: {
                     presets: ["es2015", "react", "stage-2"],
                     cacheDirectory: true
@@ -63,16 +70,16 @@ const webpackConfig = {
             disable: !production,
             allChunks: true
         }),
-        new CopyPlugin([{from: path.resolve(__dirname, "../static")}])
+        new CopyPlugin([{from: resolve("static")}])
     ]
 };
 
-const configurePages = (config) => {
-    Object.keys(config.lib).forEach((name) => {
+function configurePages(config) {
+    Object.keys(config.lib).forEach(name => {
         const chunks = [];
 
-        Object.keys(config.pages).forEach((pageName) => {
-            if (config.pages[pageName].dependencies.indexOf(name) >= 0) {
+        Object.keys(config.pages).forEach(pageName => {
+            if (config.pages[pageName].lib.indexOf(name) >= 0) {
                 chunks.push(pageName);
             }
         });
@@ -86,13 +93,13 @@ const configurePages = (config) => {
         minChunks: Infinity
     }));
 
-    Object.keys(config.pages).forEach((name) => {
+    Object.keys(config.pages).forEach(name => {
         const page = config.pages[name];
         webpackConfig.entry[name] = path.resolve(__dirname, `../src/${page.js}`);
         webpackConfig.plugins.push(new HTMLPlugin({
             filename: `${name}.html`,
             template: path.resolve(__dirname, `../src/${page.template}`),
-            chunks: [...page.dependencies, "manifest", name],
+            chunks: [...page.lib, "manifest", name],
             minify: production ? {
                 removeComments: true,
                 collapseWhitespace: true,
@@ -107,32 +114,32 @@ const configurePages = (config) => {
             } : false
         }));
     });
-};
+}
 
-const configureSprite = (config) => {
+function configureSprite(config) {
     if (config.sprite === undefined) return;
 
-    webpackConfig.resolve.alias[`${config.sprite.name}.png`] = path.resolve(__dirname, `../build/generated/${config.sprite.name}.png`);
-    webpackConfig.resolve.alias[`${config.sprite.name}.scss`] = path.resolve(__dirname, `../build/generated/${config.sprite.name}.scss`);
-    webpackConfig.plugins.push(new SpritesmithPlugin({
-        src: {
-            cwd: path.resolve(__dirname, `../src/${config.sprite.path}`),
-            glob: "**/*.png"
-        },
-        target: {
-            image: path.resolve(__dirname, `../build/generated/${config.sprite.name}.png`),
-            css: path.resolve(__dirname, `../build/generated/${config.sprite.name}.scss`)
-        },
-        apiOptions: {
-            cssImageRef: `~${config.sprite.name}.png`
-        }
-    }));
-};
+    Object.keys(config.sprite).forEach(sprite => {
+        webpackConfig.resolve.alias[`${sprite}.png`] = resolve(`build/generated/${sprite}.png`);
+        webpackConfig.resolve.alias[`${sprite}.scss`] = resolve(`build/generated/${sprite}.scss`);
+        webpackConfig.plugins.push(new SpritesmithPlugin({
+            src: {
+                cwd: resolve(`src/${config.sprite[sprite]}`),
+                glob: "**/*.png"
+            },
+            target: {
+                image: resolve(`build/generated/${sprite}.png`),
+                css: resolve(`build/generated/${sprite}.scss`)
+            },
+            apiOptions: {cssImageRef: `~${sprite}.png`}
+        }));
+    });
+}
 
-function configureSystem(config) {
+function configureSystem(env, config) {
     if (config.sys === undefined) return;
 
-    const sys = JSON.parse(fs.readFileSync(config.sys));
+    const sys = JSON.parse(fs.readFileSync(resolve(`conf/${env}/${config.sys}`)));
     if (sys.publicPath) {
         webpackConfig.output.publicPath = sys.publicPath;
     }
@@ -141,9 +148,11 @@ function configureSystem(config) {
 export default (env, config) => {
     if (env === undefined) env = "local";
 
+    validate(env, config, production);
+
     webpackConfig.resolve.alias = {
-        conf: path.resolve(__dirname, `../conf/${env}`),
-        lib: path.resolve(__dirname, `../lib`)
+        conf: resolve(`conf/${env}`),
+        lib: resolve(`lib`)
     };
 
     configurePages(config);
@@ -156,7 +165,7 @@ export default (env, config) => {
         webpackConfig.output.filename = "js/[name].[hash:8].js";    // HMR requires non-chunkhash
 
         const rewrites = [];
-        Object.keys(config.pages).forEach((pageName) => {
+        Object.keys(config.pages).forEach(pageName => {
             rewrites.push({from: new RegExp(`\/${pageName}`), to: `/${pageName}.html`});
         });
 
@@ -177,12 +186,12 @@ export default (env, config) => {
             new webpack.HotModuleReplacementPlugin()
         )
     } else {
-        configureSystem(config);
+        configureSystem(env, config);
 
         webpackConfig.module.rules.push({
             test: /\.(js|jsx)$/,
             loader: "eslint-loader",
-            exclude: [/node_modules/, path.resolve(__dirname, "../lib")],
+            exclude: [/node_modules/, resolve("lib")],
             enforce: "pre",
             options: {
                 parser: "babel-eslint",
@@ -194,12 +203,12 @@ export default (env, config) => {
         });
 
         webpackConfig.plugins.push(...[
-            new CleanPlugin(path.resolve(__dirname, "../build"), {root: path.resolve(__dirname, "../")}),
+            new CleanPlugin(resolve("build"), {root: resolve("")}),
             new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
             new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
             new StylelintPlugin({
                 configFile: path.resolve(__dirname, "./stylelint.json"),
-                context: path.resolve(__dirname, "../src"),
+                context: resolve("src"),
                 files: "**/*.scss",
                 syntax: "scss"
             }),
