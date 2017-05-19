@@ -1,6 +1,6 @@
-const webpack = require("./webpack/webpack.lib");
+import webpack from "./webpack/webpack.lib";
 
-module.exports = (env) => {
+export default (env) => {
     const config = {
         lib: {
             "common": ["react-dom", "react-redux", "react-router-dom"],
@@ -20,7 +20,8 @@ module.exports = (env) => {
         sprite: {
             name: "sprite-icon1",
             path: "asset/sprite"
-        }
+        },
+        sys: `conf/${env}/sys.json`
     };
 
     return webpack(env, config);

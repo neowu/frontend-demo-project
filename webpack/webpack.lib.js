@@ -1,12 +1,13 @@
-const path = require("path");
-const webpack = require("webpack");
-const CleanPlugin = require("clean-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const HTMLPlugin = require("html-webpack-plugin");
-const StylelintPlugin = require("stylelint-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const SpritesmithPlugin = require("webpack-spritesmith");
+import fs from "fs";
+import path from "path";
+import webpack from "webpack";
+import CleanPlugin from "clean-webpack-plugin";
+import CopyPlugin from "copy-webpack-plugin";
+import ExtractTextPlugin from "extract-text-webpack-plugin";
+import HTMLPlugin from "html-webpack-plugin";
+import StylelintPlugin from "stylelint-webpack-plugin";
+import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
+import SpritesmithPlugin from "webpack-spritesmith";
 
 const production = process.env.NODE_ENV === "production";
 
@@ -128,7 +129,16 @@ const configureSprite = (config) => {
     }));
 };
 
-module.exports = (env, config) => {
+function configureSystem(config) {
+    if (config.sys === undefined) return;
+
+    const sys = JSON.parse(fs.readFileSync(config.sys));
+    if (sys.publicPath) {
+        webpackConfig.output.publicPath = sys.publicPath;
+    }
+}
+
+export default (env, config) => {
     if (env === undefined) env = "local";
 
     webpackConfig.resolve.alias = {
@@ -167,6 +177,8 @@ module.exports = (env, config) => {
             new webpack.HotModuleReplacementPlugin()
         )
     } else {
+        configureSystem(config);
+
         webpackConfig.module.rules.push({
             test: /\.(js|jsx)$/,
             loader: "eslint-loader",
