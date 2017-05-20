@@ -20,23 +20,17 @@ export default class NoteList extends PureComponent {
     };
 
     addNote = () => {
-        this.setState({
-            notes: this.state.notes.concat([{
-                id: Math.random().toString(36).substring(7),
-                task: api.someServiceURL
-            }]),
-            theme: this.state.theme,
-            style: this.state.style
-        });
-
-        (async () => {
-            const style = await import(`../../asset/css/${this.state.theme}.scss`);
-            this.setState({
-                nodes: this.state.notes,
-                theme: "theme-b",
-                style: style.button
+        import(`../../asset/css/${this.state.theme}.scss`)
+            .then((style) => {
+                this.setState({
+                    notes: [...this.state.notes, {
+                        id: Math.random().toString(36).substring(7),
+                        task: api.someServiceURL
+                    }],
+                    theme: this.state.theme === "theme-b" ? "theme-a" : "theme-b",
+                    style: style.button
+                });
             });
-        })();
     };
 
     render() {

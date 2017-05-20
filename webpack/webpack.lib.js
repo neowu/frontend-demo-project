@@ -36,7 +36,6 @@ const webpackConfig = {
                 include: resolve("src"),
                 options: {
                     presets: ["es2015", "react", "stage-2"],
-                    plugins: ["transform-runtime"],
                     cacheDirectory: true
                 }
             },
