@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "./page1.scss";
+import css from "./page1.scss";
 import Header from "../../component/header/header";
 import Welcome from "../../component/welcome/welcome";
 
 ReactDOM.render(
-    <Welcome/>,
+    <div>
+        <Welcome/>
+        <img id={css.tree}/>
+        <img id={css.flower}/>
+    </div>,
     document.getElementById("app")
 );
 

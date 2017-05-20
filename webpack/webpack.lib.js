@@ -46,9 +46,15 @@ const webpackConfig = {
                     use: [{
                         loader: "css-loader", options: {
                             minimize: {safe: true},
-                            modules: true
+                            modules: true,
+                            sourceMap: true,
+                            localIdentName: "[name]_[local]-[hash:base64:6]"
                         }
-                    }, {loader: "sass-loader"}],
+                    }, {
+                        loader: "sass-loader", options: {
+                            sourceMap: true
+                        }
+                    }],
                     fallback: "style-loader"    // use style-loader in development
                 })
             },

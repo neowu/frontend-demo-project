@@ -96,7 +96,7 @@
     "function-parentheses-newline-inside": "always-multi-line",
     "function-parentheses-space-inside": "never-single-line",
     "function-whitespace-after": "always",
-      "indentation": 4,
+    "indentation": 4,
     "keyframe-declaration-no-important": true,
     "length-zero-no-unit": true,
     "max-empty-lines": 1,
@@ -140,7 +140,14 @@
     "selector-list-comma-space-before": "never",
     "selector-max-empty-lines": 0,
     "selector-pseudo-class-case": "lower",
-    "selector-pseudo-class-no-unknown": true,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": [
+          "global"
+        ]
+      }
+    ],
     "selector-pseudo-class-parentheses-space-inside": "never",
     "selector-pseudo-element-case": "lower",
     "selector-pseudo-element-colon-notation": "double",
