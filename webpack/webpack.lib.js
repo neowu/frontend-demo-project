@@ -234,7 +234,7 @@ export default (env, config) => {
             new StylelintPlugin({
                 configFile: path.resolve(__dirname, "./stylelint.json"),
                 context: resolve("src"),
-                files: "**/*.scss",
+                files: "**/*.s[ac]ss",
                 syntax: "scss"
             }));
     }

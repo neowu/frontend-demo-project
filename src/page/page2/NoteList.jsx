@@ -28,8 +28,6 @@ export default class NoteList extends PureComponent {
             themeB.use();
         }
 
-        const style = this.useA ? themeA.button : themeB.button;
-
         this.setState({
             notes: [...this.state.notes, {
                 id: Math.random().toString(36).substring(7),
@@ -59,6 +57,5 @@ export default class NoteList extends PureComponent {
             <button onClick={this.addNote}>+</button>
             <Notes notes={notes}/>
         </div>;
-
     }
 }
