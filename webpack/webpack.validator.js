@@ -5,10 +5,23 @@ import glob from "glob";
 const errors = [];
 
 function assertFileExists(relativePath, key) {
-    let absolutePath = path.resolve(__dirname, relativePath);
+    const absolutePath = path.resolve(__dirname, relativePath);
     if (!fs.existsSync(absolutePath)) {
         errors.push(`${key} => file does not exist, path=${absolutePath}`);
     }
+}
+
+function assertDirExists(relativePath, key) {
+    const absolutePath = path.resolve(__dirname, relativePath);
+    if (!fs.existsSync(absolutePath)) {
+        errors.push(`${key} => path does not exist, path=${absolutePath}`);
+        return false;
+    }
+    if (!fs.statSync(absolutePath).isDirectory()) {
+        errors.push(`${key} => path is not directory, path=${absolutePath}`);
+        return false;
+    }
+    return true;
 }
 
 function validateLib(config, usedLib) {
@@ -36,18 +49,16 @@ function validatePages(config, usedLib) {
 }
 
 function validateSprite(config) {
-    if (config.sprite === undefined) return;
-
+    if (config.sprite === undefined) {
+        return;
+    }
     Object.keys(config.sprite).forEach(sprite => {
         const imageDir = path.resolve(__dirname, `../src/${config.sprite[sprite]}`);
-        if (!fs.existsSync(imageDir)) {
-            errors.push(`config.sprite["${sprite}"] => image dir does not exist, path=${imageDir}`);
-        } else if (!fs.statSync(imageDir).isDirectory()) {
-            errors.push(`config.sprite["${sprite}"] => image dir is not a directory, path=${imageDir}`);
-        } else {
+        const dirExists = assertDirExists(`../src/${config.sprite[sprite]}`, `config.sprite["${sprite}"]`);
+        if (dirExists) {
             const images = glob.sync("**/*.png", {cwd: imageDir});
             if (images.length === 0) {
-                errors.push(`config.sprite["${sprite}"] => image dir does not contain png images, path=${imageDir}`);
+                errors.push(`config.sprite["${sprite}"] => image dir does not contain any png image, path=${imageDir}`);
             }
         }
     });
@@ -55,9 +66,17 @@ function validateSprite(config) {
 
 
 function validateSys(env, config) {
-    if (config.sys === undefined) return;
-
+    if (config.sys === undefined) {
+        return;
+    }
     assertFileExists(`../conf/${env}/${config.sys}`, "config.sys");
+}
+
+function validateLint(config) {
+    if (config.lint === undefined || config.lint.exclude === undefined) {
+        return;
+    }
+    assertDirExists(`../src/${config.lint.exclude}`, "config.lint.exclude");
 }
 
 export const validate = (env, config, production) => {
@@ -69,6 +88,7 @@ export const validate = (env, config, production) => {
 
     if (production) {
         validateSys(env, config);
+        validateLint(config);
     }
 
     if (errors.length > 0) {

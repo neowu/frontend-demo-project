@@ -192,6 +192,21 @@ function configureESLint(config) {
     webpackConfig.module.rules.push(eslintRule);
 }
 
+function configureStylelint(config) {
+    const options = {
+        configFile: path.resolve(__dirname, "./stylelint.json"),
+        context: resolve("src"),
+        files: "**/*.s[ac]ss",
+        syntax: "scss"
+    };
+
+    if (config.lint !== undefined && config.lint.exclude !== undefined) {
+        options.files = `!(${config.lint.exclude})/**/*.s[ac]ss`;
+    }
+
+    webpackConfig.plugins.push(new StylelintPlugin(options));
+}
+
 export default (env, config) => {
     if (env === undefined) env = "local";
 
@@ -238,13 +253,9 @@ export default (env, config) => {
         webpackConfig.plugins.push(
             new CleanPlugin(resolve("build"), {root: resolve("")}),
             new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
-            new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
-            new StylelintPlugin({
-                configFile: path.resolve(__dirname, "./stylelint.json"),
-                context: resolve("src"),
-                files: "**/*.s[ac]ss",
-                syntax: "scss"
-            }));
+            new webpack.optimize.UglifyJsPlugin({sourceMap: true}));
+
+        configureStylelint(config);
     }
 
     // console.log(JSON.stringify(webpackConfig, null, 2));

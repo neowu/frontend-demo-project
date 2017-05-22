@@ -1,4 +1,4 @@
-import webpack from "./webpack/webpack.lib";
+import webpack from "./webpack/webpack.builder";
 
 export default (env) => {
     const config = {
