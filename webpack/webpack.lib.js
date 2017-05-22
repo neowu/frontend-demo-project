@@ -201,12 +201,13 @@ export default (env, config) => {
         webpackConfig.module.rules.push({
             test: /\.(js|jsx)$/,
             loader: "eslint-loader",
-            exclude: [/node_modules/, resolve("lib")],
+            include: resolve("src"),
             enforce: "pre",
             options: {
                 parser: "babel-eslint",
                 configFile: path.resolve(__dirname, "./eslint.json"),
-                parserOptions: {"ecmaVersion": 8, "sourceType": "module", "ecmaFeatures": {"jsx": true}},
+                parserOptions: {"sourceType": "module", "ecmaFeatures": {"jsx": true}},
+                envs: ["es6"],
                 failOnWarning: true,
                 failOnError: true
             }
