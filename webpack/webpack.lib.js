@@ -169,6 +169,29 @@ function configureSystem(env, config) {
     }
 }
 
+function configureESLint(config) {
+    const eslintRule = {
+        test: /\.(js|jsx)$/,
+        loader: "eslint-loader",
+        include: resolve("src"),
+        enforce: "pre",
+        options: {
+            parser: "babel-eslint",
+            configFile: path.resolve(__dirname, "./eslint.json"),
+            parserOptions: {"sourceType": "module", "ecmaFeatures": {"jsx": true}},
+            envs: ["es6"],
+            failOnWarning: true,
+            failOnError: true
+        }
+    };
+
+    if (config.lint !== undefined && config.lint.exclude !== undefined) {
+        eslintRule.exclude = resolve(`src/${config.lint.exclude}`);
+    }
+
+    webpackConfig.module.rules.push(eslintRule);
+}
+
 export default (env, config) => {
     if (env === undefined) env = "local";
 
@@ -180,7 +203,6 @@ export default (env, config) => {
     };
 
     configurePages(config);
-
     configureSprite(config);
 
     webpackConfig.devtool = production ? "source-map" : "cheap-module-eval-source-map";
@@ -211,21 +233,7 @@ export default (env, config) => {
         )
     } else {
         configureSystem(env, config);
-
-        webpackConfig.module.rules.push({
-            test: /\.(js|jsx)$/,
-            loader: "eslint-loader",
-            include: resolve("src"),
-            enforce: "pre",
-            options: {
-                parser: "babel-eslint",
-                configFile: path.resolve(__dirname, "./eslint.json"),
-                parserOptions: {"sourceType": "module", "ecmaFeatures": {"jsx": true}},
-                envs: ["es6"],
-                failOnWarning: true,
-                failOnError: true
-            }
-        });
+        configureESLint(config);
 
         webpackConfig.plugins.push(
             new CleanPlugin(resolve("build"), {root: resolve("")}),

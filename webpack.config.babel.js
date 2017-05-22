@@ -20,6 +20,9 @@ export default (env) => {
         sprite: {
             "sprite-icon1": "asset/sprite"
         },
+        lint: {
+            exclude: "legacy"
+        },
         sys: "sys.json"
     };
 
