@@ -41,6 +41,8 @@ const webpackConfig = {
             },
             {
                 test: /\.(css|scss|sass)$/,
+                include: resolve("src"),
+                exclude: /\.useable\.(css|scss|sass)$/,
                 use: ExtractTextPlugin.extract({
                     use: [{
                         loader: "css-loader", options: {
@@ -50,12 +52,21 @@ const webpackConfig = {
                             localIdentName: "[name]_[local]-[hash:base64:6]"
                         }
                     }, {
-                        loader: "sass-loader", options: {
-                            sourceMap: true
-                        }
+                        loader: "sass-loader", options: {sourceMap: true}
                     }],
                     fallback: "style-loader"    // use style-loader in development
                 })
+            },
+            {
+                test: /\.useable\.(css|scss|sass)$/,
+                include: resolve("src"),
+                use: [{
+                    loader: "style-loader/useable"
+                }, {
+                    loader: "css-loader", options: {minimize: {safe: true}}
+                }, {
+                    loader: "sass-loader"
+                }]
             },
             {
                 test: /\.(png|jpe?g|gif|svg)$/,
@@ -66,7 +77,7 @@ const webpackConfig = {
                 }
             },
             {
-                test: /.(woff|woff2|eot|ttf)$/,
+                test: /\.(woff|woff2|eot|ttf)$/,
                 loader: "file-loader",
                 options: {
                     name: "font/[name].[hash:8].[ext]"
@@ -105,10 +116,10 @@ function configurePages(config) {
 
     Object.keys(config.pages).forEach(name => {
         const page = config.pages[name];
-        webpackConfig.entry[name] = path.resolve(__dirname, `../src/${page.js}`);
+        webpackConfig.entry[name] = resolve(`src/${page.js}`);
         webpackConfig.plugins.push(new HTMLPlugin({
             filename: `${name}.html`,
-            template: path.resolve(__dirname, `../src/${page.template}`),
+            template: resolve(`src/${page.template}`),
             chunks: [...page.lib, "manifest", name],
             minify: production ? {
                 removeComments: true,
@@ -130,16 +141,19 @@ function configureSprite(config) {
     if (config.sprite === undefined) return;
 
     Object.keys(config.sprite).forEach(sprite => {
-        webpackConfig.resolve.alias[`${sprite}.png`] = resolve(`build/generated/${sprite}.png`);
-        webpackConfig.resolve.alias[`${sprite}.scss`] = resolve(`build/generated/${sprite}.scss`);
+        const targetPNG = resolve(`build/generated/${sprite}.png`);
+        const targetSCSS = resolve(`build/generated/${sprite}.scss`);
+
+        webpackConfig.resolve.alias[`${sprite}.png`] = targetPNG;
+        webpackConfig.resolve.alias[`${sprite}.scss`] = targetSCSS;
         webpackConfig.plugins.push(new SpritesmithPlugin({
             src: {
                 cwd: resolve(`src/${config.sprite[sprite]}`),
                 glob: "**/*.png"
             },
             target: {
-                image: resolve(`build/generated/${sprite}.png`),
-                css: resolve(`build/generated/${sprite}.scss`)
+                image: targetPNG,
+                css: targetSCSS
             },
             apiOptions: {cssImageRef: `${sprite}.png`}
         }));
