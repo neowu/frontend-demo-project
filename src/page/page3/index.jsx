@@ -8,7 +8,6 @@ import "./page3.scss";
 
 import Lazy from "../../component/Lazy";
 import CounterContainer from "./container/counter-container";
-import loadTodoContainer from "bundle-loader?lazy&name=[name]!./container/todo-container";
 
 import reducer from "./reducer/reducer";
 
@@ -25,9 +24,7 @@ const About = () =>
     </div>;
 
 const TodoContainer = () =>
-    <Lazy load={loadTodoContainer}>
-        {TodoList => <TodoList/>}
-    </Lazy>;
+    <Lazy module={import("./container/todo-container")}/>;
 
 render(
     <Provider store={store}>

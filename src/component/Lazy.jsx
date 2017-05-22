@@ -1,35 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export default class Lazy extends React.Component {
-    state = {module: null};
+export default class Lazy extends React.PureComponent {
+    state = {Component: null};
 
     componentWillMount() {
-        this.load(this.props);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.load !== this.props.load) {
-            this.load(nextProps);
-        }
-    }
-
-    load(props) {
-        this.setState({module: null});
-        props.load((module) => {
-            this.setState({module: module.default});
+        this.props.module.then((module) => {
+            this.setState({Component: module.default});
         });
     }
 
     render() {
-        if (this.state.module === null) {
+        const {Component} = this.state;
+        if (Component === null) {
             return null;
         }
-        return React.Children.only(this.props.children(this.state.module));
+        return <Component {...this.props}/>;
     }
 }
 
-Lazy.propTypes = {
-    load: PropTypes.func.isRequired,
-    children: PropTypes.func.isRequired
-};
+Lazy.propTypes = {module: PropTypes.func.isRequired};   // eslint-disable-line react/forbid-prop-types

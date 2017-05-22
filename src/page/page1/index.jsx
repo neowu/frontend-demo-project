@@ -7,7 +7,7 @@ import Welcome from "../../component/welcome/welcome";
 
 ReactDOM.render(
     <div>
-        <Welcome/>
+        <Welcome name="neo"/>
         <img id={css.tree}/>
         <img id={css.flower}/>
     </div>,

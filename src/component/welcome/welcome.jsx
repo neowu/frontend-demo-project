@@ -1,6 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const Welcome = () =>
-    <article>welcome component</article>;
+const Welcome = ({name}) =>
+    <article>welcome {name}</article>;
+
+Welcome.propTypes = {name: PropTypes.string.isRequired};
 
 export default Welcome;
