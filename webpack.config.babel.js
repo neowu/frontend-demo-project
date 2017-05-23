@@ -1,4 +1,4 @@
-import webpack from "./webpack/webpack.builder";
+import {build} from "./webpack/webpack.builder";
 
 export default (env) => {
     const config = {
@@ -26,5 +26,5 @@ export default (env) => {
         sys: "sys.json"
     };
 
-    return webpack(env, config);
+    return build(env, config);
 };

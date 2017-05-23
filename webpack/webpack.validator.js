@@ -1,18 +1,18 @@
 import fs from "fs";
-import path from "path";
 import glob from "glob";
+import {production, resolve} from "./webpack.util";
 
 const errors = [];
 
 function assertFileExists(relativePath, key) {
-    const absolutePath = path.resolve(__dirname, relativePath);
+    const absolutePath = resolve(relativePath);
     if (!fs.existsSync(absolutePath)) {
         errors.push(`${key} => file does not exist, path=${absolutePath}`);
     }
 }
 
 function assertDirExists(relativePath, key) {
-    const absolutePath = path.resolve(__dirname, relativePath);
+    const absolutePath = resolve(relativePath);
     if (!fs.existsSync(absolutePath)) {
         errors.push(`${key} => path does not exist, path=${absolutePath}`);
         return false;
@@ -35,8 +35,8 @@ function validateLib(config, usedLib) {
 function validatePages(config, usedLib) {
     Object.keys(config.pages).forEach(pageName => {
         const page = config.pages[pageName];
-        assertFileExists(`../src/${page.js}`, `config.pages["${pageName}"].js`);
-        assertFileExists(`../src/${page.template}`, `config.pages["${pageName}"].template`);
+        assertFileExists(`src/${page.js}`, `config.pages["${pageName}"].js`);
+        assertFileExists(`src/${page.template}`, `config.pages["${pageName}"].template`);
 
         page.lib.forEach(lib => {
             if (config.lib[lib] === undefined) {
@@ -53,8 +53,8 @@ function validateSprite(config) {
         return;
     }
     Object.keys(config.sprite).forEach(sprite => {
-        const imageDir = path.resolve(__dirname, `../src/${config.sprite[sprite]}`);
-        const dirExists = assertDirExists(`../src/${config.sprite[sprite]}`, `config.sprite["${sprite}"]`);
+        const imageDir = resolve(`src/${config.sprite[sprite]}`);
+        const dirExists = assertDirExists(`src/${config.sprite[sprite]}`, `config.sprite["${sprite}"]`);
         if (dirExists) {
             const images = glob.sync("**/*.png", {cwd: imageDir});
             if (images.length === 0) {
@@ -69,17 +69,17 @@ function validateSys(env, config) {
     if (config.sys === undefined) {
         return;
     }
-    assertFileExists(`../conf/${env}/${config.sys}`, "config.sys");
+    assertFileExists(`conf/${env}/${config.sys}`, "config.sys");
 }
 
 function validateLint(config) {
     if (config.lint === undefined || config.lint.exclude === undefined) {
         return;
     }
-    assertDirExists(`../src/${config.lint.exclude}`, "config.lint.exclude");
+    assertDirExists(`src/${config.lint.exclude}`, "config.lint.exclude");
 }
 
-export const validate = (env, config, production) => {
+export function validate(env, config) {
     const usedLib = new Set();
 
     validatePages(config, usedLib);
@@ -99,4 +99,4 @@ export const validate = (env, config, production) => {
         console.log();
         process.exit(1);
     }
-};
+}
