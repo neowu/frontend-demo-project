@@ -92,9 +92,9 @@ export function validate(env, config) {
     }
 
     if (errors.length > 0) {
-        console.error("validation failed, please fix the following errors");
+        console.error("validation failed, please fix the following errors:");
         errors.forEach(error => {
-            console.error("    ", error);
+            console.error("  ", error);
         });
         console.log();
         process.exit(1);

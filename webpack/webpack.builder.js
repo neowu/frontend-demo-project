@@ -98,10 +98,36 @@ function configureSystem(env, config) {
     }
 }
 
+function configureDevServer(config) {
+    webpackConfig.output.filename = "js/[name].[hash:8].js";    // HMR requires non-chunkhash
+
+    const rewrites = [];
+    Object.keys(config.pages).forEach(pageName => {
+        rewrites.push({from: new RegExp(`\/${pageName}`), to: `/${pageName}.html`});
+    });
+
+    webpackConfig.devServer = {
+        historyApiFallback: {rewrites: rewrites},
+        hot: true,
+        inline: true,
+        compress: true,
+        stats: "minimal",
+        overlay: {
+            warnings: true,
+            errors: true
+        }
+    };
+
+    webpackConfig.plugins.push(
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin()
+    );
+}
+
 export function build(env, config) {
     if (env === undefined) env = "local";
 
-    validate(env, config, production);
+    validate(env, config);
 
     webpackConfig.resolve.alias = {
         conf: resolve(`conf/${env}`),
@@ -110,41 +136,19 @@ export function build(env, config) {
 
     configurePages(config);
     configureSprite(config);
+    configureESLint(config);
+    configureStylelint(config);
 
     if (!production) {
-        webpackConfig.output.filename = "js/[name].[hash:8].js";    // HMR requires non-chunkhash
-
-        const rewrites = [];
-        Object.keys(config.pages).forEach(pageName => {
-            rewrites.push({from: new RegExp(`\/${pageName}`), to: `/${pageName}.html`});
-        });
-
-        webpackConfig.devServer = {
-            historyApiFallback: {rewrites: rewrites},
-            hot: true,
-            inline: true,
-            compress: true,
-            stats: "minimal",
-            overlay: {
-                warnings: true,
-                errors: true
-            }
-        };
-
-        webpackConfig.plugins.push(
-            new webpack.NamedModulesPlugin(),
-            new webpack.HotModuleReplacementPlugin()
-        )
+        configureDevServer(config);
     } else {
         configureSystem(env, config);
-        configureESLint(config);
 
         webpackConfig.plugins.push(
             new CleanPlugin(resolve("build"), {root: resolve("")}),
             new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
-            new webpack.optimize.UglifyJsPlugin({sourceMap: true}));
-
-        configureStylelint(config);
+            new webpack.optimize.UglifyJsPlugin({sourceMap: true})
+        );
     }
 
     // console.log(JSON.stringify(webpackConfig, null, 2));

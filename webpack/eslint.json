@@ -244,9 +244,5 @@
   "globals": {
     "$": false,
     "process.env": true
-  },
-  "env": {
-    "browser": true,
-    "node": true
   }
 }
