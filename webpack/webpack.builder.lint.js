@@ -3,7 +3,7 @@ import StylelintPlugin from "stylelint-webpack-plugin";
 import {webpackConfig} from "./webpack.builder";
 import {production, resolve} from "./webpack.util";
 
-export function configureESLint(config) {
+function configureESLint(config) {
     const eslintRule = {
         test: /\.(js|jsx)$/,
         loader: "eslint-loader",
@@ -32,7 +32,7 @@ export function configureESLint(config) {
     webpackConfig.module.rules.push(eslintRule);
 }
 
-export function configureStylelint(config) {
+function configureStylelint(config) {
     const options = {
         configFile: resolve("webpack/stylelint.json"),
         context: resolve("src"),
@@ -45,4 +45,9 @@ export function configureStylelint(config) {
     }
 
     webpackConfig.plugins.push(new StylelintPlugin(options));
+}
+
+export function configureLint(config) {
+    configureESLint(config);
+    configureStylelint(config);
 }

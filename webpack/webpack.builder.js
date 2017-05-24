@@ -7,7 +7,7 @@ import ExtractTextPlugin from "extract-text-webpack-plugin";
 import {validate} from "./webpack.validator";
 import {configurePages} from "./webpack.builder.page";
 import {configureSprite} from "./webpack.builder.css";
-import {configureESLint, configureStylelint} from "./webpack.builder.lint";
+import {configureLint} from "./webpack.builder.lint";
 import {production, readJSON, resolve} from "./webpack.util";
 
 export const webpackConfig = {
@@ -136,8 +136,7 @@ export function build(env, config) {
 
     configurePages(config);
     configureSprite(config);
-    configureESLint(config);
-    configureStylelint(config);
+    configureLint(config);
 
     if (!production) {
         configureDevServer(config);
