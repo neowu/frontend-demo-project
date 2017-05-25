@@ -50,7 +50,7 @@ export function build(env, config) {
 
     webpackConfig.resolve.alias = {
         conf: resolve(`conf/${env}`),
-        lib: resolve(`lib`)
+        lib: resolve("lib")
     };
 
     configurePages(config);
@@ -66,7 +66,7 @@ export function build(env, config) {
 
         webpackConfig.plugins.push(
             new CleanPlugin(resolve("build"), {root: resolve("")}),
-            new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
+            new webpack.DefinePlugin({"process.env": {NODE_ENV: JSON.stringify("production")}}),
             new webpack.optimize.UglifyJsPlugin({
                 sourceMap: true,
                 comments: false,
