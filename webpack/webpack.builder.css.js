@@ -7,8 +7,8 @@ export function configureSprite(config) {
     if (config.sprite === undefined) return;
 
     Object.keys(config.sprite).forEach(sprite => {
-        const targetPNG = resolve(`build/generated/${sprite}.png`);
-        const targetSCSS = resolve(`build/generated/${sprite}.scss`);
+        const targetPNG = resolve(`build/sprite/${sprite}.png`);
+        const targetSCSS = resolve(`build/sprite/${sprite}.scss`);
 
         webpackConfig.resolve.alias[`${sprite}.png`] = targetPNG;
         webpackConfig.resolve.alias[`${sprite}.scss`] = targetSCSS;

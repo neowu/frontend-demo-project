@@ -69,6 +69,7 @@ export function build(env, config) {
             new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
             new webpack.optimize.UglifyJsPlugin({
                 sourceMap: true,
+                comments: false,
                 compress: {
                     warnings: false,
                     collapse_vars: true,
