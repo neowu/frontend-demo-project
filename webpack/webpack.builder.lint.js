@@ -1,6 +1,6 @@
 import StylelintPlugin from "stylelint-webpack-plugin";
 
-import {webpackConfig} from "./webpack.builder";
+import {webpackConfig} from "./webpack.builder.conf";
 import {production, resolve} from "./webpack.util";
 
 function configureESLint(config) {

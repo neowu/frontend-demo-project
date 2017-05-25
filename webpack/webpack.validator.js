@@ -1,5 +1,6 @@
 import fs from "fs";
 import glob from "glob";
+
 import {production, resolve} from "./webpack.util";
 
 const errors = [];

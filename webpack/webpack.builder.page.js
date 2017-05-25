@@ -1,7 +1,8 @@
 import webpack from "webpack";
 import HTMLPlugin from "html-webpack-plugin";
+
 import {production, resolve} from "./webpack.util";
-import {webpackConfig} from "./webpack.builder";
+import {webpackConfig} from "./webpack.builder.conf";
 
 export function configurePages(config) {
     Object.keys(config.lib).forEach(name => {

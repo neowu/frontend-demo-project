@@ -1,7 +1,7 @@
 import SpritesmithPlugin from "webpack-spritesmith";
 
-import {webpackConfig} from "./webpack.builder";
 import {resolve} from "./webpack.util";
+import {webpackConfig} from "./webpack.builder.conf";
 
 export function configureSprite(config) {
     if (config.sprite === undefined) return;
