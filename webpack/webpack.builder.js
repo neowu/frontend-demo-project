@@ -19,7 +19,8 @@ export const webpackConfig = {
         publicPath: "/"
     },
     resolve: {
-        extensions: [".js", ".jsx"]
+        extensions: [".js", ".jsx"],
+        modules: [resolve("node_modules")]
     },
     devtool: production ? "source-map" : "cheap-module-eval-source-map",
     module: {
@@ -29,7 +30,8 @@ export const webpackConfig = {
                 loader: "babel-loader",
                 include: resolve("src"),
                 options: {
-                    presets: ["es2015", "react", "stage-2"],
+                    presets: [["es2015", {"modules": false}], "react", "stage-2"],
+                    babelrc: false,
                     cacheDirectory: true
                 }
             },
@@ -141,12 +143,21 @@ export function build(env, config) {
     if (!production) {
         configureDevServer(config);
     } else {
+        webpackConfig.bail = true;
+
         configureSystem(env, config);
 
         webpackConfig.plugins.push(
             new CleanPlugin(resolve("build"), {root: resolve("")}),
             new webpack.DefinePlugin({"process.env": {NODE_ENV: "'production'"}}),
-            new webpack.optimize.UglifyJsPlugin({sourceMap: true})
+            new webpack.optimize.UglifyJsPlugin({
+                sourceMap: true,
+                compress: {
+                    warnings: false,
+                    collapse_vars: true,
+                    reduce_vars: true
+                }
+            })
         );
     }
 
