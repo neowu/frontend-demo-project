@@ -1,18 +1,42 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "./index-part1.scss";
+import "core-js/fn/promise";
+import "./index-part1.global.scss";
 import "./index-part2.scss";
 import "lib/3rd-party";
 import Lazy from "../../component/Lazy";
 import legacy from "../../legacy/test";
-import {sayHello} from "../../service/some-service";
+import {sayHello, sayHelloPromise} from "../../service/some-service";
 
 legacy();
 
 sayHello("neo");
 
+sayHelloPromise("neo").then(result => `${result}`);
+
 ReactDOM.render(
-    <Lazy module={import(/* webpackChunkName: "welcome" */ "../../component/welcome/welcome")} name="neo"/>,
-    document.getElementById("app")
+    <div>
+        <Lazy module={import(/* webpackChunkName: "welcome" */ "../../component/welcome/welcome")} name="neo"/>
+        <div className="container">
+            <div className="row">
+                <div className="col-sm-4">
+                    <h3>Column 1</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+                </div>
+                <div className="col-sm-4">
+                    <h3>Column 2</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+                </div>
+                <div className="col-sm-4">
+                    <h3>Column 3</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+                </div>
+            </div>
+        </div>
+    </div>,
+    $("#app")[0]
 );

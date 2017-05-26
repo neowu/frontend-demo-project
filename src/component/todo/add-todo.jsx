@@ -1,28 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const AddTodo = ({addTodo}) => {
-    let input = null;
+class AddTodo extends React.PureComponent {
+    input = null;
 
-    function onSubmit(event) {
+    onSubmit = (event) => {
         event.preventDefault();
-        if (!input.value.trim()) {
+        if (!this.input.value.trim()) {
             return;
         }
-        addTodo(input.value);
-        input.value = "";
+        // addTodo(input.value);
+        this.props.dispatch({
+            type: "ADD_TODO",
+            id: 999,
+            text: this.input.value
+        });
+        this.input.value = "";
+    };
+
+    render() {
+        return <div>
+            <form onSubmit={this.onSubmit}>
+                <input ref={(node) => {
+                    this.input = node;
+                }}/>
+                <button type="submit">Add Todo</button>
+            </form>
+        </div>;
     }
+}
 
-    return <div>
-        <form onSubmit={onSubmit}>
-            <input ref={(node) => {
-                input = node;
-            }}/>
-            <button type="submit">Add Todo</button>
-        </form>
-    </div>;
+AddTodo.propTypes = {
+    // addTodo: PropTypes.func.isRequired,
+    dispatch: PropTypes.func
 };
-
-AddTodo.propTypes = {addTodo: PropTypes.func.isRequired};
 
 export default AddTodo;

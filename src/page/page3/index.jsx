@@ -1,7 +1,8 @@
 import React from "react";
 import {render} from "react-dom";
 import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
-import {createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
+import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 
 import "./page3.scss";
@@ -11,7 +12,7 @@ import CounterContainer from "./container/counter-container";
 
 import reducer from "./reducer/reducer";
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(thunk));
 
 const Home = () =>
     <div>

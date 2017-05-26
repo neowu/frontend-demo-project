@@ -15,7 +15,8 @@ function configureESLint(config) {
             parserOptions: {"sourceType": "module", "ecmaFeatures": {"jsx": true}},
             envs: ["es6", "browser"],
             failOnWarning: true,
-            failOnError: true
+            failOnError: true,
+            globals: ["$"]
         }
     };
 

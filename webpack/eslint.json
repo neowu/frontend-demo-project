@@ -240,9 +240,5 @@
     "wrap-regex": "error",
     "yield-star-spacing": "error",
     "yoda": "error"
-  },
-  "globals": {
-    "$": false,
-    "process.env": true
   }
 }
