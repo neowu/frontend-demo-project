@@ -1,4 +1,3 @@
-import webpack from "webpack";
 import {build} from "./webpack/webpack.builder";
 
 export default (env) => {
@@ -25,14 +24,12 @@ export default (env) => {
         lint: {
             exclude: "legacy"
         },
-        sys: "sys.json"
+        sys: "sys.json",
+        provide: {
+            $: "jquery",
+            jQuery: "jquery"
+        }
     };
 
-    let module = build(env, config);
-    module.plugins.push(new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery"
-    }));
-
-    return module;
+    return build(env, config);
 };

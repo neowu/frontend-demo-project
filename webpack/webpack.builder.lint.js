@@ -12,11 +12,10 @@ function configureESLint(config) {
         options: {
             parser: "babel-eslint",
             configFile: resolve("webpack/eslint.json"),
-            parserOptions: {"sourceType": "module", "ecmaFeatures": {"jsx": true}},
+            parserOptions: {sourceType: "module", ecmaFeatures: {jsx: true}},
             envs: ["es6", "browser"],
             failOnWarning: true,
-            failOnError: true,
-            globals: ["$"]
+            failOnError: true
         }
     };
 
@@ -24,6 +23,10 @@ function configureESLint(config) {
         eslintRule.options.rules = {
             "no-console": "off"
         }
+    }
+
+    if (config.provide !== undefined) {
+        eslintRule.options.globals = Object.keys(config.provide);
     }
 
     if (config.lint !== undefined && config.lint.exclude !== undefined) {

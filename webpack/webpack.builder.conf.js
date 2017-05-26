@@ -34,54 +34,15 @@ export const webpackConfig = {
             {
                 test: /\.(css|scss|sass)$/,
                 include: resolve("src"),
-                exclude: [/\.useable\.(css|scss|sass)$/, /\.global\.(css|scss|sass)$/],
+                exclude: /\.useable\.(css|scss|sass)$/,
                 use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: "css-loader", options: {
-                            minimize: {safe: true},
-                            modules: true,
-                            sourceMap: true,
-                            importLoaders: 2,
-                            localIdentName: "[name]_[local]-[hash:base64:6]"
-                        }
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                sourceMap: true,
-                                plugins: () => [autoprefixer]
-                            }
-                        },
-                        {
-                            loader: "sass-loader", options: {sourceMap: true}
-                        }
-                    ],
-                    fallback: "style-loader"    // use style-loader in development
-                })
-            },
-            {
-                test: /\.global\.(css|scss|sass)$/,
-                include: resolve("src"),
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: "css-loader", options: {
-                            minimize: {safe: true},
-                            sourceMap: true
-                        }
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                sourceMap: true,
-                                plugins: () => [autoprefixer]
-                            }
-                        },
-                        {
-                            loader: "sass-loader", options: {sourceMap: true}
-                        }
-                    ],
+                    use: [{
+                        loader: "css-loader", options: {minimize: {safe: true}, sourceMap: true, importLoaders: 2}
+                    }, {
+                        loader: 'postcss-loader', options: {sourceMap: true, plugins: () => [autoprefixer]}
+                    }, {
+                        loader: "sass-loader", options: {sourceMap: true}
+                    }],
                     fallback: "style-loader"    // use style-loader in development
                 })
             },
@@ -91,9 +52,11 @@ export const webpackConfig = {
                 use: [{
                     loader: "style-loader/useable"
                 }, {
-                    loader: "css-loader", options: {minimize: {safe: true}}
+                    loader: "css-loader", options: {minimize: {safe: true}, sourceMap: true, importLoaders: 2}
                 }, {
-                    loader: "sass-loader"
+                    loader: 'postcss-loader', options: {sourceMap: true, plugins: () => [autoprefixer]}
+                }, {
+                    loader: "sass-loader", options: {sourceMap: true}
                 }]
             },
             {
