@@ -22,7 +22,7 @@
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.0.0",
-    "css-loader": "^0.28.2",
+    "css-loader": "^0.28.4",
     "cssnano": "^3.10.0",
     "eslint": "^3.19.0",
     "eslint-loader": "^1.7.1",
