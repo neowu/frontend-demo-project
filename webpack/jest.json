@@ -1,0 +1,12 @@
+{
+  "verbose": true,
+  "rootDir": "../test",
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
+  "moduleFileExtensions": [
+    "js",
+    "jsx"
+  ]
+}
