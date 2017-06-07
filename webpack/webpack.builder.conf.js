@@ -26,7 +26,12 @@ export const webpackConfig = {
                 loader: "babel-loader",
                 include: resolve("src"),
                 options: {
-                    presets: [["es2015", {modules: false}], "react", "stage-2"],
+                    presets: [["env", {
+                        targets: {
+                            browsers: ["ie >= 9"]
+                        },
+                        modules: false
+                    }], "react", "stage-2"],
                     babelrc: false,
                     cacheDirectory: true
                 }
