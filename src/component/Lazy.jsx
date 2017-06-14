@@ -19,4 +19,4 @@ export default class Lazy extends React.PureComponent {
     }
 }
 
-Lazy.propTypes = {module: PropTypes.object.isRequired};   // eslint-disable-line react/forbid-prop-types
+Lazy.propTypes = {module: PropTypes.object.isRequired}; // eslint-disable-line react/forbid-prop-types
