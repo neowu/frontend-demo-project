@@ -43,6 +43,7 @@ export function configurePages(config) {
             filename: `${name}.html`,
             template: resolve(`src/${page.template}`),
             chunks: [...page.lib, "manifest", name],
+            chunksSortMode: "dependency",
             minify: production ? minify : false
         }));
     });
