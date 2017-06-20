@@ -18,12 +18,6 @@ function configureSystem(env, config) {
     }
 }
 
-function configureProvide(config) {
-    if (config.provide === undefined) return;
-
-    webpackConfig.plugins.push(new webpack.ProvidePlugin(config.provide));
-}
-
 function configureAlias(env) {
     webpackConfig.resolve.alias = {
         conf: resolve(`conf/${env}`),
@@ -40,7 +34,6 @@ export function build(env, config) {
     configurePages(config);
     configureSprite(config);
     configureLint(config);
-    configureProvide(config);
 
     if (!production) {
         configureDevServer(config);

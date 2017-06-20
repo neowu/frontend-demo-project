@@ -21,7 +21,7 @@ export function configureSprite(config) {
                 image: targetPNG,
                 css: targetSCSS
             },
-            apiOptions: {cssImageRef: `~${sprite}.png`}
+            apiOptions: {cssImageRef: `${sprite}.png`}
         }));
     });
 }

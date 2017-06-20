@@ -38,5 +38,5 @@ ReactDOM.render(
             </div>
         </div>
     </div>,
-    $("#app")[0]
+    document.getElementById("app")
 );

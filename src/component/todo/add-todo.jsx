@@ -12,7 +12,7 @@ class AddTodo extends React.PureComponent {
         // addTodo(input.value);
         this.props.dispatch({
             type: "ADD_TODO",
-            id: 999,
+            id: Math.random().toString(36).substring(7),
             text: this.input.value
         });
         this.input.value = "";

@@ -46,8 +46,6 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-polyfill": "^6.23.0",
-    "bootstrap-sass": "^3.3.7",
-    "jquery": "^3.2.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

@@ -3,11 +3,8 @@ import React, {PureComponent} from "react";
 import Notes from "./Notes";
 import api from "conf/api.json";
 
-import themeA from "../../asset/css/theme-a.useable.scss";
-import themeB from "../../asset/css/theme-b.useable.scss";
-
 export default class NoteList extends PureComponent {
-    useA = true;
+    themeSCSS = "theme-a.scss";
 
     state = {
         notes: [{
@@ -16,45 +13,31 @@ export default class NoteList extends PureComponent {
         }, {
             id: "2",
             task: "Do laundry"
-        }]
+        }],
+        className: null
     };
 
     addNote = () => {
-        if (this.useA) {
-            themeA.use();
-            themeB.unuse();
-        } else {
-            themeA.unuse();
-            themeB.use();
-        }
+        import(`../../asset/css/${this.themeSCSS}`)
+            .then((style) => {
+                this.setState({
+                    notes: [...this.state.notes, {
+                        id: Math.random().toString(36).substring(7),
+                        task: api.someServiceURL
+                    }],
+                    className: style.button
+                });
+                document.body.className = style.background;
+            });
 
-        this.setState({
-            notes: [...this.state.notes, {
-                id: Math.random().toString(36).substring(7),
-                task: api.someServiceURL
-            }]
-        });
-
-        this.useA = !this.useA;
-
-        // import(`../../asset/css/${this.state.theme}.scss`)
-        //     .then((style) => {
-        //         this.setState({
-        //             notes: [...this.state.notes, {
-        //                 id: Math.random().toString(36).substring(7),
-        //                 task: api.someServiceURL
-        //             }],
-        //             theme: this.state.theme === "theme-b" ? "theme-a" : "theme-b",
-        //             style: style.button
-        //         });
-        //     });
+        this.themeSCSS = this.themeSCSS === "theme-a.scss" ? "theme-b.scss" : "theme-a.scss";
     };
 
     render() {
-        const {notes} = this.state;
+        const {notes, className} = this.state;
 
         return <div>
-            <button onClick={this.addNote}>+</button>
+            <button className={className} onClick={this.addNote}>+</button>
             <Notes notes={notes}/>
         </div>;
     }

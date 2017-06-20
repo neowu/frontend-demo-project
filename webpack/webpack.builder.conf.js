@@ -39,10 +39,10 @@ export const webpackConfig = {
             {
                 test: /\.(css|scss|sass)$/,
                 include: resolve("src"),
-                exclude: /\.useable\.(css|scss|sass)$/,
                 use: ExtractTextPlugin.extract({
                     use: [{
-                        loader: "css-loader", options: {minimize: {safe: true}, sourceMap: true, importLoaders: 2}
+                        loader: "css-loader",
+                        options: {minimize: {safe: true}, modules: true, sourceMap: true, importLoaders: 2}
                     }, {
                         loader: 'postcss-loader', options: {sourceMap: true, plugins: () => [autoprefixer]}
                     }, {
@@ -50,19 +50,6 @@ export const webpackConfig = {
                     }],
                     fallback: "style-loader"    // use style-loader in development
                 })
-            },
-            {
-                test: /\.useable\.(css|scss|sass)$/,
-                include: resolve("src"),
-                use: [{
-                    loader: "style-loader/useable"
-                }, {
-                    loader: "css-loader", options: {minimize: {safe: true}, sourceMap: true, importLoaders: 2}
-                }, {
-                    loader: 'postcss-loader', options: {sourceMap: true, plugins: () => [autoprefixer]}
-                }, {
-                    loader: "sass-loader", options: {sourceMap: true}
-                }]
             },
             {
                 test: /\.(png|jpe?g|gif|svg)$/,

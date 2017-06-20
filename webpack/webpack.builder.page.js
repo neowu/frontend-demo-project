@@ -42,8 +42,7 @@ export function configurePages(config) {
         webpackConfig.plugins.push(new HTMLPlugin({
             filename: `${name}.html`,
             template: resolve(`src/${page.template}`),
-            chunks: [...page.lib, "manifest", name],
-            chunksSortMode: "dependency",
+            chunks: ["manifest", ...page.lib, name],
             minify: production ? minify : false
         }));
     });
