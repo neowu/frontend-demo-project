@@ -60,7 +60,8 @@ export function build(env, config) {
                     collapse_vars: true,
                     reduce_vars: true
                 }
-            })
+            }),
+            new webpack.optimize.ModuleConcatenationPlugin()
         );
     }
 
