@@ -10,8 +10,8 @@ export const webpackConfig = {
     entry: {},
     output: {
         path: resolve("build/dist"),
-        filename: "js/[name].[chunkhash:8].js",
-        chunkFilename: "js/[name]-[id].[chunkhash:8].js",
+        filename: "static/js/[name].[chunkhash:8].js",
+        chunkFilename: "static/js/[name]-[id].[chunkhash:8].js",
         publicPath: "/"
     },
     resolve: {
@@ -56,21 +56,21 @@ export const webpackConfig = {
                 loader: "url-loader",
                 query: {
                     limit: 1024,
-                    name: "img/[name].[hash:8].[ext]"
+                    name: "static/img/[name].[hash:8].[ext]"
                 }
             },
             {
                 test: /\.(woff|woff2|eot|ttf)$/,
                 loader: "file-loader",
                 options: {
-                    name: "font/[name].[hash:8].[ext]"
+                    name: "static/font/[name].[hash:8].[ext]"
                 }
             }
         ]
     },
     plugins: [
         new ExtractTextPlugin({
-            filename: "css/[name].[contenthash:8].css",
+            filename: "static/css/[name].[contenthash:8].css",
             disable: !production,
             allChunks: true
         }),
