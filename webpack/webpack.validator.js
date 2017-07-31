@@ -1,7 +1,7 @@
 import fs from "fs";
 import glob from "glob";
 
-import {production, resolve} from "./webpack.util";
+import {env, production, resolve} from "./webpack.util";
 
 const errors = [];
 
@@ -66,10 +66,9 @@ function validateSprite(config) {
 }
 
 
-function validateSys(env, config) {
-    if (config.sys === undefined) {
-        return;
-    }
+function validateSys(config) {
+    if (config.sys === undefined) return;
+
     assertFileExists(`conf/${env}/${config.sys}`, "config.sys");
 }
 
@@ -80,7 +79,7 @@ function validateLint(config) {
     assertDirExists(`src/${config.lint.exclude}`, "config.lint.exclude");
 }
 
-export function validate(env, config) {
+export function validate(config) {
     const usedLib = new Set();
 
     validatePages(config, usedLib);
@@ -88,7 +87,7 @@ export function validate(env, config) {
     validateSprite(config);
 
     if (production) {
-        validateSys(env, config);
+        validateSys(config);
         validateLint(config);
     }
 

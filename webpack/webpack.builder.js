@@ -7,9 +7,9 @@ import {configureDevServer} from "./webpack.builder.dev";
 import {configurePages} from "./webpack.builder.page";
 import {configureSprite} from "./webpack.builder.sprite";
 import {configureLint} from "./webpack.builder.lint";
-import {production, readJSON, resolve} from "./webpack.util";
+import {env, production, readJSON, resolve} from "./webpack.util";
 
-function configureSystem(env, config) {
+function configureSystem(config) {
     if (config.sys === undefined) return;
 
     const sys = readJSON(`conf/${env}/${config.sys}`);
@@ -18,19 +18,17 @@ function configureSystem(env, config) {
     }
 }
 
-function configureAlias(env) {
+function configureAlias() {
     webpackConfig.resolve.alias = {
         conf: resolve(`conf/${env}`),
         lib: resolve("lib")
     };
 }
 
-export function build(env, config) {
-    if (env === undefined) env = "local";
+export function build(config) {
+    validate(config);
 
-    validate(env, config);
-
-    configureAlias(env);
+    configureAlias();
     configurePages(config);
     configureSprite(config);
     configureLint(config);
@@ -40,7 +38,7 @@ export function build(env, config) {
     } else {
         webpackConfig.bail = true;
 
-        configureSystem(env, config);
+        configureSystem(config);
 
         webpackConfig.plugins.push(
             new CleanPlugin(resolve("build"), {root: resolve("")}),

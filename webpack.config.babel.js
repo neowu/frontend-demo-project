@@ -1,6 +1,6 @@
 import {build} from "./webpack/webpack.builder";
 
-export default (env) => {
+export default () => {
     const config = {
         lib: {
             "react": ["react-dom", "react-redux", "react-router-dom"],
@@ -26,5 +26,5 @@ export default (env) => {
         sys: "sys.json"
     };
 
-    return build(env, config);
+    return build(config);
 };
