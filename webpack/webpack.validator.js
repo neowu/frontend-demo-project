@@ -65,7 +65,6 @@ function validateSprite(config) {
     });
 }
 
-
 function validateSys(config) {
     if (config.sys === undefined) return;
 

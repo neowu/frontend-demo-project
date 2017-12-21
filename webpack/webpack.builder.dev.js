@@ -19,6 +19,9 @@ export function configureDevServer(config) {
         overlay: {
             warnings: true,
             errors: true
+        },
+        proxy: {
+            "/ajax": {target: "https://localhost:8443", secure: false}
         }
     };
 
