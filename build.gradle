@@ -20,3 +20,25 @@ project(':website') {
         testCompile "core.framework:core-ng-test:${coreNGVersion}"
     }
 }
+
+def yarn(String dir, String... params) {
+    def isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows()
+    def command = isWindows ? ['cmd', '/c', 'yarn'] : ['yarn']
+    command.addAll(params)
+    return {
+        workingDir dir
+        commandLine command
+    }
+}
+
+task buildFrontend {
+    doLast {
+        exec yarn("${rootDir}/website-frontend", 'install')
+        exec yarn("${rootDir}/website-frontend", 'run', 'build')
+        delete "${rootDir}/website/src/main/dist/web"
+        copy {
+            from "${rootDir}/website-frontend/build/dist"
+            into "${rootDir}/website/src/main/dist/web"
+        }
+    }
+}
