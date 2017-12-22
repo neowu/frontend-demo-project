@@ -1,5 +1,9 @@
 /.idea
-/node_modules
-/reference
-/build
+/.gradle
+node_modules/
+build/
 *.iml
+/classes/
+*/src/dev/java/
+.DS_Store
+website/src/main/dist

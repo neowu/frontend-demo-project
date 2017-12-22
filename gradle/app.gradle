@@ -1,0 +1,39 @@
+// use gradlew -Penv=${env} to pass
+def env = hasProperty('env') ? env : null
+
+apply plugin: 'application'
+mainClassName = 'Main'
+
+processResources {
+    if (env != null) {
+        assert project.file("conf/${env}/resources").exists()
+        inputs.dir project.file("conf/${env}/resources")
+        from "conf/${env}/resources"
+    }
+}
+
+distTar {
+    archiveName "${baseName}.${extension}"
+}
+
+startScripts {
+    defaultJvmOpts = ['-Dcore.webPath=APP_HOME_VAR/web', "-Dcore.appName=${project.name}"]
+
+    doLast {
+        windowsScript.text = windowsScript.text.replaceFirst('APP_HOME_VAR', '%APP_HOME%')
+        unixScript.text = unixScript.text.replaceFirst('APP_HOME_VAR', '\\$APP_HOME')
+    }
+}
+
+distributions {
+    distZip.enabled = false
+}
+
+run {
+    // assign all system properties to application, e.g. ./gradlew -Dkey=value :some-service:run
+    System.properties.each { key, value ->
+        if (key != "user.dir") {
+            systemProperty key as String, value
+        }
+    }
+}
