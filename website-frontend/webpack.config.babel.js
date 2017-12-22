@@ -3,12 +3,12 @@ import {build} from "./webpack/webpack.builder";
 export default () => {
     const config = {
         lib: {
-            "react": ["react-dom", "react-redux", "react-router-dom"],
+            "react": ["react-dom", "react-redux", "react-router-dom", "redux-saga"],
             "net": ["axios"]
         },
         pages: {
-            "index": {js: "page/index/index.jsx", template: "page/index/index.html", lib: ["react", "net"]},
-            "error": {js: "page/error/index.jsx", template: "page/error/index.html", lib: ["react"]}
+            "index": {js: "pages/index/index.jsx", template: "pages/index/index.html", lib: ["react", "net"]},
+            "error": {js: "pages/error/index.jsx", template: "pages/error/index.html", lib: ["react"]}
         },
         sys: "sys.json"
     };

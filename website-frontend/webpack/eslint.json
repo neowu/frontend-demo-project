@@ -134,7 +134,10 @@
     "no-with": "error",
     "array-bracket-spacing": "error",
     "array-callback-return": "error",
-    "arrow-body-style": "error",
+    "arrow-body-style": [
+      "error",
+      "as-needed"
+    ],
     "arrow-parens": [
       "error",
       "as-needed",
@@ -175,7 +178,13 @@
       "error",
       "smart"
     ],
-    "generator-star-spacing": "error",
+    "generator-star-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
     "global-require": "error",
     "guard-for-in": "error",
     "handle-callback-err": "error",
