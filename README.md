@@ -35,6 +35,7 @@ full build, dist to build/website/install/website
     * nav, subpage switch
     * entire page switch, e.g. error page
     * modal dialog e.g. login or prompt
+    * page flow, e.g. once login redirect to somewhere
 * global error handling
     * handle server side AJAX error, e.g. 403->show login page, 400/500->show error page
     * handle client side JS, React rendering error, browser js loading errors   
