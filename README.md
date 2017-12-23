@@ -31,6 +31,7 @@ full build, dist to build/website/install/website
 ## Design goals
 * unified project setup and code quality checking across all frontend projects
     * review and finalize eslint and stylelint rules 
+    * encapsulate all boilerplate code into reusable builder or lib code
 * provide standard way of layout
     * nav, subpage switch
     * entire page switch, e.g. error page
@@ -42,6 +43,7 @@ full build, dist to build/website/install/website
 * choice one UI lib
     * standard way validation form fields
     * theme support?
+    * builtin progress indicator (customizable)
 * standard way of AJAX calls
     * encapsulate ajax lib, e.g. later we may switch axios to fetch  
     * standard way to validate ajax response, any chance to be consistent with proptypes? 
