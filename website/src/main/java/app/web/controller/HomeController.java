@@ -1,4 +1,4 @@
-package app.web;
+package app.web.controller;
 
 import core.framework.http.ContentType;
 import core.framework.inject.Inject;

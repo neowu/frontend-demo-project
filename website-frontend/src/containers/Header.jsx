@@ -11,7 +11,7 @@ class Header extends React.PureComponent {
     render() {
         const loggedIn = this.props.loggedIn;
         if (loggedIn) {
-            return <header>Hello {this.props.loginUserName}</header>;
+            return <header>Hello {this.props.userName}</header>;
         }
         return <header>Not Login
             <Link to="/login">login</Link>
@@ -21,11 +21,11 @@ class Header extends React.PureComponent {
 
 Header.propTypes = {
     loggedIn: PropTypes.bool,
-    loginUserName: PropTypes.string,
+    userName: PropTypes.string,
     dispatch: PropTypes.func
 };
 
 export default connect(state => ({
-    loggedIn: state.loggedIn,
-    loginUserName: state.loginUserName
+    loggedIn: state.currentUser.loggedIn,
+    userName: state.currentUser.name
 }))(Header);

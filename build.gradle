@@ -32,12 +32,13 @@ def yarn(String dir, String... params) {
 }
 
 task buildFrontend {
+    def frontendDir = "${rootDir}/website-frontend"
     doLast {
-        exec yarn("${rootDir}/website-frontend", 'install')
-        exec yarn("${rootDir}/website-frontend", 'run', 'build')
+        exec yarn(frontendDir, 'install')
+        exec yarn(frontendDir, 'run', 'build')
         delete "${rootDir}/website/src/main/dist/web"
         copy {
-            from "${rootDir}/website-frontend/build/dist"
+            from "${frontendDir}/build/dist"
             into "${rootDir}/website/src/main/dist/web"
         }
     }

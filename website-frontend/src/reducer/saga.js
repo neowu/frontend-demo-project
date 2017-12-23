@@ -1,17 +1,17 @@
 import {all, call, put, takeLatest} from "redux-saga/effects";
 import {getCurrentUser} from "../service/userService";
 
-function* watchCheckLogin() {
-    yield takeLatest("CHECK_LOGIN", function* () {
+function* watchCheckCurrentUser() {
+    yield takeLatest("CHECK_CURRENT_USER", function* () {
         const {response, error} = yield call(getCurrentUser);
         if (response) {
             yield put({
-                type: "USER_IS_LOGGED_IN",
+                type: "GET_CURRENT_USER_SUCCESS",
                 response: response
             });
         } else {
             yield put({
-                type: "USER_NOT_LOGGED_IN",
+                type: "ERROR",
                 error: error
             });
         }
@@ -19,5 +19,5 @@ function* watchCheckLogin() {
 }
 
 export default function* saga() {
-    yield all([watchCheckLogin()]);
+    yield all([watchCheckCurrentUser()]);
 }

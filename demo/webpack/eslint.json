@@ -130,7 +130,6 @@
     "no-useless-escape": "error",
     "no-useless-rename": "error",
     "no-void": "error",
-    "no-warning-comments": "error",
     "no-with": "error",
     "array-bracket-spacing": "error",
     "array-callback-return": "error",
@@ -216,9 +215,15 @@
       "error",
       {
         "ObjectExpression": {
-          "multiline": true
+          "minProperties": 4,
+          "multiline": true,
+          "consistent": true
         },
-        "ObjectPattern": "never"
+        "ObjectPattern": {
+          "minProperties": 4,
+          "multiline": true,
+          "consistent": true
+        }
       }
     ],
     "object-curly-spacing": [

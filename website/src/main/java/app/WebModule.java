@@ -1,9 +1,9 @@
 package app;
 
-import app.web.HomeController;
-import app.web.LoginUser;
+import app.web.controller.HomeController;
+import app.web.controller.UserAJAXController;
+import app.web.interceptor.LoginInterceptor;
 import core.framework.module.Module;
-import core.framework.web.Response;
 
 /**
  * @author neo
@@ -11,6 +11,8 @@ import core.framework.web.Response;
 public class WebModule extends Module {
     @Override
     protected void initialize() {
+        http().intercept(bind(LoginInterceptor.class));
+
         HomeController homeController = bind(HomeController.class);
         site().staticContent("/static");
         site().staticContent("/robots.txt");
@@ -18,6 +20,8 @@ public class WebModule extends Module {
         route().get("/", homeController::home);
         route().get("/:path(*)", homeController::home);
 
-        route().get("/ajax/loginUser", request -> Response.bean(new LoginUser()));
+        UserAJAXController userAJAXController = bind(UserAJAXController.class);
+        route().get("/ajax/currentUser", userAJAXController::currentUser);
+        route().put("/ajax/login", userAJAXController::login);
     }
 }

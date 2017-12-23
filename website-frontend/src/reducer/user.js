@@ -1,12 +1,32 @@
-export default function header(state = {loggedIn: false}, action) {
+const defaultState = {
+    currentUser: {
+        loggedIn: false,
+        role: null,
+        name: null
+    },
+    error: {
+        hasError: false
+    }
+};
+
+export default function header(state = defaultState, action) {
     switch (action.type) {
-        case "USER_IS_LOGGED_IN":
+        case "GET_CURRENT_USER_SUCCESS":
             return {
-                loggedIn: true,
-                loginUserName: action.response.userName
+                ...state,
+                currentUser: {
+                    loggedIn: action.response.loggedIn,
+                    role: action.response.role,
+                    name: action.response.name
+                }
             };
-        case "USER_NOT_LOGGED_IN":
-            return {loggedIn: false};
+        case "ERROR":
+            return {
+                ...state,
+                error: {
+                    hasError: true
+                }
+            };
         default:
             return state;
     }
