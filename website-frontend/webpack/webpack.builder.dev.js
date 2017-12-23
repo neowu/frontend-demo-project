@@ -11,6 +11,7 @@ export function configureDevServer(config) {
     });
 
     webpackConfig.devServer = {
+        https: true,
         historyApiFallback: {rewrites: rewrites},
         hot: true,
         inline: true,
