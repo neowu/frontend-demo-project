@@ -6,11 +6,12 @@ import createSagaMiddleware from "redux-saga";
 import {Provider} from "react-redux";
 
 import reducer from "../../reducer/user";
+import state from "../../reducer/state";
 import saga from "../../reducer/saga";
 import App from "../../containers/app/App";
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+const store = createStore(reducer, state, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(saga);
 
 ReactDOM.render(

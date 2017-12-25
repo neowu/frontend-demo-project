@@ -1,15 +1,4 @@
-const defaultState = {
-    currentUser: {
-        loggedIn: false,
-        role: null,
-        name: null
-    },
-    error: {
-        hasError: false
-    }
-};
-
-export default function header(state = defaultState, action) {
+export default function header(state, action) {
     switch (action.type) {
         case "GET_CURRENT_USER_SUCCESS":
             return {
@@ -18,6 +7,14 @@ export default function header(state = defaultState, action) {
                     loggedIn: action.response.loggedIn,
                     role: action.response.role,
                     name: action.response.name
+                }
+            };
+        case "LOGIN_RESULT":
+            return {
+                ...state,
+                login: {
+                    success: action.response.success,
+                    error: action.response.error
                 }
             };
         case "ERROR":

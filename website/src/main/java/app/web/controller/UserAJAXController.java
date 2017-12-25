@@ -44,6 +44,7 @@ public class UserAJAXController {
             response.success = true;
         } else {
             response.success = false;
+            response.error = "login failed";
         }
         return Response.bean(response);
     }
