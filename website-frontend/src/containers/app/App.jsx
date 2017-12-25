@@ -6,6 +6,7 @@ import Header from "../Header";
 import Nav from "../Nav";
 import Welcome from "../Welcome";
 import Login from "../Login";
+import {Grid} from "semantic-ui-react";
 
 import "./app.scss";
 
@@ -29,14 +30,20 @@ class App extends React.PureComponent {
         return <BrowserRouter>
             <div>
                 <Header/>
-                <Nav/>
-                <main>
-                    <Switch>
-                        <Route exact path="/" component={Welcome}/>
-                        <Route path="/login" component={Login}/>
-                        <Redirect to="/404"/>
-                    </Switch>
-                </main>
+                <Grid columns={2} divided>
+                    <Grid.Row>
+                        <Grid.Column><Nav/></Grid.Column>
+                        <Grid.Column>
+                            <main>
+                                <Switch>
+                                    <Route exact path="/" component={Welcome}/>
+                                    <Route path="/login" component={Login}/>
+                                    <Redirect to="/404"/>
+                                </Switch>
+                            </main>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </div>
         </BrowserRouter>;
     }
