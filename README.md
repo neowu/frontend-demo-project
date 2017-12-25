@@ -44,6 +44,7 @@ full build, dist to build/website/install/website
     * standard way validation form fields
     * theme support?
     * builtin progress indicator (customizable)
+    * antd vs element UI vs semantic UI react?
 * standard way of AJAX calls
     * encapsulate ajax lib, e.g. later we may switch axios to fetch  
     * standard way to validate ajax response, any chance to be consistent with proptypes? 
