@@ -48,4 +48,9 @@ public class UserAJAXController {
         }
         return Response.bean(response);
     }
+
+    public Response logout(Request request) {
+        request.session().invalidate();
+        return Response.empty();
+    }
 }

@@ -1,5 +1,6 @@
 package app;
 
+import app.web.WebsiteErrorHandler;
 import app.web.controller.HomeController;
 import app.web.controller.UserAJAXController;
 import app.web.interceptor.LoginInterceptor;
@@ -11,6 +12,7 @@ import core.framework.module.Module;
 public class WebModule extends Module {
     @Override
     protected void initialize() {
+        http().errorHandler(bind(WebsiteErrorHandler.class));
         http().intercept(bind(LoginInterceptor.class));
 
         HomeController homeController = bind(HomeController.class);
@@ -23,5 +25,6 @@ public class WebModule extends Module {
         UserAJAXController userAJAXController = bind(UserAJAXController.class);
         route().get("/ajax/currentUser", userAJAXController::currentUser);
         route().put("/ajax/login", userAJAXController::login);
+        route().put("/ajax/logout", userAJAXController::logout);
     }
 }

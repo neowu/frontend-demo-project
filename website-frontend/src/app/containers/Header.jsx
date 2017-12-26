@@ -2,21 +2,28 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {Button, Menu} from "semantic-ui-react";
+import {Button, Layout, Menu} from "antd";
 
-class Header extends React.PureComponent {
-    render() {
-        const loggedIn = this.props.loggedIn;
-        if (loggedIn) {
-            return <Menu><Menu.Item>Hello {this.props.userName}</Menu.Item></Menu>;
-        }
-        return <Menu>
-            <Menu.Menu position="right">
-                <Button primary as={Link} to={"/login"}>Login</Button>
-            </Menu.Menu>
+const Header = ({dispatch, loggedIn, userName}) => {
+    function loginMenu() {
+        return <Menu mode="horizontal" defaultSelectedKeys={["1"]} style={{lineHeight: "64px"}}>
+            <Menu.Item key="1">
+                <Link to={"/login"}>Login</Link>
+            </Menu.Item>
         </Menu>;
     }
-}
+
+    function logout() {
+        return dispatch({type: "LOGOUT"});
+    }
+
+    return <Layout.Header className="header" style={{
+        background: "#fff",
+        padding: 0
+    }}>
+        {loggedIn ? <div>Hello {userName}, <Button onClick={logout}>Logout</Button></div> : loginMenu()}
+    </Layout.Header>;
+};
 
 Header.propTypes = {
     loggedIn: PropTypes.bool,

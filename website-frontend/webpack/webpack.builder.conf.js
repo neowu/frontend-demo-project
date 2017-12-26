@@ -32,6 +32,7 @@ export const webpackConfig = {
                         },
                         modules: false
                     }], "react", "stage-2"],
+                    plugins: [["import", {"libraryName": "antd", "libraryDirectory": "es", "style": "css"}]],
                     babelrc: false,
                     cacheDirectory: true
                 }
@@ -47,6 +48,19 @@ export const webpackConfig = {
                         loader: 'postcss-loader', options: {sourceMap: true, plugins: () => [autoprefixer]}
                     }, {
                         loader: "sass-loader", options: {sourceMap: true}
+                    }],
+                    fallback: "style-loader"    // use style-loader in development
+                })
+            },
+            {
+                test: /\.css$/,
+                include: resolve("node_modules"),
+                use: ExtractTextPlugin.extract({
+                    use: [{
+                        loader: "css-loader",
+                        options: {minimize: {safe: true}, modules: false, sourceMap: true, importLoaders: 1}
+                    }, {
+                        loader: 'postcss-loader', options: {sourceMap: true, plugins: () => [autoprefixer]}
                     }],
                     fallback: "style-loader"    // use style-loader in development
                 })

@@ -2,12 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
-import Header from "../Header";
+import HeaderContainer from "../Header";
 import Nav from "../Nav";
 import Welcome from "../Welcome";
 import Login from "../Login";
-import {Grid} from "semantic-ui-react";
-
+import {Layout} from "antd";
 import "./app.scss";
 
 class App extends React.PureComponent {
@@ -18,40 +17,47 @@ class App extends React.PureComponent {
     componentDidCatch(error, info) { // TODO: move this to general Error Component?
         this.props.dispatch({
             type: "ERROR",
-            error: info
+            error: error + ", " + info
         });
     }
 
     render() {
         if (this.props.hasError) {
-            return <div>something goes wrong</div>;
+            return <div>something goes wrong, {this.props.error}</div>;
         }
 
         return <BrowserRouter>
-            <div>
-                <Header/>
-                <Grid columns={2} divided>
-                    <Grid.Row>
-                        <Grid.Column><Nav/></Grid.Column>
-                        <Grid.Column>
-                            <main>
-                                <Switch>
-                                    <Route exact path="/" component={Welcome}/>
-                                    <Route path="/login" component={Login}/>
-                                    <Redirect to="/404"/>
-                                </Switch>
-                            </main>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </div>
+            <Layout>
+                <HeaderContainer/>
+                <Layout>
+                    <Nav/>
+                    <Layout style={{padding: "0 24px 24px"}}>
+                        <Layout.Content style={{
+                            background: "#fff",
+                            padding: 24,
+                            margin: 0,
+                            minHeight: 280
+                        }}>
+                            <Switch>
+                                <Route exact path="/" component={Welcome}/>
+                                <Route path="/login" component={Login}/>
+                                <Redirect to="/404"/>
+                            </Switch>
+                        </Layout.Content>
+                    </Layout>
+                </Layout>
+            </Layout>
         </BrowserRouter>;
     }
 }
 
 App.propTypes = {
     dispatch: PropTypes.func,
-    hasError: PropTypes.bool
+    hasError: PropTypes.bool,
+    error: PropTypes.string
 };
 
-export default connect(state => ({hasError: state.error.hasError}))(App);
+export default connect(state => ({
+    hasError: state.error.hasError,
+    error: state.error.error
+}))(App);

@@ -21,7 +21,8 @@ export default function header(state, action) {
             return {
                 ...state,
                 error: {
-                    hasError: true
+                    hasError: true,
+                    error: action.error
                 }
             };
         default:

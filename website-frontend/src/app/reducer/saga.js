@@ -1,5 +1,5 @@
 import {all, call, put, takeLatest} from "redux-saga/effects";
-import {getCurrentUser, login} from "../service/userService";
+import {getCurrentUser, login, logout} from "../service/userService";
 
 function* watchCheckCurrentUser() {
     yield takeLatest("CHECK_CURRENT_USER", function* () {
@@ -36,6 +36,20 @@ function* watchLogin() {
     });
 }
 
+function* watchLogout() {
+    yield takeLatest("LOGOUT", function* () {
+        const {response, error} = yield call(logout);
+        if (response === true) {
+            yield put({type: "CHECK_CURRENT_USER"}); // TODO: not ideal flow, should refresh only by one step in LOGIN_RESULT in reducer
+        } else {
+            yield put({
+                type: "ERROR",
+                error: error
+            });
+        }
+    });
+}
+
 export default function* saga() {
-    yield all([watchCheckCurrentUser(), watchLogin()]);
+    yield all([watchCheckCurrentUser(), watchLogin(), watchLogout()]);
 }

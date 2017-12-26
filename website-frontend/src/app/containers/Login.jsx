@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {Message} from "semantic-ui-react";
+import {Alert} from "antd";
 
 class Login extends React.PureComponent {  // TODO: validation and UI lib
     username = null;
@@ -13,7 +13,6 @@ class Login extends React.PureComponent {  // TODO: validation and UI lib
         if (!this.username.value.trim()) {
             return;
         }
-        // addTodo(input.value);
         this.props.dispatch({
             type: "LOGIN",
             username: this.username.value,
@@ -27,7 +26,7 @@ class Login extends React.PureComponent {  // TODO: validation and UI lib
         }
 
         return <div>
-            {this.props.loginError ? <Message warning>Login Failed</Message> : null}
+            {this.props.loginError ? <Alert message="Login Failed" description={this.props.loginError} type="error" closable/> : null}
             <form onSubmit={this.onSubmit}>
                 username:
                 <input type="text" ref={(node) => {

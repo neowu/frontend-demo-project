@@ -15,3 +15,9 @@ export function login(username, password) {
         .then(response => ({response: response.data}))
         .catch(error => ({error}));
 }
+
+export function logout() {
+    return axios.put("/ajax/logout")
+        .then(response => ({response: true}))
+        .catch(error => ({error}));
+}
