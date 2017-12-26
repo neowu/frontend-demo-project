@@ -10,13 +10,7 @@ function configureESLint(config) {
         include: resolve("src"),
         enforce: "pre",
         options: {
-            parser: "babel-eslint",
             configFile: resolve("webpack/eslint.json"),
-            parserOptions: {
-                sourceType: "module",
-                ecmaFeatures: {jsx: true}
-            },
-            envs: ["es6", "browser"],
             failOnWarning: true,
             failOnError: true
         }
