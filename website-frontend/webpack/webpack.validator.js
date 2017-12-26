@@ -1,3 +1,5 @@
+/* eslint-env node */
+/* eslint-disable no-console, no-process-exit, no-sync */
 import fs from "fs";
 import glob from "glob";
 
@@ -26,7 +28,7 @@ function assertDirExists(relativePath, key) {
 }
 
 function validateLib(config, usedLib) {
-    Object.keys(config.lib).forEach(lib => {
+    Object.keys(config.lib).forEach((lib) => {
         if (!usedLib.has(lib)) {
             errors.push(`config.lib["${lib}"] => lib is not used by any page, lib=${lib}`);
         }
@@ -34,12 +36,12 @@ function validateLib(config, usedLib) {
 }
 
 function validatePages(config, usedLib) {
-    Object.keys(config.pages).forEach(pageName => {
+    Object.keys(config.pages).forEach((pageName) => {
         const page = config.pages[pageName];
         assertFileExists(`src/${page.js}`, `config.pages["${pageName}"].js`);
         assertFileExists(`src/${page.template}`, `config.pages["${pageName}"].template`);
 
-        page.lib.forEach(lib => {
+        page.lib.forEach((lib) => {
             if (config.lib[lib] === undefined) {
                 errors.push(`config.pages["${pageName}"].lib => lib is not defined in config.lib, lib=${lib}`);
             } else {
@@ -53,7 +55,7 @@ function validateSprite(config) {
     if (config.sprite === undefined) {
         return;
     }
-    Object.keys(config.sprite).forEach(sprite => {
+    Object.keys(config.sprite).forEach((sprite) => {
         const imageDir = resolve(`src/${config.sprite[sprite]}`);
         const dirExists = assertDirExists(`src/${config.sprite[sprite]}`, `config.sprite["${sprite}"]`);
         if (dirExists) {
@@ -92,7 +94,7 @@ export function validate(config) {
 
     if (errors.length > 0) {
         console.error("validation failed, please fix the following errors:");
-        errors.forEach(error => {
+        errors.forEach((error) => {
             console.error("  ", error);
         });
         console.log();

@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
-import HeaderContainer from "../Header";
-import Nav from "../Nav";
-import Welcome from "../Welcome";
-import Login from "../Login";
+import HeaderContainer from "./Header";
+import Nav from "./Nav";
+import Welcome from "./Welcome";
+import Login from "./Login";
 import {Layout} from "antd";
-import "./app.scss";
+import "./app.less";
 
 class App extends React.PureComponent {
     componentDidMount() {

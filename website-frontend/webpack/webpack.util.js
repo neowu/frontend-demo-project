@@ -1,6 +1,8 @@
+/* eslint-env node */
+/* eslint-disable no-sync, no-process-env */
 import fs from "fs";
 import path from "path";
-import {argv} from 'yargs';
+import {argv} from "yargs";
 
 export const production = process.env.NODE_ENV === "production";
 

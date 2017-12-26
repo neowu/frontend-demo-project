@@ -7,8 +7,16 @@ export default () => {
             "net": ["axios"]
         },
         pages: {
-            "index": {js: "app/pages/index/index.jsx", template: "app/pages/index/index.html", lib: ["react", "net"]},
-            "error": {js: "app/pages/error/index.jsx", template: "app/pages/error/index.html", lib: ["react"]}
+            "index": {
+                js: "app/pages/index/index.jsx",
+                template: "app/pages/index/index.html",
+                lib: ["react", "net"]
+            },
+            "error": {
+                js: "app/pages/error/index.jsx",
+                template: "app/pages/error/index.html",
+                lib: ["react"]
+            }
         },
         sys: "sys.json"
     };

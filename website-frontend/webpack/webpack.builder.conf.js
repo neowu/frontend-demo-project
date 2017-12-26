@@ -32,35 +32,61 @@ export const webpackConfig = {
                         },
                         modules: false
                     }], "react", "stage-2"],
-                    plugins: [["import", {"libraryName": "antd", "libraryDirectory": "es", "style": "css"}]],
+                    plugins: [["import", {
+                        libraryName: "antd",
+                        libraryDirectory: "es",
+                        style: true
+                    }]],
                     babelrc: false,
                     cacheDirectory: true
                 }
             },
             {
-                test: /\.(css|scss|sass)$/,
+                test: /\.(css|less)$/,
                 include: resolve("src"),
                 use: ExtractTextPlugin.extract({
                     use: [{
                         loader: "css-loader",
-                        options: {minimize: {safe: true}, modules: true, sourceMap: true, importLoaders: 2}
+                        options: {
+                            minimize: {safe: true},
+                            modules: true,
+                            sourceMap: true,
+                            importLoaders: 2
+                        }
                     }, {
-                        loader: 'postcss-loader', options: {sourceMap: true, plugins: () => [autoprefixer]}
+                        loader: "postcss-loader",
+                        options: {
+                            sourceMap: true,
+                            plugins: () => [autoprefixer]
+                        }
                     }, {
-                        loader: "sass-loader", options: {sourceMap: true}
+                        loader: "less-loader",
+                        options: {sourceMap: true}
                     }],
                     fallback: "style-loader"    // use style-loader in development
                 })
             },
             {
-                test: /\.css$/,
+                test: /\.(css|less)$/,
                 include: resolve("node_modules"),
                 use: ExtractTextPlugin.extract({
                     use: [{
                         loader: "css-loader",
-                        options: {minimize: {safe: true}, modules: false, sourceMap: true, importLoaders: 1}
+                        options: {
+                            minimize: {safe: true},
+                            modules: false,
+                            sourceMap: true,
+                            importLoaders: 2
+                        }
                     }, {
-                        loader: 'postcss-loader', options: {sourceMap: true, plugins: () => [autoprefixer]}
+                        loader: "postcss-loader",
+                        options: {
+                            sourceMap: true,
+                            plugins: () => [autoprefixer]
+                        }
+                    }, {
+                        loader: "less-loader",
+                        options: {sourceMap: true}
                     }],
                     fallback: "style-loader"    // use style-loader in development
                 })

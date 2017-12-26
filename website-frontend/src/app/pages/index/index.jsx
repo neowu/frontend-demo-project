@@ -8,7 +8,7 @@ import {Provider} from "react-redux";
 import reducer from "../../reducer/user";
 import state from "../../reducer/state";
 import saga from "../../reducer/saga";
-import App from "../../containers/app/App";
+import App from "../../containers/App";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducer, state, applyMiddleware(sagaMiddleware));

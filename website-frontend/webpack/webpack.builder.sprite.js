@@ -6,7 +6,7 @@ import {webpackConfig} from "./webpack.builder.conf";
 export function configureSprite(config) {
     if (config.sprite === undefined) return;
 
-    Object.keys(config.sprite).forEach(sprite => {
+    Object.keys(config.sprite).forEach((sprite) => {
         const targetPNG = resolve(`build/sprite/${sprite}.png`);
         const targetSCSS = resolve(`build/sprite/${sprite}.scss`);
 

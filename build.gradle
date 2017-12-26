@@ -31,11 +31,13 @@ def yarn(String dir, String... params) {
     }
 }
 
+def env = hasProperty('env') ? env : 'local'
+
 task buildFrontend {
     def frontendDir = "${rootDir}/website-frontend"
     doLast {
         exec yarn(frontendDir, 'install')
-        exec yarn(frontendDir, 'run', 'build')
+        exec yarn(frontendDir, 'run', 'build', '--env', env)
         delete "${rootDir}/website/src/main/dist/web"
         copy {
             from "${frontendDir}/build/dist"

@@ -33,9 +33,7 @@ export function build(config) {
     configureSprite(config);
     configureLint(config);
 
-    if (!production) {
-        configureDevServer(config);
-    } else {
+    if (production) {
         webpackConfig.bail = true;
 
         configureSystem(config);
@@ -54,6 +52,8 @@ export function build(config) {
             }),
             new webpack.optimize.ModuleConcatenationPlugin()
         );
+    } else {
+        configureDevServer(config);
     }
 
     return webpackConfig;
