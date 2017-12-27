@@ -48,6 +48,6 @@ Login.propTypes = {
     loginError: PropTypes.string
 };
 export default connect(state => ({
-    loginSuccess: state.login.success,
-    loginError: state.login.error
+    loginSuccess: state.user.login.success,
+    loginError: state.user.login.error
 }))(Login);

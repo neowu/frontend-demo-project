@@ -29,6 +29,6 @@ Header.propTypes = {
 };
 
 export default connect(state => ({
-    loggedIn: state.currentUser.loggedIn,
-    userName: state.currentUser.name
+    loggedIn: state.user.currentUser.loggedIn,
+    userName: state.user.currentUser.name
 }))(Header);

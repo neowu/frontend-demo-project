@@ -8,13 +8,13 @@ export default () => {
         },
         pages: {
             "index": {
-                js: "app/pages/index/index.jsx",
-                template: "app/pages/index/index.html",
+                js: "app/pages/index.jsx",
+                template: "app/pages/index.html",
                 lib: ["react", "net"]
             },
             "error": {
-                js: "app/pages/error/index.jsx",
-                template: "app/pages/error/index.html",
+                js: "app/pages/error.jsx",
+                template: "app/pages/error.html",
                 lib: ["react"]
             }
         },

@@ -1,0 +1,54 @@
+import "babel-polyfill";
+import React from "react";
+import ReactDOM from "react-dom";
+import {applyMiddleware, combineReducers, createStore} from "redux";
+import {Provider} from "react-redux";
+import createSagaMiddleware from "redux-saga";
+import errorModule from "./modules/error";
+
+export function create() {
+    const app = {
+        modules: {},
+        module,
+        start
+    };
+    return app;
+
+    function module(name, module) {
+        app.modules[name] = module;
+    }
+
+    function createReducer(initialState, reducers) {
+        return function reducer(state = initialState, action) {
+            if (reducers.hasOwnProperty(action.type)) {
+                return reducers[action.type](state, action);
+            }
+            return state;
+        };
+    }
+
+    function start(Component, container) {
+        module("error", errorModule);
+
+        const initialState = {};
+        const combinedReducers = {};
+        const sagas = [];
+        for (const [name, module] of Object.entries(app.modules)) {
+            const {reducers, effects, state} = module;
+            combinedReducers[name] = createReducer(state, reducers);
+            sagas.push(...effects);
+            initialState[name] = state;
+        }
+        const rootReducer = combineReducers(combinedReducers);
+
+        const sagaMiddleware = createSagaMiddleware();
+        const store = createStore(rootReducer, initialState, applyMiddleware(sagaMiddleware));
+        sagas.forEach(sagaMiddleware.run);
+        ReactDOM.render(
+            <Provider store={store}>
+                <Component/>
+            </Provider>,
+            document.getElementById(container)
+        );
+    }
+}

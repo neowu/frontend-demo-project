@@ -1,5 +1,5 @@
-import {all, call, put, takeLatest} from "redux-saga/effects";
-import {getCurrentUser, login, logout} from "../service/userService";
+import {call, put, takeLatest} from "redux-saga/effects";
+import {getCurrentUser, login, logout} from "../services/users";
 
 function* watchCheckCurrentUser() {
     yield takeLatest("CHECK_CURRENT_USER", function* () {
@@ -50,6 +50,6 @@ function* watchLogout() {
     });
 }
 
-export default function* saga() {
-    yield all([watchCheckCurrentUser(), watchLogin(), watchLogout()]);
-}
+const effects = [watchCheckCurrentUser, watchLogin, watchLogout];
+
+export default effects;

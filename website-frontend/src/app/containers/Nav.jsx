@@ -30,5 +30,5 @@ Nav.propTypes = {
 };
 
 export default connect(state => ({
-    role: state.currentUser.role
+    role: state.user.currentUser.role
 }))(Nav);

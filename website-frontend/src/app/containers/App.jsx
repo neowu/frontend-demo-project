@@ -59,5 +59,5 @@ App.propTypes = {
 
 export default connect(state => ({
     hasError: state.error.hasError,
-    error: state.error.error
+    error: state.error.message
 }))(App);
