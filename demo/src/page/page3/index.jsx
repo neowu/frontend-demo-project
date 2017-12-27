@@ -5,7 +5,7 @@ import {applyMiddleware, createStore} from "redux";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 
-import "./page3.scss";
+import "./page3.less";
 
 import Lazy from "../../component/Lazy";
 import CounterContainer from "./container/counter-container";

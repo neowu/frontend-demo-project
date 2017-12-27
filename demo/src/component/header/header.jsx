@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import "./header.scss";
+import "./header.less";
 
 const Header = ({title}) =>
     <header>

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import "./todo-list.scss";
+import "./todo-list.less";
 
 const Todo = ({onClick, completed, text}) =>
     <li onClick={onClick} style={{textDecoration: completed ? "line-through" : "none"}}>

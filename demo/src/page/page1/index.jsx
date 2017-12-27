@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import css from "./page1.scss";
+import css from "./page1.less";
 import Header from "../../component/header/header";
 import Welcome from "../../component/welcome/welcome";
 

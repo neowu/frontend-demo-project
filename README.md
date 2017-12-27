@@ -52,7 +52,7 @@ full build, dist to build/website/install/website
 mid-long term:
 * check dva, roadhog, should we impl similar one or use one with deeply customization
 * write our own reusable UI lib, add animation
-* check postcss vs scss？which is better, we need dynamic theme switching
+* check postcss vs scss/less？which is better, we need dynamic theme switching
 * optimization to be builtin and transparent 
     * lazy load js/css/page
     * heavy UI component rendering, e.g. render solid color/place holder, then render in async

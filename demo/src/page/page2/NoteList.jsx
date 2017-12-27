@@ -4,7 +4,7 @@ import Notes from "./Notes";
 import api from "conf/api.json";
 
 export default class NoteList extends PureComponent {
-    themeSCSS = "theme-a.scss";
+    themeSCSS = "theme-a.less";
 
     state = {
         notes: [{
@@ -30,7 +30,7 @@ export default class NoteList extends PureComponent {
                 document.body.className = style.background;
             });
 
-        this.themeSCSS = this.themeSCSS === "theme-a.scss" ? "theme-b.scss" : "theme-a.scss";
+        this.themeSCSS = this.themeSCSS === "theme-a.less" ? "theme-b.less" : "theme-a.less";
     };
 
     render() {

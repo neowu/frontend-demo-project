@@ -5,17 +5,20 @@ import {production, resolve} from "./webpack.util";
 import {webpackConfig} from "./webpack.builder.conf";
 
 export function configurePages(config) {
-    Object.keys(config.lib).forEach(name => {
+    Object.keys(config.lib).forEach((name) => {
         const chunks = [];
 
-        Object.keys(config.pages).forEach(pageName => {
+        Object.keys(config.pages).forEach((pageName) => {
             if (config.pages[pageName].lib.indexOf(name) >= 0) {
                 chunks.push(pageName);
             }
         });
 
         webpackConfig.entry[name] = config.lib[name];
-        webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({name: name, chunks: chunks}))
+        webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+            name: name,
+            chunks: chunks
+        }));
     });
 
     webpackConfig.plugins.push(new webpack.optimize.CommonsChunkPlugin({
@@ -33,10 +36,10 @@ export function configurePages(config) {
         keepClosingSlash: true,
         minifyJS: true,
         minifyCSS: true,
-        minifyURLs: true,
+        minifyURLs: true
     };
 
-    Object.keys(config.pages).forEach(name => {
+    Object.keys(config.pages).forEach((name) => {
         const page = config.pages[name];
         webpackConfig.entry[name] = resolve(`src/${page.js}`);
         webpackConfig.plugins.push(new HTMLPlugin({

@@ -8,10 +8,10 @@ export function configureSprite(config) {
 
     Object.keys(config.sprite).forEach((sprite) => {
         const targetPNG = resolve(`build/sprite/${sprite}.png`);
-        const targetSCSS = resolve(`build/sprite/${sprite}.scss`);
+        const targetLESS = resolve(`build/sprite/${sprite}.less`);
 
         webpackConfig.resolve.alias[`${sprite}.png`] = targetPNG;
-        webpackConfig.resolve.alias[`${sprite}.scss`] = targetSCSS;
+        webpackConfig.resolve.alias[`${sprite}`] = targetLESS;
         webpackConfig.plugins.push(new SpritesmithPlugin({
             src: {
                 cwd: resolve(`src/${config.sprite[sprite]}`),
@@ -19,7 +19,7 @@ export function configureSprite(config) {
             },
             target: {
                 image: targetPNG,
-                css: targetSCSS
+                css: targetLESS
             },
             apiOptions: {cssImageRef: `${sprite}.png`}
         }));

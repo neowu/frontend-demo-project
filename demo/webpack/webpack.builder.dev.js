@@ -6,8 +6,11 @@ export function configureDevServer(config) {
     webpackConfig.output.filename = "js/[name].[hash:8].js";    // HMR requires non-chunkhash
 
     const rewrites = [];
-    Object.keys(config.pages).forEach(pageName => {
-        rewrites.push({from: new RegExp(`\/${pageName}`), to: `/${pageName}.html`});
+    Object.keys(config.pages).forEach((pageName) => {
+        rewrites.push({
+            from: new RegExp(`/${pageName}`),
+            to: `/${pageName}.html`
+        });
     });
 
     webpackConfig.devServer = {
@@ -23,7 +26,10 @@ export function configureDevServer(config) {
             errors: true
         },
         proxy: {
-            "/ajax": {target: "https://localhost:8443", secure: false}
+            "/ajax": {
+                target: "https://localhost:8443",
+                secure: false
+            }
         }
     };
 

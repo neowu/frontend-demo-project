@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "core-js/fn/promise"; // only import promise
-import "./index-part1.scss";
-import "./index-part2.scss";
+import "./index-part1.less";
+import "./index-part2.less";
 import "lib/3rd-party";
 import Lazy from "../../component/Lazy";
 import legacy from "../../legacy/test";
