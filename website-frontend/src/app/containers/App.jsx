@@ -2,36 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
-import HeaderContainer from "./Header";
+import Header from "./Header";
 import Nav from "./Nav";
 import Welcome from "./Welcome";
 import Login from "./Login";
 import {Layout} from "antd";
 import "./app.less";
+import ErrorMessage from "../../framework/components/ErrorMessage";
 
 class App extends React.PureComponent {
     componentDidMount() {
         this.props.dispatch({type: "CHECK_CURRENT_USER"});
     }
 
-    componentDidCatch(error, info) { // TODO: move this to general Error Component?
-        this.props.dispatch({
-            type: "ERROR",
-            error: error + ", " + info
-        });
-    }
-
     render() {
-        if (this.props.hasError) {
-            return <div>something goes wrong, {this.props.error}</div>;
-        }
-
         return <BrowserRouter>
             <Layout>
-                <HeaderContainer/>
+                <ErrorMessage/>
+                <Header/>
                 <Layout>
                     <Nav/>
-                    <Layout style={{padding: "0 24px 24px"}}>
+                    <Layout>
                         <Layout.Content style={{
                             background: "#fff",
                             padding: 24,
@@ -52,12 +43,7 @@ class App extends React.PureComponent {
 }
 
 App.propTypes = {
-    dispatch: PropTypes.func,
-    hasError: PropTypes.bool,
-    error: PropTypes.string
+    dispatch: PropTypes.func
 };
 
-export default connect(state => ({
-    hasError: state.error.hasError,
-    error: state.error.message
-}))(App);
+export default connect()(App);

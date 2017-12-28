@@ -5,4 +5,4 @@ import userModule from "../modules/user";
 const app = create();
 app.module("user", userModule);
 
-app.start(App, "app");
+app.start(App, "root");

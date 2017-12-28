@@ -35,6 +35,8 @@ public class UserAJAXController {
             loginUser.role = "user";
             Sessions.setLoginUser(request, loginUser);
             response.success = true;
+            response.name = "user";
+            response.role = "user";
         } else if ("admin".equals(loginAJAXRequest.username) && "123".equals(loginAJAXRequest.password)) {
             LoginUser loginUser = new LoginUser();
             loginUser.userId = "2";
@@ -42,6 +44,8 @@ public class UserAJAXController {
             loginUser.role = "admin";
             Sessions.setLoginUser(request, loginUser);
             response.success = true;
+            response.name = "admin";
+            response.role = "admin";
         } else {
             response.success = false;
             response.error = "login failed";

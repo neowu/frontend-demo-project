@@ -6,6 +6,12 @@ public class LoginAJAXResponse {
     @Property(name = "success")
     public Boolean success;
 
+    @Property(name = "name")
+    public String name;
+
+    @Property(name = "role")
+    public String role;
+
     @Property(name = "error")
     public String error;
 }

@@ -1,9 +1,7 @@
-import axios from "axios";
+import api from "../../framework/api";
 
 export function getCurrentUser() {
-    return axios.get("/ajax/currentUser")
-        .then(response => ({response: response.data}))
-        .catch(error => ({error}));
+    return api.get("/ajax/currentUser");
 }
 
 export function login(username, password) {
@@ -11,13 +9,9 @@ export function login(username, password) {
         username: username,
         password: password
     };
-    return axios.put("/ajax/login", request)
-        .then(response => ({response: response.data}))
-        .catch(error => ({error}));
+    return api.put("/ajax/login", request);
 }
 
 export function logout() {
-    return axios.put("/ajax/logout")
-        .then(response => ({response: true}))
-        .catch(error => ({error}));
+    return api.put("/ajax/logout");
 }

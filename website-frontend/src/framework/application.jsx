@@ -4,6 +4,8 @@ import ReactDOM from "react-dom";
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import {Provider} from "react-redux";
 import createSagaMiddleware from "redux-saga";
+
+import ErrorBoundary from "./components/ErrorBoundary";
 import errorModule from "./modules/error";
 
 export function create() {
@@ -46,7 +48,9 @@ export function create() {
         sagas.forEach(sagaMiddleware.run);
         ReactDOM.render(
             <Provider store={store}>
-                <Component/>
+                <ErrorBoundary>
+                    <Component/>
+                </ErrorBoundary>
             </Provider>,
             document.getElementById(container)
         );

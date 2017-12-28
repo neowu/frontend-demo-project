@@ -32,9 +32,7 @@
       "error",
       {
         "forbid": [
-          "any",
-          "array",
-          "object"
+          "any"
         ]
       }
     ],
