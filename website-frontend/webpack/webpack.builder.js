@@ -1,5 +1,7 @@
 import webpack from "webpack";
+import autoprefixer from "autoprefixer";
 import CleanPlugin from "clean-webpack-plugin";
+import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 import {webpackConfig} from "./webpack.builder.conf";
 import {validate} from "./webpack.validator";
@@ -25,9 +27,43 @@ function configureAlias() {
     };
 }
 
+function cssRule(include, modules) {
+    return {
+        test: /\.(css|less)$/,
+        include: include,
+        use: ExtractTextPlugin.extract({
+            use: [{
+                loader: "css-loader",
+                options: {
+                    minimize: {safe: true},
+                    modules: modules,
+                    sourceMap: true,
+                    importLoaders: 2
+                }
+            }, {
+                loader: "postcss-loader",
+                options: {
+                    sourceMap: true,
+                    plugins: () => [autoprefixer]
+                }
+            }, {
+                loader: "less-loader",
+                options: {sourceMap: true}
+            }],
+            fallback: "style-loader"    // use style-loader in development
+        })
+    };
+}
+
+function configureCSSRule() {
+    webpackConfig.module.rules.push(cssRule(resolve("src"), true));
+    webpackConfig.module.rules.push(cssRule(resolve("node_modules"), false));   // not using css modules for lib less, e.g. antd less
+}
+
 export function build(config) {
     validate(config);
 
+    configureCSSRule();
     configureAlias();
     configurePages(config);
     configureSprite(config);
