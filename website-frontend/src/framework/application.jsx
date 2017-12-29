@@ -7,6 +7,7 @@ import createSagaMiddleware from "redux-saga";
 
 import ErrorBoundary from "./components/ErrorBoundary";
 import errorModule from "./modules/error";
+import loadingModule from "./modules/loading";
 
 export function create() {
     const app = {
@@ -31,6 +32,7 @@ export function create() {
 
     function start(Component, container) {
         module("error", errorModule);
+        module("loading", loadingModule);
 
         const initialState = {};
         const combinedReducers = {};

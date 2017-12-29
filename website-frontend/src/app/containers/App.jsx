@@ -7,8 +7,9 @@ import Nav from "./Nav";
 import Welcome from "./Welcome";
 import Login from "./Login";
 import {Layout} from "antd";
-import "./app.less";
+import css from "./app.less";
 import ErrorMessage from "../../framework/components/ErrorMessage";
+import ProductList from "./product/ProductList";
 
 class App extends React.PureComponent {
     componentDidMount() {
@@ -18,20 +19,16 @@ class App extends React.PureComponent {
     render() {
         return <BrowserRouter>
             <Layout>
-                <ErrorMessage/>
-                <Header/>
+                <Nav/>
                 <Layout>
-                    <Nav/>
+                    <ErrorMessage/>
+                    <Header/>
                     <Layout>
-                        <Layout.Content style={{
-                            background: "#fff",
-                            padding: 24,
-                            margin: 0,
-                            minHeight: 280
-                        }}>
+                        <Layout.Content className={css.layout}>
                             <Switch>
                                 <Route exact path="/" component={Welcome}/>
                                 <Route path="/login" component={Login}/>
+                                <Route path="/product" component={ProductList}/>
                                 <Redirect to="/404"/>
                             </Switch>
                         </Layout.Content>

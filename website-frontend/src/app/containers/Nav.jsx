@@ -16,10 +16,14 @@ const Nav = ({role}) => {
             height: "100%",
             borderRight: 0
         }}>
+            <Menu.Item key="6"><Link to="/">Home</Link></Menu.Item>
             {adminMenu()}
             <Menu.SubMenu key="sub2" title={<span><Icon type="laptop"/>Games</span>}>
                 <Menu.Item key="2">Game1</Menu.Item>
                 <Menu.Item key="3">Game2</Menu.Item>
+            </Menu.SubMenu>
+            <Menu.SubMenu key="sub3" title={<span><Icon type="appstore"/>Product</span>}>
+                <Menu.Item key="4"><Link to="/product">List Products</Link></Menu.Item>
             </Menu.SubMenu>
         </Menu>
     </Layout.Sider>;

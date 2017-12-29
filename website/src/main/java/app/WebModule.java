@@ -2,6 +2,7 @@ package app;
 
 import app.web.WebsiteErrorHandler;
 import app.web.controller.HomeController;
+import app.web.controller.ProductAJAXController;
 import app.web.controller.UserAJAXController;
 import app.web.interceptor.LoginInterceptor;
 import core.framework.module.Module;
@@ -26,5 +27,8 @@ public class WebModule extends Module {
         route().get("/ajax/currentUser", userAJAXController::currentUser);
         route().put("/ajax/login", userAJAXController::login);
         route().put("/ajax/logout", userAJAXController::logout);
+
+        ProductAJAXController productAJAXController = bind(ProductAJAXController.class);
+        route().get("/ajax/product", productAJAXController::listProducts);
     }
 }
