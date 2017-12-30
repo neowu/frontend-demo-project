@@ -47,7 +47,7 @@
     "yargs": "10.0.3"
   },
   "dependencies": {
-    "antd": "^3.0.3",
+    "antd": "^3.1.0",
     "axios": "0.17.1",
     "babel-polyfill": "6.26.0",
     "prop-types": "15.6.0",
