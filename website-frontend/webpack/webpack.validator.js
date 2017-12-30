@@ -28,10 +28,9 @@ function assertDirExists(relativePath, key) {
 }
 
 function validatePages(config) {
-    Object.keys(config.pages).forEach((pageName) => {
-        const page = config.pages[pageName];
-        assertFileExists(`src/${page.js}`, `config.pages["${pageName}"].js`);
-        assertFileExists(`src/${page.template}`, `config.pages["${pageName}"].template`);
+    Object.entries(config.pages).forEach(([name, page]) => {
+        assertFileExists(`src/${page.js}`, `config.pages["${name}"].js`);
+        assertFileExists(`src/${page.template}`, `config.pages["${name}"].template`);
     });
 }
 
@@ -39,13 +38,13 @@ function validateSprite(config) {
     if (config.sprite === undefined) {
         return;
     }
-    Object.keys(config.sprite).forEach((sprite) => {
-        const imageDir = resolve(`src/${config.sprite[sprite]}`);
-        const dirExists = assertDirExists(`src/${config.sprite[sprite]}`, `config.sprite["${sprite}"]`);
+    Object.entries(config.sprite).forEach(([name, sprite]) => {
+        const dirExists = assertDirExists(`src/${sprite}`, `config.sprite["${name}"]`);
+        const imageDir = resolve(`src/${sprite}`);
         if (dirExists) {
             const images = glob.sync("**/*.png", {cwd: imageDir});
             if (images.length === 0) {
-                errors.push(`config.sprite["${sprite}"] => image dir does not contain any png image, path=${imageDir}`);
+                errors.push(`config.sprite["${name}"] => image dir does not contain any png image, path=${imageDir}`);
             }
         }
     });

@@ -9,8 +9,8 @@ export const webpackConfig = {
     entry: {},
     output: {
         path: resolve("build/dist"),
-        filename: "static/js/[name].[chunkhash:8].js",
-        chunkFilename: "static/js/[name]-[id].[chunkhash:8].js",
+        filename: production ? "static/js/[name].[chunkhash:8].js" : "static/js/[name].js",
+        chunkFilename: production ? "static/js/[name]-[id].[chunkhash:8].js" : "static/js/[name]-[id].js",
         publicPath: "/"
     },
     resolve: {

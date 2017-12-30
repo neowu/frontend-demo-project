@@ -76,9 +76,9 @@ function configureCSSRule() {
             use: [{
                 loader: "css-loader",
                 options: {
-                    minimize: {safe: true},
-                    modules: modules,
                     sourceMap: true,
+                    modules: modules,
+                    minimize: production ? {safe: true} : false,
                     importLoaders: 2
                 }
             }, {
@@ -89,7 +89,9 @@ function configureCSSRule() {
                 }
             }, {
                 loader: "less-loader",
-                options: {sourceMap: true}
+                options: {
+                    sourceMap: true
+                }
             }],
             fallback: "style-loader"    // use style-loader in development
         })
@@ -100,16 +102,16 @@ function configureCSSRule() {
 }
 
 function configureDLL(config) {
-    Object.keys(config.lib).forEach((name) => {
+    Object.entries(config.lib).forEach(([name, lib]) => {
         webpackConfig.plugins.push(new AutoDllPlugin({
             context: resolve(""),
             inject: true,
             debug: true,
-            filename: "[name].[hash:8].js",
+            filename: production ? "[name].[hash:8].js" : "[name].js",
             path: "static/js",
             plugins: production ? productionPlugins : [],
             inherit: true,
-            entry: {[name]: config.lib[[name]]}
+            entry: {[name]: lib}
         }));
     });
 }
@@ -128,8 +130,7 @@ function configurePages(config) {
         minifyURLs: true
     };
 
-    Object.keys(config.pages).forEach((name) => {
-        const page = config.pages[name];
+    Object.entries(config.pages).forEach(([name, page]) => {
         webpackConfig.entry[name] = resolve(`src/${page.js}`);
         webpackConfig.plugins.push(new HTMLPlugin({
             filename: `${name}.html`,

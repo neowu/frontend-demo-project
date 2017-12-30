@@ -3,13 +3,11 @@ import webpack from "webpack";
 import {webpackConfig} from "./webpack.builder.conf";
 
 export function configureDevServer(config) {
-    webpackConfig.output.filename = "js/[name].[hash:8].js";    // HMR requires non-chunkhash
-
     const rewrites = [];
-    Object.keys(config.pages).forEach((pageName) => {
+    Object.keys(config.pages).forEach((name) => {
         rewrites.push({
-            from: new RegExp(`/${pageName}`),
-            to: `/${pageName}.html`
+            from: new RegExp(`/${name}`),
+            to: `/${name}.html`
         });
     });
 

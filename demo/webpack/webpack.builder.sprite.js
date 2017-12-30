@@ -6,22 +6,22 @@ import {webpackConfig} from "./webpack.builder.conf";
 export function configureSprite(config) {
     if (config.sprite === undefined) return;
 
-    Object.keys(config.sprite).forEach((sprite) => {
-        const targetPNG = resolve(`build/sprite/${sprite}.png`);
-        const targetLESS = resolve(`build/sprite/${sprite}.less`);
+    Object.entries(config.sprite).forEach(([name, sprite]) => {
+        const targetPNG = resolve(`build/sprite/${name}.png`);
+        const targetLESS = resolve(`build/sprite/${name}.less`);
 
-        webpackConfig.resolve.alias[`${sprite}.png`] = targetPNG;
-        webpackConfig.resolve.alias[`${sprite}`] = targetLESS;
+        webpackConfig.resolve.alias[`${name}.png`] = targetPNG;
+        webpackConfig.resolve.alias[`${name}`] = targetLESS;
         webpackConfig.plugins.push(new SpritesmithPlugin({
             src: {
-                cwd: resolve(`src/${config.sprite[sprite]}`),
+                cwd: resolve(`src/${sprite}`),
                 glob: "**/*.png"
             },
             target: {
                 image: targetPNG,
                 css: targetLESS
             },
-            apiOptions: {cssImageRef: `${sprite}.png`}
+            apiOptions: {cssImageRef: `${name}.png`}
         }));
     });
 }
