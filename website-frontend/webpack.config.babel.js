@@ -9,13 +9,11 @@ export default () => {
         pages: {
             "index": {
                 js: "app/pages/index.jsx",
-                template: "app/pages/index.html",
-                lib: ["react", "net"]
+                template: "app/pages/index.html"
             },
             "error": {
                 js: "app/pages/error.jsx",
-                template: "app/pages/error.html",
-                lib: ["react"]
+                template: "app/pages/error.html"
             }
         },
         sys: "sys.json"

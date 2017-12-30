@@ -27,27 +27,11 @@ function assertDirExists(relativePath, key) {
     return true;
 }
 
-function validateLib(config, usedLib) {
-    Object.keys(config.lib).forEach((lib) => {
-        if (!usedLib.has(lib)) {
-            errors.push(`config.lib["${lib}"] => lib is not used by any page, lib=${lib}`);
-        }
-    });
-}
-
-function validatePages(config, usedLib) {
+function validatePages(config) {
     Object.keys(config.pages).forEach((pageName) => {
         const page = config.pages[pageName];
         assertFileExists(`src/${page.js}`, `config.pages["${pageName}"].js`);
         assertFileExists(`src/${page.template}`, `config.pages["${pageName}"].template`);
-
-        page.lib.forEach((lib) => {
-            if (config.lib[lib] === undefined) {
-                errors.push(`config.pages["${pageName}"].lib => lib is not defined in config.lib, lib=${lib}`);
-            } else {
-                usedLib.add(lib);
-            }
-        });
     });
 }
 
@@ -81,10 +65,7 @@ function validateLint(config) {
 }
 
 export function validate(config) {
-    const usedLib = new Set();
-
-    validatePages(config, usedLib);
-    validateLib(config, usedLib);
+    validatePages(config);
     validateSprite(config);
 
     if (production) {

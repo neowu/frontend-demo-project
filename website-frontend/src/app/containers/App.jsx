@@ -4,12 +4,12 @@ import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 import Header from "./Header";
 import Nav from "./Nav";
-import Welcome from "./Welcome";
 import Login from "./Login";
 import {Layout} from "antd";
 import css from "./app.less";
 import ErrorMessage from "../../framework/components/ErrorMessage";
 import ProductList from "./product/ProductList";
+import Lazy from "../../framework/components/Lazy";
 
 class App extends React.PureComponent {
     componentDidMount() {
@@ -17,6 +17,8 @@ class App extends React.PureComponent {
     }
 
     render() {
+        const Welcome = () => <Lazy module={import(/* webpackChunkName: "welcome" */"./Welcome")}/>;
+
         return <BrowserRouter>
             <Layout>
                 <Nav/>

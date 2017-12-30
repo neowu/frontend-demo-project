@@ -397,6 +397,21 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
+autodll-webpack-plugin@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/autodll-webpack-plugin/-/autodll-webpack-plugin-0.3.8.tgz#d087dda8ca3f9e3231a15df3d42d1efde73c5777"
+  dependencies:
+    bluebird "^3.5.0"
+    del "^3.0.0"
+    find-cache-dir "^1.0.0"
+    lodash "^4.17.4"
+    make-dir "^1.0.0"
+    memory-fs "^0.4.1"
+    mkdirp "^0.5.1"
+    read-pkg "^2.0.0"
+    webpack-merge "^4.1.0"
+    webpack-sources "^1.0.1"
+
 autoprefixer@7.2.3, autoprefixer@^7.1.2:
   version "7.2.3"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-7.2.3.tgz#c2841e38b7940c2d0a9bbffd72c75f33637854f8"
@@ -4646,7 +4661,7 @@ mem@^1.1.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-memory-fs@^0.4.0, memory-fs@~0.4.1:
+memory-fs@^0.4.0, memory-fs@^0.4.1, memory-fs@~0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
   dependencies:
@@ -7967,6 +7982,12 @@ webpack-dev-server@2.9.7:
     supports-color "^4.2.1"
     webpack-dev-middleware "^1.11.0"
     yargs "^6.6.0"
+
+webpack-merge@^4.1.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.1.1.tgz#f1197a0a973e69c6fbeeb6d658219aa8c0c13555"
+  dependencies:
+    lodash "^4.17.4"
 
 webpack-sources@^1.0.1:
   version "1.1.0"

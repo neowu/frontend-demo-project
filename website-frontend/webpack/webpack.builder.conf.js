@@ -1,3 +1,4 @@
+import webpack from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 
@@ -62,6 +63,17 @@ export const webpackConfig = {
             disable: !production,
             allChunks: true
         }),
-        new CopyPlugin([{from: resolve("static")}])
+        new CopyPlugin([{from: resolve("static")}]),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "vendor",
+            minChunks: function (module) {
+                return module.context && module.context.includes("node_modules");
+            }
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "manifest",
+            minChunks: Infinity
+        }),
+        new webpack.NamedModulesPlugin()    // even though webpack doc recommends HashedModuleIdsPlugin, NamedModulesPlugin results in smaller file after gzip
     ]
 };

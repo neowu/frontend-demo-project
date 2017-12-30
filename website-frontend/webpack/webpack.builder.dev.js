@@ -28,13 +28,13 @@ export function configureDevServer(config) {
         proxy: {
             "/ajax": {
                 target: "https://localhost:8443",
-                secure: false
+                secure: false,
+                changeOrigin: true
             }
         }
     };
 
     webpackConfig.plugins.push(
-        new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
     );
 }
