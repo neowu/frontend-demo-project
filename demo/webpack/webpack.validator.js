@@ -57,8 +57,8 @@ function validateSprite(config) {
     }
     Object.entries(config.sprite).forEach(([name, sprite]) => {
         const dirExists = assertDirExists(`src/${sprite}`, `config.sprite["${name}"]`);
-        const imageDir = resolve(`src/${sprite}`);
         if (dirExists) {
+            const imageDir = resolve(`src/${sprite}`);
             const images = glob.sync("**/*.png", {cwd: imageDir});
             if (images.length === 0) {
                 errors.push(`config.sprite["${name}"] => image dir does not contain any png image, path=${imageDir}`);

@@ -4,6 +4,7 @@ import AutoDllPlugin from "autodll-webpack-plugin";
 import CleanPlugin from "clean-webpack-plugin";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import HTMLPlugin from "html-webpack-plugin";
+import ParallelUglifyPlugin from "webpack-parallel-uglify-plugin";
 
 import {webpackConfig} from "./webpack.builder.conf";
 import {validate} from "./webpack.validator";
@@ -40,14 +41,10 @@ export function build(config) {
 
 const productionPlugins = [
     new webpack.DefinePlugin({"process.env": {NODE_ENV: JSON.stringify("production")}}),
-    new webpack.optimize.UglifyJsPlugin({
+    new ParallelUglifyPlugin({
+        cacheDir: resolve("node_modules/.cache/webpack-parallel-uglify-plugin"),
         sourceMap: true,
-        comments: false,
-        compress: {
-            warnings: false,
-            collapse_vars: true,
-            reduce_vars: true
-        }
+        uglifyJS: {}
     }),
     new webpack.optimize.ModuleConcatenationPlugin()
 ];
