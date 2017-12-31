@@ -40,6 +40,7 @@ full build, dist to build/website/install/website
 * global error handling
     * handle server side AJAX error, e.g. 403->show login page, 400/500->show error page
     * handle client side JS, React rendering error, browser js loading errors   
+    * stacktrace-js? https://github.com/getsentry/sentry?
 * choice one UI lib
     * standard way validation form fields
     * theme support?
@@ -61,3 +62,6 @@ mid-long term:
 * provide standard way to unit test components/reducer/etc
 * provide standard way to support local dev, e.g. better mock server side ajax?
 * UI automation test, selenium or just chrome headless 
+
+## TODO
+* how to manage sourcemap? just use nosources-source-map or put source-map somewhere else
