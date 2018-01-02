@@ -4,12 +4,12 @@ import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 import Header from "./Header";
 import Nav from "./Nav";
-import Login from "./Login";
 import {Layout} from "antd";
 import css from "./app.less";
 import ErrorMessage from "../../framework/components/ErrorMessage";
 import ProductList from "./product/ProductList";
 import Lazy from "../../framework/components/Lazy";
+import LoginForm from "./LoginForm";
 
 class App extends React.PureComponent {
     componentDidMount() {
@@ -29,7 +29,7 @@ class App extends React.PureComponent {
                         <Layout.Content className={css.layout}>
                             <Switch>
                                 <Route exact path="/" component={Welcome}/>
-                                <Route path="/login" component={Login}/>
+                                <Route path="/login" component={LoginForm}/>
                                 <Route path="/product" component={ProductList}/>
                                 <Redirect to="/404"/>
                             </Switch>
