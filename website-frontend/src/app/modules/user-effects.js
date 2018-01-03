@@ -1,4 +1,5 @@
 import {call, put} from "redux-saga/effects";
+import {push} from "react-router-redux";
 import {takeLatest} from "../../framework/effects";
 import {getCurrentUser, login, logout} from "../services/users";
 
@@ -24,6 +25,9 @@ function* watchLogin() {
             name: response.name,
             role: response.role
         });
+        if (response.success) {
+            yield put(push("/"));
+        }
     });
 }
 

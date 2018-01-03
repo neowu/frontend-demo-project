@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 import Header from "./Header";
 import Nav from "./Nav";
@@ -19,25 +19,23 @@ class App extends React.PureComponent {
     render() {
         const Welcome = () => <Lazy module={import(/* webpackChunkName: "welcome" */"./Welcome")}/>;
 
-        return <BrowserRouter>
+        return <Layout>
+            <Nav/>
             <Layout>
-                <Nav/>
+                <ErrorMessage/>
+                <Header/>
                 <Layout>
-                    <ErrorMessage/>
-                    <Header/>
-                    <Layout>
-                        <Layout.Content className={css.layout}>
-                            <Switch>
-                                <Route exact path="/" component={Welcome}/>
-                                <Route path="/login" component={LoginForm}/>
-                                <Route path="/product" component={ProductList}/>
-                                <Redirect to="/404"/>
-                            </Switch>
-                        </Layout.Content>
-                    </Layout>
+                    <Layout.Content className={css.layout}>
+                        <Switch>
+                            <Route exact path="/" component={Welcome}/>
+                            <Route path="/login" component={LoginForm}/>
+                            <Route path="/product" component={ProductList}/>
+                            <Redirect to="/404"/>
+                        </Switch>
+                    </Layout.Content>
                 </Layout>
             </Layout>
-        </BrowserRouter>;
+        </Layout>;
     }
 }
 

@@ -3,7 +3,7 @@ import {build} from "./webpack/webpack.builder";
 export default () => {
     const config = {
         lib: {
-            "react": ["react-dom", "react-redux", "react-router-dom", "redux-saga", "babel-polyfill"],
+            "react": ["react-dom", "react-redux", "react-router-dom", "redux-saga", "react-router-redux", "babel-polyfill"],
             "net": ["axios"]
         },
         pages: {

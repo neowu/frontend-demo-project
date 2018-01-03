@@ -3,7 +3,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import {Provider} from "react-redux";
+import {ConnectedRouter, routerMiddleware, routerReducer} from "react-router-redux";
 import createSagaMiddleware from "redux-saga";
+import {withRouter} from "react-router-dom";
+import createHistory from "history/createBrowserHistory";
 
 import ErrorBoundary from "./components/ErrorBoundary";
 import errorModule from "./modules/error";
@@ -35,7 +38,7 @@ export function create() {
         module("loading", loadingModule);
 
         const initialState = {};
-        const combinedReducers = {};
+        const combinedReducers = {routerReducer};
         const sagas = [];
         for (const [name, module] of Object.entries(app.modules)) {
             const {reducers, effects, state} = module;
@@ -45,13 +48,24 @@ export function create() {
         }
         const rootReducer = combineReducers(combinedReducers);
 
+        const history = createHistory();
         const sagaMiddleware = createSagaMiddleware();
-        const store = createStore(rootReducer, initialState, applyMiddleware(sagaMiddleware));
+        const store = createStore(rootReducer, initialState, applyMiddleware(routerMiddleware(history), sagaMiddleware));
         sagas.forEach(sagaMiddleware.run);
+
+        Object.values(app.modules).forEach(({subscription}) => {
+            if (subscription) {
+                subscription(history, store.dispatch);
+            }
+        });
+
+        const WithRouterComponent = withRouter(Component);
         ReactDOM.render(
             <Provider store={store}>
                 <ErrorBoundary>
-                    <Component/>
+                    <ConnectedRouter history={history}>
+                        <WithRouterComponent/>
+                    </ConnectedRouter>
                 </ErrorBoundary>
             </Provider>,
             document.getElementById(container)

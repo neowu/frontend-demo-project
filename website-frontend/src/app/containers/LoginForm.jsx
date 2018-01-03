@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
 import {Alert, Button, Form, Input} from "antd";
 import css from "./loginForm.less";
 
@@ -20,10 +19,6 @@ class LoginForm extends React.Component {
     };
 
     render() {
-        if (this.props.loginSuccess) {
-            return <Redirect to={"/"}/>;
-        }
-
         const {getFieldDecorator} = this.props.form;
 
         return <div>

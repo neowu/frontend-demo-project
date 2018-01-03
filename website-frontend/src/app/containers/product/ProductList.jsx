@@ -3,20 +3,14 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Spin} from "antd";
 
-class ProductList extends React.PureComponent {
-    componentDidMount() {
-        this.props.dispatch({type: "PRODUCT/LIST"});
+const ProductList = ({loading}) => {
+    if (loading) {
+        return <Spin/>;
     }
-
-    render() {
-        if (this.props.loading) {
-            return <Spin/>;
-        }
-        return <div>
-            <h1>product list</h1>
-        </div>;
-    }
-}
+    return <div>
+        <h1>product list</h1>
+    </div>;
+};
 
 ProductList.propTypes = {
     dispatch: PropTypes.func,
