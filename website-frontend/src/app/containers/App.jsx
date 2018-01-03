@@ -10,6 +10,7 @@ import ErrorMessage from "../../framework/components/ErrorMessage";
 import ProductList from "./product/ProductList";
 import Lazy from "../../framework/components/Lazy";
 import LoginForm from "./LoginForm";
+import withLoading from "../../framework/components/loading";
 
 class App extends React.PureComponent {
     componentDidMount() {
@@ -29,7 +30,7 @@ class App extends React.PureComponent {
                         <Switch>
                             <Route exact path="/" component={Welcome}/>
                             <Route path="/login" component={LoginForm}/>
-                            <Route path="/product" component={ProductList}/>
+                            <Route path="/product" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
                             <Redirect to="/404"/>
                         </Switch>
                     </Layout.Content>
