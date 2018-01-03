@@ -45,7 +45,7 @@
     "webpack": "3.10.0",
     "webpack-dev-server": "2.9.7",
     "webpack-parallel-uglify-plugin": "^1.0.2",
-    "webpack-spritesmith": "0.3.6",
+    "webpack-spritesmith": "0.4.0",
     "yargs": "10.0.3"
   },
   "dependencies": {
