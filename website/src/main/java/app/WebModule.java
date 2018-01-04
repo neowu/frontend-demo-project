@@ -30,5 +30,6 @@ public class WebModule extends Module {
 
         ProductAJAXController productAJAXController = bind(ProductAJAXController.class);
         route().get("/ajax/product", productAJAXController::listProducts);
+        route().get("/ajax/product/create-config", productAJAXController::createConfig);
     }
 }

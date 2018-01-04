@@ -23,7 +23,8 @@ const Nav = ({role}) => {
                 <Menu.Item key="3">Game2</Menu.Item>
             </Menu.SubMenu>
             <Menu.SubMenu key="sub3" title={<span><Icon type="appstore"/>Product</span>}>
-                <Menu.Item key="4"><Link to="/product">List Products</Link></Menu.Item>
+                <Menu.Item key="4"><Link to="/product/list">List Products</Link></Menu.Item>
+                <Menu.Item key="5"><Link to="/product/add">Add Product</Link></Menu.Item>
             </Menu.SubMenu>
         </Menu>
     </Layout.Sider>;

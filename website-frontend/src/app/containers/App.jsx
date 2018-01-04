@@ -11,6 +11,7 @@ import ProductList from "./product/ProductList";
 import Lazy from "../../framework/components/Lazy";
 import LoginForm from "./LoginForm";
 import withLoading from "../../framework/components/loading";
+import AddProduct from "./product/AddProduct";
 
 class App extends React.PureComponent {
     componentDidMount() {
@@ -30,7 +31,8 @@ class App extends React.PureComponent {
                         <Switch>
                             <Route exact path="/" component={Welcome}/>
                             <Route path="/login" component={LoginForm}/>
-                            <Route path="/product" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
+                            <Route path="/product/list" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
+                            <Route path="/product/add" component={withLoading("PRODUCT/LOAD_CREATE_CONFIG", <AddProduct/>)}/>
                             <Redirect to="/404"/>
                         </Switch>
                     </Layout.Content>

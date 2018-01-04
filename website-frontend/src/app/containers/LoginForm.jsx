@@ -21,28 +21,28 @@ class LoginForm extends React.Component {
     render() {
         const {getFieldDecorator} = this.props.form;
 
+        const usernameDecorator = getFieldDecorator("username", {
+            rules: [{
+                required: true,
+                message: "Please input your username!"
+            }]
+        });
+
+        const passwordDecorator = getFieldDecorator("password", {
+            rules: [{
+                required: true,
+                message: "Please input your Password!"
+            }]
+        });
+
         return <div>
             {this.props.loginError ? <Alert message="Login Failed" description={this.props.loginError} type="error" closable/> : null}
             <Form onSubmit={this.onSubmit} className={css["login-form"]}>
                 <Form.Item>
-                    {getFieldDecorator("username", {
-                        rules: [{
-                            required: true,
-                            message: "Please input your username!"
-                        }]
-                    })(
-                        <Input placeholder="Username"/>
-                    )}
+                    {usernameDecorator(<Input placeholder="Username"/>)}
                 </Form.Item>
                 <Form.Item>
-                    {getFieldDecorator("password", {
-                        rules: [{
-                            required: true,
-                            message: "Please input your Password!"
-                        }]
-                    })(
-                        <Input type="password" placeholder="Password"/>
-                    )}
+                    {passwordDecorator(<Input type="password" placeholder="Password"/>)}
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className={css["login-form-button"]}>Log in</Button>
