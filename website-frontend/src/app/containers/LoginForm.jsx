@@ -4,62 +4,58 @@ import {connect} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
 import css from "./loginForm.less";
 
-class LoginForm extends React.Component {
-    onSubmit = (event) => {
+const LoginForm = ({dispatch, form, loginErrorMessage}) => {
+    const onSubmit = (event) => {
         event.preventDefault();
-        this.props.form.validateFields((errors, values) => {
+        form.validateFields((errors, values) => {
             if (!errors) {
-                this.props.dispatch({
+                dispatch({
                     type: "LOGIN",
-                    username: values.username,
-                    password: values.password
+                    request: {
+                        username: values.username,
+                        password: values.password
+                    }
                 });
             }
         });
     };
 
-    render() {
-        const {getFieldDecorator} = this.props.form;
+    const usernameDecorator = form.getFieldDecorator("username", {
+        rules: [{
+            required: true,
+            message: "Please input your username!"
+        }]
+    });
 
-        const usernameDecorator = getFieldDecorator("username", {
-            rules: [{
-                required: true,
-                message: "Please input your username!"
-            }]
-        });
+    const passwordDecorator = form.getFieldDecorator("password", {
+        rules: [{
+            required: true,
+            message: "Please input your Password!"
+        }]
+    });
 
-        const passwordDecorator = getFieldDecorator("password", {
-            rules: [{
-                required: true,
-                message: "Please input your Password!"
-            }]
-        });
-
-        return <div>
-            {this.props.loginError ? <Alert message="Login Failed" description={this.props.loginError} type="error" closable/> : null}
-            <Form onSubmit={this.onSubmit} className={css["login-form"]}>
-                <Form.Item>
-                    {usernameDecorator(<Input placeholder="Username"/>)}
-                </Form.Item>
-                <Form.Item>
-                    {passwordDecorator(<Input type="password" placeholder="Password"/>)}
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" className={css["login-form-button"]}>Log in</Button>
-                </Form.Item>
-            </Form>
-        </div>;
-    }
-}
+    return <div>
+        {loginErrorMessage ? <Alert message="Login Failed" description={loginErrorMessage} type="error" closable/> : null}
+        <Form onSubmit={onSubmit} className={css["login-form"]}>
+            <Form.Item>
+                {usernameDecorator(<Input placeholder="Username"/>)}
+            </Form.Item>
+            <Form.Item>
+                {passwordDecorator(<Input type="password" placeholder="Password"/>)}
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit" className={css["login-form-button"]}>Log in</Button>
+            </Form.Item>
+        </Form>
+    </div>;
+};
 
 LoginForm.propTypes = {
     dispatch: PropTypes.func,
-    loginSuccess: PropTypes.bool,
-    loginError: PropTypes.string,
-    form: PropTypes.object
+    form: PropTypes.object,
+    loginErrorMessage: PropTypes.string
 };
 
 export default connect(state => ({
-    loginSuccess: state.user.login.success,
-    loginError: state.user.login.error
+    loginErrorMessage: state.user.login.errorMessage
 }))(Form.create()(LoginForm));

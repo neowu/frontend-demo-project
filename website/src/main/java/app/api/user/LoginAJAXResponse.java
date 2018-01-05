@@ -12,6 +12,6 @@ public class LoginAJAXResponse {
     @Property(name = "role")
     public String role;
 
-    @Property(name = "error")
-    public String error;
+    @Property(name = "errorMessage")
+    public String errorMessage;
 }

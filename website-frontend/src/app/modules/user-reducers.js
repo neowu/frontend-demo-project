@@ -2,9 +2,9 @@ function getCurrentUserReducer(state, action) {
     return {
         ...state,
         currentUser: {
-            loggedIn: action.loggedIn,
-            role: action.role,
-            name: action.name
+            loggedIn: action.response.loggedIn,
+            role: action.response.role,
+            name: action.response.name
         }
     };
 }
@@ -14,13 +14,13 @@ const reducers = {
     "LOGIN_RESULT": (state, action) => ({
         ...state,
         login: {
-            success: action.success,
-            error: action.error
+            success: action.response.success,
+            errorMessage: action.response.errorMessage
         },
         currentUser: {
-            loggedIn: action.success,
-            role: action.role,
-            name: action.name
+            loggedIn: action.response.success,
+            role: action.response.role,
+            name: action.response.name
         }
     })
 };

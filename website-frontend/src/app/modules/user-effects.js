@@ -8,22 +8,17 @@ function* watchCheckCurrentUser() {
         const response = yield call(getCurrentUser);
         yield put({
             type: "GET_CURRENT_USER_SUCCESS",
-            loggedIn: response.loggedIn,
-            role: response.role,
-            name: response.name
+            response
         });
     });
 }
 
 function* watchLogin() {
     yield takeLatest("LOGIN", function* (action) {
-        const response = yield call(login, action.username, action.password);
+        const response = yield call(login, action.request);
         yield put({
             type: "LOGIN_RESULT",
-            success: response.success,
-            error: response.error,
-            name: response.name,
-            role: response.role
+            response
         });
         if (response.success) {
             yield put(push("/"));

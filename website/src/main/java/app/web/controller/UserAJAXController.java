@@ -48,7 +48,7 @@ public class UserAJAXController {
             response.role = "admin";
         } else {
             response.success = false;
-            response.error = "login failed";
+            response.errorMessage = "login failed";
         }
         return Response.bean(response);
     }
