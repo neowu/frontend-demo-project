@@ -13,7 +13,7 @@ function* watchLoadCreateProductConfig() {
         const response = yield call(loadCreateProductConfig);
         yield put({
             type: "PRODUCT/CREATE_CONFIG",
-            types: response.types
+            response
         });
     });
 }

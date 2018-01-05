@@ -2,7 +2,7 @@ function loadCreateConfig(state, action) {
     return {
         ...state,
         createProductUI: {
-            types: action.types
+            types: action.response.types
         }
     };
 }

@@ -37,7 +37,7 @@
     "jest": "22.0.4",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
-    "postcss-loader": "2.0.9",
+    "postcss-loader": "2.0.10",
     "style-loader": "0.19.1",
     "stylelint": "8.4.0",
     "stylelint-webpack-plugin": "0.9.0",

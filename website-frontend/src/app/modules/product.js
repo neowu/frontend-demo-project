@@ -12,13 +12,15 @@ const module = {
     reducers: reducers,
     effects: effects,
     subscription: (history, dispatch) => {
-        history.listen(({pathname}) => {
+        const listener = ({pathname}) => {
             if (pathname === "/product/list") {
                 dispatch({type: "PRODUCT/LIST"});
             } else if (pathname === "/product/add") {
                 dispatch({type: "PRODUCT/LOAD_CREATE_CONFIG"});
             }
-        });
+        };
+        history.listen(listener);
+        listener(history.location);
     }
 };
 

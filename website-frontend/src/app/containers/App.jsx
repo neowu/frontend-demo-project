@@ -30,9 +30,9 @@ class App extends React.PureComponent {
                     <Layout.Content className={css.layout}>
                         <Switch>
                             <Route exact path="/" component={Welcome}/>
-                            <Route path="/login" component={LoginForm}/>
-                            <Route path="/product/list" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
-                            <Route path="/product/add" component={withLoading("PRODUCT/LOAD_CREATE_CONFIG", <AddProduct/>)}/>
+                            <Route exact path="/login" component={LoginForm}/>
+                            <Route exact path="/product/list" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
+                            <Route exact path="/product/add" component={withLoading("PRODUCT/LOAD_CREATE_CONFIG", <AddProduct/>)}/>
                             <Redirect to="/404"/>
                         </Switch>
                     </Layout.Content>
