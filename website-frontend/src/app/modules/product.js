@@ -11,16 +11,12 @@ const module = {
     state: state,
     reducers: reducers,
     effects: effects,
-    subscription: (history, dispatch) => {
-        const listener = ({pathname}) => {
-            if (pathname === "/product/list") {
-                dispatch({type: "PRODUCT/LIST"});
-            } else if (pathname === "/product/add") {
-                dispatch({type: "PRODUCT/LOAD_CREATE_CONFIG"});
-            }
-        };
-        history.listen(listener);
-        listener(history.location);
+    listener: dispatch => ({pathname}) => {
+        if (pathname === "/product/list") {
+            dispatch({type: "PRODUCT/LIST"});
+        } else if (pathname === "/product/add") {
+            dispatch({type: "PRODUCT/LOAD_CREATE_CONFIG"});
+        }
     }
 };
 

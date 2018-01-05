@@ -53,10 +53,13 @@ export function create() {
         const store = createStore(rootReducer, initialState, applyMiddleware(routerMiddleware(history), sagaMiddleware));
         sagas.forEach(sagaMiddleware.run);
 
-        Object.values(app.modules).forEach(({subscription}) => {
-            if (subscription) {
-                subscription(history, store.dispatch);
+        Object.values(app.modules).forEach(({initialize, listener}) => {
+            if (listener) {
+                const listenerInstance = listener(store.dispatch);
+                history.listen(listenerInstance);
+                listenerInstance(history.location);         // trigger history with current location on first load
             }
+            if (initialize) initialize(store.dispatch);
         });
 
         const WithRouterComponent = withRouter(Component);

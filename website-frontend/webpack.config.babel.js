@@ -9,12 +9,12 @@ export default () => {
         },
         pages: {
             "index": {
-                js: "app/pages/index.jsx",
-                template: "app/pages/index.html"
+                js: "app/index.jsx",
+                template: "app/index.html"
             },
             "error": {
-                js: "app/pages/error.jsx",
-                template: "app/pages/error.html"
+                js: "app/error.jsx",
+                template: "app/error.html"
             }
         },
         sys: "sys.json"

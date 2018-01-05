@@ -16,7 +16,10 @@ const state = {
 const module = {
     state: state,
     reducers: reducers,
-    effects: effects
+    effects: effects,
+    initialize: (dispatch) => {
+        dispatch({type: "CHECK_CURRENT_USER"});
+    }
 };
 
 export default module;
