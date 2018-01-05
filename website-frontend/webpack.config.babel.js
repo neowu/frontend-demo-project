@@ -4,7 +4,7 @@ export default () => {
     const config = {
         lib: {
             "react": ["react-dom", "react-redux", "react-router-dom", "redux-saga", "react-router-redux"],
-            "polyfill": ["babel-polyfill"],
+            "polyfill": ["@babel/polyfill"],
             "net": ["axios"]
         },
         pages: {

@@ -1,4 +1,4 @@
-import "babel-polyfill";
+import "@babel/polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 import {applyMiddleware, combineReducers, createStore} from "redux";
@@ -12,7 +12,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import errorModule from "./modules/error";
 import loadingModule from "./modules/loading";
 
-export function create() {
+export function createApp() {
     const app = {
         modules: {},
         module,

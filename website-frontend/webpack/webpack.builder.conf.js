@@ -25,12 +25,12 @@ export const webpackConfig = {
                 loader: "babel-loader",
                 include: resolve("src"),
                 options: {
-                    presets: [["env", {
+                    presets: [["@babel/env", {
                         targets: {
                             browsers: ["ie >= 9"]
                         },
                         modules: false
-                    }], "react", "stage-2"],
+                    }], "@babel/react", "@babel/stage-2"],
                     plugins: [["import", {
                         libraryName: "antd",
                         libraryDirectory: "es",

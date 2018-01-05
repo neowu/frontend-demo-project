@@ -7,7 +7,7 @@ const AddProduct = ({ui, form, dispatch}) => {
     const onSubmit = (event) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
-            console.info(values);
+            // console.info(values);
         });
     };
 
