@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
 import css from "./loginForm.less";
 
-const LoginForm = ({dispatch, form, loginErrorMessage}) => {
+const LoginForm = ({dispatch, form, errorMessage}) => {
     const onSubmit = (event) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
@@ -35,7 +35,7 @@ const LoginForm = ({dispatch, form, loginErrorMessage}) => {
     });
 
     return <div>
-        {loginErrorMessage ? <Alert message="Login Failed" description={loginErrorMessage} type="error" closable/> : null}
+        {errorMessage ? <Alert message="Login Failed" description={errorMessage} type="error" closable/> : null}
         <Form onSubmit={onSubmit} className={css["login-form"]}>
             <Form.Item>
                 {usernameDecorator(<Input placeholder="Username"/>)}
@@ -53,9 +53,9 @@ const LoginForm = ({dispatch, form, loginErrorMessage}) => {
 LoginForm.propTypes = {
     dispatch: PropTypes.func,
     form: PropTypes.object,
-    loginErrorMessage: PropTypes.string
+    errorMessage: PropTypes.string
 };
 
 export default connect(state => ({
-    loginErrorMessage: state.user.login.errorMessage
+    errorMessage: state.user.login.errorMessage
 }))(Form.create()(LoginForm));

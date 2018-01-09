@@ -10,11 +10,11 @@ export function getCurrentUser() {
 }
 
 export function login(request) {
-    const ajaxRquest = {
+    const ajaxRequest = {
         username: request.username,
         password: request.password
     };
-    return api.put("/ajax/login", ajaxRquest)
+    return api.put("/ajax/login", ajaxRequest)
         .then(response => ({
             success: response.success,
             errorMessage: response.errorMessage,
