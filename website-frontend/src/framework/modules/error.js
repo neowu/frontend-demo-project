@@ -1,5 +1,5 @@
 const reducers = {
-    "ERROR": (state, action) => ({
+    "@@framework/ERROR": (state, action) => ({
         message: action.message,
         detail: action.detail
     })

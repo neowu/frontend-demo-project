@@ -1,13 +1,14 @@
 import "@babel/polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import {Provider} from "react-redux";
 import {ConnectedRouter, routerMiddleware, routerReducer} from "react-router-redux";
 import createSagaMiddleware from "redux-saga";
 import {withRouter} from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
 
+import {production} from "./env";
 import ErrorBoundary from "./components/ErrorBoundary";
 import errorModule from "./modules/error";
 import loadingModule from "./modules/loading";
@@ -50,7 +51,13 @@ export function createApp() {
 
         const history = createHistory();
         const sagaMiddleware = createSagaMiddleware();
-        const store = createStore(rootReducer, initialState, applyMiddleware(routerMiddleware(history), sagaMiddleware));
+
+        let composeEnhancer = compose;
+        if (!production) {
+            composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;     // eslint-disable-line no-underscore-dangle
+        }
+
+        const store = createStore(rootReducer, initialState, composeEnhancer(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
         sagas.forEach(sagaMiddleware.run);
 
         Object.values(app.modules).forEach(({initialize, listener}) => {

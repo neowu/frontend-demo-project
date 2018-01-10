@@ -1,9 +1,9 @@
 const reducers = {
-    "LOADING/SHOW": (state, action) => ({
+    "@@framework/LOADING_SHOW": (state, action) => ({
         ...state,
         [action.actionType]: true
     }),
-    "LOADING/HIDE": (state, action) => ({
+    "@@framework/LOADING_HIDE": (state, action) => ({
         ...state,
         [action.actionType]: false
     })

@@ -5,7 +5,7 @@ import {Alert} from "antd";
 
 const ErrorMessage = ({dispatch, message, detail}) => {
     const onClose = () => dispatch({
-        type: "ERROR",
+        type: "@@framework/ERROR",
         message: null,
         detail: null
     });

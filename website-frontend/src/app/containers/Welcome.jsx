@@ -7,7 +7,7 @@ const Welcome = ({dispatch}) => <div>
     <h1>Welcome</h1>
     <Button onClick={() => {
         dispatch({
-            type: "ERROR",
+            type: "@@framework/ERROR",
             message: "test",
             detail: "trace"
         });
