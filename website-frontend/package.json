@@ -37,7 +37,7 @@
     "file-loader": "1.1.6",
     "glob": "7.1.2",
     "html-webpack-plugin": "2.30.1",
-    "jest": "22.0.4",
+    "jest": "22.0.5",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "postcss-loader": "2.0.10",
@@ -46,10 +46,10 @@
     "stylelint-webpack-plugin": "0.9.0",
     "url-loader": "0.6.2",
     "webpack": "3.10.0",
-    "webpack-dev-server": "2.10.0",
+    "webpack-dev-server": "2.10.1",
     "webpack-parallel-uglify-plugin": "^1.0.2",
     "webpack-spritesmith": "0.4.0",
-    "yargs": "10.0.3"
+    "yargs": "10.1.1"
   },
   "dependencies": {
     "@babel/polyfill": "7.0.0-beta.37",

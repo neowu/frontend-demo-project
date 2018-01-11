@@ -6,6 +6,7 @@ import app.web.controller.ProductAJAXController;
 import app.web.controller.UserAJAXController;
 import app.web.interceptor.LoginInterceptor;
 import core.framework.module.Module;
+import core.framework.web.exception.NotFoundException;
 
 /**
  * @author neo
@@ -22,6 +23,9 @@ public class WebModule extends Module {
 
         route().get("/", homeController::home);
         route().get("/:path(*)", homeController::home);
+        route().get("/ajax/:path(*)", request -> {
+            throw new NotFoundException("not found");
+        });
 
         UserAJAXController userAJAXController = bind(UserAJAXController.class);
         route().get("/ajax/currentUser", userAJAXController::currentUser);
