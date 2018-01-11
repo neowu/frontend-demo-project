@@ -21,7 +21,16 @@ export default {
     get: url => axios.get(url)
         .then(response => response.data),
 
+    post: (url, body) => axios.post(url, body)
+        .then(response => response.data),
+
+    delete: url => axios.delete(url)
+        .then(response => response.data),
+
     put: (url, body) => axios.put(url, body)
+        .then(response => response.data),
+
+    patch: (url, body) => axios.patch(url, body)
         .then(response => response.data)
 };
 
