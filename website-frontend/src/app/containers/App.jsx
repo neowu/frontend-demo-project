@@ -1,5 +1,5 @@
 import React from "react";
-import {Redirect, Route, Switch} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 import Header from "./Header";
 import Nav from "./Nav";
@@ -11,6 +11,7 @@ import Lazy from "../../framework/components/Lazy";
 import LoginForm from "./LoginForm";
 import withLoading from "../../framework/components/loading";
 import AddProduct from "./product/AddProduct";
+import NotFound from "./NotFound";
 
 const App = () => {
     const Welcome = () => <Lazy module={import(/* webpackChunkName: "welcome" */"./Welcome")}/>;
@@ -27,7 +28,7 @@ const App = () => {
                         <Route exact path="/login" component={LoginForm}/>
                         <Route exact path="/product/list" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
                         <Route exact path="/product/add" component={withLoading("PRODUCT/LOAD_CREATE_CONFIG", <AddProduct/>)}/>
-                        <Redirect to="/404"/>
+                        <Route component={NotFound}/>
                     </Switch>
                 </Layout.Content>
             </Layout>
