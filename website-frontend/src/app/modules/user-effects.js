@@ -1,6 +1,6 @@
 import {call, put} from "redux-saga/effects";
 import {push} from "react-router-redux";
-import {takeLatest} from "../../framework/effects";
+import {takeLatest} from "../../framework/effect";
 import {getCurrentUser, login, logout} from "../services/users";
 
 function* watchCheckCurrentUser() {

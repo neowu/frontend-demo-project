@@ -6481,8 +6481,8 @@ rc-calendar@~9.4.0:
     rc-util "^4.1.1"
 
 rc-cascader@~0.12.0:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/rc-cascader/-/rc-cascader-0.12.1.tgz#0148514a8dd747c2335527c172ea0cf44180f940"
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/rc-cascader/-/rc-cascader-0.12.2.tgz#2d08fe44b504364137d3c748f51ac393483e7b3b"
   dependencies:
     array-tree-filter "^1.0.0"
     prop-types "^15.5.8"

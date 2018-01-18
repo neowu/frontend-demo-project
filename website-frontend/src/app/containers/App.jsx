@@ -5,11 +5,10 @@ import Header from "./Header";
 import Nav from "./Nav";
 import {Layout} from "antd";
 import css from "./app.less";
-import ErrorMessage from "../../framework/components/ErrorMessage";
 import ProductList from "./product/ProductList";
-import Lazy from "../../framework/components/Lazy";
+import Lazy from "../../framework/component/Lazy";
 import LoginForm from "./LoginForm";
-import withLoading from "../../framework/components/loading";
+import withLoading from "../../framework/component/loading";
 import AddProduct from "./product/AddProduct";
 import NotFound from "./NotFound";
 
@@ -19,7 +18,6 @@ const App = () => {
     return <Layout>
         <Nav/>
         <Layout>
-            <ErrorMessage/>
             <Header/>
             <Layout>
                 <Layout.Content className={css.layout}>

@@ -1,20 +1,29 @@
 import axios from "axios";
 
-function wrapError(error) {
+export function APIException(message, responseStatus, errorCode) {
+    this.message = message;
+    this.stack = Error().stack;
+    this.responseStatus = responseStatus;
+    this.errorCode = errorCode;
+    return this;
+}
+
+function handleError(error) {
     let message = "failed to call API";
-    let detail = null;
+    let responseStatus = null;
+    let errorCode = null;
     if (error.response) {
-        message += ", status=" + error.response.status;
-        detail = error.response.data;
+        responseStatus = error.response.status;
+        if (error.response.data) {
+            if (error.response.data.message) message = error.response.data.message;
+            if (error.response.data.errorCode) errorCode = error.response.data.errorCode;
+        }
     }
-    return {
-        message,
-        detail
-    };
+    throw new APIException(message, responseStatus, errorCode);
 }
 
 axios.interceptors.response.use(response => response, (error) => {
-    throw wrapError(error);
+    handleError(error);
 });
 
 const api = {};

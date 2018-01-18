@@ -9,9 +9,9 @@ import {withRouter} from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
 
 import {production} from "./env";
-import ErrorBoundary from "./components/ErrorBoundary";
-import errorModule from "./modules/error";
-import loadingModule from "./modules/loading";
+import ErrorBoundary from "./component/ErrorBoundary";
+import {reducer} from "./component/loading";
+import {errorAction} from "./action";
 
 export function createApp() {
     const app = {
@@ -35,11 +35,11 @@ export function createApp() {
     }
 
     function start(Component, container) {
-        module("error", errorModule);
-        module("loading", loadingModule);
-
         const initialState = {};
-        const combinedReducers = {routerReducer};
+        const combinedReducers = {
+            routerReducer,
+            loading: reducer
+        };
         const sagas = [];
         for (const [name, module] of Object.entries(app.modules)) {
             const {reducers, effects, state} = module;
@@ -68,6 +68,10 @@ export function createApp() {
             }
             if (initialize) initialize(store.dispatch);
         });
+
+        window.onerror = function (message, source, line, column, error) {
+            store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases
+        };
 
         const WithRouterComponent = withRouter(Component);
         ReactDOM.render(

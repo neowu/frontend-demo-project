@@ -17,7 +17,7 @@ export const webpackConfig = {
         extensions: [".js", ".jsx"],
         modules: [resolve("node_modules")]
     },
-    devtool: production ? "nosources-source-map" : "cheap-module-eval-source-map",
+    devtool: production ? "nosources-source-map" : "cheap-module-source-map",
     module: {
         rules: [
             {
