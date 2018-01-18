@@ -1,8 +1,8 @@
 import {createApp} from "../framework/application";
-import App from "./containers/App";
-import userModule from "./modules/user";
-import productModule from "./modules/product";
-import errorModule from "./modules/error";
+import App from "./container/App";
+import userModule from "./module/user";
+import productModule from "./module/product";
+import errorModule from "./module/error";
 
 const app = createApp();
 app.module("error", errorModule);

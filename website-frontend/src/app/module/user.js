@@ -1,5 +1,5 @@
-import reducers from "./user-reducers";
-import effects from "./user-effects";
+import reducers from "./user-reducer";
+import effects from "./user-effect";
 
 const state = {
     currentUser: {

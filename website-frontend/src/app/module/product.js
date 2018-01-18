@@ -1,5 +1,5 @@
-import reducers from "./product-reducers";
-import effects from "./product-effects";
+import reducers from "./product-reducer";
+import effects from "./product-effect";
 
 const state = {
     createProductUI: {
