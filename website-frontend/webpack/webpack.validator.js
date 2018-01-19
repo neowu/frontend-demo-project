@@ -35,9 +35,8 @@ function validatePages(config) {
 }
 
 function validateSprite(config) {
-    if (config.sprite === undefined) {
-        return;
-    }
+    if (!config.sprite) return;
+
     Object.entries(config.sprite).forEach(([name, sprite]) => {
         const dirExists = assertDirExists(`src/${sprite}`, `config.sprite["${name}"]`);
         if (dirExists) {
@@ -51,15 +50,14 @@ function validateSprite(config) {
 }
 
 function validateSys(config) {
-    if (config.sys === undefined) return;
+    if (!config.sys) return;
 
     assertFileExists(`conf/${env}/${config.sys}`, "config.sys");
 }
 
 function validateLint(config) {
-    if (config.lint === undefined || config.lint.exclude === undefined) {
-        return;
-    }
+    if (!config.lint || !config.lint.exclude) return;
+
     assertDirExists(`src/${config.lint.exclude}`, "config.lint.exclude");
 }
 

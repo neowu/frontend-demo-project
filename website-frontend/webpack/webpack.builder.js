@@ -50,7 +50,7 @@ const productionPlugins = [
 ];
 
 function configureSystem(config) {
-    if (config.sys === undefined) return;
+    if (!config.sys) return;
 
     const sys = readJSON(`conf/${env}/${config.sys}`);
     if (sys.publicPath) {

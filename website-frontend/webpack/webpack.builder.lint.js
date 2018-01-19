@@ -22,11 +22,11 @@ function configureESLint(config) {
         };
     }
 
-    if (config.provide !== undefined) {
+    if (config.provide) {
         eslintRule.options.globals = Object.keys(config.provide);
     }
 
-    if (config.lint !== undefined && config.lint.exclude !== undefined) {
+    if (config.lint && config.lint.exclude) {
         eslintRule.exclude = resolve(`src/${config.lint.exclude}`);
     }
 
@@ -41,7 +41,7 @@ function configureStylelint(config) {
         syntax: "less"
     };
 
-    if (config.lint !== undefined && config.lint.exclude !== undefined) {
+    if (config.lint && config.lint.exclude) {
         options.files = `!(${config.lint.exclude})/**/*.less`;
     }
 

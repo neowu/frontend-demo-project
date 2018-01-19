@@ -4,7 +4,7 @@ import {resolve} from "./webpack.util";
 import {webpackConfig} from "./webpack.builder.conf";
 
 export function configureSprite(config) {
-    if (config.sprite === undefined) return;
+    if (!config.sprite) return;
 
     Object.entries(config.sprite).forEach(([name, sprite]) => {
         const targetPNG = resolve(`build/sprite/${name}.png`);
