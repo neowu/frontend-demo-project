@@ -1,0 +1,87 @@
+{
+  "name": "website-frontend",
+  "version": "1.0.0",
+  "description": "website frontend",
+  "scripts": {
+    "build": "node node/build.js"
+  },
+  "author": "neo",
+  "license": "Apache-2.0",
+  "config": {
+    "lib": {
+      "react": [
+        "react-dom",
+        "react-redux",
+        "redux",
+        "react-router-dom",
+        "redux-saga",
+        "react-router-redux"
+      ],
+      "polyfill": [
+        "@babel/polyfill"
+      ],
+      "net": [
+        "axios"
+      ]
+    },
+    "pages": {
+      "index": {
+        "js": "app/index.jsx",
+        "template": "app/index.html"
+      },
+      "error": {
+        "js": "app/error.jsx",
+        "template": "app/error.html"
+      }
+    },
+    "sys": "sys.json"
+  },
+  "devDependencies": {
+    "@babel/core": "7.0.0-beta.39",
+    "@babel/preset-env": "7.0.0-beta.39",
+    "@babel/preset-react": "7.0.0-beta.39",
+    "@babel/preset-stage-2": "7.0.0-beta.39",
+    "@babel/register": "7.0.0-beta.39",
+    "autodll-webpack-plugin": "^0.3.8",
+    "autoprefixer": "8.0.0",
+    "babel-eslint": "8.2.1",
+    "babel-loader": "8.0.0-beta.0",
+    "babel-plugin-import": "1.6.3",
+    "css-loader": "0.28.9",
+    "eslint": "4.17.0",
+    "eslint-loader": "1.9.0",
+    "eslint-plugin-babel": "4.1.2",
+    "eslint-plugin-react": "7.6.1",
+    "extract-text-webpack-plugin": "3.0.2",
+    "file-loader": "1.1.6",
+    "fs-extra": "^5.0.0",
+    "glob": "7.1.2",
+    "html-webpack-plugin": "2.30.1",
+    "jest": "22.2.2",
+    "less": "^3.0.0",
+    "less-loader": "^4.0.5",
+    "postcss-loader": "2.1.0",
+    "style-loader": "0.20.1",
+    "stylelint": "8.4.0",
+    "stylelint-webpack-plugin": "0.10.1",
+    "url-loader": "0.6.2",
+    "webpack": "3.11.0",
+    "webpack-dev-server": "2.11.1",
+    "webpack-parallel-uglify-plugin": "^1.0.2",
+    "webpack-spritesmith": "0.4.0",
+    "yargs": "11.0.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "7.0.0-beta.39",
+    "antd": "^3.2.0",
+    "axios": "0.17.1",
+    "prop-types": "15.6.0",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-redux": "5.0.6",
+    "react-router-dom": "4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "3.7.2",
+    "redux-saga": "^0.16.0"
+  }
+}
