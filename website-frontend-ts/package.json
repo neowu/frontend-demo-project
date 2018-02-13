@@ -34,8 +34,7 @@
         "js": "app/error.jsx",
         "template": "app/error.html"
       }
-    },
-    "sys": "sys.json"
+    }
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.38",

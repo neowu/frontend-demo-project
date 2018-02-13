@@ -39,8 +39,8 @@ function configureDLL(config) {
 
 function configurePages(config) {
     Object.entries(env.packageJSON.config.pages).forEach(([name, page]) => {
-        webpackConfig.entry[name] = `${env.src}/${page.js}`;
-        webpackConfig.plugins.push(new HTMLPlugin({
+        config.entry[name] = `${env.src}/${page.js}`;
+        config.plugins.push(new HTMLPlugin({
             filename: `${name}.html`,
             template: `${env.src}/${page.template}`,
             chunks: ["manifest", "vendor", name],
@@ -66,14 +66,16 @@ function configurePages(config) {
     });
 }
 
+configureDLL(webpackConfig);
+configurePages(webpackConfig);
+webpackConfig.output.publicPath = env.webpackJSON.publicPath;
+
 console.info("cleanup build/dist");
 fs.emptyDirSync(env.dist);
 console.info("copy static folder to dist");
 fs.copySync(env.static, env.dist, {
     dereference: true
 });
-configureDLL(webpackConfig);
-configurePages(webpackConfig);
 const compiler = webpack(webpackConfig);
 compiler.run((error, stats) => {
     if (error) {
