@@ -39,16 +39,22 @@ function configurePages(config) {
     });
 }
 
-console.info("copy static folder to dist");
-fs.copySync(env.static, env.dist, {
-    dereference: true
-});
 configureDLL(webpackConfig);
 configurePages(webpackConfig);
+
+const rewrites = [];
+Object.keys(env.packageJSON.config.pages).forEach((name) => {
+    rewrites.push({
+        from: new RegExp(`/${name}`),
+        to: `/${name}.html`
+    });
+});
+
 const compiler = webpack(webpackConfig);
 const devServer = new DevServer(compiler, {
+    contentBase: env.static,
     https: true,
-    historyApiFallback: {rewrites: []},
+    historyApiFallback: {rewrites: rewrites},
     hot: true,
     inline: true,
     compress: true,
@@ -69,7 +75,7 @@ devServer.listen(7443, "localhost", (err) => {
     if (err) {
         return console.log(err);
     }
-    console.log("Starting the development server...\n");
+    console.log("starting the development server...\n");
     return null;
 });
 

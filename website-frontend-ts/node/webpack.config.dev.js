@@ -1,9 +1,7 @@
 /* eslint-env node */
 const webpack = require("webpack");
 const env = require("./env");
-const autoprefixer = require("autoprefixer");
 const StylelintPlugin = require("stylelint-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: {},
@@ -58,44 +56,17 @@ module.exports = {
             {
                 test: /\.(css|less)$/,
                 include: env.src,
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader",
-                        options: {
-                            modules: true,
-                            importLoaders: 2
-                        }
-                    }, {
-                        loader: "postcss-loader",
-                        options: {
-                            plugins: () => [autoprefixer]
-                        }
-                    }, {
-                        loader: "less-loader"
-                    }],
-                    fallback: "style-loader"    // use style-loader in development
-                })
+                use: ["style-loader", {
+                    loader: "css-loader",
+                    options: {
+                        modules: true
+                    }
+                }, "less-loader"]
             },
             {
                 test: /\.(css|less)$/,
                 include: env.nodeModules,
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader",
-                        options: {
-                            modules: false,
-                            importLoaders: 2
-                        }
-                    }, {
-                        loader: "postcss-loader",
-                        options: {
-                            plugins: () => [autoprefixer]
-                        }
-                    }, {
-                        loader: "less-loader"
-                    }],
-                    fallback: "style-loader"    // use style-loader in development
-                })
+                use: ["style-loader", "css-loader", "less-loader"]
             },
             {
                 test: /\.(png|jpe?g|gif|svg)$/,
@@ -115,21 +86,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin({
-            disable: true,
-            allChunks: true
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "vendor",
-            minChunks: function (module) {
-                return module.context && module.context.includes("node_modules");
-            }
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "manifest",
-            minChunks: Infinity
-        }),
-        new webpack.NamedModulesPlugin(),    // even though webpack doc recommends HashedModuleIdsPlugin, NamedModulesPlugin results in smaller file after gzip
+        new webpack.NamedModulesPlugin(),
         new StylelintPlugin({
             configFile: env.stylelintConfig,
             context: env.src,
