@@ -2,16 +2,15 @@
 const webpack = require("webpack");
 const env = require("./env");
 const autoprefixer = require("autoprefixer");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
-const ParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: {},
     output: {
         path: env.dist,
-        filename: "static/js/[name].[chunkhash:8].js",
-        chunkFilename: "static/js/[name]-[id].[chunkhash:8].js",
+        filename: "static/js/[name].js",
+        chunkFilename: "static/js/[name]-[id].js",
         publicPath: "/"
     },
     resolve: {
@@ -22,8 +21,7 @@ module.exports = {
             lib: env.lib
         }
     },
-    devtool: "nosources-source-map",
-    bail: true,
+    devtool: "cheap-module-source-map",
     module: {
         rules: [
             {
@@ -64,23 +62,18 @@ module.exports = {
                     use: [{
                         loader: "css-loader",
                         options: {
-                            sourceMap: true,
                             modules: true,
-                            minimize: {safe: true},
                             importLoaders: 2
                         }
                     }, {
                         loader: "postcss-loader",
                         options: {
-                            sourceMap: true,
                             plugins: () => [autoprefixer]
                         }
                     }, {
-                        loader: "less-loader",
-                        options: {
-                            sourceMap: true
-                        }
-                    }]
+                        loader: "less-loader"
+                    }],
+                    fallback: "style-loader"    // use style-loader in development
                 })
             },
             {
@@ -90,23 +83,18 @@ module.exports = {
                     use: [{
                         loader: "css-loader",
                         options: {
-                            sourceMap: true,
                             modules: false,
-                            minimize: {safe: true},
                             importLoaders: 2
                         }
                     }, {
                         loader: "postcss-loader",
                         options: {
-                            sourceMap: true,
                             plugins: () => [autoprefixer]
                         }
                     }, {
-                        loader: "less-loader",
-                        options: {
-                            sourceMap: true
-                        }
-                    }]
+                        loader: "less-loader"
+                    }],
+                    fallback: "style-loader"    // use style-loader in development
                 })
             },
             {
@@ -127,9 +115,8 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.DefinePlugin({"process.env": {NODE_ENV: JSON.stringify("production")}}),
         new ExtractTextPlugin({
-            filename: "static/css/[name].[contenthash:8].css",
+            disable: true,
             allChunks: true
         }),
         new webpack.optimize.CommonsChunkPlugin({
@@ -149,12 +136,27 @@ module.exports = {
             files: "**/*.less",
             syntax: "less"
         }),
-        new ParallelUglifyPlugin({
-            cacheDir: `${env.nodeModules}/.cache/webpack-parallel-uglify-plugin`,
-            sourceMap: true,
-            uglifyJS: {}
-        }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new webpack.ProgressPlugin()
-    ]
+        new webpack.ProgressPlugin(),
+        new webpack.HotModuleReplacementPlugin()
+    ],
+    devServer: {
+        https: true,
+        port: 7443,
+        historyApiFallback: {rewrites: []},
+        hot: true,
+        inline: true,
+        compress: true,
+        stats: "minimal",
+        overlay: {
+            warnings: true,
+            errors: true
+        },
+        proxy: {
+            "/ajax": {
+                target: "https://localhost:8443",
+                secure: false,
+                changeOrigin: true
+            }
+        }
+    }
 };
