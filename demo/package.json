@@ -41,7 +41,7 @@
     "stylelint": "8.4.0",
     "stylelint-webpack-plugin": "0.9.0",
     "url-loader": "0.6.2",
-    "webpack": "3.10.0",
+    "context": "3.10.0",
     "webpack-dev-server": "2.9.7",
     "webpack-spritesmith": "0.3.6",
     "yargs": "10.0.3"

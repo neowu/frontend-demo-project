@@ -2,6 +2,7 @@
 const webpack = require("webpack");
 const env = require("./env");
 const StylelintPlugin = require("stylelint-webpack-plugin");
+const ForkTSCheckerPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
     entry: {},
@@ -11,7 +12,7 @@ module.exports = {
         publicPath: "/"
     },
     resolve: {
-        extensions: [".js", ".jsx"],
+        extensions: [".ts", "tsx", ".js", ".jsx"],
         modules: [env.nodeModules],
         alias: {
             conf: env.conf,
@@ -22,9 +23,18 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
-                loader: "eslint-loader",
+                test: /\.(ts|tsx)$/,
                 include: env.src,
+                loader: "ts-loader",
+                options: {
+                    configFile: env.tsConfig,
+                    transpileOnly: true
+                }
+            },
+            {
+                test: /\.(js|jsx)$/,
+                include: env.src,
+                loader: "eslint-loader",
                 enforce: "pre",
                 options: {
                     configFile: env.esLintConfig,
@@ -34,8 +44,8 @@ module.exports = {
             },
             {
                 test: /\.(js|jsx)$/,
-                loader: "babel-loader",
                 include: env.src,
+                loader: "babel-loader",
                 options: {
                     presets: [["@babel/env", {
                         targets: {
@@ -91,6 +101,9 @@ module.exports = {
             context: env.src,
             files: "**/*.less",
             syntax: "less"
+        }),
+        new ForkTSCheckerPlugin({
+            tsconfig: env.tsConfig
         }),
         new webpack.ProgressPlugin(),
         new webpack.HotModuleReplacementPlugin()

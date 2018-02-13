@@ -15,7 +15,7 @@ module.exports = {
         publicPath: "/"
     },
     resolve: {
-        extensions: [".js", ".jsx"],
+        extensions: [".ts", "tsx", ".js", ".jsx"],
         modules: [env.nodeModules],
         alias: {
             conf: env.conf,
@@ -26,6 +26,14 @@ module.exports = {
     bail: true,
     module: {
         rules: [
+            {
+                test: /\.(ts|tsx)$/,
+                include: env.src,
+                loader: "ts-loader",
+                options: {
+                    configFile: env.tsConfig
+                }
+            },
             {
                 test: /\.(js|jsx)$/,
                 loader: "eslint-loader",

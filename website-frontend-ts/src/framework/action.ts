@@ -1,4 +1,4 @@
-export function errorAction(error) {
+export function errorAction(error: any) {
     return {
         type: "@@framework/ERROR",
         error
