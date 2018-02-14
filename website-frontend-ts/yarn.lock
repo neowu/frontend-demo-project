@@ -7855,6 +7855,12 @@ trough@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trough/-/trough-1.0.1.tgz#a9fd8b0394b0ae8fff82e0633a0a36ccad5b5f86"
 
+ts-import-plugin@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/ts-import-plugin/-/ts-import-plugin-1.4.3.tgz#4d8ead922c65fe919f7a932e0c9224848b969cee"
+  dependencies:
+    tslib "^1.7.1"
+
 ts-loader@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-3.5.0.tgz#151d004dcddb4cf8e381a3bf9d6b74c2d957a9c0"
@@ -7864,6 +7870,10 @@ ts-loader@3.5.0:
     loader-utils "^1.0.2"
     micromatch "^3.1.4"
     semver "^5.0.1"
+
+tslib@^1.7.1:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.0.tgz#e37a86fda8cbbaf23a057f473c9f4dc64e5fc2e8"
 
 tty-browserify@0.0.0:
   version "0.0.0"

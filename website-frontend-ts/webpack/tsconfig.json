@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "target": "esnext",
-    "jsx": "preserve",
+    "target": "es5",
+    "jsx": "react",
     "sourceMap": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,

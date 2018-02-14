@@ -71,6 +71,7 @@
     "style-loader": "0.20.1",
     "stylelint": "8.4.0",
     "stylelint-webpack-plugin": "0.10.1",
+    "ts-import-plugin": "^1.4.3",
     "ts-loader": "3.5.0",
     "typescript": "2.7.1",
     "url-loader": "0.6.2",
