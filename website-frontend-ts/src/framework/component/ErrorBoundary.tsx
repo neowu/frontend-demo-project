@@ -1,17 +1,25 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import {connect} from "react-redux";
 import {errorAction} from "../action";
 
-export function ReactException(message, stack, componentStack) {
+export function ReactException(message, stack, componentStack): void {
     this.message = message;
     this.stack = stack;
     this.componentStack = componentStack;
     return this;
 }
 
-class ErrorBoundary extends React.PureComponent {
-    state = {
+interface Props {
+    dispatch: any;
+    children: any;
+}
+
+interface State {
+    message: string;
+}
+
+class ErrorBoundary extends React.PureComponent<Props, State> {
+    state: State = {
         message: null
     };
 
@@ -27,10 +35,5 @@ class ErrorBoundary extends React.PureComponent {
         return this.props.children;
     }
 }
-
-ErrorBoundary.propTypes = {
-    dispatch: PropTypes.func,
-    children: PropTypes.object.isRequired
-};
 
 export default connect()(ErrorBoundary);

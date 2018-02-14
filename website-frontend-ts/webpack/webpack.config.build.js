@@ -15,7 +15,7 @@ module.exports = {
         publicPath: "/"
     },
     resolve: {
-        extensions: [".ts", "tsx", ".js", ".jsx"],
+        extensions: [".ts", ".tsx", ".js", ".jsx"],
         modules: [env.nodeModules],
         alias: {
             conf: env.conf,
@@ -29,10 +29,32 @@ module.exports = {
             {
                 test: /\.(ts|tsx)$/,
                 include: env.src,
-                loader: "ts-loader",
-                options: {
-                    configFile: env.tsConfig
-                }
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            presets: [["@babel/env", {
+                                targets: {
+                                    browsers: ["ie >= 9"]
+                                },
+                                modules: false
+                            }], "@babel/react", "@babel/stage-2"],
+                            plugins: [["import", {
+                                libraryName: "antd",
+                                libraryDirectory: "es",
+                                style: true
+                            }]],
+                            babelrc: false,
+                            cacheDirectory: true
+                        }
+                    },
+                    {
+                        loader: "ts-loader",
+                        options: {
+                            configFile: env.tsConfig
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(js|jsx)$/,

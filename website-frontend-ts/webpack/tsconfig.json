@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "jsx": "preserve",
     "sourceMap": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "react",
+    "moduleResolution": "node",
     "lib": [
       "es6",
       "dom"
-    ],
-    "target": "es5"
+    ]
   },
   "include": [
     "../src/**/*"
