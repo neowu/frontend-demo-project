@@ -1,0 +1,34 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-react"
+  ],
+  "rules": {
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "trailing-comma": false,
+    "space-before-function-paren": [
+      true,
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "member-access": false,
+    "no-shadowed-variable": false,
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "one-variable-per-declaration": false,
+    "jsx-boolean-value": false,
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false,
+    "prefer-const": true
+  }
+}

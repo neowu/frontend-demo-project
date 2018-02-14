@@ -10,8 +10,8 @@ function getCurrentUserReducer(state, action) {
 }
 
 const reducers = {
-    "GET_CURRENT_USER_SUCCESS": getCurrentUserReducer,
-    "LOGIN_RESULT": (state, action) => ({
+    GET_CURRENT_USER_SUCCESS: getCurrentUserReducer,
+    LOGIN_RESULT: (state, action) => ({
         ...state,
         login: {
             success: action.response.success,

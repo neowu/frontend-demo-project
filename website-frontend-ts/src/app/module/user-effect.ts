@@ -8,7 +8,7 @@ function* watchCheckCurrentUser() {
         const response = yield call(getCurrentUser);
         yield put({
             type: "GET_CURRENT_USER_SUCCESS",
-            response
+            response,
         });
     });
 }

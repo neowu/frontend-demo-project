@@ -17,7 +17,7 @@ function* watchError() {
 const state = {};
 
 const module = {
-    state: state,
+    state,
     reducers: {
         "@@framework/ERROR": (state, action) => {
             message.error(action.error.message, 5);

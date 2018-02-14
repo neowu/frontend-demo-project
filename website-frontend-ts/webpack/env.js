@@ -27,5 +27,6 @@ module.exports = {
     stylelintConfig: resolve("webpack/stylelint.json"),
     esLintConfig: resolve("webpack/eslint.json"),
     webpackJSON: readJSON(`conf/${env}/webpack.json`),
-    tsConfig: resolve("webpack/tsconfig.json")
+    tsConfig: resolve("webpack/tsconfig.json"),
+    tslintConfig: resolve("webpack/tslint.json")
 };

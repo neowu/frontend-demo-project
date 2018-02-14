@@ -26,6 +26,16 @@ module.exports = {
             {
                 test: /\.(ts|tsx)$/,
                 include: env.src,
+                loader: "tslint-loader",
+                enforce: "pre",
+                options: {
+                    configFile: env.tslintConfig,
+                    emitErrors: true
+                }
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                include: env.src,
                 loader: "ts-loader",
                 options: {
                     configFile: env.tsConfig,
