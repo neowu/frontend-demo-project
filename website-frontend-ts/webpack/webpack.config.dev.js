@@ -125,25 +125,5 @@ module.exports = {
         }),
         new webpack.ProgressPlugin(),
         new webpack.HotModuleReplacementPlugin()
-    ],
-    devServer: {
-        https: true,
-        port: 7443,
-        historyApiFallback: {rewrites: []},
-        hot: true,
-        inline: true,
-        compress: true,
-        stats: "minimal",
-        overlay: {
-            warnings: true,
-            errors: true
-        },
-        proxy: {
-            "/ajax": {
-                target: "https://localhost:8443",
-                secure: false,
-                changeOrigin: true
-            }
-        }
-    }
+    ]
 };
