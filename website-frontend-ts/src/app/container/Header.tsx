@@ -1,9 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {Button, Layout, Menu} from "antd";
-import {header} from "./header.less";
+
+const css = require("./header.less");
 
 const Header = ({dispatch, loggedIn, userName}) => {
     const loginMenu = () =>
@@ -17,18 +18,18 @@ const Header = ({dispatch, loggedIn, userName}) => {
         return dispatch({type: "LOGOUT"});
     }
 
-    return <Layout.Header className={header}>
+    return <Layout.Header className={css.header}>
         {loggedIn ? <div>Hello {userName}, <Button onClick={logout}>Logout</Button></div> : loginMenu()}
     </Layout.Header>;
 };
 
-Header.propTypes = {
-    loggedIn: PropTypes.bool,
-    userName: PropTypes.string,
-    dispatch: PropTypes.func
-};
+// Header.propTypes = {
+//     loggedIn: PropTypes.bool,
+//     userName: PropTypes.string,
+//     dispatch: PropTypes.func
+// };
 
-export default connect(state => ({
+export default connect((state: any) => ({
     loggedIn: state.user.currentUser.loggedIn,
     userName: state.user.currentUser.name
 }))(Header);

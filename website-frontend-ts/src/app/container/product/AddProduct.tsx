@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Button, Form, Radio} from "antd";
 
@@ -17,9 +17,7 @@ const AddProduct = ({ui, form, dispatch}) => {
         <Form onSubmit={onSubmit}>
             <Form.Item>
                 {typeDecorator(<Radio.Group>
-                    {
-                        ui.types.map(type => <Radio.Button key={type.value} value={type.value}>{type.name}</Radio.Button>)
-                    }
+                    {ui.types.map((type) => <Radio.Button key={type.value} value={type.value}>{type.name}</Radio.Button>)}
                 </Radio.Group>)}
             </Form.Item>
             <Form.Item>
@@ -29,17 +27,17 @@ const AddProduct = ({ui, form, dispatch}) => {
     </div>;
 };
 
-AddProduct.propTypes = {
-    dispatch: PropTypes.func,
-    ui: PropTypes.shape({
-        types: PropTypes.arrayOf(PropTypes.shape({
-            name: PropTypes.string,
-            value: PropTypes.string
-        }))
-    }),
-    form: PropTypes.object
-};
+// AddProduct.propTypes = {
+//     dispatch: PropTypes.func,
+//     ui: PropTypes.shape({
+//         types: PropTypes.arrayOf(PropTypes.shape({
+//             name: PropTypes.string,
+//             value: PropTypes.string
+//         }))
+//     }),
+//     form: PropTypes.object
+// };
 
-export default connect(state => ({
+export default connect((state: any) => ({
     ui: state.product.createProductUI
 }))(Form.create()(AddProduct));

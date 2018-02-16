@@ -5,6 +5,6 @@ const ProductList = () => <div>
     <h1>product list</h1>
 </div>;
 
-ProductList.propTypes = {};
+// ProductList.propTypes = {};
 
 export default connect()(ProductList);

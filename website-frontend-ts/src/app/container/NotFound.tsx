@@ -5,6 +5,6 @@ const NotFound = () => <div>
     <h1>Not Found</h1>
 </div>;
 
-NotFound.propTypes = {};
+// NotFound.propTypes = {};
 
 export default connect()(NotFound);

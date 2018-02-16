@@ -31,7 +31,7 @@
         "template": "app/index.html"
       },
       "error": {
-        "js": "app/error.jsx",
+        "js": "app/error.tsx",
         "template": "app/error.html"
       }
     }

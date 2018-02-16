@@ -1,10 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {Spin} from "antd";
 import {connect} from "react-redux";
 
 const withLoading = (actionType, Component) => {
-    class Loading extends React.PureComponent {
+    class Loading extends React.PureComponent<any> {
         render() {
             if (this.props.loading) {
                 return <Spin/>;
@@ -13,12 +12,12 @@ const withLoading = (actionType, Component) => {
         }
     }
 
-    Loading.propTypes = {
-        loading: PropTypes.bool,
-        children: PropTypes.node
-    };
+    // Loading.propTypes = {
+    //     loading: PropTypes.bool,
+    //     children: PropTypes.node
+    // };
 
-    return connect(state => ({
+    return connect((state: any) => ({
         loading: state.loading[actionType]
     }))(Loading);
 };

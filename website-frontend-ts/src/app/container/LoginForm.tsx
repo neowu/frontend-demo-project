@@ -1,8 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
-import css from "./loginForm.less";
+
+const css = require("./loginForm.less");
 
 const LoginForm = ({dispatch, form, errorMessage}) => {
     const onSubmit = (event) => {
@@ -50,12 +51,12 @@ const LoginForm = ({dispatch, form, errorMessage}) => {
     </div>;
 };
 
-LoginForm.propTypes = {
-    dispatch: PropTypes.func,
-    form: PropTypes.object,
-    errorMessage: PropTypes.string
-};
+// LoginForm.propTypes = {
+//     dispatch: PropTypes.func,
+//     form: PropTypes.object,
+//     errorMessage: PropTypes.string
+// };
 
-export default connect(state => ({
+export default connect((state: any) => ({
     errorMessage: state.user.login.errorMessage
 }))(Form.create()(LoginForm));

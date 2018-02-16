@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {Icon, Layout, Menu} from "antd";
@@ -12,10 +12,7 @@ const Nav = ({role}) => {
     }
 
     return <Layout.Sider width={200} style={{background: "#fff"}}>
-        <Menu mode="inline" defaultSelectedKeys={["1"]} defaultOpenKeys={["sub2"]} style={{
-            height: "100%",
-            borderRight: 0
-        }}>
+        <Menu mode="inline" defaultSelectedKeys={["1"]} defaultOpenKeys={["sub2"]} style={{height: "100%", borderRight: 0}}>
             <Menu.Item key="6"><Link to="/">Home</Link></Menu.Item>
             {adminMenu()}
             <Menu.SubMenu key="sub2" title={<span><Icon type="laptop"/>Games</span>}>
@@ -30,10 +27,10 @@ const Nav = ({role}) => {
     </Layout.Sider>;
 };
 
-Nav.propTypes = {
-    role: PropTypes.string
-};
+// Nav.propTypes = {
+//     role: PropTypes.string
+// };
 
-export default connect(state => ({
+export default connect((state: any) => ({
     role: state.user.currentUser.role
 }))(Nav);

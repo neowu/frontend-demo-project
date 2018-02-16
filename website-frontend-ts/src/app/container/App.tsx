@@ -4,13 +4,14 @@ import {connect} from "react-redux";
 import Header from "./Header";
 import Nav from "./Nav";
 import {Layout} from "antd";
-import css from "./app.less";
 import ProductList from "./product/ProductList";
 import Lazy from "../../framework/component/Lazy";
 import LoginForm from "./LoginForm";
 import withLoading from "../../framework/component/loading";
 import AddProduct from "./product/AddProduct";
 import NotFound from "./NotFound";
+
+const css = require("./app.less");
 
 const App = () => {
     const Welcome = () => <Lazy module={import(/* webpackChunkName: "welcome" */"./Welcome")}/>;
@@ -33,7 +34,5 @@ const App = () => {
         </Layout>
     </Layout>;
 };
-
-App.propTypes = {};
 
 export default connect()(App);
