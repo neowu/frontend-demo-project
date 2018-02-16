@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function APIException(message, responseStatus, errorCode) {
+export function APIException(message, responseStatus, errorCode): void {
     this.message = message;
     this.stack = Error().stack;
     this.responseStatus = responseStatus;
@@ -15,14 +15,18 @@ function handleError(error) {
     if (error.response) {
         responseStatus = error.response.status;
         if (error.response.data) {
-            if (error.response.data.message) message = error.response.data.message;
-            if (error.response.data.errorCode) errorCode = error.response.data.errorCode;
+            if (error.response.data.message) {
+                message = error.response.data.message;
+            }
+            if (error.response.data.errorCode) {
+                errorCode = error.response.data.errorCode;
+            }
         }
     }
     throw new APIException(message, responseStatus, errorCode);
 }
 
-axios.interceptors.response.use(response => response, (error) => {
+axios.interceptors.response.use((response) => response, (error) => {
     handleError(error);
 });
 
@@ -32,7 +36,7 @@ const api = {};
         method,
         url,
         data
-    }).then(response => response.data);
+    }).then((response) => response.data);
 });
 
 export default api;

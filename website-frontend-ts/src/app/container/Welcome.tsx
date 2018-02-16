@@ -10,11 +10,13 @@ const Welcome = () => {
     // if (abc === 1) {
     //     throw new Error("react render error test");
     // }
+    const onClick = () => {
+        throw new Error("test error in button");
+    };
+
     return <div>
         <h1>Welcome</h1>
-        <Button onClick={() => {
-            throw new Error("test error in button");
-        }}>
+        <Button onClick={onClick}>
             Test
         </Button>
     </div>;

@@ -1,8 +1,8 @@
 import api from "../../framework/api";
 
 export function getCurrentUser() {
-    return api.get("/ajax/currentUser")
-        .then(response => ({
+    return (api as any).get("/ajax/currentUser")
+        .then((response) => ({
             loggedIn: response.loggedIn,
             role: response.role,
             name: response.name
@@ -14,8 +14,8 @@ export function login(request) {
         username: request.username,
         password: request.password
     };
-    return api.put("/ajax/login", ajaxRequest)
-        .then(response => ({
+    return (api as any).put("/ajax/login", ajaxRequest)
+        .then((response) => ({
             success: response.success,
             errorMessage: response.errorMessage,
             name: response.name,
@@ -24,5 +24,5 @@ export function login(request) {
 }
 
 export function logout() {
-    return api.put("/ajax/logout");
+    return (api as any).put("/ajax/logout");
 }

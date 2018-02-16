@@ -30,8 +30,6 @@
       true,
       "always"
     ],
-    "one-variable-per-declaration": false,
-    "prefer-const": true,
     "jsx-wrap-multiline": false,
     "jsx-boolean-value": false,
     "jsx-no-multiline-js": false,

@@ -5,7 +5,6 @@ const autoprefixer = require("autoprefixer");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const ParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
-const TSImportPlugin = require('ts-import-plugin');
 
 module.exports = {
     entry: {},
@@ -40,48 +39,32 @@ module.exports = {
             {
                 test: /\.(ts|tsx)$/,
                 include: env.src,
-                loader: "ts-loader",
-                options: {
-                    configFile: env.tsConfig,
-                    getCustomTransformers: () => ({
-                        before: [TSImportPlugin({
-                            libraryName: 'antd',
-                            libraryDirectory: 'lib',
-                            style: true
-                        })]
-                    }),
-                }
-            },
-            {
-                test: /\.(js|jsx)$/,
-                loader: "eslint-loader",
-                include: env.src,
-                enforce: "pre",
-                options: {
-                    configFile: env.esLintConfig,
-                    failOnWarning: true,
-                    failOnError: true
-                }
-            },
-            {
-                test: /\.(js|jsx)$/,
-                loader: "babel-loader",
-                include: env.src,
-                options: {
-                    presets: [["@babel/env", {
-                        targets: {
-                            browsers: ["ie >= 9"]
-                        },
-                        modules: false
-                    }], "@babel/react", "@babel/stage-2"],
-                    plugins: [["import", {
-                        libraryName: "antd",
-                        libraryDirectory: "es",
-                        style: true
-                    }]],
-                    babelrc: false,
-                    cacheDirectory: true
-                }
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            presets: [["@babel/env", {
+                                targets: {
+                                    browsers: ["ie >= 9"]
+                                },
+                                modules: false
+                            }], "@babel/react", "@babel/stage-2"],
+                            plugins: [["import", {
+                                libraryName: "antd",
+                                libraryDirectory: "es",
+                                style: true
+                            }]],
+                            babelrc: false,
+                            cacheDirectory: true
+                        }
+                    },
+                    {
+                        loader: "ts-loader",
+                        options: {
+                            configFile: env.tsConfig
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(css|less)$/,

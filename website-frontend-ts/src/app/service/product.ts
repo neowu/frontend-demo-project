@@ -1,9 +1,9 @@
 import api from "../../framework/api";
 
 export function listProducts() {
-    return api.get("/ajax/product");
+    return (api as any).get("/ajax/product");
 }
 
 export function loadCreateProductConfig() {
-    return api.get("/ajax/product/create-config");
+    return (api as any).get("/ajax/product/create-config");
 }
