@@ -1,5 +1,6 @@
 import reducers from "./product-reducer";
 import effects from "./product-effect";
+import {Module} from "../../framework/application";
 
 const state = {
     createProductUI: {
@@ -7,11 +8,11 @@ const state = {
     }
 };
 
-const module = {
-    state: state,
-    reducers: reducers,
-    effects: effects,
-    listener: dispatch => ({pathname}) => {
+const module: Module = {
+    state,
+    reducers,
+    effects,
+    listener: (dispatch) => ({pathname}) => {
         if (pathname === "/product/list") {
             dispatch({type: "PRODUCT/LIST"});
         } else if (pathname === "/product/add") {

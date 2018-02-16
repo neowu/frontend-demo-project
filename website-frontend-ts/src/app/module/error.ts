@@ -2,6 +2,7 @@ import {put} from "redux-saga/effects";
 import {push} from "react-router-redux";
 import {takeLatest} from "../../framework/effect";
 import {message} from "antd";
+import {Module} from "../../framework/application";
 
 function* watchError() {
     yield takeLatest("@@framework/ERROR/XXX", function* (action) {
@@ -16,7 +17,7 @@ function* watchError() {
 
 const state = {};
 
-const module = {
+const module: Module = {
     state,
     reducers: {
         "@@framework/ERROR": (state, action) => {

@@ -13,15 +13,29 @@ import ErrorBoundary from "./component/ErrorBoundary";
 import {reducer} from "./component/loading";
 import {errorAction} from "./action";
 
-export function createApp() {
-    const app = {
+export interface Module {
+    reducers?: any;
+    effects?: any[];
+    state?: any;
+    initialize?: any;
+    listener?: any;
+}
+
+interface App {
+    modules: { [name: string]: Module };
+    module: (name: string, module: Module) => void;
+    start: (Component: any, container: any) => void;
+}
+
+export function createApp(): App {
+    const app: App = {
         modules: {},
         module,
         start
     };
     return app;
 
-    function module(name, module) {
+    function module(name: string, module: Module): void {
         app.modules[name] = module;
     }
 
@@ -34,7 +48,18 @@ export function createApp() {
         };
     }
 
-    function start(Component, container) {
+    function devtools(enhancer) {
+        if (!production) {
+            // tslint:disable-next-line:no-string-literal
+            const reduxExtension = window["__REDUX_DEVTOOLS_EXTENSION__"];
+            if (reduxExtension) {
+                return compose(enhancer, reduxExtension({}));
+            }
+        }
+        return enhancer;
+    }
+
+    function start(Component: any, container: any): void {
         const initialState = {};
         const combinedReducers = {
             routerReducer,
@@ -52,12 +77,7 @@ export function createApp() {
         const history = createHistory();
         const sagaMiddleware = createSagaMiddleware();
 
-        let composeEnhancer = compose;
-        if (!production) {
-            composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;     // eslint-disable-line no-underscore-dangle
-        }
-
-        const store = createStore(rootReducer, initialState, composeEnhancer(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
+        const store = createStore(rootReducer, initialState, devtools(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
         sagas.forEach(sagaMiddleware.run);
 
         Object.values(app.modules).forEach(({initialize, listener}) => {
@@ -66,10 +86,12 @@ export function createApp() {
                 history.listen(listenerInstance);
                 listenerInstance(history.location);         // trigger history with current location on first load
             }
-            if (initialize) initialize(store.dispatch);
+            if (initialize) {
+                initialize(store.dispatch);
+            }
         });
 
-        window.onerror = function (message, source, line, column, error) {
+        window.onerror = (message, source, line, column, error) => {
             store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases
         };
 

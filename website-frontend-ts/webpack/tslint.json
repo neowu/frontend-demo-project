@@ -21,14 +21,20 @@
     ],
     "member-access": false,
     "no-shadowed-variable": false,
+    "max-line-length": [
+      true,
+      300
+    ],
+    "no-var-requires": false,
     "semicolon": [
       true,
       "always"
     ],
     "one-variable-per-declaration": false,
+    "prefer-const": true,
+    "jsx-wrap-multiline": false,
     "jsx-boolean-value": false,
     "jsx-no-multiline-js": false,
-    "jsx-no-lambda": false,
-    "prefer-const": true
+    "jsx-no-lambda": false
   }
 }
