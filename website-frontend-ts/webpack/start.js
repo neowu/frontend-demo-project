@@ -75,7 +75,7 @@ devServer.listen(7443, "localhost", (err) => {
     if (err) {
         return console.log(err);
     }
-    console.log("starting the development server...\n");
+    console.log("starting the development server on https://localhost:7443/\n");
     return null;
 });
 
