@@ -1,4 +1,4 @@
-import {createApp} from "../framework/application";
+import {createApp} from "./framework/application";
 import App from "./container/App";
 import userModule from "./module/user";
 import productModule from "./module/product";

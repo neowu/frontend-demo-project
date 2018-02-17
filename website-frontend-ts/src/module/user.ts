@@ -1,6 +1,6 @@
 import reducers from "./user-reducer";
 import effects from "./user-effect";
-import {Module} from "../../framework/application";
+import {Module} from "../framework/application";
 
 const state = {
     currentUser: {

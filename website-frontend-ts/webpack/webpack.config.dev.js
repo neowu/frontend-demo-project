@@ -1,4 +1,3 @@
-/* eslint-env node */
 const webpack = require("webpack");
 const env = require("./env");
 const AutoDllPlugin = require("autodll-webpack-plugin");

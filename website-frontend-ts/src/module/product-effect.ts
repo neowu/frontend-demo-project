@@ -1,5 +1,5 @@
 import {call, put} from "redux-saga/effects";
-import {takeLatestWithLoading} from "../../framework/effect";
+import {takeLatestWithLoading} from "../framework/effect";
 import {listProducts, loadCreateProductConfig} from "../service/product";
 
 function* watchListProduct() {

@@ -1,4 +1,4 @@
-import api from "../../framework/api";
+import api from "../framework/api";
 
 export function listProducts() {
     return (api as any).get("/ajax/product");
