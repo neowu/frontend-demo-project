@@ -1,11 +1,13 @@
 /* eslint-env node */
 const webpack = require("webpack");
 const env = require("./env");
+const AutoDllPlugin = require("autodll-webpack-plugin");
+const HTMLPlugin = require("html-webpack-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const ForkTSCheckerPlugin = require("fork-ts-checker-webpack-plugin");
 const TSImportPlugin = require('ts-import-plugin');
 
-module.exports = {
+const config = {
     entry: {},
     output: {
         filename: "static/js/[name].js",
@@ -96,3 +98,33 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ]
 };
+
+function configureDLL() {
+    Object.entries(env.packageJSON.config.lib).forEach(([name, lib]) => {
+        config.plugins.push(new AutoDllPlugin({
+            context: env.root,
+            inject: true,
+            debug: true,
+            filename: "[name].js",
+            path: "static/js",
+            inherit: true,
+            entry: {[name]: lib}
+        }));
+    });
+}
+
+function configurePages() {
+    Object.entries(env.packageJSON.config.pages).forEach(([name, page]) => {
+        config.entry[name] = `${env.src}/${page.js}`;
+        config.plugins.push(new HTMLPlugin({
+            filename: `${name}.html`,
+            template: `${env.src}/${page.template}`,
+            chunks: ["manifest", "vendor", name]
+        }));
+    });
+}
+
+configureDLL(config);
+configurePages(config);
+
+module.exports = config;

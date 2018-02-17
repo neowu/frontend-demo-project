@@ -1,5 +1,3 @@
-/* eslint-env node */
-/* eslint-disable no-sync */
 const path = require("path");
 const fs = require("fs");
 const yargs = require("yargs");
@@ -25,7 +23,7 @@ module.exports = {
     lib: resolve("lib"),
     packageJSON: readJSON("package.json"),
     tsConfig: resolve("webpack/tsconfig.json"),
-    stylelintConfig: resolve("webpack/stylelint.json"),
     tslintConfig: resolve("webpack/tslint.json"),
+    stylelintConfig: resolve("webpack/stylelint.json"),
     webpackJSON: readJSON(`conf/${env}/webpack.json`)
 };
