@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const env = require("./env");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const ForkTSCheckerPlugin = require("fork-ts-checker-webpack-plugin");
+const TSImportPlugin = require('ts-import-plugin');
 
 module.exports = {
     entry: {},
@@ -35,32 +36,18 @@ module.exports = {
             {
                 test: /\.(ts|tsx)$/,
                 include: env.src,
-                use: [
-                    {
-                        loader: "babel-loader",
-                        options: {
-                            presets: [["@babel/env", {
-                                targets: {
-                                    browsers: ["ie >= 9"]
-                                },
-                                modules: false
-                            }], "@babel/react", "@babel/stage-2"],
-                            plugins: [["import", {
-                                libraryName: "antd",
-                                libraryDirectory: "es",
-                                style: true
-                            }]],
-                            babelrc: false,
-                            cacheDirectory: true
-                        }
-                    }, {
-                        loader: "ts-loader",
-                        options: {
-                            configFile: env.tsConfig,
-                            transpileOnly: true
-                        }
-                    }
-                ]
+                loader: "ts-loader",
+                options: {
+                    configFile: env.tsConfig,
+                    transpileOnly: true,
+                    getCustomTransformers: () => ({
+                        before: [TSImportPlugin({
+                            libraryName: 'antd',
+                            libraryDirectory: 'es',
+                            style: true
+                        })]
+                    }),
+                }
             },
             {
                 test: /\.(css|less)$/,
@@ -82,14 +69,14 @@ module.exports = {
                 loader: "url-loader",
                 query: {
                     limit: 1024,
-                    name: "static/img/[name].[hash:8].[ext]"
+                    name: "static/img/[name].[ext]"
                 }
             },
             {
                 test: /\.(woff|woff2|eot|ttf)$/,
                 loader: "file-loader",
                 options: {
-                    name: "static/font/[name].[hash:8].[ext]"
+                    name: "static/font/[name].[ext]"
                 }
             }
         ]
