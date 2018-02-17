@@ -9,7 +9,7 @@ process.on("unhandledRejection", (error) => {
     throw error;
 });
 
-function server(compiler) {
+function devServer(compiler) {
     const rewrites = [];
     Object.keys(env.packageJSON.config.pages).forEach((name) => {
         rewrites.push({
@@ -41,18 +41,19 @@ function server(compiler) {
 
 function start() {
     const compiler = webpack(webpackConfig);
-    const devServer = server(compiler);
-    devServer.listen(7443, "localhost", (err) => {
-        if (err) {
-            return console.log(err);
+    const server = devServer(compiler);
+    server.listen(7443, "localhost", (error) => {
+        if (error) {
+            console.error(error);
+            process.exit(1);
         }
-        console.log("starting the development server on", chalk.green("https://localhost:7443/\n"));
+        console.log("starting dev server on", chalk.green("https://localhost:7443/\n"));
         return null;
     });
 
-    ["SIGINT", "SIGTERM"].forEach((sig) => {
-        process.on(sig, () => {
-            devServer.close();
+    ["SIGINT", "SIGTERM"].forEach((signal) => {
+        process.on(signal, () => {
+            server.close();
             process.exit();
         });
     });
