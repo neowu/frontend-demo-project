@@ -2,8 +2,12 @@ import React from "react";
 import {Spin} from "antd";
 import {connect} from "react-redux";
 
-const withLoading = (actionType, Component) => {
-    class Loading extends React.PureComponent<any> {
+const withLoading = (actionType: string, Component: JSX.Element) => {
+    interface Props {
+        loading: boolean;
+    }
+
+    class Loading extends React.PureComponent<Props> {
         render() {
             if (this.props.loading) {
                 return <Spin/>;
@@ -11,11 +15,6 @@ const withLoading = (actionType, Component) => {
             return Component;
         }
     }
-
-    // Loading.propTypes = {
-    //     loading: PropTypes.bool,
-    //     children: PropTypes.node
-    // };
 
     return connect((state: any) => ({
         loading: state.loading[actionType]
@@ -41,14 +40,14 @@ export function reducer(state = {}, action) {
     }
 }
 
-export function showAction(actionType) {
+export function showAction(actionType: string) {
     return {
         type: "@@framework/LOADING_SHOW",
         actionType
     };
 }
 
-export function hideAction(actionType) {
+export function hideAction(actionType: string) {
     return {
         type: "@@framework/LOADING_HIDE",
         actionType

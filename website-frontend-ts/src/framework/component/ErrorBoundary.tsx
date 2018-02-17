@@ -11,7 +11,7 @@ export function ReactException(message, stack, componentStack): void {
 
 interface Props {
     dispatch: any;
-    children: any;
+    children: JSX.Element;
 }
 
 interface State {

@@ -22,10 +22,7 @@ function copyStatic() {
 }
 
 function build() {
-    webpackConfig.output.publicPath = env.webpackJSON.publicPath;
-
     cleanup();
-
     copyStatic();
 
     const compiler = webpack(webpackConfig);

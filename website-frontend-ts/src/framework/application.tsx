@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore, Dispatch} from "redux";
 import {Provider} from "react-redux";
 import {ConnectedRouter, routerMiddleware, routerReducer} from "react-router-redux";
 import createSagaMiddleware from "redux-saga";
 import {withRouter} from "react-router-dom";
+import {LocationListener} from "history";
 import createHistory from "history/createBrowserHistory";
 
-import {production} from "./env";
 import ErrorBoundary from "./component/ErrorBoundary";
 import {reducer} from "./component/loading";
 import {errorAction} from "./action";
@@ -16,8 +16,8 @@ export interface Module {
     reducers?: any;
     effects?: any[];
     state?: any;
-    initialize?: any;
-    listener?: any;
+    initialize?: (dispatch: Dispatch<any>) => void;
+    listener?: (dispatch: Dispatch<any>) => LocationListener;
 }
 
 interface App {
@@ -48,6 +48,7 @@ export function createApp(): App {
     }
 
     function devtools(enhancer) {
+        const production = process.env.NODE_ENV === "production";
         if (!production) {
             // tslint:disable-next-line:no-string-literal
             const reduxExtension = window["__REDUX_DEVTOOLS_EXTENSION__"];
@@ -59,8 +60,8 @@ export function createApp(): App {
     }
 
     function start(Component: any, container: any): void {
-        const initialState = {};
-        const combinedReducers = {
+        const initialState: any = {};
+        const combinedReducers: any = {
             routerReducer,
             loading: reducer
         };
@@ -83,7 +84,7 @@ export function createApp(): App {
             if (listener) {
                 const listenerInstance = listener(store.dispatch);
                 history.listen(listenerInstance);
-                listenerInstance(history.location);         // trigger history with current location on first load
+                listenerInstance(history.location, "PUSH");         // trigger history with current location on first load
             }
             if (initialize) {
                 initialize(store.dispatch);

@@ -2,7 +2,7 @@ import {put, takeLatest as sagaTakeLatest} from "redux-saga/effects";
 import {errorAction} from "./action";
 import {hideAction, showAction} from "./component/loading";
 
-export function* takeLatestWithLoading(actionType, worker) {
+export function* takeLatestWithLoading(actionType: any, worker: any) {
     yield sagaTakeLatest(actionType, function* (action) {
         try {
             yield put(showAction(actionType));
@@ -14,7 +14,7 @@ export function* takeLatestWithLoading(actionType, worker) {
     });
 }
 
-export function* takeLatest(actionType, worker) {
+export function* takeLatest(actionType: any, worker: any) {
     yield sagaTakeLatest(actionType, function* (action) {
         try {
             yield worker(action);

@@ -7,7 +7,7 @@ import {Module} from "../framework/application";
 require("antd/lib/message/style");
 
 function* watchError() {
-    yield takeLatest("@@framework/ERROR/XXX", function* (action) {
+    yield takeLatest("@@framework/ERROR/XXX", function* () {
         // if (action.error instanceof ComponentException) {
         //     console.warn(action.error);
         // } else if (action.error instanceof APIException) {
@@ -22,7 +22,7 @@ const state = {};
 const module: Module = {
     state,
     reducers: {
-        "@@framework/ERROR": (state, action) => {
+        "@@framework/ERROR": (state: any, action: any) => {
             message.error(action.error.message, 5);
             return state;
         }

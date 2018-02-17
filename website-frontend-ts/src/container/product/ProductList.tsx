@@ -1,10 +1,12 @@
 import React from "react";
 import {connect} from "react-redux";
 
-const ProductList = () => <div>
-    <h1>product list</h1>
-</div>;
-
-// ProductList.propTypes = {};
+class ProductList extends React.PureComponent {
+    render() {
+        return <div>
+            <h1>product list</h1>
+        </div>;
+    }
+}
 
 export default connect()(ProductList);

@@ -14,7 +14,7 @@ const config = {
         path: env.dist,
         filename: "static/js/[name].[chunkhash:8].js",
         chunkFilename: "static/js/[name]-[id].[chunkhash:8].js",
-        publicPath: "/"
+        publicPath: env.webpackJSON.publicPath
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx"],

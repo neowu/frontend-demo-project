@@ -2,20 +2,20 @@ import api from "../framework/api";
 
 export function getCurrentUser() {
     return (api as any).get("/ajax/currentUser")
-        .then((response) => ({
+        .then((response: any) => ({
             loggedIn: response.loggedIn,
             role: response.role,
             name: response.name
         }));
 }
 
-export function login(request) {
+export function login(request: any) {
     const ajaxRequest = {
         username: request.username,
         password: request.password
     };
     return (api as any).put("/ajax/login", ajaxRequest)
-        .then((response) => ({
+        .then((response: any) => ({
             success: response.success,
             errorMessage: response.errorMessage,
             name: response.name,

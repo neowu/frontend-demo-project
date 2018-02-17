@@ -1,8 +1,15 @@
 import React from "react";
-// import PropTypes from "prop-types";
 
-export default class Lazy extends React.PureComponent<any> {
-    state = {Component: null};
+interface Props {
+    module: any;
+}
+
+interface State {
+    Component: any;
+}
+
+export default class Lazy extends React.PureComponent<Props, State> {
+    state: State = {Component: null};
 
     componentWillMount() {
         this.props.module.then((module) => {
@@ -18,5 +25,3 @@ export default class Lazy extends React.PureComponent<any> {
         return <Component {...this.props}/>;
     }
 }
-
-// Lazy.propTypes = {module: PropTypes.object.isRequired};
