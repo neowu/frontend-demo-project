@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {applyMiddleware, combineReducers, compose, createStore, Dispatch} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore, Dispatch, ReducersMapObject} from "redux";
 import {Provider} from "react-redux";
 import {ConnectedRouter, routerMiddleware, routerReducer} from "react-router-redux";
 import createSagaMiddleware from "redux-saga";
@@ -12,63 +12,33 @@ import ErrorBoundary from "./component/ErrorBoundary";
 import {reducer} from "./component/loading";
 import {errorAction} from "./action";
 
+export type Effect = () => Iterator<any>;
+
 export interface Module {
-    reducers?: any;
-    effects?: any[];
+    reducers?: ReducersMapObject;
+    effects?: Effect[];
     state?: any;
     initialize?: (dispatch: Dispatch<any>) => void;
     listener?: (dispatch: Dispatch<any>) => LocationListener;
 }
 
-interface App {
-    modules: { [name: string]: Module };
-    module: (name: string, module: Module) => void;
-    start: (Component: any, container: any) => void;
-}
+export class Application {
+    private modules: { [name: string]: Module } = {};
 
-export function createApp(): App {
-    const app: App = {
-        modules: {},
-        module,
-        start
-    };
-    return app;
-
-    function module(name: string, module: Module): void {
-        app.modules[name] = module;
+    public module(name: string, module: Module): void {
+        this.modules[name] = module;
     }
 
-    function createReducer(initialState, reducers) {
-        return function reducer(state = initialState, action) {
-            if (reducers.hasOwnProperty(action.type)) {
-                return reducers[action.type](state, action);
-            }
-            return state;
-        };
-    }
-
-    function devtools(enhancer) {
-        const production = process.env.NODE_ENV === "production";
-        if (!production) {
-            // tslint:disable-next-line:no-string-literal
-            const reduxExtension = window["__REDUX_DEVTOOLS_EXTENSION__"];
-            if (reduxExtension) {
-                return compose(enhancer, reduxExtension({}));
-            }
-        }
-        return enhancer;
-    }
-
-    function start(Component: any, container: any): void {
+    public start(Component: any, container: string): void {
         const initialState: any = {};
-        const combinedReducers: any = {
+        const combinedReducers: ReducersMapObject = {
             routerReducer,
             loading: reducer
         };
-        const sagas = [];
-        for (const [name, module] of Object.entries(app.modules)) {
+        const sagas: Effect[] = [];
+        for (const [name, module] of Object.entries(this.modules)) {
             const {reducers, effects, state} = module;
-            combinedReducers[name] = createReducer(state, reducers);
+            combinedReducers[name] = this.createReducer(state, reducers);
             sagas.push(...effects);
             initialState[name] = state;
         }
@@ -77,10 +47,10 @@ export function createApp(): App {
         const history = createHistory();
         const sagaMiddleware = createSagaMiddleware();
 
-        const store = createStore(rootReducer, initialState, devtools(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
+        const store = createStore(rootReducer, initialState, this.devtools(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
         sagas.forEach(sagaMiddleware.run);
 
-        Object.values(app.modules).forEach(({initialize, listener}) => {
+        Object.values(this.modules).forEach(({initialize, listener}) => {
             if (listener) {
                 const listenerInstance = listener(store.dispatch);
                 history.listen(listenerInstance);
@@ -106,5 +76,26 @@ export function createApp(): App {
             </Provider>,
             document.getElementById(container)
         );
+    }
+
+    private createReducer(initialState: any, reducers: ReducersMapObject) {
+        return function reducer(state = initialState, action) {
+            if (reducers.hasOwnProperty(action.type)) {
+                return reducers[action.type](state, action);
+            }
+            return state;
+        };
+    }
+
+    private devtools(enhancer) {
+        const production = process.env.NODE_ENV === "production";
+        if (!production) {
+            // tslint:disable-next-line:no-string-literal
+            const reduxExtension = window["__REDUX_DEVTOOLS_EXTENSION__"];
+            if (reduxExtension) {
+                return compose(enhancer, reduxExtension({}));
+            }
+        }
+        return enhancer;
     }
 }

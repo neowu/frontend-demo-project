@@ -2,6 +2,7 @@ import {call, put} from "redux-saga/effects";
 import {push} from "react-router-redux";
 import {takeLatest} from "../framework/effect";
 import {getCurrentUser, login, logout} from "../service/user";
+import {Effect} from "../framework/application";
 
 function* watchCheckCurrentUser() {
     yield takeLatest("CHECK_CURRENT_USER", function* () {
@@ -38,6 +39,6 @@ function* watchLogout() {
     });
 }
 
-const effects = [watchCheckCurrentUser, watchLogin, watchLogout];
+const effects: Effect[] = [watchCheckCurrentUser, watchLogin, watchLogout];
 
 export default effects;

@@ -1,10 +1,8 @@
 import {put} from "redux-saga/effects";
 import {push} from "react-router-redux";
 import {takeLatest} from "../framework/effect";
-import message from "antd/lib/message";
+import {message} from "antd";
 import {Module} from "../framework/application";
-
-require("antd/lib/message/style");
 
 function* watchError() {
     yield takeLatest("@@framework/ERROR/XXX", function* () {

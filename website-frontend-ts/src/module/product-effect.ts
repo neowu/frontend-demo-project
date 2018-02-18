@@ -1,6 +1,7 @@
 import {call, put} from "redux-saga/effects";
 import {takeLatestWithLoading} from "../framework/effect";
 import {listProducts, loadCreateProductConfig} from "../service/product";
+import {Effect} from "../framework/application";
 
 function* watchListProduct() {
     yield takeLatestWithLoading("PRODUCT/LIST", function* () {
@@ -18,6 +19,6 @@ function* watchLoadCreateProductConfig() {
     });
 }
 
-const effects = [watchListProduct, watchLoadCreateProductConfig];
+const effects: Effect[] = [watchListProduct, watchLoadCreateProductConfig];
 
 export default effects;
