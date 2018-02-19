@@ -3,10 +3,13 @@ import {push} from "react-router-redux";
 import {takeLatest} from "../framework/effect";
 import userAJAXService from "../service/user";
 import {Effect} from "../framework/application";
+import {app} from "../service/api";
+import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
+import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 
 function* watchCheckCurrentUser() {
     yield takeLatest("CHECK_CURRENT_USER", function* () {
-        const response = yield call(userAJAXService.currentUser);
+        const response: CurrentUserAJAXResponse = yield call(userAJAXService.currentUser);
         yield put({
             type: "GET_CURRENT_USER_SUCCESS",
             response,
@@ -16,7 +19,7 @@ function* watchCheckCurrentUser() {
 
 function* watchLogin() {
     yield takeLatest("LOGIN", function* (action) {
-        const response = yield call(userAJAXService.login, action.request);
+        const response: LoginAJAXResponse = yield call(userAJAXService.login, action.request);
         yield put({
             type: "LOGIN_RESULT",
             response

@@ -20,12 +20,13 @@
       "never-prefix"
     ],
     "member-access": false,
-    "no-shadowed-variable": false,
     "max-line-length": [
       true,
       300
     ],
+    "no-shadowed-variable": false,
     "no-var-requires": false,
+    "no-namespace": false,
     "semicolon": [
       true,
       "always"
@@ -33,7 +34,6 @@
     "jsx-wrap-multiline": false,
     "jsx-boolean-value": false,
     "jsx-no-multiline-js": false,
-    "jsx-no-lambda": false,
-    "no-namespace": false
+    "jsx-no-lambda": false
   }
 }
