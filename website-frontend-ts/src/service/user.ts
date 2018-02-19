@@ -1,28 +1,20 @@
-import api from "../framework/api";
+import {ajax} from "../framework/ajax";
+import {app} from "./api";
+import AccountAJAXWebService = app.api.AccountAJAXWebService;
+import AccountAJAXWebServiceMeta = app.api.AccountAJAXWebServiceMeta;
 
-export function getCurrentUser() {
-    return (api as any).get("/ajax/currentUser")
-        .then((response: any) => ({
-            loggedIn: response.loggedIn,
-            role: response.role,
-            name: response.name
-        }));
+class AccountAJAXWebServiceImpl implements AccountAJAXWebService {
+    public currentUser(): Promise<app.api.user.CurrentUserAJAXResponse> {
+        return ajax(AccountAJAXWebServiceMeta.currentUser.path, AccountAJAXWebServiceMeta.currentUser.method, {});
+    }
+
+    public login(request: app.api.user.LoginAJAXRequest): Promise<app.api.user.LoginAJAXResponse> {
+        return ajax(AccountAJAXWebServiceMeta.login.path, AccountAJAXWebServiceMeta.login.method, request);
+    }
+
+    public logout(): Promise<void> {
+        return ajax(AccountAJAXWebServiceMeta.logout.path, AccountAJAXWebServiceMeta.logout.method, null);
+    }
 }
 
-export function login(request: any) {
-    const ajaxRequest = {
-        username: request.username,
-        password: request.password
-    };
-    return (api as any).put("/ajax/login", ajaxRequest)
-        .then((response: any) => ({
-            success: response.success,
-            errorMessage: response.errorMessage,
-            name: response.name,
-            role: response.role
-        }));
-}
-
-export function logout() {
-    return (api as any).put("/ajax/logout");
-}
+export default new AccountAJAXWebServiceImpl();

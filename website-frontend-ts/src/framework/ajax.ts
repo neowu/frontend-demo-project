@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 
 export function APIException(message, responseStatus, errorCode): void {
     this.message = message;
@@ -30,13 +30,25 @@ axios.interceptors.response.use((response) => response, (error) => {
     handleError(error);
 });
 
-const api = {};
-["get", "delete", "post", "put", "patch"].forEach((method) => {
-    api[method] = (url, data) => axios.request({
+export function ajax<Request, Response>(url: string, method: string, request: Request): Promise<Response> {
+    const config: AxiosRequestConfig = {
         method,
-        url,
-        data
-    }).then((response) => response.data);
-});
+        url
+    };
 
-export default api;
+    if (method === "GET" || method === "DELETE") {
+        config.params = request;
+    } else if (method === "POST" || method === "PUT" || method === "PATCH") {
+        config.data = request;
+    }
+
+    return axios.request(config).then((response) => response.data);
+}
+
+export function path(pattern: string, params: { [name: string]: string }): string {
+    let path = pattern;
+    Object.entries(params).forEach(([name, value]) => {
+        path = path.replace(":" + name, value);
+    });
+    return path;
+}

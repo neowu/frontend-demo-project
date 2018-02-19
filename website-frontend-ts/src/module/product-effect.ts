@@ -1,17 +1,17 @@
 import {call, put} from "redux-saga/effects";
 import {takeLatestWithLoading} from "../framework/effect";
-import {listProducts, loadCreateProductConfig} from "../service/product";
+import productAJAXService from "../service/product";
 import {Effect} from "../framework/application";
 
 function* watchListProduct() {
     yield takeLatestWithLoading("PRODUCT/LIST", function* () {
-        yield call(listProducts);
+        yield call(productAJAXService.list);
     });
 }
 
 function* watchLoadCreateProductConfig() {
     yield takeLatestWithLoading("PRODUCT/LOAD_CREATE_CONFIG", function* () {
-        const response = yield call(loadCreateProductConfig);
+        const response = yield call(productAJAXService.createConfig);
         yield put({
             type: "PRODUCT/CREATE_CONFIG",
             response
