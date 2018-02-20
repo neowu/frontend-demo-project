@@ -43,8 +43,8 @@ const config = {
                     transpileOnly: true,
                     getCustomTransformers: () => ({
                         before: [TSImportPlugin({
-                            libraryName: 'antd',
-                            libraryDirectory: 'es',
+                            libraryName: "antd",
+                            libraryDirectory: "es",
                             style: true
                         })]
                     }),

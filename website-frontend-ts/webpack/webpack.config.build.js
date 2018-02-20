@@ -14,7 +14,7 @@ const config = {
         path: env.dist,
         filename: "static/js/[name].[chunkhash:8].js",
         chunkFilename: "static/js/[name]-[id].[chunkhash:8].js",
-        publicPath: env.webpackJSON.publicPath
+        publicPath: env.webpackJSON === null ? "/" : env.webpackJSON.publicPath
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -46,8 +46,8 @@ const config = {
                     configFile: env.tsConfig,
                     getCustomTransformers: () => ({
                         before: [TSImportPlugin({
-                            libraryName: 'antd',
-                            libraryDirectory: 'es',
+                            libraryName: "antd",
+                            libraryDirectory: "es",
                             style: true
                         })]
                     }),

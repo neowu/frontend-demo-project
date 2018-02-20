@@ -40,6 +40,8 @@ function devServer(compiler) {
 }
 
 function start() {
+    console.info(chalk.bold.white("[env]"), `conf=${env.conf}`);
+
     const compiler = webpack(webpackConfig);
     const server = devServer(compiler);
     server.listen(7443, "localhost", (error) => {
@@ -47,7 +49,7 @@ function start() {
             console.error(error);
             process.exit(1);
         }
-        console.log("starting dev server on", chalk.green("https://localhost:7443/\n"));
+        console.info("starting dev server on", chalk.green("https://localhost:7443/\n"));
         return null;
     });
 
