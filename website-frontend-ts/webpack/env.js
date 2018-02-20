@@ -9,8 +9,16 @@ function resolve(relativePath) {
     return path.resolve(__dirname, `../${relativePath}`);
 }
 
-function readJSON(relativePath) {
-    return JSON.parse(fs.readFileSync(resolve(relativePath)));
+function json(path) {
+    return JSON.parse(fs.readFileSync(path));
+}
+
+function webpackJSON() {
+    if (env === null) return null;
+    const path = resolve(`conf/${env}/webpack.json`);
+    if (!fs.existsSync(path)) return null;
+
+    return json(path);
 }
 
 module.exports = {
@@ -22,9 +30,9 @@ module.exports = {
     static: resolve("static"),
     conf: resolve(`conf/${env == null ? "local" : env}`),
     lib: resolve("lib"),
-    packageJSON: readJSON("package.json"),
+    packageJSON: json(resolve("package.json")),
     tsConfig: resolve("webpack/tsconfig.json"),
     tslintConfig: resolve("webpack/tslint.json"),
     stylelintConfig: resolve("webpack/stylelint.json"),
-    webpackJSON: env === null ? null : readJSON(`conf/${env}/webpack.json`)
+    webpackJSON: webpackJSON()
 };

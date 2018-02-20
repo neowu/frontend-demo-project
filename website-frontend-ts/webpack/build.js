@@ -23,6 +23,7 @@ function copyStatic() {
 
 function build() {
     console.info(chalk.bold.white("[env]"), `env=${env.env}`);
+    console.info(chalk.bold.white("[env]"), `webpackJSON=${env.webpackJSON}`);
     console.info(chalk.bold.white("[env]"), `conf=${env.conf}`);
 
     cleanup();
