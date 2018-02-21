@@ -1,8 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import Button from "antd/lib/button";
-
-require("antd/lib/button/style");
+import {Button} from "antd";
 
 const Welcome = () => {
     // const abc = 2;
@@ -20,9 +18,5 @@ const Welcome = () => {
         </Button>
     </div>;
 };
-
-// Welcome.propTypes = {
-//     dispatch: PropTypes.func
-// };
 
 export default connect()(Welcome);

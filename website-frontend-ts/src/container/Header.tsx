@@ -1,12 +1,18 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {Button, Layout, Menu} from "antd";
+import {Dispatch} from "redux";
 
 const css = require("./header.less");
 
-const Header = ({dispatch, loggedIn, userName}) => {
+interface Props {
+    loggedIn: boolean;
+    userName: string;
+    logout: () => void;
+}
+
+const Header: React.SFC<Props> = ({logout, loggedIn, userName}) => {
     const loginMenu = () =>
         <Menu mode="horizontal" defaultSelectedKeys={["1"]}>
             <Menu.Item key="1">
@@ -14,22 +20,18 @@ const Header = ({dispatch, loggedIn, userName}) => {
             </Menu.Item>
         </Menu>;
 
-    function logout() {
-        return dispatch({type: "LOGOUT"});
-    }
-
     return <Layout.Header className={css.header}>
         {loggedIn ? <div>Hello {userName}, <Button onClick={logout}>Logout</Button></div> : loginMenu()}
     </Layout.Header>;
 };
 
-// Header.propTypes = {
-//     loggedIn: PropTypes.bool,
-//     userName: PropTypes.string,
-//     dispatch: PropTypes.func
-// };
-
-export default connect((state: any) => ({
+const mapStatsToProps = (state: any) => ({
     loggedIn: state.user.currentUser.loggedIn,
-    userName: state.user.currentUser.name
-}))(Header);
+    userName: state.user.currentUser.name,
+});
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    logout: () => {
+        dispatch({type: "LOGOUT"});
+    }
+});
+export default connect(mapStatsToProps, mapDispatchToProps)(Header);

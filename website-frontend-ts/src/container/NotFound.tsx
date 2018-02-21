@@ -1,10 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
 
-const NotFound = () => <div>
+const NotFound: React.SFC<{}> = () => <div>
     <h1>Not Found</h1>
 </div>;
-
-// NotFound.propTypes = {};
 
 export default connect()(NotFound);

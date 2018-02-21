@@ -1,10 +1,13 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {Icon, Layout, Menu} from "antd";
 
-const Nav = ({role}) => {
+interface Props {
+    role: string;
+}
+
+const Nav: React.SFC<Props> = ({role}) => {
     function adminMenu() {
         return role === "admin" ? <Menu.SubMenu key="sub1" title={<span><Icon type="user"/>Users</span>}>
             <Menu.Item key="1"><Link to="/user-manage">Manage Users</Link></Menu.Item>
@@ -26,10 +29,6 @@ const Nav = ({role}) => {
         </Menu>
     </Layout.Sider>;
 };
-
-// Nav.propTypes = {
-//     role: PropTypes.string
-// };
 
 export default connect((state: any) => ({
     role: state.user.currentUser.role

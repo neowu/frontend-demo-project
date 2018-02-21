@@ -2,7 +2,17 @@ import React from "react";
 import {connect} from "react-redux";
 import {Button, Form, Radio} from "antd";
 
-const AddProduct = ({ui, form, dispatch}) => {
+interface Props {
+    ui: {
+        types: Array<{
+            name: string;
+            value: string;
+        }>;
+    };
+    form: any;
+}
+
+const AddProduct: React.SFC<Props> = ({ui, form}) => {
     const onSubmit = (event) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
@@ -25,17 +35,6 @@ const AddProduct = ({ui, form, dispatch}) => {
         </Form>
     </div>;
 };
-
-// AddProduct.propTypes = {
-//     dispatch: PropTypes.func,
-//     ui: PropTypes.shape({
-//         types: PropTypes.arrayOf(PropTypes.shape({
-//             name: PropTypes.string,
-//             value: PropTypes.string
-//         }))
-//     }),
-//     form: PropTypes.object
-// };
 
 export default connect((state: any) => ({
     ui: state.product.createProductUI

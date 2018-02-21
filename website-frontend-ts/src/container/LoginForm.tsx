@@ -1,10 +1,17 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
+import {Dispatch} from "redux";
+import {FormComponentProps} from "antd/lib/form";
 
 const css = require("./loginForm.less");
 
-const LoginForm = ({dispatch, form, errorMessage}) => {
+interface Props extends FormComponentProps {
+    errorMessage?: string;
+    dispatch: Dispatch<any>;
+}
+
+const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
     const onSubmit = (event) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
@@ -50,12 +57,6 @@ const LoginForm = ({dispatch, form, errorMessage}) => {
     </div>;
 };
 
-// LoginForm.propTypes = {
-//     dispatch: PropTypes.func,
-//     form: PropTypes.object,
-//     errorMessage: PropTypes.string
-// };
-
 export default connect((state: any) => ({
     errorMessage: state.user.login.errorMessage
-}))(Form.create()(LoginForm));
+}))(Form.create()(LoginForm) as any);
