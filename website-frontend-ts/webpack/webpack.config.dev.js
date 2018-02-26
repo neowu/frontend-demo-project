@@ -93,7 +93,6 @@ const config = {
         new ForkTSCheckerPlugin({
             tsconfig: env.tsConfig
         }),
-        new webpack.ProgressPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ]
 };
@@ -114,7 +113,7 @@ function configureDLL() {
 
 function configurePages() {
     Object.entries(env.packageJSON.config.pages).forEach(([name, page]) => {
-        config.entry[name] = `${env.src}/${page.js}`;
+        config.entry[name] = ["webpack-dev-server/client?https://0.0.0.0:7443", "webpack/hot/dev-server", `${env.src}/${page.js}`];
         config.plugins.push(new HTMLPlugin({
             filename: `${name}.html`,
             template: `${env.src}/${page.template}`,

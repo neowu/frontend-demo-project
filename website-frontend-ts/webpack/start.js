@@ -22,12 +22,14 @@ function devServer(compiler) {
         https: true,
         historyApiFallback: {rewrites: rewrites},
         hot: true,
-        inline: true,
         compress: true,
-        stats: "minimal",
+        progress: true,
         overlay: {
             warnings: true,
             errors: true
+        },
+        stats: {
+            colors: true
         },
         proxy: {
             "/ajax": {
@@ -49,7 +51,7 @@ function start() {
             console.error(error);
             process.exit(1);
         }
-        console.info("starting dev server on", chalk.green("https://localhost:7443/\n"));
+        console.info("starting dev server on", chalk.green("https://localhost:7443/"), "\n");
         return null;
     });
 
