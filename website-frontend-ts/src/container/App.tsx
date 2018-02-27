@@ -5,9 +5,9 @@ import Header from "./Header";
 import Nav from "./Nav";
 import {Layout} from "antd";
 import ProductList from "./product/ProductList";
-import Lazy from "../framework/component/Lazy";
+import Lazy from "framework/component/Lazy";
 import LoginForm from "./LoginForm";
-import withLoading from "../framework/component/loading";
+import withLoading from "framework/component/loading";
 import AddProduct from "./product/AddProduct";
 import NotFound from "./NotFound";
 

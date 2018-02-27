@@ -1,4 +1,4 @@
-import {ajax} from "../framework/ajax";
+import {ajax} from "framework/ajax";
 import {app} from "./api";
 import AccountAJAXWebService = app.api.AccountAJAXWebService;
 import AccountAJAXWebServiceMeta = app.api.AccountAJAXWebServiceMeta;

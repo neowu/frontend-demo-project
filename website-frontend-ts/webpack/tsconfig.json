@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
+    "baseUrl": "../src",
     "outDir": "../build/out",
     "module": "esnext",
     "target": "es5",
-    "jsx": "react",
+    "moduleResolution": "node",
     "sourceMap": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    //    "strict": true,
-    "moduleResolution": "node",
+    "importHelpers": true,
+    "jsx": "react",
     "lib": [
-      "es2017",
-      "dom"
+      "dom",
+      "es2017"
     ]
   },
   "include": [

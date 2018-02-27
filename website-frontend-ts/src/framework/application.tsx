@@ -7,10 +7,11 @@ import createSagaMiddleware from "redux-saga";
 import {withRouter} from "react-router-dom";
 import {LocationListener} from "history";
 import createHistory from "history/createBrowserHistory";
-
 import ErrorBoundary from "./component/ErrorBoundary";
 import {reducer} from "./component/loading";
 import {errorAction} from "./action";
+
+import "babel-polyfill";
 
 export type Effect = () => Iterator<any>;
 

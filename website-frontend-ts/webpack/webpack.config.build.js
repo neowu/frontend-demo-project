@@ -18,7 +18,7 @@ const config = {
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx"],
-        modules: [env.nodeModules],
+        modules: [env.src, env.nodeModules],
         alias: {
             conf: env.conf,
             lib: env.lib

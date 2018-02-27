@@ -1,7 +1,7 @@
 import {call, put} from "redux-saga/effects";
-import {takeLatestWithLoading} from "../framework/effect";
-import productAJAXService from "../service/product";
-import {Effect} from "../framework/application";
+import {takeLatestWithLoading} from "framework/effect";
+import productAJAXService from "service/product";
+import {Effect} from "framework/application";
 
 function* watchListProduct() {
     yield takeLatestWithLoading("PRODUCT/LIST", function* () {
