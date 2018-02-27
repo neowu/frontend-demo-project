@@ -4,11 +4,6 @@ const env = require("./env");
 const fs = require("fs-extra");
 const webpackConfig = require("./webpack.config.build");
 
-process.env.NODE_ENV = "production";
-process.on("unhandledRejection", (error) => {
-    throw error;
-});
-
 function cleanup() {
     console.info(chalk.bold.white("cleanup build/dist"));
     fs.emptyDirSync(env.dist);

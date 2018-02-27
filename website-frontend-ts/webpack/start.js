@@ -4,11 +4,6 @@ const env = require("./env");
 const webpackConfig = require("./webpack.config.dev");
 const DevServer = require("webpack-dev-server");
 
-process.env.NODE_ENV = "development";
-process.on("unhandledRejection", (error) => {
-    throw error;
-});
-
 function devServer(compiler) {
     const rewrites = [];
     Object.keys(env.packageJSON.config.pages).forEach((name) => {
