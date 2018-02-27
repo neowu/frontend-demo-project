@@ -1,15 +1,17 @@
 import {ajax} from "framework/ajax";
 import {app} from "./api";
-import ProductAJAXWebServiceMeta = app.api.ProductAJAXWebServiceMeta;
+import ProductAJAXWebServiceMetadata = app.api.ProductAJAXWebServiceMetadata;
 import ProductAJAXWebService = app.api.ProductAJAXWebService;
 
 class ProductAJAXWebServiceImpl implements ProductAJAXWebService {
-    public list(): Promise<app.api.product.ListProductResponse> {
-        return ajax(ProductAJAXWebServiceMeta.list.path, ProductAJAXWebServiceMeta.list.method, {});
+    list(): Promise<app.api.product.ListProductResponse> {
+        const meta = ProductAJAXWebServiceMetadata.list;
+        return ajax(meta.path, meta.method, {});
     }
 
-    public createConfig(): Promise<app.api.product.CreateProductConfigResponse> {
-        return ajax(ProductAJAXWebServiceMeta.createConfig.path, ProductAJAXWebServiceMeta.createConfig.method, {});
+    createConfig(): Promise<app.api.product.CreateProductConfigResponse> {
+        const meta = ProductAJAXWebServiceMetadata.createConfig;
+        return ajax(meta.path, meta.method, {});
     }
 }
 

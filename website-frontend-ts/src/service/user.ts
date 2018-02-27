@@ -1,19 +1,22 @@
 import {ajax} from "framework/ajax";
 import {app} from "./api";
 import AccountAJAXWebService = app.api.AccountAJAXWebService;
-import AccountAJAXWebServiceMeta = app.api.AccountAJAXWebServiceMeta;
+import AccountAJAXWebServiceMetadata = app.api.AccountAJAXWebServiceMetadata;
 
 class AccountAJAXWebServiceImpl implements AccountAJAXWebService {
-    public currentUser(): Promise<app.api.user.CurrentUserAJAXResponse> {
-        return ajax(AccountAJAXWebServiceMeta.currentUser.path, AccountAJAXWebServiceMeta.currentUser.method, {});
+    currentUser(): Promise<app.api.user.CurrentUserAJAXResponse> {
+        const meta = AccountAJAXWebServiceMetadata.currentUser;
+        return ajax(meta.path, meta.method, {});
     }
 
-    public login(request: app.api.user.LoginAJAXRequest): Promise<app.api.user.LoginAJAXResponse> {
-        return ajax(AccountAJAXWebServiceMeta.login.path, AccountAJAXWebServiceMeta.login.method, request);
+    login(request: app.api.user.LoginAJAXRequest): Promise<app.api.user.LoginAJAXResponse> {
+        const meta = AccountAJAXWebServiceMetadata.login;
+        return ajax(meta.path, meta.method, request);
     }
 
-    public logout(): Promise<void> {
-        return ajax(AccountAJAXWebServiceMeta.logout.path, AccountAJAXWebServiceMeta.logout.method, null);
+    logout(): Promise<void> {
+        const meta = AccountAJAXWebServiceMetadata.login;
+        return ajax(meta.path, meta.method, null);
     }
 }
 
