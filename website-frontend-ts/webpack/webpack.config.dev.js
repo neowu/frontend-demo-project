@@ -4,7 +4,7 @@ const AutoDllPlugin = require("autodll-webpack-plugin");
 const HTMLPlugin = require("html-webpack-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const ForkTSCheckerPlugin = require("fork-ts-checker-webpack-plugin");
-const TSImportPlugin = require('ts-import-plugin');
+const TSImportPlugin = require("ts-import-plugin");
 
 const config = {
     entry: {},

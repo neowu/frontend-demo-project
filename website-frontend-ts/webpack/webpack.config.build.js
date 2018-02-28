@@ -6,7 +6,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const HTMLPlugin = require("html-webpack-plugin");
 const ParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
-const TSImportPlugin = require('ts-import-plugin');
+const TSImportPlugin = require("ts-import-plugin");
 
 const config = {
     entry: {},
