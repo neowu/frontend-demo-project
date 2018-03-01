@@ -13,7 +13,7 @@ interface Props {
 }
 
 const AddProduct: React.SFC<Props> = ({ui, form}) => {
-    const onSubmit = (event) => {
+    const onSubmit = event => {
         event.preventDefault();
         form.validateFields((errors, values) => {
             // console.info(values);
@@ -26,7 +26,7 @@ const AddProduct: React.SFC<Props> = ({ui, form}) => {
         <Form onSubmit={onSubmit}>
             <Form.Item>
                 {typeDecorator(<Radio.Group>
-                    {ui.types.map((type) => <Radio.Button key={type.value} value={type.value}>{type.name}</Radio.Button>)}
+                    {ui.types.map(type => <Radio.Button key={type.value} value={type.value}>{type.name}</Radio.Button>)}
                 </Radio.Group>)}
             </Form.Item>
             <Form.Item>

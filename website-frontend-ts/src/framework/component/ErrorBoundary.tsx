@@ -2,11 +2,16 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {errorAction} from "../action";
 
-export function ReactException(message, stack, componentStack): void {
-    this.message = message;
-    this.stack = stack;
-    this.componentStack = componentStack;
-    return this;
+export class ReactException {
+    public message: string;
+    public stack: string;
+    public componentStack: string;
+
+    constructor(message, stack, componentStack) {
+        this.message = message;
+        this.stack = stack;
+        this.componentStack = componentStack;
+    }
 }
 
 interface Props {

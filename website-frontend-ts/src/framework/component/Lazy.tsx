@@ -12,7 +12,7 @@ export default class Lazy extends React.PureComponent<Props, State> {
     state: State = {Component: null};
 
     componentWillMount() {
-        this.props.module.then((module) => {
+        this.props.module.then(module => {
             this.setState({Component: module.default});
         });
     }

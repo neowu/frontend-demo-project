@@ -11,7 +11,7 @@ interface Props extends FormComponentProps {
 }
 
 const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
-    const onSubmit = (event) => {
+    const onSubmit = event => {
         event.preventDefault();
         form.validateFields((errors, values) => {
             if (!errors) {

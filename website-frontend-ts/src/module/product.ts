@@ -12,7 +12,7 @@ const module: Module = {
     state,
     reducers,
     effects,
-    listener: (dispatch) => ({pathname}) => {
+    listener: dispatch => ({pathname}) => {
         if (pathname === "/product/list") {
             dispatch({type: "PRODUCT/LIST"});
         } else if (pathname === "/product/add") {

@@ -18,7 +18,7 @@ const module: Module = {
     state,
     reducers,
     effects,
-    initialize: (dispatch) => {
+    initialize: dispatch => {
         dispatch({type: "CHECK_CURRENT_USER"});
     }
 };

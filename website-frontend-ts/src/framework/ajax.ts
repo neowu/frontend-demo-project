@@ -1,11 +1,15 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-export function APIException(message, responseStatus, errorCode): void {
-    this.message = message;
-    this.stack = Error().stack;
-    this.responseStatus = responseStatus;
-    this.errorCode = errorCode;
-    return this;
+export class APIException {
+    public message: string;
+    public responseStatus: number;
+    public errorCode: string;
+
+    constructor(message: string, responseStatus: number, errorCode: string) {
+        this.message = message;
+        this.responseStatus = responseStatus;
+        this.errorCode = errorCode;
+    }
 }
 
 function handleError(error) {
@@ -26,7 +30,7 @@ function handleError(error) {
     throw new APIException(message, responseStatus, errorCode);
 }
 
-axios.interceptors.response.use((response) => response, (error) => {
+axios.interceptors.response.use(response => response, error => {
     handleError(error);
 });
 
@@ -42,7 +46,7 @@ export function ajax<Request, Response>(url: string, method: string, request: Re
         config.data = request;
     }
 
-    return axios.request(config).then((response) => response.data);
+    return axios.request(config).then(response => response.data);
 }
 
 export function path(pattern: string, params: { [name: string]: string }): string {

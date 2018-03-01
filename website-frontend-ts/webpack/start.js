@@ -6,7 +6,7 @@ const DevServer = require("webpack-dev-server");
 
 function devServer(compiler) {
     const rewrites = [];
-    Object.keys(env.packageJSON.config.pages).forEach((name) => {
+    Object.keys(env.packageJSON.config.pages).forEach(name => {
         rewrites.push({
             from: new RegExp(`/${name}`),
             to: `/${name}.html`
@@ -41,7 +41,7 @@ function start() {
 
     const compiler = webpack(webpackConfig);
     const server = devServer(compiler);
-    server.listen(7443, "localhost", (error) => {
+    server.listen(7443, "localhost", error => {
         if (error) {
             console.error(error);
             process.exit(1);
@@ -50,7 +50,7 @@ function start() {
         return null;
     });
 
-    ["SIGINT", "SIGTERM"].forEach((signal) => {
+    ["SIGINT", "SIGTERM"].forEach(signal => {
         process.on(signal, () => {
             server.close();
             process.exit();
