@@ -52,17 +52,6 @@ const config = {
             },
             {
                 test: /\.(css|less)$/,
-                include: env.src,
-                use: ["style-loader", {
-                    loader: "css-loader",
-                    options: {
-                        modules: true
-                    }
-                }, "less-loader"]
-            },
-            {
-                test: /\.(css|less)$/,
-                include: env.nodeModules,
                 use: ["style-loader", "css-loader", "less-loader"]
             },
             {

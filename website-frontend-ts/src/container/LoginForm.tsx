@@ -3,8 +3,7 @@ import {connect} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
 import {Dispatch} from "redux";
 import {FormComponentProps} from "antd/lib/form";
-
-const css = require("./loginForm.less");
+import "./loginForm.less";
 
 interface Props extends FormComponentProps {
     errorMessage?: string;
@@ -43,7 +42,7 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
 
     return <div>
         {errorMessage ? <Alert message="Login Failed" description={errorMessage} type="error" closable/> : null}
-        <Form onSubmit={onSubmit} className={css["login-form"]}>
+        <Form onSubmit={onSubmit} className="login-form">
             <Form.Item>
                 {usernameDecorator(<Input placeholder="Username"/>)}
             </Form.Item>
@@ -51,7 +50,7 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
                 {passwordDecorator(<Input type="password" placeholder="Password"/>)}
             </Form.Item>
             <Form.Item>
-                <Button type="primary" htmlType="submit" className={css["login-form-button"]}>Log in</Button>
+                <Button type="primary" htmlType="submit" className="login-form-button">Log in</Button>
             </Form.Item>
         </Form>
     </div>;

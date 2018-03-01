@@ -3,7 +3,7 @@ import {app} from "./api";
 import AccountAJAXWebService = app.api.AccountAJAXWebService;
 import AccountAJAXWebServiceMetadata = app.api.AccountAJAXWebServiceMetadata;
 
-class AccountAJAXWebServiceImpl implements AccountAJAXWebService {
+class AccountAJAXWebServiceClient implements AccountAJAXWebService {
     currentUser(): Promise<app.api.user.CurrentUserAJAXResponse> {
         const meta = AccountAJAXWebServiceMetadata.currentUser;
         return ajax(meta.path, meta.method, {});
@@ -20,4 +20,4 @@ class AccountAJAXWebServiceImpl implements AccountAJAXWebService {
     }
 }
 
-export default new AccountAJAXWebServiceImpl();
+export default new AccountAJAXWebServiceClient();

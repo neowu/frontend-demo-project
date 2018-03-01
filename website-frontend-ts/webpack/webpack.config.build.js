@@ -55,39 +55,11 @@ const config = {
             },
             {
                 test: /\.(css|less)$/,
-                include: env.src,
                 use: ExtractTextPlugin.extract({
                     use: [{
                         loader: "css-loader",
                         options: {
                             sourceMap: true,
-                            modules: true,
-                            minimize: {safe: true},
-                            importLoaders: 2
-                        }
-                    }, {
-                        loader: "postcss-loader",
-                        options: {
-                            sourceMap: true,
-                            plugins: () => [autoprefixer]
-                        }
-                    }, {
-                        loader: "less-loader",
-                        options: {
-                            sourceMap: true
-                        }
-                    }]
-                })
-            },
-            {
-                test: /\.(css|less)$/,
-                include: env.nodeModules,
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader",
-                        options: {
-                            sourceMap: true,
-                            modules: false,
                             minimize: {safe: true},
                             importLoaders: 2
                         }

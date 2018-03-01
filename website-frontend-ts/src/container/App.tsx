@@ -10,8 +10,7 @@ import LoginForm from "./LoginForm";
 import withLoading from "framework/component/loading";
 import AddProduct from "./product/AddProduct";
 import NotFound from "./NotFound";
-
-const css = require("./app.less");
+import "./app.less";
 
 const App = () => {
     const Welcome = () => <Lazy module={import(/* webpackChunkName: "welcome" */"./Welcome")}/>;
@@ -21,7 +20,7 @@ const App = () => {
         <Layout>
             <Header/>
             <Layout>
-                <Layout.Content className={css.layout}>
+                <Layout.Content className="app-layout">
                     <Switch>
                         <Route exact path="/" component={Welcome}/>
                         <Route exact path="/login" component={LoginForm}/>

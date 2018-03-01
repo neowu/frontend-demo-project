@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {Button, Layout, Menu} from "antd";
 import {Dispatch} from "redux";
 
-const css = require("./header.less");
+import "./header.less";
 
 interface Props {
     loggedIn: boolean;
@@ -20,7 +20,7 @@ const Header: React.SFC<Props> = ({logout, loggedIn, userName}) => {
             </Menu.Item>
         </Menu>;
 
-    return <Layout.Header className={css.header}>
+    return <Layout.Header className="header-header">
         {loggedIn ? <div>Hello {userName}, <Button onClick={logout}>Logout</Button></div> : loginMenu()}
     </Layout.Header>;
 };
