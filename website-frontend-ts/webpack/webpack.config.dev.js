@@ -27,16 +27,6 @@ const config = {
             {
                 test: /\.(ts|tsx)$/,
                 include: env.src,
-                loader: "tslint-loader",
-                enforce: "pre",
-                options: {
-                    configFile: env.tslintConfig,
-                    emitErrors: true
-                }
-            },
-            {
-                test: /\.(ts|tsx)$/,
-                include: env.src,
                 loader: "ts-loader",
                 options: {
                     configFile: env.tsConfig,
@@ -80,7 +70,9 @@ const config = {
             syntax: "less"
         }),
         new ForkTSCheckerPlugin({
-            tsconfig: env.tsConfig
+            tsconfig: env.tsConfig,
+            tslint: env.tslintConfig,
+            workers: ForkTSCheckerPlugin.TWO_CPUS_FREE
         }),
         new webpack.HotModuleReplacementPlugin()
     ]

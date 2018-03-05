@@ -17,5 +17,6 @@
     "noImplicitThis": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true
-  }
+  },
+  "include": ["../src/**/*"]
 }

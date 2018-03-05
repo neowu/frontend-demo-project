@@ -6,6 +6,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const HTMLPlugin = require("html-webpack-plugin");
 const ParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
+const ForkTSCheckerPlugin = require("fork-ts-checker-webpack-plugin");
 const TSImportPlugin = require("ts-import-plugin");
 
 const config = {
@@ -31,19 +32,10 @@ const config = {
             {
                 test: /\.(ts|tsx)$/,
                 include: env.src,
-                loader: "tslint-loader",
-                enforce: "pre",
-                options: {
-                    configFile: env.tslintConfig,
-                    emitErrors: true
-                }
-            },
-            {
-                test: /\.(ts|tsx)$/,
-                include: env.src,
                 loader: "ts-loader",
                 options: {
                     configFile: env.tsConfig,
+                    transpileOnly: true,
                     getCustomTransformers: () => ({
                         before: [TSImportPlugin({
                             libraryName: "antd",
@@ -111,6 +103,11 @@ const config = {
             minChunks: Infinity
         }),
         new webpack.NamedModulesPlugin(),    // even though webpack doc recommends HashedModuleIdsPlugin, NamedModulesPlugin results in smaller file after gzip
+        new ForkTSCheckerPlugin({
+            tsconfig: env.tsConfig,
+            tslint: env.tslintConfig,
+            workers: ForkTSCheckerPlugin.TWO_CPUS_FREE
+        }),
         new StylelintPlugin({
             configFile: env.stylelintConfig,
             context: env.src,
