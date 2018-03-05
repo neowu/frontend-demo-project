@@ -18,7 +18,7 @@ const config = {
         publicPath: env.webpackJSON === null ? "/" : env.webpackJSON.publicPath
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".jsx"],
+        extensions: [".ts", ".tsx", ".js", ".jsx", ".less"],
         modules: [env.src, env.nodeModules],
         alias: {
             conf: env.conf,
@@ -64,6 +64,7 @@ const config = {
                     }, {
                         loader: "less-loader",
                         options: {
+                            javascriptEnabled: true,
                             sourceMap: true
                         }
                     }]

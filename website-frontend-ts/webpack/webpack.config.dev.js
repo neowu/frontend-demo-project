@@ -14,7 +14,7 @@ const config = {
         publicPath: "/"
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".jsx"],
+        extensions: [".ts", ".tsx", ".js", ".jsx", ".less"],
         modules: [env.src, env.nodeModules],
         alias: {
             conf: env.conf,
@@ -42,7 +42,12 @@ const config = {
             },
             {
                 test: /\.(css|less)$/,
-                use: ["style-loader", "css-loader", "less-loader"]
+                use: ["style-loader", "css-loader", {
+                    loader: "less-loader",
+                    options: {
+                        javascriptEnabled: true
+                    },
+                }]
             },
             {
                 test: /\.(png|jpe?g|gif|svg)$/,
