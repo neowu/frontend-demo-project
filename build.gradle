@@ -11,7 +11,7 @@ subprojects {
     }
 }
 
-def coreNGVersion = '5.3.7'
+def coreNGVersion = '6.0.0'
 
 project(':website') {
     apply from: file("${rootDir}/gradle/app.gradle")
