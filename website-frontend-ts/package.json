@@ -10,20 +10,9 @@
   "license": "Apache-2.0",
   "config": {
     "lib": {
-      "react": [
-        "react-dom",
-        "react-redux",
-        "redux",
-        "react-router-dom",
-        "redux-saga",
-        "react-router-redux"
-      ],
-      "net": [
-        "axios"
-      ],
-      "polyfill": [
-        "babel-polyfill"
-      ]
+      "react": ["react-dom", "react-redux", "redux", "react-router-dom", "redux-saga", "react-router-redux"],
+      "net": ["axios"],
+      "polyfill": ["@babel/polyfill"]
     },
     "pages": {
       "index": {
@@ -74,7 +63,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "7.0.0-beta.40",
-    "antd": "3.2.3",
+    "antd": "3.3.0",
     "axios": "0.18.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",

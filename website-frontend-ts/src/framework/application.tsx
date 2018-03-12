@@ -11,7 +11,7 @@ import ErrorBoundary from "./component/ErrorBoundary";
 import {reducer} from "./component/loading";
 import {errorAction} from "./action";
 
-import "babel-polyfill";
+import "@babel/polyfill";
 
 export type Effect = () => Iterator<any>;
 
@@ -62,7 +62,7 @@ export class Application {
             }
         });
 
-        window.onerror = (message, source, line, column, error) => {
+        window.onerror = (message: string, source?: string, line?: number, column?: number, error?: Error) => {
             store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases
         };
 
@@ -91,8 +91,7 @@ export class Application {
     private devtools(enhancer) {
         const production = process.env.NODE_ENV === "production";
         if (!production) {
-            // tslint:disable-next-line:no-string-literal
-            const reduxExtension = window["__REDUX_DEVTOOLS_EXTENSION__"];
+            const reduxExtension = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
             if (reduxExtension) {
                 return compose(enhancer, reduxExtension({}));
             }

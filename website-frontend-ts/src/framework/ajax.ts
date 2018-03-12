@@ -35,10 +35,7 @@ axios.interceptors.response.use(response => response, error => {
 });
 
 export function ajax<Request, Response>(url: string, method: string, request: Request): Promise<Response> {
-    const config: AxiosRequestConfig = {
-        method,
-        url
-    };
+    const config: AxiosRequestConfig = {method, url};
 
     if (method === "GET" || method === "DELETE") {
         config.params = request;
