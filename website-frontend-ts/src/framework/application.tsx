@@ -24,7 +24,7 @@ export interface Module {
 }
 
 export class Application {
-    private modules: { [name: string]: Module } = {};
+    private modules: {[name: string]: Module} = {};
 
     public module(name: string, module: Module): void {
         this.modules[name] = module;

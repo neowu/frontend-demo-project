@@ -47,7 +47,7 @@
     "less-loader": "4.1.0",
     "postcss-loader": "2.1.1",
     "style-loader": "0.20.3",
-    "stylelint": "9.1.1",
+    "stylelint": "9.1.2",
     "stylelint-config-standard": "18.2.0",
     "stylelint-webpack-plugin": "0.10.3",
     "ts-import-plugin": "1.4.4",
