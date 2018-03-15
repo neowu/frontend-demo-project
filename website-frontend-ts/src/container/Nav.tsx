@@ -30,6 +30,7 @@ const Nav: React.SFC<Props> = ({role}) => {
     </Layout.Sider>;
 };
 
+// state.app.user.currentUser.role
 export default connect((state: any) => ({
-    role: state.user.currentUser.role
+    role: null
 }))(Nav);

@@ -6,11 +6,13 @@ import Nav from "./Nav";
 import {Layout} from "antd";
 import ProductList from "./product/ProductList";
 import Lazy from "framework/component/Lazy";
-import LoginForm from "./LoginForm";
 import withLoading from "framework/component/loading";
 import AddProduct from "./product/AddProduct";
 import NotFound from "./NotFound";
+import userModule from "module_v2/user";
 import "./app.less";
+
+import "module_v2/user";
 
 const App = () => {
     const Welcome = () => <Lazy module={import(/* webpackChunkName: "welcome" */"./Welcome")}/>;
@@ -23,7 +25,7 @@ const App = () => {
                 <Layout.Content className="app-layout">
                     <Switch>
                         <Route exact path="/" component={Welcome}/>
-                        <Route exact path="/login" component={LoginForm}/>
+                        <Route exact path="/login" component={userModule.components.LoginForm}/>
                         <Route exact path="/product/list" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
                         <Route exact path="/product/add" component={withLoading("PRODUCT/LOAD_CREATE_CONFIG", <AddProduct/>)}/>
                         <Route component={NotFound}/>

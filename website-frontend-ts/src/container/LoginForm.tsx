@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
 import {Dispatch} from "redux";
 import {FormComponentProps} from "antd/lib/form";
+import {RootState} from "../model/state";
 import "./loginForm.less";
 
 interface Props extends FormComponentProps {
@@ -56,6 +57,6 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
     </div>;
 };
 
-export default connect((state: any) => ({
-    errorMessage: state.user.login.errorMessage
+export default connect((state: RootState) => ({
+    errorMessage: state.app.user.login.errorMessage
 }))(Form.create()(LoginForm) as any);

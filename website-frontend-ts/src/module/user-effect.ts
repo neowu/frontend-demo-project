@@ -1,7 +1,7 @@
 import {call, put} from "redux-saga/effects";
 import {push} from "react-router-redux";
 import {takeLatest} from "framework/effect";
-import userAJAXService from "service/user";
+import userAJAXService from "module_v2/user/ajax/user";
 import {Effect} from "framework/application";
 import {app} from "service/api";
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;

@@ -1,0 +1,28 @@
+import {app} from "../../service/api";
+import {actionCreator} from "../../framework_v2/actionCreator";
+import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
+import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
+
+export interface State {
+    currentUser: {
+        loggedIn: boolean;
+        role: string;
+        name: string;
+    };
+    login: {
+        success: boolean;
+        errorMessage: string;
+    };
+}
+
+export interface Actions {
+    getCurrentUserSuccess(response: CurrentUserAJAXResponse);
+
+    loginResult(response: LoginAJAXResponse);
+
+    _checkCurrentUser();
+
+    _login(request: app.api.user.LoginAJAXRequest);
+}
+
+export const actions = actionCreator<Actions>("user");

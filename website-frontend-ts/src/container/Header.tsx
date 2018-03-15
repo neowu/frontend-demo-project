@@ -26,8 +26,8 @@ const Header: React.SFC<Props> = ({logout, loggedIn, userName}) => {
 };
 
 const mapStatsToProps = (state: any) => ({
-    loggedIn: state.user.currentUser.loggedIn,
-    userName: state.user.currentUser.name,
+    loggedIn: state.app.user.currentUser.loggedIn,
+    userName: state.app.user.currentUser.name,
 });
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     logout: () => {
