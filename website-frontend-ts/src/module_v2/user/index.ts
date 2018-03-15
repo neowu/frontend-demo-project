@@ -8,7 +8,7 @@ import {module} from "../../framework_v2/module";
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
 import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 
-const initState: State = {
+const initialState: State = {
     currentUser: {
         loggedIn: false,
         role: null,
@@ -34,7 +34,7 @@ class ActionHandler implements Actions {
         }
     }
 
-    getCurrentUserSuccess(response: app.api.user.CurrentUserAJAXResponse, state: State = initState): State {
+    getCurrentUserSuccess(response: app.api.user.CurrentUserAJAXResponse, state: State = initialState): State {
         return {
             ...state,
             currentUser: {
@@ -45,7 +45,7 @@ class ActionHandler implements Actions {
         };
     }
 
-    loginResult(response: app.api.user.LoginAJAXResponse, state: State = initState): State {
+    loginResult(response: app.api.user.LoginAJAXResponse, state: State = initialState): State {
         return {
             ...state,
             login: {
@@ -61,4 +61,4 @@ class ActionHandler implements Actions {
     }
 }
 
-export default module("user", initState, new ActionHandler(), {LoginForm});
+export default module("user", initialState, new ActionHandler(), {LoginForm});
