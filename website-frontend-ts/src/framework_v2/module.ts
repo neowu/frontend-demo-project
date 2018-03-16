@@ -1,6 +1,6 @@
 import {Components, Handler, HandlerMap} from "./type";
 import {app} from "./app";
-import {LocationChangedActionType} from "./action";
+import {ErrorActionType, LocationChangedActionType} from "./action";
 
 export function module(namespace: string, components: Components, actionHandler: any, initialState: any): Components {
     if (!app.namespaces.has(namespace)) {
@@ -34,8 +34,10 @@ function registerListenerHandler(namespace: string, actionType: string, handler:
     if (actionType === "_onInitialized") {
         return true;
     } else if (actionType === "_onLocationChanged") {
-        put(app.effectHandlers, LocationChangedActionType, namespace, handler); // LocationChangedActionType is already in app.sagaActionTypes
+        put(app.effectHandlers, LocationChangedActionType, namespace, handler);     // LocationChangedActionType is already in app.sagaActionTypes
         return true;
+    } else if (actionType === "_onError") {
+        put(app.effectHandlers, ErrorActionType, namespace, handler);   // ErrorActionType is already in app.sagaActionTypes
     }
     return false;
 }

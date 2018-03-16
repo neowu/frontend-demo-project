@@ -10,13 +10,13 @@ export interface HandlerMap {
 }
 
 export interface App {
-    history: History;
     store: Store<any>;
+    history: History;
+    sagaMiddleware: SagaMiddleware<any>;
     namespaces: Set<string>;
     reducerHandlers: HandlerMap;
     sagaActionTypes: string[];
     effectHandlers: HandlerMap;
-    sagaMiddleware: SagaMiddleware<any>;
 }
 
 export interface Action extends ReduxAction {
@@ -29,7 +29,9 @@ export interface Components {
 }
 
 export interface Listener {
-    _onInitialized?(): void;
+    _onInitialized?();
 
-    _onLocationChanged?(location: Location): void;
+    _onLocationChanged?(location: Location);
+
+    _onError?(error: any);        // TODO: formalize error type
 }
