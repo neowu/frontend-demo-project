@@ -3,7 +3,8 @@ import {connect} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
 import {Dispatch} from "redux";
 import {FormComponentProps} from "antd/lib/form";
-import {RootState} from "../model/state";
+import {RootState} from "model/state";
+import {actions} from "../type";
 import "./loginForm.less";
 
 interface Props extends FormComponentProps {
@@ -16,13 +17,10 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
             if (!errors) {
-                dispatch({
-                    type: "LOGIN",
-                    request: {
-                        username: values.username,
-                        password: values.password
-                    }
-                });
+                dispatch(actions._login({
+                    username: values.username,
+                    password: values.password
+                }));
             }
         });
     };

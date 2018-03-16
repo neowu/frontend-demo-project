@@ -3,8 +3,10 @@ import {push} from "react-router-redux";
 import {call, put} from "redux-saga/effects";
 import {app} from "service/api";
 import userAJAXService from "./ajax/user";
-import LoginForm from "../../container/LoginForm";
+import LoginForm from "./component/LoginForm";
 import {module} from "../../framework_v2/module";
+import {Listener} from "../../framework_v2/type";
+import {Dispatch} from "redux";
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
 import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 
@@ -61,4 +63,11 @@ class ActionHandler implements Actions {
     }
 }
 
-export default module("user", initialState, new ActionHandler(), {LoginForm});
+class ListenerImpl implements Listener {
+    initialized(dispatch: Dispatch<any>): void {
+        const action = actions._checkCurrentUser();
+        dispatch(action);
+    }
+}
+
+export default module("user", {LoginForm}, new ActionHandler(), initialState, new ListenerImpl());

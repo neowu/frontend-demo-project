@@ -1,6 +1,7 @@
 import {ComponentType} from "react";
 import {History} from "history";
 import {Action as ReduxAction, Store} from "redux";
+import {Dispatch} from "react-redux";
 
 export type Handler<T> = (data: any, state: T, rootState?: any) => T;
 
@@ -29,4 +30,11 @@ export interface Components {
 export interface Module {
     actionHandler: {[actionType: string]: Handler<any>};
     components: Components;
+    listener?: Listener;
+}
+
+export interface Listener {
+    initialized?(dispatch: Dispatch<any>): void;
+
+    locationChanged?(location: Location, dispatch: Dispatch<any>): void;
 }
