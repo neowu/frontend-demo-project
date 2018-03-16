@@ -1,6 +1,6 @@
 import {call, put} from "redux-saga/effects";
 import {takeLatestWithLoading} from "framework/effect";
-import productAJAXService from "service/product";
+import productAJAXService from "module_v2/product/ajax/product";
 import {Effect} from "framework/application";
 
 function* watchListProduct() {

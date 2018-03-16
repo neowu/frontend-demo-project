@@ -7,9 +7,9 @@ import {Layout} from "antd";
 import ProductList from "./product/ProductList";
 import Lazy from "framework/component/Lazy";
 import withLoading from "framework/component/loading";
-import AddProduct from "./product/AddProduct";
 import NotFound from "./NotFound";
 import userModule from "module_v2/user";
+import productModule from "module_v2/product";
 import "./app.less";
 
 import "module_v2/user";
@@ -27,7 +27,7 @@ const App = () => {
                         <Route exact path="/" component={Welcome}/>
                         <Route exact path="/login" component={userModule.LoginForm}/>
                         <Route exact path="/product/list" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
-                        <Route exact path="/product/add" component={withLoading("PRODUCT/LOAD_CREATE_CONFIG", <AddProduct/>)}/>
+                        <Route exact path="/product/add" component={productModule.AddProduct}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </Layout.Content>

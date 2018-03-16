@@ -1,4 +1,4 @@
-import {actions, Actions, State} from "./type";
+import {actions, Actions, namespace, State} from "./type";
 import {push} from "react-router-redux";
 import {call, put} from "redux-saga/effects";
 import {Listener} from "framework_v2/type";
@@ -67,4 +67,4 @@ class ActionHandler implements Actions, Listener {
     }
 }
 
-export default module("user", {LoginForm}, new ActionHandler(), initialState);
+export default module(namespace, {LoginForm}, new ActionHandler(), initialState);

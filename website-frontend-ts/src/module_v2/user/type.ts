@@ -3,6 +3,8 @@ import {actionCreator} from "../../framework_v2/actionCreator";
 import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
 
+export const namespace = "user";
+
 export interface State {
     currentUser: {
         loggedIn: boolean;
@@ -25,4 +27,4 @@ export interface Actions {
     _logout();
 }
 
-export const actions = actionCreator<Actions>("user");
+export const actions = actionCreator<Actions>(namespace);
