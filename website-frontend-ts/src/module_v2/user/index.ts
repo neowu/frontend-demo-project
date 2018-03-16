@@ -23,6 +23,11 @@ const initialState: State = {
 };
 
 class ActionHandler implements Actions {
+    * _logout() {
+        yield call(userAJAXService.logout);
+        yield put(actions.loginResult({success: false}));
+    }
+
     * _checkCurrentUser() {
         const response: CurrentUserAJAXResponse = yield call(userAJAXService.currentUser);
         yield put(actions.getCurrentUserSuccess(response));

@@ -23,6 +23,8 @@ export interface Actions {
     _checkCurrentUser();
 
     _login(request: app.api.user.LoginAJAXRequest);
+
+    _logout();
 }
 
 export const actions = actionCreator<Actions>("user");

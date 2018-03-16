@@ -5,6 +5,8 @@ import {Button, Layout, Menu} from "antd";
 import {Dispatch} from "redux";
 
 import "./header.less";
+import {actions} from "../module_v2/user/type";
+import {RootState} from "../model/state";
 
 interface Props {
     loggedIn: boolean;
@@ -25,13 +27,13 @@ const Header: React.SFC<Props> = ({logout, loggedIn, userName}) => {
     </Layout.Header>;
 };
 
-const mapStatsToProps = (state: any) => ({
+const mapStatsToProps = (state: RootState) => ({
     loggedIn: state.app.user.currentUser.loggedIn,
     userName: state.app.user.currentUser.name,
 });
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     logout: () => {
-        dispatch({type: "LOGOUT"});
+        dispatch(actions._logout());
     }
 });
 export default connect(mapStatsToProps, mapDispatchToProps)(Header);
