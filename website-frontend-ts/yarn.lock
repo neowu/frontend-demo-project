@@ -16,9 +16,9 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@babel/polyfill@7.0.0-beta.41":
-  version "7.0.0-beta.41"
-  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.0.0-beta.41.tgz#73bd1975d445b99fc23f975b18e0ce761f1b2e95"
+"@babel/polyfill@7.0.0-beta.42":
+  version "7.0.0-beta.42"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.0.0-beta.42.tgz#f7b0166370b4e0b407919bdf81ee4d0fcefbe77b"
   dependencies:
     core-js "^2.5.3"
     regenerator-runtime "^0.11.1"
@@ -45,9 +45,9 @@
     "@types/react" "*"
     redux "^3.6.0"
 
-"@types/react-router-dom@4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.2.4.tgz#02c43274129ffe0ac42b348f7c8c4a9a4e127c8a"
+"@types/react-router-dom@4.2.5":
+  version "4.2.5"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.2.5.tgz#a6fc921f1008567eae35244e30f34f5f7655d5f0"
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -1387,9 +1387,9 @@ css-color-names@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
 
-css-loader@0.28.10:
-  version "0.28.10"
-  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-0.28.10.tgz#40282e79230f7bcb4e483efa631d670b735ebf42"
+css-loader@0.28.11:
+  version "0.28.11"
+  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-0.28.11.tgz#c3f9864a700be2711bb5a2462b2389b1a392dab7"
   dependencies:
     babel-code-frame "^6.26.0"
     css-selector-tokenizer "^0.7.0"
@@ -7290,10 +7290,11 @@ webpack-merge@^4.1.0:
   dependencies:
     lodash "^4.17.5"
 
-webpack-parallel-uglify-plugin@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/webpack-parallel-uglify-plugin/-/webpack-parallel-uglify-plugin-1.0.2.tgz#f0213872f870d50063c717c7bcff6374a4aa9068"
+webpack-parallel-uglify-plugin@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/webpack-parallel-uglify-plugin/-/webpack-parallel-uglify-plugin-1.1.0.tgz#252a6c796bf79a8047b00de2cf08c23aa9861441"
   dependencies:
+    babel-code-frame "^6.26.0"
     glob "^7.0.5"
     mkdirp "^0.5.1"
     pify "^3.0.0"

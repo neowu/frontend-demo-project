@@ -10,20 +10,9 @@
   "license": "Apache-2.0",
   "config": {
     "lib": {
-      "react": [
-        "react-dom",
-        "react-redux",
-        "redux",
-        "react-router-dom",
-        "redux-saga",
-        "react-router-redux"
-      ],
-      "net": [
-        "axios"
-      ],
-      "polyfill": [
-        "@babel/polyfill"
-      ]
+      "react": ["react-dom", "react-redux", "redux", "react-router-dom", "redux-saga", "react-router-redux"],
+      "net": ["axios"],
+      "polyfill": ["@babel/polyfill"]
     },
     "pages": {
       "index": {
@@ -41,12 +30,12 @@
     "@types/react": "16.0.40",
     "@types/react-dom": "16.0.4",
     "@types/react-redux": "5.0.15",
-    "@types/react-router-dom": "4.2.4",
+    "@types/react-router-dom": "4.2.5",
     "@types/react-router-redux": "5.0.12",
     "autodll-webpack-plugin": "0.3.9",
     "autoprefixer": "8.1.0",
     "chalk": "2.3.2",
-    "css-loader": "0.28.10",
+    "css-loader": "0.28.11",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.11",
     "fork-ts-checker-webpack-plugin": "0.4.1",
@@ -69,11 +58,11 @@
     "url-loader": "1.0.1",
     "webpack": "3.11.0",
     "webpack-dev-server": "2.11.1",
-    "webpack-parallel-uglify-plugin": "1.0.2",
+    "webpack-parallel-uglify-plugin": "1.1.0",
     "yargs": "11.0.0"
   },
   "dependencies": {
-    "@babel/polyfill": "7.0.0-beta.41",
+    "@babel/polyfill": "7.0.0-beta.42",
     "antd": "3.3.0",
     "axios": "0.18.0",
     "react": "16.2.0",
