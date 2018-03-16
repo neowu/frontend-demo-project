@@ -1,14 +1,7 @@
 import axios, {AxiosRequestConfig} from "axios";
 
 export class APIException {
-    public message: string;
-    public responseStatus: number;
-    public errorCode: string;
-
-    constructor(message: string, responseStatus: number, errorCode: string) {
-        this.message = message;
-        this.responseStatus = responseStatus;
-        this.errorCode = errorCode;
+    constructor(public message: string, public responseStatus: number, public errorCode: string, public stack = Error().stack) {
     }
 }
 
@@ -46,7 +39,7 @@ export function ajax<Request, Response>(url: string, method: string, request: Re
     return axios.request(config).then(response => response.data);
 }
 
-export function path(pattern: string, params: { [name: string]: string }): string {
+export function path(pattern: string, params: {[name: string]: string}): string {
     let path = pattern;
     Object.entries(params).forEach(([name, value]) => {
         path = path.replace(":" + name, value);

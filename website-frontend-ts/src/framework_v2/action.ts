@@ -1,8 +1,19 @@
-export const ErrorActionType: string = "@@framework/ERROR";
+import {Location} from "history";
+import {Action} from "./type";
 
-export function errorAction(error: any) {
+export const ErrorActionType: string = "@@framework/error";
+export const LocationChangedActionType: string = "@@framework/locationChanged";
+
+export function errorAction(error: any): Action {
     return {
         type: ErrorActionType,
-        error
+        data: error
+    };
+}
+
+export function locationChangedAction(location: Location) {
+    return {
+        type: LocationChangedActionType,
+        data: location
     };
 }

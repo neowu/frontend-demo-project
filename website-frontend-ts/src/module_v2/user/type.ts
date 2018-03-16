@@ -20,8 +20,6 @@ export interface Actions {
 
     loginResult(response: LoginAJAXResponse);
 
-    _checkCurrentUser();
-
     _login(request: app.api.user.LoginAJAXRequest);
 
     _logout();

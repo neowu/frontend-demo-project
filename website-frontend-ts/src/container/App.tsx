@@ -25,7 +25,7 @@ const App = () => {
                 <Layout.Content className="app-layout">
                     <Switch>
                         <Route exact path="/" component={Welcome}/>
-                        <Route exact path="/login" component={userModule.components.LoginForm}/>
+                        <Route exact path="/login" component={userModule.LoginForm}/>
                         <Route exact path="/product/list" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
                         <Route exact path="/product/add" component={withLoading("PRODUCT/LOAD_CREATE_CONFIG", <AddProduct/>)}/>
                         <Route component={NotFound}/>

@@ -6,9 +6,10 @@ import createSagaMiddleware from "redux-saga";
 import {put, takeEvery} from "redux-saga/effects";
 import {withRouter} from "react-router-dom";
 import {ConnectedRouter, routerMiddleware, routerReducer} from "react-router-redux";
+import {Location} from "history";
 import createHistory from "history/createBrowserHistory";
 import ErrorBoundary from "./component/ErrorBoundary";
-import {errorAction} from "./action";
+import {errorAction, locationChangedAction, LocationChangedActionType} from "./action";
 import {Action, App} from "./type";
 import "@babel/polyfill";
 
@@ -43,11 +44,11 @@ function createApp(): App {
     const namespaces = new Set<string>();
     const reducerHandlers = {};
     const effectHandlers = {};
-    const sagaActionTypes = [];
+    const sagaActionTypes = [LocationChangedActionType];    // locationChanged action type is shared by multiple modules
 
     function reducer(state: any = {}, action: Action): any {
-        if (reducerHandlers.hasOwnProperty(action.type)) {
-            const handlers = reducerHandlers[action.type];
+        const handlers = reducerHandlers[action.type];
+        if (handlers) {
             const rootState = app.store.getState();
             const newState = {...state};
             Object.keys(handlers).forEach(namespace => {
@@ -60,8 +61,8 @@ function createApp(): App {
 
     function* saga() {
         yield takeEvery(sagaActionTypes, function* (action: Action) {
-            if (effectHandlers.hasOwnProperty(action.type)) {
-                const handlers = effectHandlers[action.type];
+            const handlers = effectHandlers[action.type];
+            if (handlers) {
                 const rootState = app.store.getState().app;
                 for (const namespace of Object.keys(handlers)) {
                     try {
@@ -83,9 +84,13 @@ function createApp(): App {
     const store = createStore(combineReducers(reducers), {}, devtools(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
     sagaMiddleware.run(saga);
 
+    history.listen((location: Location) => {
+        store.dispatch(locationChangedAction(location));
+    });
+
     window.onerror = (message: string, source?: string, line?: number, column?: number, error?: Error) => {
         store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases
     };
 
-    return {history, store, namespaces, reducerHandlers, sagaActionTypes, effectHandlers};
+    return {history, store, namespaces, reducerHandlers, sagaActionTypes, effectHandlers, sagaMiddleware};
 }

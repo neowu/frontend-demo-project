@@ -6,7 +6,6 @@ import userAJAXService from "./ajax/user";
 import LoginForm from "./component/LoginForm";
 import {module} from "../../framework_v2/module";
 import {Listener} from "../../framework_v2/type";
-import {Dispatch} from "redux";
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
 import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 
@@ -22,15 +21,15 @@ const initialState: State = {
     }
 };
 
-class ActionHandler implements Actions {
+class ActionHandler implements Actions, Listener {
+    * _onInitialized() {
+        const response: CurrentUserAJAXResponse = yield call(userAJAXService.currentUser);
+        yield put(actions.getCurrentUserSuccess(response));
+    }
+
     * _logout() {
         yield call(userAJAXService.logout);
         yield put(actions.loginResult({success: false}));
-    }
-
-    * _checkCurrentUser() {
-        const response: CurrentUserAJAXResponse = yield call(userAJAXService.currentUser);
-        yield put(actions.getCurrentUserSuccess(response));
     }
 
     * _login(request: app.api.user.LoginAJAXRequest) {
@@ -68,11 +67,4 @@ class ActionHandler implements Actions {
     }
 }
 
-class ListenerImpl implements Listener {
-    initialized(dispatch: Dispatch<any>): void {
-        const action = actions._checkCurrentUser();
-        dispatch(action);
-    }
-}
-
-export default module("user", {LoginForm}, new ActionHandler(), initialState, new ListenerImpl());
+export default module("user", {LoginForm}, new ActionHandler(), initialState);
