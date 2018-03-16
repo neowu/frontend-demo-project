@@ -1,6 +1,6 @@
 import {Components, Handler, HandlerMap} from "./type";
 import {app} from "./app";
-import {ErrorActionType, LocationChangedActionType} from "./action";
+import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
 
 export function module(namespace: string, components: Components, actionHandler: any, initialState: any): Components {
     if (!app.namespaces.has(namespace)) {
@@ -57,9 +57,7 @@ function put(handlers: HandlerMap, actionName: string, namespace: string, handle
 }
 
 function initializeState(namespace: string, initialState: any) {
-    const initActionType = `@@framework/init/${namespace}`;             // TODO: more elegant way to init state?
-    put(app.reducerHandlers, initActionType, namespace, () => initialState);
-    app.store.dispatch({type: initActionType});
+    app.store.dispatch(initializeStateAction(namespace, initialState));
 }
 
 function onInitialized(actionHandler: any) {

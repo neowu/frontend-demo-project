@@ -9,7 +9,7 @@ import {ConnectedRouter, routerMiddleware, routerReducer} from "react-router-red
 import {Location} from "history";
 import createHistory from "history/createBrowserHistory";
 import ErrorBoundary from "./component/ErrorBoundary";
-import {errorAction, ErrorActionType, locationChangedAction, LocationChangedActionType} from "./action";
+import {errorAction, ErrorActionType, InitializeStateActionType, locationChangedAction, LocationChangedActionType} from "./action";
 import {Action, App} from "./type";
 import "@babel/polyfill";
 
@@ -47,6 +47,12 @@ function createApp(): App {
     const sagaActionTypes = [LocationChangedActionType, ErrorActionType];    // actionTypes are shared by multiple modules
 
     function reducer(state: any = {}, action: Action): any {
+        if (action.type === InitializeStateActionType) {
+            const namespace = action.data.namespace;
+            const initialState = action.data.state;
+            return {...state, [namespace]: initialState};
+        }
+
         const handlers = reducerHandlers[action.type];
         if (handlers) {
             const rootState = app.store.getState();
@@ -56,6 +62,7 @@ function createApp(): App {
             });
             return newState;
         }
+
         return state;
     }
 
