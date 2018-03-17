@@ -64,4 +64,4 @@ mid-long term:
 * UI automation test, selenium or just chrome headless 
 
 ## TODO
-* how to manage sourcemap? just use nosources-source-map or put source-map somewhere else
+* typescript version: loading, listen action from other namespace, ajax error handling 

@@ -4,7 +4,7 @@ import {Action as ReduxAction, Store} from "redux";
 import {SagaMiddleware} from "redux-saga";
 import {RouterState} from "connected-react-router";
 
-export type Handler<T> = (data: any, state: T, rootState?: any) => T;
+export type Handler<T> = (payload: any, state: T, rootState?: any) => T;
 
 export interface HandlerMap {
     [actionType: string]: {[namespace: string]: Handler<any>};

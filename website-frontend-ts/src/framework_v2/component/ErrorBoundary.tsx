@@ -1,38 +1,37 @@
-import React from "react";
-import {connect} from "react-redux";
-import {Dispatch} from "redux";
+import React, {ErrorInfo, ReactNode} from "react";
+import {connect, DispatchProp} from "react-redux";
 import {errorAction} from "../action";
 
-interface Props {
-    dispatch: any;
+export class ReactException extends Error {
+    constructor(message: string, public stack: string, public componentStack: string) {
+        super(message);
+    }
+}
+
+interface Props extends DispatchProp<any> {
+    children: ReactNode;
 }
 
 interface State {
-    message: string;
+    errorMessage: string;
 }
 
 class ErrorBoundary extends React.PureComponent<Props, State> {
     state = {
-        message: ""
+        errorMessage: ""
     };
 
+    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+        this.setState({errorMessage: error.message});
+        this.props.dispatch(errorAction(new ReactException(error.message, error.stack, errorInfo.componentStack)));
+    }
+
     render() {
-        if (this.state.message) {
-            return <div>failed to render, error: {this.state.message}</div>;
+        if (this.state.errorMessage) {
+            return <div>failed to render, error: {this.state.errorMessage}</div>;
         }
         return this.props.children;
     }
-
-    componentDidCatch(error: Error) {
-        this.setState({message: error.message});
-        this.props.dispatch(errorAction(error));
-    }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-    return {
-        dispatch
-    };
-};
-
-export default connect(null, mapDispatchToProps)(ErrorBoundary);
+export default connect()(ErrorBoundary);

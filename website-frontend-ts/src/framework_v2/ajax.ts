@@ -1,7 +1,8 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-export class APIException {
-    constructor(public message: string, public responseStatus: number, public errorCode: string, public stack = Error().stack) {
+export class APIException extends Error {
+    constructor(message: string, public responseStatus: number, public errorCode: string, public stack: string = Error().stack) {
+        super(message);
     }
 }
 
@@ -12,8 +13,8 @@ function handleError(error) {
     if (error.response) {
         responseStatus = error.response.status;
         if (error.response.data) {
-            if (error.response.data.message) {
-                message = error.response.data.message;
+            if (error.response.data.errorMessage) {
+                message = error.response.data.errorMessage;
             }
             if (error.response.data.errorCode) {
                 errorCode = error.response.data.errorCode;
