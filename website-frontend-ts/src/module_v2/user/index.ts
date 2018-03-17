@@ -1,9 +1,8 @@
 import {actions, Actions, namespace, State} from "./type";
-import {push} from "react-router-redux";
+import {push} from "connected-react-router";
 import {call, put} from "redux-saga/effects";
-import {Listener} from "framework_v2/type";
-import {module} from "framework_v2/module";
-import {app} from "service/api";
+import {Listener, module} from "framework_v2";
+import {app} from "type/api";
 import userAJAXService from "./ajax/user";
 import LoginForm from "./component/LoginForm";
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;

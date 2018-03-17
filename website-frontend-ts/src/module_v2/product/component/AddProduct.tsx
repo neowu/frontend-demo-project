@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Button, Form, Radio} from "antd";
-import {RootState} from "model/state";
+import {RootState} from "type/state";
 import {FormComponentProps} from "antd/lib/form";
 import {Dispatch} from "redux";
 

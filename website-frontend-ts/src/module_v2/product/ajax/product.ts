@@ -1,5 +1,5 @@
 import {ajax} from "framework_v2/ajax";
-import {app} from "../../../service/api";
+import {app} from "../../../type/api";
 import ProductAJAXWebServiceMetadata = app.api.ProductAJAXWebServiceMetadata;
 import ProductAJAXWebService = app.api.ProductAJAXWebService;
 

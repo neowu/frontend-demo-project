@@ -1,4 +1,4 @@
-import {app} from "../../service/api";
+import {app} from "../../type/api";
 import {actionCreator} from "../../framework_v2/actionCreator";
 import CreateProductConfigResponse = app.api.product.CreateProductConfigResponse;
 

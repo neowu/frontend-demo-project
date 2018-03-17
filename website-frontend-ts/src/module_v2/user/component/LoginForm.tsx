@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
 import {Dispatch} from "redux";
 import {FormComponentProps} from "antd/lib/form";
-import {RootState} from "model/state";
+import {RootState} from "type/state";
 import {actions} from "../type";
 import "./loginForm.less";
 

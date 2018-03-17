@@ -3,9 +3,10 @@ import {Location} from "history";
 import {call, put} from "redux-saga/effects";
 import {Listener} from "framework_v2/type";
 import {module} from "framework_v2/module";
-import {app} from "service/api";
+import {app} from "type/api";
 import productAJAXService from "./ajax/product";
 import AddProduct from "./component/AddProduct";
+import ProductList from "./component/ProductList";
 
 const initialState: State = {
     createProductUI: {
@@ -28,8 +29,10 @@ class ActionHandler implements Actions, Listener {
         if (location.pathname === "/product/add") {
             const response = yield call(productAJAXService.createConfig);
             yield put(actions.populateCreateConfig(response));
+        } else if (location.pathname === "/product/list") {
+            yield call(productAJAXService.list);
         }
     }
 }
 
-export default module(namespace, {AddProduct}, new ActionHandler(), initialState);
+export default module(namespace, {AddProduct, ProductList}, new ActionHandler(), initialState);

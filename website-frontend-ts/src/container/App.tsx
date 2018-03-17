@@ -4,18 +4,17 @@ import {connect} from "react-redux";
 import Header from "./Header";
 import Nav from "./Nav";
 import {Layout} from "antd";
-import ProductList from "./product/ProductList";
+import ProductList from "../module_v2/product/component/ProductList";
 import Lazy from "framework/component/Lazy";
-import withLoading from "framework/component/loading";
 import NotFound from "./NotFound";
-import userModule from "module_v2/user";
-import productModule from "module_v2/product";
 import "./app.less";
 
-import "module_v2/user";
+import userModule from "module_v2/user";
+import {asyncComponent} from "framework_v2";
 
 const App = () => {
     const Welcome = () => <Lazy module={import(/* webpackChunkName: "welcome" */"./Welcome")}/>;
+    const AddProduct = asyncComponent(() => import(/* webpackChunkName: "product" */"module_v2/product"), "AddProduct");
 
     return <Layout>
         <Nav/>
@@ -26,8 +25,8 @@ const App = () => {
                     <Switch>
                         <Route exact path="/" component={Welcome}/>
                         <Route exact path="/login" component={userModule.LoginForm}/>
-                        <Route exact path="/product/list" component={withLoading("PRODUCT/LIST", <ProductList/>)}/>
-                        <Route exact path="/product/add" component={productModule.AddProduct}/>
+                        <Route exact path="/product/list" component={ProductList}/>
+                        <Route exact path="/product/add" component={AddProduct}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </Layout.Content>

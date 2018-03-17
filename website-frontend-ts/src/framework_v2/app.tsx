@@ -5,11 +5,10 @@ import {Provider} from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import {put, takeEvery} from "redux-saga/effects";
 import {withRouter} from "react-router-dom";
-import {ConnectedRouter, routerMiddleware, routerReducer} from "react-router-redux";
-import {Location} from "history";
+import {ConnectedRouter, connectRouter, routerMiddleware} from "connected-react-router";
 import createHistory from "history/createBrowserHistory";
 import ErrorBoundary from "./component/ErrorBoundary";
-import {errorAction, ErrorActionType, InitializeStateActionType, locationChangedAction, LocationChangedActionType} from "./action";
+import {errorAction, ErrorActionType, InitializeStateActionType, LocationChangedActionType} from "./action";
 import {Action, App} from "./type";
 import "@babel/polyfill";
 
@@ -73,7 +72,7 @@ function createApp(): App {
                 const rootState = app.store.getState().app;
                 for (const namespace of Object.keys(handlers)) {
                     try {
-                        yield* handlers[namespace](action.data, rootState[namespace], rootState);
+                        yield* handlers[namespace](action.data ? action.data : (action as any).payload, rootState[namespace], rootState);
                     } catch (error) {
                         yield put(errorAction(error));
                     }
@@ -84,16 +83,11 @@ function createApp(): App {
 
     const history = createHistory();
     const reducers = {
-        router: routerReducer,
         app: reducer
     };
     const sagaMiddleware = createSagaMiddleware();
-    const store = createStore(combineReducers(reducers), {}, devtools(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
+    const store = createStore(connectRouter(history)(combineReducers(reducers)), {}, devtools(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
     sagaMiddleware.run(saga);
-
-    history.listen((location: Location) => {
-        store.dispatch(locationChangedAction(location));
-    });
 
     window.onerror = (message: string, source?: string, line?: number, column?: number, error?: Error) => {
         store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases

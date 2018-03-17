@@ -3,11 +3,11 @@ import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {errorAction} from "../action";
 
-export interface Props {
+interface Props {
     dispatch: any;
 }
 
-export interface State {
+interface State {
     message: string;
 }
 
@@ -29,7 +29,7 @@ class ErrorBoundary extends React.PureComponent<Props, State> {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<string>) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
     return {
         dispatch
     };

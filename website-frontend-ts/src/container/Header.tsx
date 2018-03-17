@@ -6,7 +6,7 @@ import {Dispatch} from "redux";
 
 import "./header.less";
 import {actions} from "../module_v2/user/type";
-import {RootState} from "../model/state";
+import {RootState} from "../type/state";
 
 interface Props {
     loggedIn: boolean;

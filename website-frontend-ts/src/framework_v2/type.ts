@@ -2,6 +2,7 @@ import {ComponentType} from "react";
 import {History, Location} from "history";
 import {Action as ReduxAction, Store} from "redux";
 import {SagaMiddleware} from "redux-saga";
+import {RouterState} from "connected-react-router";
 
 export type Handler<T> = (data: any, state: T, rootState?: any) => T;
 
@@ -34,4 +35,7 @@ export interface Listener {
     _onLocationChanged?(location: Location);
 
     _onError?(error: any);        // TODO: formalize error type
+}
+
+export interface FrameworkState extends RouterState {
 }
