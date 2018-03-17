@@ -1,5 +1,5 @@
-import {app} from "../../service/api";
-import {actionCreator} from "../../framework_v2/actionCreator";
+import {app} from "service/api";
+import {actionCreator} from "framework_v2/actionCreator";
 import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
 
@@ -18,7 +18,7 @@ export interface State {
 }
 
 export interface Actions {
-    getCurrentUserSuccess(response: CurrentUserAJAXResponse);
+    populateCurrentUser(response: CurrentUserAJAXResponse);
 
     loginResult(response: LoginAJAXResponse);
 

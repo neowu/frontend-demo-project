@@ -24,7 +24,7 @@ const initialState: State = {
 class ActionHandler implements Actions, Listener {
     * _onInitialized() {
         const response: CurrentUserAJAXResponse = yield call(userAJAXService.currentUser);
-        yield put(actions.getCurrentUserSuccess(response));
+        yield put(actions.populateCurrentUser(response));
     }
 
     * _logout() {
@@ -40,7 +40,7 @@ class ActionHandler implements Actions, Listener {
         }
     }
 
-    getCurrentUserSuccess(response: app.api.user.CurrentUserAJAXResponse, state: State = initialState): State {
+    populateCurrentUser(response: app.api.user.CurrentUserAJAXResponse, state: State = initialState): State {
         return {
             ...state,
             currentUser: {
