@@ -12,6 +12,8 @@ interface Props extends FormComponentProps {
             value: string;
         }>;
     };
+
+    dispatch: Dispatch<RootState>;
 }
 
 const AddProduct: React.SFC<Props> = ({ui, form}) => {
@@ -42,11 +44,10 @@ const mapStateToProps = (state: RootState) => ({
     ui: state.app.product.createProductUI
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (dispatch: Dispatch<RootState>) => {
     return {
         dispatch
     };
 };
 
-const wrappedComponent = Form.create()(AddProduct);
-export default connect(mapStateToProps, mapDispatchToProps)(wrappedComponent as any);
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(AddProduct));

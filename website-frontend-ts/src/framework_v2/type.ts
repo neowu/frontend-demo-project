@@ -22,7 +22,7 @@ export interface App {
 
 export interface Action extends ReduxAction {
     type: string;
-    data: any;
+    payload: any;
 }
 
 export interface Components {

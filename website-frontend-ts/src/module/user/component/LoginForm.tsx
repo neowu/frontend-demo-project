@@ -1,15 +1,13 @@
 import React from "react";
-import {connect} from "react-redux";
+import {connect, DispatchProp} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
-import {Dispatch} from "redux";
 import {FormComponentProps} from "antd/lib/form";
 import {RootState} from "type/state";
 import {actions} from "../type";
 import "./loginForm.less";
 
-interface Props extends FormComponentProps {
-    errorMessage?: string;
-    dispatch: Dispatch<any>;
+interface Props extends FormComponentProps, DispatchProp<any> {
+    errorMessage: string;
 }
 
 const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
@@ -55,6 +53,10 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
     </div>;
 };
 
-export default connect((state: RootState) => ({
-    errorMessage: state.app.user.login.errorMessage
-}))(Form.create()(LoginForm) as any);
+const mapStateToProps = (state: RootState) => {
+    return {
+        errorMessage: state.app.user.login.errorMessage
+    };
+};
+
+export default connect(mapStateToProps)(Form.create()(LoginForm));

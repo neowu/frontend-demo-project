@@ -1,8 +1,7 @@
+import {Listener, module} from "framework_v2";
 import {actions, Actions, namespace, State} from "./type";
 import {Location} from "history";
 import {call, put} from "redux-saga/effects";
-import {Listener} from "framework_v2/type";
-import {module} from "framework_v2/module";
 import {app} from "type/api";
 import productAJAXService from "./ajax/product";
 import AddProduct from "./component/AddProduct";

@@ -47,8 +47,8 @@ function createApp(): App {
 
     function reducer(state: any = {}, action: Action): any {
         if (action.type === InitializeStateActionType) {
-            const namespace = action.data.namespace;
-            const initialState = action.data.state;
+            const namespace = action.payload.namespace;
+            const initialState = action.payload.state;
             return {...state, [namespace]: initialState};
         }
 
@@ -57,7 +57,7 @@ function createApp(): App {
             const rootState = app.store.getState();
             const newState = {...state};
             Object.keys(handlers).forEach(namespace => {
-                newState[namespace] = handlers[namespace](action.data, state[namespace], rootState.app);
+                newState[namespace] = handlers[namespace](action.payload, state[namespace], rootState.app);
             });
             return newState;
         }
@@ -72,7 +72,7 @@ function createApp(): App {
                 const rootState = app.store.getState().app;
                 for (const namespace of Object.keys(handlers)) {
                     try {
-                        yield* handlers[namespace](action.data ? action.data : (action as any).payload, rootState[namespace], rootState);
+                        yield* handlers[namespace](action.payload, rootState[namespace], rootState);
                     } catch (error) {
                         yield put(errorAction(error));
                     }

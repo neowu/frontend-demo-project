@@ -8,13 +8,13 @@ export const InitializeStateActionType: string = "@@framework/initializeState";
 export function errorAction(error: any): Action {
     return {
         type: ErrorActionType,
-        data: error
+        payload: error
     };
 }
 
 export function initializeStateAction(namespace: string, state: any): Action {
     return {
         type: InitializeStateActionType,
-        data: {namespace, state}
+        payload: {namespace, state}
     };
 }

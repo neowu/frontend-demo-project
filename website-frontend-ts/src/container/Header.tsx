@@ -5,8 +5,8 @@ import {Button, Layout, Menu} from "antd";
 import {Dispatch} from "redux";
 
 import "./header.less";
-import {actions} from "../module_v2/user/type";
-import {RootState} from "../type/state";
+import {actions} from "module/user/type";
+import {RootState} from "type/state";
 
 interface Props {
     loggedIn: boolean;
@@ -31,7 +31,7 @@ const mapStatsToProps = (state: RootState) => ({
     loggedIn: state.app.user.currentUser.loggedIn,
     userName: state.app.user.currentUser.name,
 });
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<RootState>) => ({
     logout: () => {
         dispatch(actions._logout());
     }
