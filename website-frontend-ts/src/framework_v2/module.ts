@@ -1,25 +1,34 @@
-import {Components, Handler, HandlerMap} from "./type";
+import {Components, Handler, HandlerMap, HandlerMetadata, HandlerType} from "./type";
 import {app} from "./app";
 import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
+
+export function handler(type: HandlerType = HandlerType.REDUCER, global: boolean = false) {
+    return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+        descriptor.value.meta = {type, global};
+    };
+}
 
 export function module(namespace: string, components: Components, actionHandler: any, initialState: any): Components {
     if (!app.namespaces.has(namespace)) {
         app.namespaces.add(namespace);
 
         Object.keys(actionHandler.__proto__).forEach(actionType => {
-            const handler = actionHandler[actionType];
+            const handler: Handler<any> = actionHandler[actionType];
 
             const isListenerHandler = registerListenerHandler(namespace, actionType, handler);
             if (isListenerHandler) {
                 return;
             }
 
-            const qualifiedActionName = qualifiedActionType(namespace, actionType);
-            if (actionType.charAt(0) === "_") {
-                app.sagaActionTypes.push(qualifiedActionName);
-                put(app.effectHandlers, qualifiedActionName, namespace, handler);
+            const meta: HandlerMetadata = metadata(handler);
+            const qualifiedActionType = meta.global === true ? actionType : `${namespace}/${actionType}`;
+            if (meta.type === HandlerType.EFFECT) {
+                if (!app.sagaActionTypes.includes(qualifiedActionType)) {
+                    app.sagaActionTypes.push(qualifiedActionType);          // saga takeLatest() requires string[], global action type could exists in multiple modules
+                }
+                put(app.effectHandlers, namespace, qualifiedActionType, handler);
             } else {
-                put(app.reducerHandlers, qualifiedActionName, namespace, handler);
+                put(app.reducerHandlers, namespace, qualifiedActionType, handler);
             }
         });
 
@@ -31,29 +40,31 @@ export function module(namespace: string, components: Components, actionHandler:
 }
 
 function registerListenerHandler(namespace: string, actionType: string, handler: any): boolean {
-    if (actionType === "_onInitialized") {
-        return true;
-    } else if (actionType === "_onLocationChanged") {
-        put(app.effectHandlers, LocationChangedActionType, namespace, handler);     // LocationChangedActionType is already in app.sagaActionTypes
-        return true;
-    } else if (actionType === "_onError") {
-        put(app.effectHandlers, ErrorActionType, namespace, handler);   // ErrorActionType is already in app.sagaActionTypes
+    switch (actionType) {
+        case "onInitialized":
+            return true;
+        case "onLocationChanged":
+            put(app.effectHandlers, namespace, LocationChangedActionType, handler);     // LocationChangedActionType is already in app.sagaActionTypes
+            return true;
+        case "onError":
+            put(app.effectHandlers, namespace, ErrorActionType, handler);   // ErrorActionType is already in app.sagaActionTypes
+            return true;
     }
     return false;
 }
 
-function qualifiedActionType(namespace: string, actionType: string): string {   // TODO: is all framework events saga effect, if so just defined in listener?
-    if (actionType.startsWith("@@")) {
-        return actionType;
+function metadata(handler: Handler<any>): HandlerMetadata {
+    if (handler.meta) {
+        return handler.meta;
     }
-    return `${namespace}/${actionType}`;
+    return {type: HandlerType.REDUCER, global: false};
 }
 
-function put(handlers: HandlerMap, actionName: string, namespace: string, handler: Handler<any>): void {
-    if (!handlers[actionName]) {
-        handlers[actionName] = {};
+function put(handlers: HandlerMap, namesapce: string, actionType: string, handler: Handler<any>): void {
+    if (!handlers[actionType]) {
+        handlers[actionType] = {};
     }
-    handlers[actionName][namespace] = handler;
+    handlers[actionType][namesapce] = handler;
 }
 
 function initializeState(namespace: string, initialState: any) {
@@ -61,13 +72,13 @@ function initializeState(namespace: string, initialState: any) {
 }
 
 function onInitialized(actionHandler: any) {
-    if (actionHandler._onInitialized) {
-        app.sagaMiddleware.run(actionHandler._onInitialized);
+    if (actionHandler.onInitialized) {
+        app.sagaMiddleware.run(actionHandler.onInitialized);
     }
 }
 
 function onLocationChanged(actionHandler: any) {
-    if (actionHandler._onLocationChanged) {
-        app.sagaMiddleware.run(actionHandler._onLocationChanged, app.history.location);  // history listener won't trigger on first refresh or on module loading, manual trigger once
+    if (actionHandler.onLocationChanged) {
+        app.sagaMiddleware.run(actionHandler.onLocationChanged, app.history.location);  // history listener won't trigger on first refresh or on module loading, manual trigger once
     }
 }

@@ -3,13 +3,13 @@ import ReactDOM from "react-dom";
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import {Provider} from "react-redux";
 import createSagaMiddleware from "redux-saga";
-import {put, takeEvery} from "redux-saga/effects";
+import {put, takeLatest} from "redux-saga/effects";
 import {withRouter} from "react-router-dom";
 import {ConnectedRouter, connectRouter, routerMiddleware} from "connected-react-router";
 import createHistory from "history/createBrowserHistory";
 import ErrorBoundary from "./component/ErrorBoundary";
 import {errorAction, ErrorActionType, InitializeStateActionType, LocationChangedActionType} from "./action";
-import {Action, App} from "./type";
+import {Action, App, HandlerMap} from "./type";
 import "@babel/polyfill";
 
 export const app = createApp();
@@ -41,8 +41,8 @@ function devtools(enhancer) {
 
 function createApp(): App {
     const namespaces = new Set<string>();
-    const reducerHandlers = {};
-    const effectHandlers = {};
+    const reducerHandlers: HandlerMap = {};
+    const effectHandlers: HandlerMap = {};
     const sagaActionTypes = [LocationChangedActionType, ErrorActionType];    // actionTypes are shared by multiple modules
 
     function reducer(state: any = {}, action: Action): any {
@@ -66,7 +66,7 @@ function createApp(): App {
     }
 
     function* saga() {
-        yield takeEvery(sagaActionTypes, function* (action: Action) {
+        yield takeLatest(sagaActionTypes, function* (action: Action) {
             const handlers = effectHandlers[action.type];
             if (handlers) {
                 const rootState = app.store.getState().app;

@@ -22,9 +22,9 @@ export interface Actions {
 
     loginResult(response: LoginAJAXResponse);
 
-    _login(request: app.api.user.LoginAJAXRequest);
+    login(request: app.api.user.LoginAJAXRequest);
 
-    _logout();
+    logout();
 }
 
 export const actions = actionCreator<Actions>(namespace);

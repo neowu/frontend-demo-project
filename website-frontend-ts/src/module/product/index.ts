@@ -24,7 +24,7 @@ class ActionHandler implements Actions, Listener {
         };
     }
 
-    * _onLocationChanged(location: Location) {
+    * onLocationChanged(location: Location) {
         if (location.pathname === "/product/add") {
             const response = yield call(productAJAXService.createConfig);
             yield put(actions.populateCreateConfig(response));

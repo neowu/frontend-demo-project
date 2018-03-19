@@ -1,7 +1,7 @@
 import {actions, Actions, namespace, State} from "./type";
 import {push} from "connected-react-router";
 import {call, put} from "redux-saga/effects";
-import {Listener, module} from "framework_v2";
+import {handler, HandlerType, Listener, module} from "framework_v2";
 import {app} from "type/api";
 import userAJAXService from "./ajax/user";
 import LoginForm from "./component/LoginForm";
@@ -21,17 +21,19 @@ const initialState: State = {
 };
 
 class ActionHandler implements Actions, Listener {
-    * _onInitialized() {
+    * onInitialized() {
         const response: CurrentUserAJAXResponse = yield call(userAJAXService.currentUser);
         yield put(actions.populateCurrentUser(response));
     }
 
-    * _logout() {
+    @handler(HandlerType.EFFECT)
+    * logout() {
         yield call(userAJAXService.logout);
         yield put(actions.loginResult({success: false}));
     }
 
-    * _login(request: app.api.user.LoginAJAXRequest) {
+    @handler(HandlerType.EFFECT)
+    * login(request: app.api.user.LoginAJAXRequest) {
         const response: LoginAJAXResponse = yield call(userAJAXService.login, request);
         yield put(actions.loginResult(response));
         if (response.success) {

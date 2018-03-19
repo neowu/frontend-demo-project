@@ -64,4 +64,6 @@ mid-long term:
 * UI automation test, selenium or just chrome headless 
 
 ## TODO
-* typescript version: loading, listen action from other namespace, ajax error handling 
+* loading
+* ajax error handling
+* debug output to console/logger 

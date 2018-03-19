@@ -10,9 +10,20 @@
   "license": "Apache-2.0",
   "config": {
     "lib": {
-      "react": ["react-dom", "react-redux", "redux", "react-router-dom", "redux-saga", "connected-react-router"],
-      "net": ["axios"],
-      "polyfill": ["@babel/polyfill"]
+      "react": [
+        "react-dom",
+        "react-redux",
+        "redux",
+        "react-router-dom",
+        "redux-saga",
+        "connected-react-router"
+      ],
+      "net": [
+        "axios"
+      ],
+      "polyfill": [
+        "@babel/polyfill"
+      ]
     },
     "pages": {
       "index": {
@@ -44,7 +55,7 @@
     "jest": "22.4.2",
     "less": "3.0.1",
     "less-loader": "4.1.0",
-    "postcss-loader": "2.1.1",
+    "postcss-loader": "2.1.2",
     "style-loader": "0.20.3",
     "stylelint": "9.1.3",
     "stylelint-config-standard": "18.2.0",
@@ -62,7 +73,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "7.0.0-beta.42",
-    "antd": "3.3.0",
+    "antd": "3.3.1",
     "axios": "0.18.0",
     "connected-react-router": "4.3.0",
     "react": "16.2.0",

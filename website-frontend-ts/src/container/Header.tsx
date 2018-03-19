@@ -27,13 +27,15 @@ const Header: React.SFC<Props> = ({logout, loggedIn, userName}) => {
     </Layout.Header>;
 };
 
-const mapStatsToProps = (state: RootState) => ({
-    loggedIn: state.app.user.currentUser.loggedIn,
-    userName: state.app.user.currentUser.name,
-});
+const mapStatsToProps = (state: RootState) => {
+    return {
+        loggedIn: state.app.user.currentUser.loggedIn,
+        userName: state.app.user.currentUser.name,
+    };
+};
 const mapDispatchToProps = (dispatch: Dispatch<RootState>) => ({
     logout: () => {
-        dispatch(actions._logout());
+        dispatch(actions.logout());
     }
 });
 export default connect(mapStatsToProps, mapDispatchToProps)(Header);
