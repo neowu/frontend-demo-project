@@ -72,7 +72,7 @@ function createApp(): App {
                 const rootState = app.store.getState().app;
                 for (const namespace of Object.keys(handlers)) {
                     try {
-                        yield* handlers[namespace](action.payload, rootState[namespace], rootState);
+                        yield handlers[namespace](action.payload, rootState[namespace], rootState);
                     } catch (error) {
                         yield put(errorAction(error));
                     }

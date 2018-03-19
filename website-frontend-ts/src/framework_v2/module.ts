@@ -1,6 +1,7 @@
 import {Components, Handler, HandlerMap, HandlerMetadata, HandlerType} from "./type";
 import {app} from "./app";
-import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
+import {errorAction, ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
+import {put} from "redux-saga/effects";
 
 export function handler(type: HandlerType = HandlerType.REDUCER, global: boolean = false) {
     return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
@@ -26,9 +27,9 @@ export function module(namespace: string, components: Components, actionHandler:
                 if (!app.sagaActionTypes.includes(qualifiedActionType)) {
                     app.sagaActionTypes.push(qualifiedActionType);          // saga takeLatest() requires string[], global action type could exists in multiple modules
                 }
-                put(app.effectHandlers, namespace, qualifiedActionType, handler);
+                putHandler(app.effectHandlers, namespace, qualifiedActionType, handler);
             } else {
-                put(app.reducerHandlers, namespace, qualifiedActionType, handler);
+                putHandler(app.reducerHandlers, namespace, qualifiedActionType, handler);
             }
         });
 
@@ -44,10 +45,10 @@ function registerListenerHandler(namespace: string, actionType: string, handler:
         case "onInitialized":
             return true;
         case "onLocationChanged":
-            put(app.effectHandlers, namespace, LocationChangedActionType, handler);     // LocationChangedActionType is already in app.sagaActionTypes
+            putHandler(app.effectHandlers, namespace, LocationChangedActionType, handler);     // LocationChangedActionType is already in app.sagaActionTypes
             return true;
         case "onError":
-            put(app.effectHandlers, namespace, ErrorActionType, handler);   // ErrorActionType is already in app.sagaActionTypes
+            putHandler(app.effectHandlers, namespace, ErrorActionType, handler);   // ErrorActionType is already in app.sagaActionTypes
             return true;
     }
     return false;
@@ -60,7 +61,7 @@ function metadata(handler: Handler<any>): HandlerMetadata {
     return {type: HandlerType.REDUCER, global: false};
 }
 
-function put(handlers: HandlerMap, namesapce: string, actionType: string, handler: Handler<any>): void {
+function putHandler(handlers: HandlerMap, namesapce: string, actionType: string, handler: Handler<any>): void {
     if (!handlers[actionType]) {
         handlers[actionType] = {};
     }
@@ -73,8 +74,18 @@ function initializeState(namespace: string, initialState: any) {
 
 function onInitialized(actionHandler: any) {
     if (actionHandler.onInitialized) {
-        app.sagaMiddleware.run(actionHandler.onInitialized);
+        app.sagaMiddleware.run(initialize(actionHandler.onInitialized));
     }
+}
+
+function initialize(initializer: any) {
+    return function* () {
+        try {
+            yield initializer();
+        } catch (error) {
+            yield put(errorAction(error));
+        }
+    };
 }
 
 function onLocationChanged(actionHandler: any) {

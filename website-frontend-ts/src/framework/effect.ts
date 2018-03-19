@@ -1,6 +1,6 @@
 import {put, takeLatest as sagaTakeLatest} from "redux-saga/effects";
-import {errorAction} from "./action";
 import {hideAction, showAction} from "./component/loading";
+import {errorAction} from "../framework_v2/action";
 
 export function* takeLatestWithLoading(actionType: any, worker: any) {
     yield sagaTakeLatest(actionType, function* (action) {
