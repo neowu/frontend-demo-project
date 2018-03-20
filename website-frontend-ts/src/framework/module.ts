@@ -1,7 +1,7 @@
-import {Components, Handler, HandlerMap, HandlerMetadata, Listener, LocationChangedEvent} from "./type";
+import {Components, Listener, LocationChangedEvent} from "./type";
 import {app} from "./app";
 import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
-import {run} from "./effect";
+import {Handler, metadata, putHandler, run} from "./handler";
 
 export function effect(loading?: boolean) {
     return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
@@ -28,7 +28,7 @@ function registerHandler(namespace: string, actionHandler: any, initialState: an
     Object.keys(actionHandler.__proto__).forEach(actionType => {
         const handler: Handler<any> = actionHandler[actionType];
 
-        const meta: HandlerMetadata = metadata(handler);
+        const meta = metadata(handler);
         const global = actionType.charAt(0) === "_";
         const qualifiedActionType = global ? actionType : `${namespace}/${actionType}`;
         if (meta.effect === true) {
@@ -66,20 +66,6 @@ function registerListener(namespace: string, listener: Listener): void {
             yield* run(listener.onLocationChanged, event);
         });    // history listener won't trigger on first refresh or on module loading, manual trigger once
     }
-}
-
-function metadata(handler: Handler<any>): HandlerMetadata {
-    if (handler.meta) {
-        return handler.meta;
-    }
-    return {effect: false};
-}
-
-function putHandler(handlers: HandlerMap, namesapce: string, actionType: string, handler: Handler<any>): void {
-    if (!handlers[actionType]) {
-        handlers[actionType] = {};
-    }
-    handlers[actionType][namesapce] = handler;
 }
 
 function initializeState(namespace: string, initialState: any) {

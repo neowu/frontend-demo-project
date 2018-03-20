@@ -4,19 +4,7 @@ import {Action as ReduxAction, Store} from "redux";
 import {SagaMiddleware} from "redux-saga";
 import {RouterState} from "connected-react-router";
 import {LoadingState} from "./loading";
-
-export interface HandlerMetadata {
-    effect: boolean;
-    loading?: boolean;
-    qualifiedActionType?: string;
-}
-
-type HandlerFunction<T> = (payload?: any, state?: T, rootState?: any) => T;
-export type Handler<T> = HandlerFunction<T> & {meta?: HandlerMetadata};
-
-export interface HandlerMap {
-    [actionType: string]: {[namespace: string]: Handler<any>};
-}
+import {HandlerMap} from "./handler";
 
 export interface App {
     store: Store<any>;

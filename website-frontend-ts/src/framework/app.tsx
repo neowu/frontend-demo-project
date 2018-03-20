@@ -8,11 +8,11 @@ import {withRouter} from "react-router-dom";
 import {ConnectedRouter, connectRouter, routerMiddleware} from "connected-react-router";
 import createHistory from "history/createBrowserHistory";
 import ErrorBoundary from "./component/ErrorBoundary";
+import {Action, App} from "./type";
 import {errorAction, ErrorActionType, InitializeStateActionType, LocationChangedActionType} from "./action";
-import {Action, App, HandlerMap} from "./type";
-import "@babel/polyfill";
-import {run} from "./effect";
 import {updateLoadingReducer} from "./loading";
+import {HandlerMap, run} from "./handler";
+import "@babel/polyfill";
 
 export const app = createApp();
 
