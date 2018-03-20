@@ -1,5 +1,5 @@
 import {put} from "redux-saga/effects";
-import {updateLoadingAction} from "./loading";
+import {loadingAction} from "./loading";
 import {errorAction} from "./action";
 
 export interface HandlerMetadata {
@@ -33,14 +33,14 @@ export function* run(handler: Handler<any>, payload?: any, state?: any, rootStat
     const loading = handler.meta && handler.meta.loading;
     try {
         if (loading) {
-            yield put(updateLoadingAction(handler.meta.qualifiedActionType, 1));
+            yield put(loadingAction(handler.meta.qualifiedActionType, 1));
         }
         yield* handler(payload, state, rootState);
     } catch (error) {
         yield put(errorAction(error));
     } finally {
         if (loading) {
-            yield put(updateLoadingAction(handler.meta.qualifiedActionType, -1));
+            yield put(loadingAction(handler.meta.qualifiedActionType, -1));
         }
     }
 }

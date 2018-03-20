@@ -1,5 +1,5 @@
 import {message} from "antd";
-import {Listener} from "framework/type";
+import {Listener} from "framework/listener";
 import {module} from "framework/module";
 
 class ListenerImpl implements Listener {

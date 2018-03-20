@@ -1,29 +1,29 @@
-import {Action} from "./type";
+import {Action} from "./action";
 
 export interface LoadingState {
     loading: {[actionType: string]: number};    // use number to track loading status, because for global action type, there may be multiple effects listen to it, hide loading component when status reduce to 0
 }
 
-interface UpdateLoadingActionPayload {
+interface LoadingActionPayload {
     actionType: string;
     update: number;
 }
 
-const UpdateLoadingActionType: string = "@@framework/updateLoading";
+const LoadingActionType: string = "@@framework/loading";
 const initialLoadingState: LoadingState = {loading: {}};
 
-export function updateLoadingAction(actionType: string, update: number): Action {
-    const payload: UpdateLoadingActionPayload = {actionType, update};
+export function loadingAction(actionType: string, update: number): Action {
+    const payload: LoadingActionPayload = {actionType, update};
     return {
-        type: UpdateLoadingActionType,
+        type: LoadingActionType,
         payload
     };
 }
 
-export function updateLoadingReducer(state = initialLoadingState, action: Action): LoadingState {
+export function loadingReducer(state = initialLoadingState, action: Action): LoadingState {
     switch (action.type) {
-        case UpdateLoadingActionType:
-            const payload: UpdateLoadingActionPayload = action.payload;
+        case LoadingActionType:
+            const payload: LoadingActionPayload = action.payload;
             const count = state[payload.actionType] ? state[payload.actionType] : 0;
             return {
                 ...state,

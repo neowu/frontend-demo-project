@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Components} from "../type";
 import {defaultLoadingComponent} from "./loadingComponent";
+import {Components} from "../module";
 
 interface Module {
     default: Components;

@@ -1,5 +1,10 @@
-import {Action} from "./type";
 import {LOCATION_CHANGE} from "connected-react-router";
+import {Action as ReduxAction} from "redux";
+
+export interface Action extends ReduxAction {
+    type: string;
+    payload: any;
+}
 
 export const ErrorActionType: string = "@@framework/error";
 export const LocationChangedActionType: string = LOCATION_CHANGE;

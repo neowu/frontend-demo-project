@@ -1,7 +1,12 @@
-import {Components, Listener, LocationChangedEvent} from "./type";
+import {ComponentType} from "react";
+import {Listener, LocationChangedEvent} from "./listener";
 import {app} from "./app";
 import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
 import {Handler, metadata, putHandler, run} from "./handler";
+
+export interface Components {
+    [componentName: string]: ComponentType<any>;
+}
 
 export function effect(loading?: boolean) {
     return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {

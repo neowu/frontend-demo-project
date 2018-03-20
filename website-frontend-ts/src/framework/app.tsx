@@ -1,18 +1,28 @@
 import React, {ComponentType} from "react";
 import ReactDOM from "react-dom";
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore, Store} from "redux";
 import {Provider} from "react-redux";
-import createSagaMiddleware from "redux-saga";
+import createSagaMiddleware, {SagaMiddleware} from "redux-saga";
 import {takeLatest} from "redux-saga/effects";
 import {withRouter} from "react-router-dom";
+import {History} from "history";
 import {ConnectedRouter, connectRouter, routerMiddleware} from "connected-react-router";
 import createHistory from "history/createBrowserHistory";
 import ErrorBoundary from "./component/ErrorBoundary";
-import {Action, App} from "./type";
-import {errorAction, ErrorActionType, InitializeStateActionType, LocationChangedActionType} from "./action";
-import {updateLoadingReducer} from "./loading";
+import {Action, errorAction, ErrorActionType, InitializeStateActionType, LocationChangedActionType} from "./action";
+import {loadingReducer} from "./loading";
 import {HandlerMap, run} from "./handler";
 import "@babel/polyfill";
+
+interface App {
+    store: Store<any>;
+    history: History;
+    sagaMiddleware: SagaMiddleware<any>;
+    namespaces: Set<string>;
+    reducerHandlers: HandlerMap;
+    sagaActionTypes: string[];
+    effectHandlers: HandlerMap;
+}
 
 export const app = createApp();
 
@@ -83,7 +93,7 @@ function createApp(): App {
 
     const history = createHistory();
     const reducers = {
-        loading: updateLoadingReducer,
+        loading: loadingReducer,
         app: reducer
     };
     const sagaMiddleware = createSagaMiddleware();
