@@ -64,6 +64,5 @@ mid-long term:
 * UI automation test, selenium or just chrome headless 
 
 ## TODO
-* loading
 * debug output to console/logger 
 * handle exception from reducer 

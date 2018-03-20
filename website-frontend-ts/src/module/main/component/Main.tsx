@@ -1,15 +1,16 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
+import {asyncComponent, loadingComponent} from "framework";
+import {Layout, Spin} from "antd";
 import Header from "./Header";
 import Nav from "./Nav";
-import {Layout} from "antd";
 import NotFound from "./NotFound";
 import Welcome from "./Welcome";
 import "./main.less";
 
 import userModule from "module/user";
-import {asyncComponent} from "framework";
+import {actionTypes} from "module/product/type";
 
 const Main = () => {
     const AddProduct = asyncComponent(() => import(/* webpackChunkName: "product" */"module/product"), "AddProduct");
@@ -24,7 +25,7 @@ const Main = () => {
                     <Switch>
                         <Route exact path="/" component={Welcome}/>
                         <Route exact path="/login" component={userModule.LoginForm}/>
-                        <Route exact path="/product/list" component={ProductList}/>
+                        <Route exact path="/product/list" component={loadingComponent(actionTypes.loadProductList(), ProductList, Spin)}/>
                         <Route exact path="/product/add" component={AddProduct}/>
                         <Route component={NotFound}/>
                     </Switch>

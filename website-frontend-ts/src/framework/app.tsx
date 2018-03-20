@@ -12,6 +12,7 @@ import {errorAction, ErrorActionType, InitializeStateActionType, LocationChanged
 import {Action, App, HandlerMap} from "./type";
 import "@babel/polyfill";
 import {run} from "./effect";
+import {updateLoadingReducer} from "./loading";
 
 export const app = createApp();
 
@@ -82,6 +83,7 @@ function createApp(): App {
 
     const history = createHistory();
     const reducers = {
+        loading: updateLoadingReducer,
         app: reducer
     };
     const sagaMiddleware = createSagaMiddleware();

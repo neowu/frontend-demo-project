@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Components} from "../type";
+import {defaultLoadingComponent} from "./loadingComponent";
 
 interface Module {
     default: Components;
@@ -13,9 +14,7 @@ interface State {
     Component: React.ComponentType<any>;
 }
 
-const defaultLoadingComponent = () => <div>loading...</div>;
-
-export function asyncComponent(resolve: () => Promise<Module>, componentName: string = "Main", loadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<any> {
+export function asyncComponent(resolve: () => Promise<Module>, componentName: string = "Main", LoadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<any> {
     class AsyncComponent extends React.PureComponent<Props, State> {
         state: State = {Component: null};
 
@@ -29,8 +28,7 @@ export function asyncComponent(resolve: () => Promise<Module>, componentName: st
 
         public render() {
             const {Component} = this.state;
-            const Loading = loadingComponent;
-            return Component ? <Component {...this.props} /> : <Loading {...this.props} />;
+            return Component ? <Component {...this.props} /> : <LoadingComponent {...this.props} />;
         }
     }
 

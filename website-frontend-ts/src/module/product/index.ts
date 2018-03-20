@@ -1,4 +1,4 @@
-import {Listener, LocationChangedEvent, module} from "framework";
+import {effect, Listener, LocationChangedEvent, module} from "framework";
 import {actions, Actions, namespace, State} from "./type";
 import {call, put} from "redux-saga/effects";
 import {app} from "type/api";
@@ -13,7 +13,18 @@ const initialState: State = {
 };
 
 class ActionHandler implements Actions {
-    populateCreateConfig(response: app.api.product.CreateProductConfigResponse, state: State = initialState): State {
+    @effect()
+    * loadCreateProductConfig() {
+        const response = yield call(productAJAXService.createConfig);
+        yield put(actions.populateCreateProductConfig(response));
+    }
+
+    @effect(true)
+    * loadProductList() {
+        yield call(productAJAXService.list);
+    }
+
+    populateCreateProductConfig(response: app.api.product.CreateProductConfigResponse, state: State = initialState): State {
         const types = response.types.map(type => {
             return {name: type.name, value: type.value};
         });
@@ -27,10 +38,9 @@ class ActionHandler implements Actions {
 class ListenerImpl implements Listener {
     * onLocationChanged(event: LocationChangedEvent) {
         if (event.location.pathname === "/product/add") {
-            const response = yield call(productAJAXService.createConfig);
-            yield put(actions.populateCreateConfig(response));
+            yield put(actions.loadCreateProductConfig());
         } else if (event.location.pathname === "/product/list") {
-            yield call(productAJAXService.list);
+            yield put(actions.loadProductList());
         }
     }
 }

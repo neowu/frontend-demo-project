@@ -3,10 +3,12 @@ import {Action as HistoryAction, History, Location} from "history";
 import {Action as ReduxAction, Store} from "redux";
 import {SagaMiddleware} from "redux-saga";
 import {RouterState} from "connected-react-router";
+import {LoadingState} from "./loading";
 
 export interface HandlerMetadata {
     effect: boolean;
-    loading?: string;
+    loading?: boolean;
+    qualifiedActionType?: string;
 }
 
 type HandlerFunction<T> = (payload?: any, state?: T, rootState?: any) => T;
@@ -48,5 +50,5 @@ export interface LocationChangedEvent {
     action: HistoryAction;
 }
 
-export interface FrameworkState extends RouterState {
+export interface FrameworkState extends RouterState, LoadingState {
 }
