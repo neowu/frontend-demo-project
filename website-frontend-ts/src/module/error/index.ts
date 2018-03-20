@@ -1,6 +1,5 @@
 import {message} from "antd";
-import {Listener} from "framework/listener";
-import {module} from "framework/module";
+import {Listener, module} from "framework";
 
 class ListenerImpl implements Listener {
     * onError(error: any) {
