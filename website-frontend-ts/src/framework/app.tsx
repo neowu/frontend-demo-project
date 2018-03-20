@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import {Provider} from "react-redux";
 import createSagaMiddleware from "redux-saga";
-import {put, takeLatest} from "redux-saga/effects";
+import {takeLatest} from "redux-saga/effects";
 import {withRouter} from "react-router-dom";
 import {ConnectedRouter, connectRouter, routerMiddleware} from "connected-react-router";
 import createHistory from "history/createBrowserHistory";
@@ -11,6 +11,7 @@ import ErrorBoundary from "./component/ErrorBoundary";
 import {errorAction, ErrorActionType, InitializeStateActionType, LocationChangedActionType} from "./action";
 import {Action, App, HandlerMap} from "./type";
 import "@babel/polyfill";
+import {run} from "./effect";
 
 export const app = createApp();
 
@@ -57,7 +58,8 @@ function createApp(): App {
             const rootState = app.store.getState();
             const newState = {...state};
             Object.keys(handlers).forEach(namespace => {
-                newState[namespace] = handlers[namespace](action.payload, state[namespace], rootState.app);
+                const handler = handlers[namespace];
+                newState[namespace] = handler(action.payload, state[namespace], rootState.app);
             });
             return newState;
         }
@@ -71,11 +73,8 @@ function createApp(): App {
             if (handlers) {
                 const rootState = app.store.getState().app;
                 for (const namespace of Object.keys(handlers)) {
-                    try {
-                        yield handlers[namespace](action.payload, rootState[namespace], rootState);
-                    } catch (error) {
-                        yield put(errorAction(error));
-                    }
+                    const handler = handlers[namespace];
+                    yield* run(handler, action.payload, rootState[namespace], rootState);
                 }
             }
         });

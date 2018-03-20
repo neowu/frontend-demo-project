@@ -1,19 +1,15 @@
 import {ComponentType} from "react";
-import {History, Location} from "history";
+import {Action as HistoryAction, History, Location} from "history";
 import {Action as ReduxAction, Store} from "redux";
 import {SagaMiddleware} from "redux-saga";
 import {RouterState} from "connected-react-router";
 
-export enum HandlerType {
-    REDUCER, EFFECT
-}
-
 export interface HandlerMetadata {
-    type: HandlerType;
-    global: boolean;
+    effect: boolean;
+    loading?: string;
 }
 
-type HandlerFunction<T> = (payload: any, state: T, rootState?: any) => T;
+type HandlerFunction<T> = (payload?: any, state?: T, rootState?: any) => T;
 export type Handler<T> = HandlerFunction<T> & {meta?: HandlerMetadata};
 
 export interface HandlerMap {
@@ -42,9 +38,14 @@ export interface Components {
 export interface Listener {
     onInitialized?();
 
-    onLocationChanged?(location: Location);
+    onLocationChanged?(event: LocationChangedEvent);
 
     onError?(error: any);        // TODO: formalize error type
+}
+
+export interface LocationChangedEvent {
+    location: Location;
+    action: HistoryAction;
 }
 
 export interface FrameworkState extends RouterState {

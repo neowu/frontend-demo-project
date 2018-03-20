@@ -1,5 +1,5 @@
 import {app} from "type/api";
-import {actionCreator} from "framework_v2";
+import {actionCreator} from "framework";
 import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
 

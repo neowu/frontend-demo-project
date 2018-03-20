@@ -4,17 +4,16 @@ import {connect} from "react-redux";
 import Header from "./Header";
 import Nav from "./Nav";
 import {Layout} from "antd";
-import ProductList from "module/product/component/ProductList";
-import Lazy from "framework/component/Lazy";
 import NotFound from "./NotFound";
-import "./app.less";
+import Welcome from "./Welcome";
+import "./main.less";
 
 import userModule from "module/user";
-import {asyncComponent} from "framework_v2";
+import {asyncComponent} from "framework";
 
-const App = () => {
-    const Welcome = () => <Lazy module={import(/* webpackChunkName: "welcome" */"./Welcome")}/>;
+const Main = () => {
     const AddProduct = asyncComponent(() => import(/* webpackChunkName: "product" */"module/product"), "AddProduct");
+    const ProductList = asyncComponent(() => import(/* webpackChunkName: "product" */"module/product"), "ProductList");
 
     return <Layout>
         <Nav/>
@@ -35,4 +34,4 @@ const App = () => {
     </Layout>;
 };
 
-export default connect()(App);
+export default connect()(Main);

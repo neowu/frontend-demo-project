@@ -1,12 +1,11 @@
 import {Action} from "./type";
 
 export function actionCreator<T>(namespace: string): T {
-    return new Proxy(
-        {},
-        {
+    return new Proxy({}, {
             get: (target: {}, key: string) => {
                 return (payload: any): Action => {
-                    return {type: namespace + "/" + key, payload};
+                    const type = key.charAt(0) === "_" ? key : `${namespace}/${key}`;
+                    return {type, payload};
                 };
             }
         }

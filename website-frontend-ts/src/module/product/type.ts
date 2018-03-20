@@ -1,5 +1,5 @@
 import {app} from "../../type/api";
-import {actionCreator} from "../../framework_v2/actionCreator";
+import {actionCreator} from "../../framework/actionCreator";
 import CreateProductConfigResponse = app.api.product.CreateProductConfigResponse;
 
 export const namespace = "product";

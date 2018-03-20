@@ -65,5 +65,5 @@ mid-long term:
 
 ## TODO
 * loading
-* ajax error handling
 * debug output to console/logger 
+* handle exception from reducer 

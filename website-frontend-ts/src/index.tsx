@@ -1,5 +1,4 @@
-import App from "./container/App";
-import {render} from "framework_v2";
-import "module/error";
+import mainModule from "./module/main";
+import {render} from "framework";
 
-render(App, "root");
+render(mainModule.Main, "root");

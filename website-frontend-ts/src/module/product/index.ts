@@ -1,6 +1,5 @@
-import {Listener, module} from "framework_v2";
+import {Listener, LocationChangedEvent, module} from "framework";
 import {actions, Actions, namespace, State} from "./type";
-import {Location} from "history";
 import {call, put} from "redux-saga/effects";
 import {app} from "type/api";
 import productAJAXService from "./ajax/product";
@@ -13,7 +12,7 @@ const initialState: State = {
     }
 };
 
-class ActionHandler implements Actions, Listener {
+class ActionHandler implements Actions {
     populateCreateConfig(response: app.api.product.CreateProductConfigResponse, state: State = initialState): State {
         const types = response.types.map(type => {
             return {name: type.name, value: type.value};
@@ -23,15 +22,17 @@ class ActionHandler implements Actions, Listener {
             createProductUI: {types}
         };
     }
+}
 
-    * onLocationChanged(location: Location) {
-        if (location.pathname === "/product/add") {
+class ListenerImpl implements Listener {
+    * onLocationChanged(event: LocationChangedEvent) {
+        if (event.location.pathname === "/product/add") {
             const response = yield call(productAJAXService.createConfig);
             yield put(actions.populateCreateConfig(response));
-        } else if (location.pathname === "/product/list") {
+        } else if (event.location.pathname === "/product/list") {
             yield call(productAJAXService.list);
         }
     }
 }
 
-export default module(namespace, {AddProduct, ProductList}, new ActionHandler(), initialState);
+export default module(namespace, {AddProduct, ProductList}, new ActionHandler(), initialState, new ListenerImpl());

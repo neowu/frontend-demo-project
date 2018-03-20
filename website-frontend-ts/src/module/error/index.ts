@@ -1,11 +1,11 @@
 import {message} from "antd";
-import {Listener} from "framework_v2/type";
-import {module} from "framework_v2/module";
+import {Listener} from "framework/type";
+import {module} from "framework/module";
 
-class ActionHandler implements Listener {
+class ListenerImpl implements Listener {
     * onError(error: any) {
         message.error(error.message, 5);
     }
 }
 
-export default module("error", {}, new ActionHandler(), {});
+export default module("error", {}, null, null, new ListenerImpl());
