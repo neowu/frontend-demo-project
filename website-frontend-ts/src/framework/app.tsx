@@ -27,6 +27,9 @@ interface App {
 export const app = createApp();
 
 export function render(component: ComponentType<any>, container: string) {
+    if (!component) {
+        throw new Error("component must not be null");
+    }
     const WithRouterComponent = withRouter(component);
     ReactDOM.render(
         <Provider store={app.store}>
@@ -70,7 +73,7 @@ function createApp(): App {
             const newState = {...state};
             Object.keys(handlers).forEach(namespace => {
                 const handler = handlers[namespace];
-                newState[namespace] = handler(action.payload, state[namespace], rootState.app);
+                newState[namespace] = handler(action.payload, state[namespace], rootState);
             });
             return newState;
         }
@@ -82,10 +85,10 @@ function createApp(): App {
         yield takeLatest(sagaActionTypes, function* (action: Action) {
             const handlers = effectHandlers[action.type];
             if (handlers) {
-                const rootState = app.store.getState().app;
+                const rootState = app.store.getState();
                 for (const namespace of Object.keys(handlers)) {
                     const handler = handlers[namespace];
-                    yield* run(handler, action.payload, rootState[namespace], rootState);
+                    yield* run(handler, action.payload, rootState.app[namespace], rootState);
                 }
             }
         });

@@ -2,14 +2,13 @@ import {put} from "redux-saga/effects";
 import {loadingAction} from "./loading";
 import {errorAction} from "./action";
 
-export interface HandlerMetadata {
-    effect: boolean;
+interface HandlerMetadata {
+    effect?: boolean;
     loading?: boolean;
     qualifiedActionType?: string;
 }
 
-type HandlerFunction<T> = (payload?: any, state?: T, rootState?: any) => T;
-export type Handler<T> = HandlerFunction<T> & {meta?: HandlerMetadata};
+export type Handler<T> = ((payload?: any, state?: T, rootState?: any) => T) & HandlerMetadata;
 
 export interface HandlerMap {
     [actionType: string]: {[namespace: string]: Handler<any>};
@@ -22,25 +21,17 @@ export function putHandler(handlers: HandlerMap, namesapce: string, actionType: 
     handlers[actionType][namesapce] = handler;
 }
 
-export function metadata(handler: Handler<any>): HandlerMetadata {
-    if (handler.meta) {
-        return handler.meta;
-    }
-    return {effect: false};
-}
-
 export function* run(handler: Handler<any>, payload?: any, state?: any, rootState?: any) {
-    const loading = handler.meta && handler.meta.loading;
     try {
-        if (loading) {
-            yield put(loadingAction(handler.meta.qualifiedActionType, 1));
+        if (handler.loading) {
+            yield put(loadingAction(handler.qualifiedActionType, true));
         }
         yield* handler(payload, state, rootState);
     } catch (error) {
         yield put(errorAction(error));
     } finally {
-        if (loading) {
-            yield put(loadingAction(handler.meta.qualifiedActionType, -1));
+        if (handler.loading) {
+            yield put(loadingAction(handler.qualifiedActionType, false));
         }
     }
 }

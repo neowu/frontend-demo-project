@@ -9,4 +9,5 @@ export {asyncComponent} from "./component/asyncComponent";
 export {loadingComponent} from "./component/loadingComponent";
 
 export interface FrameworkState extends RouterState, LoadingState {
+    app: {};
 }

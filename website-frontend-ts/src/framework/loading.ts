@@ -6,14 +6,14 @@ export interface LoadingState {
 
 interface LoadingActionPayload {
     actionType: string;
-    update: number;
+    show: boolean;
 }
 
 const LoadingActionType: string = "@@framework/loading";
 const initialLoadingState: LoadingState = {loading: {}};
 
-export function loadingAction(actionType: string, update: number): Action {
-    const payload: LoadingActionPayload = {actionType, update};
+export function loadingAction(actionType: string, show: boolean): Action {
+    const payload: LoadingActionPayload = {actionType, show};
     return {
         type: LoadingActionType,
         payload
@@ -27,7 +27,7 @@ export function loadingReducer(state = initialLoadingState, action: Action): Loa
             const count = state[payload.actionType] ? state[payload.actionType] : 0;
             return {
                 ...state,
-                [payload.actionType]: count + payload.update
+                [payload.actionType]: count + (payload.show ? 1 : -1)
             };
         default:
             return state;

@@ -55,7 +55,7 @@
     "jest": "22.4.2",
     "less": "3.0.1",
     "less-loader": "4.1.0",
-    "postcss-loader": "2.1.2",
+    "postcss-loader": "2.1.3",
     "style-loader": "0.20.3",
     "stylelint": "9.1.3",
     "stylelint-config-standard": "18.2.0",

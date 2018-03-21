@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {defaultLoadingComponent} from "./loadingComponent";
 import {Components} from "../module";
 
@@ -16,7 +16,9 @@ interface State {
 
 export function asyncComponent(resolve: () => Promise<Module>, componentName: string = "Main", LoadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<any> {
     class AsyncComponent extends React.PureComponent<Props, State> {
-        state: State = {Component: null};
+        state: State = {
+            Component: null
+        };
 
         public componentDidMount() {
             const promise = resolve();
