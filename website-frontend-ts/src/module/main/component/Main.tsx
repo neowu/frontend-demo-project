@@ -10,7 +10,7 @@ import Welcome from "./Welcome";
 import "./main.less";
 
 import userModule from "module/user";
-import {actionTypes} from "module/product/type";
+import {LOADING_PRODUCT_LIST} from "module/product/type";
 
 const Main = () => {
     const AddProduct = asyncComponent(() => import(/* webpackChunkName: "product" */"module/product"), "AddProduct");
@@ -25,7 +25,7 @@ const Main = () => {
                     <Switch>
                         <Route exact path="/" component={Welcome}/>
                         <Route exact path="/login" component={userModule.LoginForm}/>
-                        <Route exact path="/product/list" component={loadingComponent(actionTypes.loadProductList(), ProductList, Spin)}/>
+                        <Route exact path="/product/list" component={loadingComponent(LOADING_PRODUCT_LIST, ProductList, Spin)}/>
                         <Route exact path="/product/add" component={AddProduct}/>
                         <Route component={NotFound}/>
                     </Switch>

@@ -8,7 +8,7 @@ export interface Components {
     [componentName: string]: ComponentType<any>;
 }
 
-export function effect(loading?: boolean) {
+export function effect(loading?: string) {
     return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
         const handler: Handler<any> = descriptor.value;
         handler.effect = true;
@@ -37,9 +37,6 @@ function registerHandler(namespace: string, actionHandler: any, initialState: an
         const global = actionType.charAt(0) === "_";
         const qualifiedActionType = global ? actionType : `${namespace}/${actionType}`;
         if (handler.effect === true) {
-            if (handler.loading === true) {
-                handler.qualifiedActionType = qualifiedActionType;
-            }
             if (!global || !app.sagaActionTypes.includes(qualifiedActionType)) {
                 app.sagaActionTypes.push(qualifiedActionType);          // saga takeLatest() requires string[], global action type could exists in multiple modules
             }

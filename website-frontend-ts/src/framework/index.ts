@@ -4,7 +4,7 @@ import {LoadingState} from "./loading";
 export {Listener, LocationChangedEvent} from "./listener";
 export {render} from "./app";
 export {module, effect} from "./module";
-export {actionCreator, actionType} from "./action";
+export {actionCreator} from "./action";
 export {asyncComponent} from "./component/asyncComponent";
 export {loadingComponent} from "./component/loadingComponent";
 

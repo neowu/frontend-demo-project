@@ -1,5 +1,5 @@
 import {effect, Listener, LocationChangedEvent, module} from "framework";
-import {actions, Actions, namespace, State} from "./type";
+import {actions, Actions, LOADING_PRODUCT_LIST, namespace, State} from "./type";
 import {call, put} from "redux-saga/effects";
 import {app} from "type/api";
 import productAJAXService from "./ajax/product";
@@ -19,7 +19,7 @@ class ActionHandler implements Actions {
         yield put(actions.populateCreateProductConfig(response));
     }
 
-    @effect(true)
+    @effect(LOADING_PRODUCT_LIST)
     * loadProductList() {
         yield call(productAJAXService.list);
     }

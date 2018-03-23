@@ -4,8 +4,7 @@ import {errorAction} from "./action";
 
 interface HandlerMetadata {
     effect?: boolean;
-    loading?: boolean;
-    qualifiedActionType?: string;
+    loading?: string;
 }
 
 export type Handler<T> = ((payload?: any, state?: T, rootState?: any) => T) & HandlerMetadata;
@@ -24,14 +23,14 @@ export function putHandler(handlers: HandlerMap, namesapce: string, actionType: 
 export function* run(handler: Handler<any>, payload?: any, state?: any, rootState?: any) {
     try {
         if (handler.loading) {
-            yield put(loadingAction(handler.qualifiedActionType, true));
+            yield put(loadingAction(handler.loading, true));
         }
         yield* handler(payload, state, rootState);
     } catch (error) {
         yield put(errorAction(error));
     } finally {
         if (handler.loading) {
-            yield put(loadingAction(handler.qualifiedActionType, false));
+            yield put(loadingAction(handler.loading, false));
         }
     }
 }

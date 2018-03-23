@@ -1,8 +1,9 @@
 import {app} from "type/api";
-import {actionCreator, actionType} from "framework";
+import {actionCreator} from "framework";
 import CreateProductConfigResponse = app.api.product.CreateProductConfigResponse;
 
 export const namespace = "product";
+export const LOADING_PRODUCT_LIST = "product/list";
 
 export interface State {
     createProductUI: {
@@ -22,5 +23,3 @@ export interface Actions {
 }
 
 export const actions = actionCreator<Actions>(namespace);
-
-export const actionTypes = actionType<Actions>(namespace);

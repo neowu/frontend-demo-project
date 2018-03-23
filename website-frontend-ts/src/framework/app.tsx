@@ -96,7 +96,7 @@ function createApp(): App {
 
     const history = createHistory();
     const reducers = {
-        loading: loadingReducer,
+        loadings: loadingReducer,
         app: reducer
     };
     const sagaMiddleware = createSagaMiddleware();

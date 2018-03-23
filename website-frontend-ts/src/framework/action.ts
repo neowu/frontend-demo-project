@@ -35,14 +35,3 @@ export function actionCreator<T>(namespace: string): T {
         }
     ) as T;
 }
-
-export function actionType<T>(namespace: string): T {
-    return new Proxy({}, {
-            get: (target: {}, key: string) => {
-                return (): string => {
-                    return key.charAt(0) === "_" ? key : `${namespace}/${key}`;
-                };
-            }
-        }
-    ) as T;
-}
