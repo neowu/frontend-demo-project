@@ -17,7 +17,7 @@ interface State {
 }
 
 class ErrorBoundary extends React.PureComponent<Props, State> {
-    state = {
+    state: State = {
         errorMessage: ""
     };
 
