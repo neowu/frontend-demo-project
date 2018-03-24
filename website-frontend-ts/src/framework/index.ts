@@ -5,6 +5,7 @@ export {Listener, LocationChangedEvent} from "./listener";
 export {render} from "./app";
 export {register} from "./module";
 export {effect, loading, global} from "./handler";
+export {actionCreator} from "./action";
 export {asyncComponent} from "./component/asyncComponent";
 export {loadingComponent} from "./component/loadingComponent";
 

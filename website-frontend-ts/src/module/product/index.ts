@@ -1,11 +1,10 @@
-import {effect, Listener, loading, LocationChangedEvent, register} from "framework";
+import {actionCreator, effect, Listener, loading, LocationChangedEvent, register} from "framework";
 import {Actions, LOADING_PRODUCT_LIST, State} from "./type";
 import {call, put} from "redux-saga/effects";
 import {app} from "type/api";
 import productAJAXService from "./ajax/product";
 import AddProduct from "./component/AddProduct";
 import ProductList from "./component/ProductList";
-import {actionCreator} from "../../framework/action";
 
 const initialState: State = {
     createProductUI: {
