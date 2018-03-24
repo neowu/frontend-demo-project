@@ -5,12 +5,30 @@ import {errorAction} from "./action";
 interface HandlerMetadata {
     effect?: boolean;
     loading?: string;
+    global?: boolean;
 }
 
 export type Handler<T> = ((payload?: any, state?: T, rootState?: any) => T) & HandlerMetadata;
 
 export interface HandlerMap {
     [actionType: string]: {[namespace: string]: Handler<any>};
+}
+
+export function effect(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const handler: Handler<any> = descriptor.value;
+    handler.effect = true;
+}
+
+export function loading(loading: string) {
+    return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+        const handler: Handler<any> = descriptor.value;
+        handler.loading = loading;
+    };
+}
+
+export function global(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const handler: Handler<any> = descriptor.value;
+    handler.global = true;
 }
 
 export function putHandler(handlers: HandlerMap, namesapce: string, actionType: string, handler: Handler<any>): void {

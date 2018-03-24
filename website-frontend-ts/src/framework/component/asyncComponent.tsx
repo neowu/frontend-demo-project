@@ -1,10 +1,5 @@
-import React from "react";
+import React, {ComponentType} from "react";
 import {defaultLoadingComponent} from "./loadingComponent";
-import {Components} from "../module";
-
-interface Module {
-    default: Components;
-}
 
 interface Props {
     module: any;
@@ -14,7 +9,7 @@ interface State {
     Component: React.ComponentType<any>;
 }
 
-export function asyncComponent(resolve: () => Promise<Module>, componentName: string = "Main", LoadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<any> {
+export function asyncComponent(resolve: () => Promise<ComponentType<any>>, LoadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<any> {
     class AsyncComponent extends React.PureComponent<Props, State> {
         state: State = {
             Component: null
@@ -22,8 +17,7 @@ export function asyncComponent(resolve: () => Promise<Module>, componentName: st
 
         public componentDidMount() {
             const promise = resolve();
-            promise.then(module => {
-                const Component = module.default[componentName];
+            promise.then(Component => {
                 this.setState({Component});
             });
         }

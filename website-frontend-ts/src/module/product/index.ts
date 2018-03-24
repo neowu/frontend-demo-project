@@ -1,10 +1,11 @@
-import {effect, Listener, LocationChangedEvent, module} from "framework";
-import {actions, Actions, LOADING_PRODUCT_LIST, namespace, State} from "./type";
+import {effect, Listener, loading, LocationChangedEvent, register} from "framework";
+import {Actions, LOADING_PRODUCT_LIST, State} from "./type";
 import {call, put} from "redux-saga/effects";
 import {app} from "type/api";
 import productAJAXService from "./ajax/product";
 import AddProduct from "./component/AddProduct";
 import ProductList from "./component/ProductList";
+import {actionCreator} from "../../framework/action";
 
 const initialState: State = {
     createProductUI: {
@@ -13,13 +14,14 @@ const initialState: State = {
 };
 
 class ActionHandler implements Actions {
-    @effect()
+    @effect
     * loadCreateProductConfig() {
         const response = yield call(productAJAXService.createConfig);
         yield put(actions.populateCreateProductConfig(response));
     }
 
-    @effect(LOADING_PRODUCT_LIST)
+    @effect
+    @loading(LOADING_PRODUCT_LIST)
     * loadProductList() {
         yield call(productAJAXService.list);
     }
@@ -45,4 +47,8 @@ class ListenerImpl implements Listener {
     }
 }
 
-export default module(namespace, {AddProduct, ProductList}, new ActionHandler(), initialState, new ListenerImpl());
+const namespace = "product";
+const handler = new ActionHandler();
+const actions = actionCreator<Actions>(namespace, handler);
+register(namespace, handler, initialState, new ListenerImpl());
+export {actions, AddProduct, ProductList};

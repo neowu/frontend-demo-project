@@ -3,8 +3,9 @@ import {connect, DispatchProp} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
 import {FormComponentProps} from "antd/lib/form";
 import {RootState} from "type/state";
-import {actions} from "../type";
 import "./loginForm.less";
+
+import {actions} from "module/user";
 
 interface Props extends FormComponentProps, DispatchProp<any> {
     errorMessage: string;

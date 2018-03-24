@@ -1,5 +1,5 @@
 import {message} from "antd";
-import {Listener, module} from "framework";
+import {Listener, register} from "framework";
 
 class ListenerImpl implements Listener {
     * onError(error: any) {
@@ -7,4 +7,4 @@ class ListenerImpl implements Listener {
     }
 }
 
-export default module("error", {}, null, null, new ListenerImpl());
+register("error", null, null, new ListenerImpl());

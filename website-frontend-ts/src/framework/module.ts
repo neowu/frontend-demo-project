@@ -1,22 +1,9 @@
-import {ComponentType} from "react";
 import {Listener, LocationChangedEvent} from "./listener";
 import {app} from "./app";
 import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
 import {Handler, putHandler, run} from "./handler";
 
-export interface Components {
-    [componentName: string]: ComponentType<any>;
-}
-
-export function effect(loading?: string) {
-    return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
-        const handler: Handler<any> = descriptor.value;
-        handler.effect = true;
-        handler.loading = loading;
-    };
-}
-
-export function module(namespace: string, components: Components, actionHandler?: any, initialState?: any, lisener?: Listener): Components {
+export function register<A>(namespace: string, actionHandler?: A, initialState?: any, lisener?: Listener) {
     if (!app.namespaces.has(namespace)) {
         app.namespaces.add(namespace);
 
@@ -27,17 +14,15 @@ export function module(namespace: string, components: Components, actionHandler?
             registerListener(namespace, lisener);
         }
     }
-    return components;
 }
 
-function registerHandler(namespace: string, actionHandler: any, initialState: any) {
+function registerHandler(namespace: string, actionHandler: any, initialState: any): void {
     Object.keys(actionHandler.__proto__).forEach(actionType => {
         const handler: Handler<any> = actionHandler[actionType];
 
-        const global = actionType.charAt(0) === "_";
-        const qualifiedActionType = global ? actionType : `${namespace}/${actionType}`;
+        const qualifiedActionType = handler.global ? actionType : `${namespace}/${actionType}`;
         if (handler.effect === true) {
-            if (!global || !app.sagaActionTypes.includes(qualifiedActionType)) {
+            if (!handler.global || !app.sagaActionTypes.includes(qualifiedActionType)) {
                 app.sagaActionTypes.push(qualifiedActionType);          // saga takeLatest() requires string[], global action type could exists in multiple modules
             }
             putHandler(app.effectHandlers, namespace, qualifiedActionType, handler);
@@ -45,6 +30,7 @@ function registerHandler(namespace: string, actionHandler: any, initialState: an
             putHandler(app.reducerHandlers, namespace, qualifiedActionType, handler);
         }
     });
+
     initializeState(namespace, initialState);
 }
 
