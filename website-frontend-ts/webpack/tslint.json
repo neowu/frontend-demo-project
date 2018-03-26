@@ -24,6 +24,7 @@
     "jsx-no-lambda": false,
     "no-empty-interface": false,
     "arrow-parens": [true, "ban-single-arg-parens"],
-    "max-classes-per-file": [false]
+    "max-classes-per-file": [false],
+    "no-console": [true, "log"]
   }
 }

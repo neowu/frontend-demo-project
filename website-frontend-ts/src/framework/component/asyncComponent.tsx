@@ -5,7 +5,7 @@ interface State {
     Component: React.ComponentType<any>;
 }
 
-export function asyncComponent(resolve: () => Promise<ComponentType<any>>, LoadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<any> {
+export function asyncComponent(resolve: () => Promise<ComponentType<any>>, LoadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<{}> {
     class AsyncComponent extends React.PureComponent<{}, State> {
         state: State = {
             Component: null
@@ -20,7 +20,7 @@ export function asyncComponent(resolve: () => Promise<ComponentType<any>>, Loadi
 
         public render() {
             const {Component} = this.state;
-            return Component ? <Component {...this.props} /> : <LoadingComponent {...this.props} />;
+            return Component ? <Component/> : <LoadingComponent/>;
         }
     }
 

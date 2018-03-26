@@ -24,6 +24,7 @@ interface App {
     effectHandlers: HandlerMap;
 }
 
+console.time("[framework] initialized");
 export const app = createApp();
 
 export function render(component: ComponentType<any>, container: string) {
@@ -41,6 +42,7 @@ export function render(component: ComponentType<any>, container: string) {
         </Provider>,
         document.getElementById(container)
     );
+    console.timeEnd("[framework] initialized");
 }
 
 function devtools(enhancer) {
@@ -55,6 +57,8 @@ function devtools(enhancer) {
 }
 
 function createApp(): App {
+    console.info("[framework] initialize");
+    
     const namespaces = new Set<string>();
     const reducerHandlers: HandlerMap = {};
     const effectHandlers: HandlerMap = {};

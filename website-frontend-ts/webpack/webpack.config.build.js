@@ -118,7 +118,11 @@ const config = {
         new ParallelUglifyPlugin({
             cacheDir: `${env.nodeModules}/.cache/webpack-parallel-uglify-plugin`,
             sourceMap: true,
-            uglifyJS: {}
+            uglifyJS: {
+                compress: {
+                    pure_funcs: ["console.info", "console.time", "console.timeEnd"]
+                }
+            }
         }),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.ProgressPlugin()

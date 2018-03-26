@@ -1,6 +1,6 @@
 import {LOCATION_CHANGE} from "connected-react-router";
 import {Action as ReduxAction} from "redux";
-import {qualifiedActionType} from "./handler";
+import {Handler, qualifiedActionType} from "./handler";
 
 export interface Action<P> extends ReduxAction {
     type: string;
@@ -35,7 +35,7 @@ type ActionCreator = (payload: any) => Action<any>;
 export function actionCreator<A>(namespace: string, actionHandler: A): {[P in keyof A]?: ActionCreator; } {
     const actionCreators = {};
     Object.keys(Object.getPrototypeOf(actionHandler)).forEach(actionType => {
-        const handler = actionHandler[actionType];
+        const handler: Handler = actionHandler[actionType];
         const type = qualifiedActionType(handler, namespace, actionType);
         actionCreators[actionType] = ((payload: any) => ({type, payload}));
     });
