@@ -120,7 +120,7 @@ const config = {
             sourceMap: true,
             uglifyJS: {
                 compress: {
-                    pure_funcs: ["console.info", "console.time", "console.timeEnd"]
+                    pure_funcs: ["console.info", "console.debug", "console.time", "console.timeEnd"]
                 }
             }
         }),
