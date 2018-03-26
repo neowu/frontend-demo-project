@@ -1,6 +1,6 @@
 import React, {ComponentType} from "react";
 import ReactDOM from "react-dom";
-import {applyMiddleware, combineReducers, compose, createStore, Store} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore, Dispatch, Middleware, Store, StoreEnhancer} from "redux";
 import {Provider} from "react-redux";
 import createSagaMiddleware, {SagaMiddleware} from "redux-saga";
 import {takeLatest} from "redux-saga/effects";
@@ -27,7 +27,7 @@ interface App {
 console.time("[framework] initialized");
 export const app = createApp();
 
-export function render(component: ComponentType<any>, container: string) {
+export function render(component: ComponentType<any>, container: string): void {
     if (!component) {
         throw new Error("component must not be null");
     }
@@ -45,7 +45,7 @@ export function render(component: ComponentType<any>, container: string) {
     console.timeEnd("[framework] initialized");
 }
 
-function devtools(enhancer) {
+function devtools(enhancer: StoreEnhancer<{}>): StoreEnhancer<{}> {
     const production = process.env.NODE_ENV === "production";
     if (!production) {
         const reduxExtension = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
@@ -54,6 +54,17 @@ function devtools(enhancer) {
         }
     }
     return enhancer;
+}
+
+function errorMiddleware(): Middleware {
+    return () => (next: Dispatch<any>) => (action: any) => {
+        try {
+            return next(action);
+        } catch (error) {
+            console.error(error);
+            return next(errorAction(error));
+        }
+    };
 }
 
 function createApp(): App {
@@ -104,7 +115,7 @@ function createApp(): App {
         app: reducer
     };
     const sagaMiddleware = createSagaMiddleware();
-    const store = createStore(connectRouter(history)(combineReducers(reducers)), {}, devtools(applyMiddleware(routerMiddleware(history), sagaMiddleware)));
+    const store = createStore(connectRouter(history)(combineReducers(reducers)), {}, devtools(applyMiddleware(errorMiddleware(), routerMiddleware(history), sagaMiddleware)));
     sagaMiddleware.run(saga);
 
     window.onerror = (message: string, source?: string, line?: number, column?: number, error?: Error) => {

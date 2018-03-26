@@ -1,6 +1,7 @@
 import {LOCATION_CHANGE} from "connected-react-router";
 import {Action as ReduxAction} from "redux";
 import {Handler, qualifiedActionType} from "./handler";
+import {Exception} from "./exception";
 
 export interface Action<P> extends ReduxAction {
     type: string;
@@ -23,7 +24,7 @@ export function initializeStateAction(namespace: string, state: any): Action<Ini
     };
 }
 
-export function errorAction(error: any): Action<any> {
+export function errorAction(error: Exception): Action<Exception> {
     return {
         type: ErrorActionType,
         payload: error

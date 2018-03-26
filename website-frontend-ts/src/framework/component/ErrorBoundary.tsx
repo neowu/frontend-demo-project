@@ -1,10 +1,10 @@
 import React, {ErrorInfo, ReactNode} from "react";
 import {connect, DispatchProp} from "react-redux";
 import {errorAction} from "../action";
+import {Exception} from "../exception";
 
-export class ReactException extends Error {
-    constructor(message: string, public stack: string, public componentStack: string) {
-        super(message);
+export class ReactException implements Exception {
+    constructor(public message: string, public stack: string, public componentStack: string) {
     }
 }
 

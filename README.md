@@ -62,7 +62,3 @@ mid-long term:
 * provide standard way to unit test components/reducer/etc
 * provide standard way to support local dev, e.g. better mock server side ajax?
 * UI automation test, selenium or just chrome headless 
-
-## TODO
-* debug output to console/logger 
-* handle exception from reducer 

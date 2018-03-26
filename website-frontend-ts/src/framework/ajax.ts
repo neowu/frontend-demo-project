@@ -1,13 +1,13 @@
 import axios, {AxiosError, AxiosRequestConfig} from "axios";
+import {Exception} from "./exception";
 
-export class APIException extends Error {
-    constructor(message: string, public responseStatus: number, public errorCode: string, public stack: string = Error().stack) {
-        super(message);
+export class APIException implements Exception {
+    constructor(public message: string, public responseStatus: number, public errorCode: string, public stack: string = Error().stack) {
     }
 }
 
 function handleError(error: AxiosError) {
-    let message = "failed to call API to " + error.config.url;
+    let message = `failed to call API, url=${error.config.url}`;
     let responseStatus = null;
     let errorCode = null;
     if (error.response) {

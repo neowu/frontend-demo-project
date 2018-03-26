@@ -6,7 +6,7 @@ import {Handler, putHandler, qualifiedActionType, run} from "./handler";
 export function register(namespace: string, actionHandler?: any, initialState?: any, lisener?: Listener): void {
     if (!app.namespaces.has(namespace)) {
         app.namespaces.add(namespace);
-        console.info("[framework] register module, namespace=%s", namespace);
+        console.info(`[framework] register module, namespace=${namespace}`);
 
         if (actionHandler) {
             registerHandler(namespace, actionHandler, initialState);
@@ -23,13 +23,13 @@ function registerHandler(namespace: string, actionHandler: any, initialState: an
 
         const type = qualifiedActionType(handler, namespace, actionType);
         if (handler.effect === true) {
-            console.info("[framework] add effect, namespace=%s, actionType=%s, loading=%s", namespace, type, handler.loading);
+            console.info(`[framework] add effect, namespace=${namespace}, actionType=${type}, loading=${handler.loading}`);
             if (!handler.global || !app.sagaActionTypes.includes(type)) {
                 app.sagaActionTypes.push(type);          // saga takeLatest() requires string[], global action type could exists in multiple modules
             }
             putHandler(app.effectHandlers, namespace, type, handler);
         } else {
-            console.info("[framework] add reducer, namespace=%s, actionType=%s", namespace, type);
+            console.info(`[framework] add reducer, namespace=${namespace}, actionType=${type}`);
             putHandler(app.reducerHandlers, namespace, type, handler);
         }
     });
