@@ -58,7 +58,7 @@ function devtools(enhancer) {
 
 function createApp(): App {
     console.info("[framework] initialize");
-    
+
     const namespaces = new Set<string>();
     const reducerHandlers: HandlerMap = {};
     const effectHandlers: HandlerMap = {};
