@@ -1,9 +1,9 @@
 import {Listener, LocationChangedEvent} from "./listener";
 import {app} from "./app";
 import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
-import {Handler, putHandler, run} from "./handler";
+import {Handler, putHandler, qualifiedActionType, run} from "./handler";
 
-export function register<A>(namespace: string, actionHandler?: A, initialState?: any, lisener?: Listener) {
+export function register(namespace: string, actionHandler?: any, initialState?: any, lisener?: Listener): void {
     if (!app.namespaces.has(namespace)) {
         app.namespaces.add(namespace);
 
@@ -17,17 +17,17 @@ export function register<A>(namespace: string, actionHandler?: A, initialState?:
 }
 
 function registerHandler(namespace: string, actionHandler: any, initialState: any): void {
-    Object.keys(actionHandler.__proto__).forEach(actionType => {
-        const handler: Handler<any> = actionHandler[actionType];
+    Object.keys(Object.getPrototypeOf(actionHandler)).forEach(actionType => {
+        const handler: Handler = actionHandler[actionType];
 
-        const qualifiedActionType = handler.global ? actionType : `${namespace}/${actionType}`;
+        const type = qualifiedActionType(handler, namespace, actionType);
         if (handler.effect === true) {
-            if (!handler.global || !app.sagaActionTypes.includes(qualifiedActionType)) {
-                app.sagaActionTypes.push(qualifiedActionType);          // saga takeLatest() requires string[], global action type could exists in multiple modules
+            if (!handler.global || !app.sagaActionTypes.includes(type)) {
+                app.sagaActionTypes.push(type);          // saga takeLatest() requires string[], global action type could exists in multiple modules
             }
-            putHandler(app.effectHandlers, namespace, qualifiedActionType, handler);
+            putHandler(app.effectHandlers, namespace, type, handler);
         } else {
-            putHandler(app.reducerHandlers, namespace, qualifiedActionType, handler);
+            putHandler(app.reducerHandlers, namespace, type, handler);
         }
     });
 
@@ -56,6 +56,6 @@ function registerListener(namespace: string, listener: Listener): void {
     }
 }
 
-function initializeState(namespace: string, initialState: any) {
+function initializeState(namespace: string, initialState: any): void {
     app.store.dispatch(initializeStateAction(namespace, initialState));
 }

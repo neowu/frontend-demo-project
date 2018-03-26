@@ -12,18 +12,17 @@ interface LoadingActionPayload {
 const LoadingActionType: string = "@@framework/loading";
 const initialLoadingState: LoadingState = {loadings: {}};
 
-export function loadingAction(loading: string, show: boolean): Action {
-    const payload: LoadingActionPayload = {loading, show};
+export function loadingAction(loading: string, show: boolean): Action<LoadingActionPayload> {
     return {
         type: LoadingActionType,
-        payload
+        payload: {loading, show}
     };
 }
 
-export function loadingReducer(state = initialLoadingState, action: Action): LoadingState {
+export function loadingReducer(state = initialLoadingState, action: Action<LoadingActionPayload>): LoadingState {
     switch (action.type) {
         case LoadingActionType:
-            const payload: LoadingActionPayload = action.payload;
+            const payload = action.payload;
             const count = state[payload.loading] ? state[payload.loading] : 0;
             return {
                 ...state,

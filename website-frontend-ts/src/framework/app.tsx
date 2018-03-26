@@ -60,7 +60,7 @@ function createApp(): App {
     const effectHandlers: HandlerMap = {};
     const sagaActionTypes = [LocationChangedActionType, ErrorActionType];    // actionTypes are shared by multiple modules
 
-    function reducer(state: any = {}, action: Action): any {
+    function reducer(state: any = {}, action: Action<any>): any {
         if (action.type === InitializeStateActionType) {
             const namespace = action.payload.namespace;
             const initialState = action.payload.state;
@@ -82,7 +82,7 @@ function createApp(): App {
     }
 
     function* saga() {
-        yield takeLatest(sagaActionTypes, function* (action: Action) {
+        yield takeLatest(sagaActionTypes, function* (action: Action<any>) {
             const handlers = effectHandlers[action.type];
             if (handlers) {
                 const rootState = app.store.getState();

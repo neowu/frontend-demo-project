@@ -8,37 +8,37 @@ interface HandlerMetadata {
     global?: boolean;
 }
 
-export type Handler<T> = ((payload?: any, state?: T, rootState?: any) => T) & HandlerMetadata;
+export type Handler = ((payload?: any, state?: any, rootState?: any) => any) & HandlerMetadata;
 
 export interface HandlerMap {
-    [actionType: string]: {[namespace: string]: Handler<any>};
+    [actionType: string]: {[namespace: string]: Handler};
 }
 
-export function effect(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const handler: Handler<any> = descriptor.value;
+export function effect(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
+    const handler: Handler = descriptor.value;
     handler.effect = true;
 }
 
-export function loading(loading: string) {
+export function loading(loading: string): MethodDecorator {
     return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
-        const handler: Handler<any> = descriptor.value;
+        const handler: Handler = descriptor.value;
         handler.loading = loading;
     };
 }
 
-export function global(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const handler: Handler<any> = descriptor.value;
+export function global(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
+    const handler: Handler = descriptor.value;
     handler.global = true;
 }
 
-export function putHandler(handlers: HandlerMap, namesapce: string, actionType: string, handler: Handler<any>): void {
+export function putHandler(handlers: HandlerMap, namesapce: string, actionType: string, handler: Handler): void {
     if (!handlers[actionType]) {
         handlers[actionType] = {};
     }
     handlers[actionType][namesapce] = handler;
 }
 
-export function* run(handler: Handler<any>, payload?: any, state?: any, rootState?: any) {
+export function* run(handler: Handler, payload?: any, state?: any, rootState?: any) {
     try {
         if (handler.loading) {
             yield put(loadingAction(handler.loading, true));
@@ -51,4 +51,8 @@ export function* run(handler: Handler<any>, payload?: any, state?: any, rootStat
             yield put(loadingAction(handler.loading, false));
         }
     }
+}
+
+export function qualifiedActionType(handler: Handler, namespace: string, actionType: string): string {
+    return handler.global ? actionType : `${namespace}/${actionType}`;
 }

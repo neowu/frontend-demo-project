@@ -1,38 +1,43 @@
 import {LOCATION_CHANGE} from "connected-react-router";
 import {Action as ReduxAction} from "redux";
-import {Handler} from "./handler";
+import {qualifiedActionType} from "./handler";
 
-export interface Action extends ReduxAction {
+export interface Action<P> extends ReduxAction {
     type: string;
-    payload: any;
+    payload: P;
 }
 
 export const ErrorActionType: string = "@@framework/error";
 export const LocationChangedActionType: string = LOCATION_CHANGE;
 export const InitializeStateActionType: string = "@@framework/initializeState";
 
-export function initializeStateAction(namespace: string, state: any): Action {
+interface InitializeStateActionPayload {
+    namespace: string;
+    state: any;
+}
+
+export function initializeStateAction(namespace: string, state: any): Action<InitializeStateActionPayload> {
     return {
         type: InitializeStateActionType,
         payload: {namespace, state}
     };
 }
 
-export function errorAction(error: any): Action {
+export function errorAction(error: any): Action<any> {
     return {
         type: ErrorActionType,
         payload: error
     };
 }
 
-type ActionCreator = (payload: any) => Action;
+type ActionCreator = (payload: any) => Action<any>;
 
-export function actionCreator<A extends any>(namespace: string, actionHandler: A): A {
-    const actionCreators: A = {} as A;
-    Object.keys(actionHandler.__proto__).forEach(actionType => {
-        const handler: Handler<any> = actionHandler[actionType];
-        const qualifiedActionType = handler.global ? actionType : `${namespace}/${actionType}`;
-        actionCreators[actionType] = ((payload: any) => ({type: qualifiedActionType, payload})) as ActionCreator;
+export function actionCreator<A>(namespace: string, actionHandler: A): {[P in keyof A]?: ActionCreator; } {
+    const actionCreators = {};
+    Object.keys(Object.getPrototypeOf(actionHandler)).forEach(actionType => {
+        const handler = actionHandler[actionType];
+        const type = qualifiedActionType(handler, namespace, actionType);
+        actionCreators[actionType] = ((payload: any) => ({type, payload}));
     });
     return actionCreators;
 }
