@@ -21,9 +21,9 @@ interface App {
     history: History;
     sagaMiddleware: SagaMiddleware<any>;
     namespaces: Set<string>;
-    reducerHandlers: HandlerMap;
+    reducers: HandlerMap;
     sagaActionTypes: string[];
-    effectHandlers: HandlerMap;
+    effects: HandlerMap;
 }
 
 console.time("[framework] initialized");
@@ -69,9 +69,9 @@ function errorMiddleware(): Middleware {
     };
 }
 
-function reducer(reducerHandlers: HandlerMap): Reducer<any> {
+function reducer(reducers: HandlerMap): Reducer<any> {
     return (state: any = {}, action: Action<any>): any => {
-        const handlers = reducerHandlers.get(action.type);
+        const handlers = reducers.get(action.type);
         if (handlers) {
             const rootState = app.store.getState();
             const newState = {...state};
@@ -85,10 +85,10 @@ function reducer(reducerHandlers: HandlerMap): Reducer<any> {
     };
 }
 
-function saga(sagaActionTypes: string[], effectHandlers: HandlerMap): () => Iterator<any> {
+function saga(sagaActionTypes: string[], effects: HandlerMap): () => Iterator<any> {
     return function* saga() {
         yield takeLatest(sagaActionTypes, function* (action: Action<any>) {
-            const handlers = effectHandlers.get(action.type);
+            const handlers = effects.get(action.type);
             if (handlers) {
                 const rootState = app.store.getState();
                 for (const namespace of Object.keys(handlers)) {
@@ -104,22 +104,22 @@ function createApp(): App {
     console.info("[framework] initialize");
 
     const namespaces = new Set<string>();
-    const reducerHandlers = new HandlerMap();
+    const reducers = new HandlerMap();
     const sagaActionTypes = [LocationChangedActionType, ErrorActionType];    // actionTypes are shared by multiple modules
-    const effectHandlers = new HandlerMap();
+    const effects = new HandlerMap();
 
     const history = createHistory();
-    const reducers = {
-        loadings: loadingReducer,
-        app: initializeStateReducer(reducer(reducerHandlers))
-    };
     const sagaMiddleware = createSagaMiddleware();
-    const store = createStore(connectRouter(history)(combineReducers(reducers)), {}, devtools(applyMiddleware(errorMiddleware(), routerMiddleware(history), sagaMiddleware)));
-    sagaMiddleware.run(saga(sagaActionTypes, effectHandlers));
+    const rootReducer = combineReducers({
+        loadings: loadingReducer,
+        app: initializeStateReducer(reducer(reducers))
+    });
+    const store = createStore(connectRouter(history)(rootReducer), {}, devtools(applyMiddleware(errorMiddleware(), routerMiddleware(history), sagaMiddleware)));
+    sagaMiddleware.run(saga(sagaActionTypes, effects));
 
     window.onerror = (message: string, source?: string, line?: number, column?: number, error?: Error) => {
         store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases
     };
 
-    return {history, store, namespaces, reducerHandlers, sagaActionTypes, effectHandlers, sagaMiddleware};
+    return {history, store, namespaces, reducers, sagaActionTypes, effects, sagaMiddleware};
 }

@@ -4,14 +4,14 @@ import {ErrorActionType} from "./exception";
 import {Handler, qualifiedActionType, run} from "./handler";
 import {Listener, LocationChangedActionType, LocationChangedEvent} from "./listener";
 
-export function register(module: {namespace: string, actionHandler?: any, initialState?: any, listener?: Listener}): void {
-    const {namespace, actionHandler, initialState, listener} = module;
+export function register(module: {namespace: string, handler?: any, initialState?: any, listener?: Listener}): void {
+    const {namespace, handler, initialState, listener} = module;
     if (!app.namespaces.has(namespace)) {
         app.namespaces.add(namespace);
         console.info(`[framework] register module, namespace=${namespace}`);
 
-        if (actionHandler) {
-            registerHandler(namespace, actionHandler, initialState);
+        if (handler) {
+            registerHandler(namespace, handler, initialState);
         }
         if (listener) {
             registerListener(namespace, listener);
@@ -19,9 +19,9 @@ export function register(module: {namespace: string, actionHandler?: any, initia
     }
 }
 
-function registerHandler(namespace: string, actionHandler: any, initialState: any): void {
-    Object.keys(Object.getPrototypeOf(actionHandler)).forEach(actionType => {
-        const handler: Handler = actionHandler[actionType];
+function registerHandler(namespace: string, handlers: any, initialState: any): void {
+    for (const actionType of Object.keys(Object.getPrototypeOf(handlers))) {
+        const handler: Handler = handlers[actionType];
 
         const type = qualifiedActionType(handler, namespace, actionType);
         if (handler.effect === true) {
@@ -29,22 +29,22 @@ function registerHandler(namespace: string, actionHandler: any, initialState: an
             if (!handler.global || !app.sagaActionTypes.includes(type)) {
                 app.sagaActionTypes.push(type);          // saga takeLatest() requires string[], global action type could exists in multiple modules
             }
-            app.effectHandlers.put(type, namespace, handler);
+            app.effects.put(type, namespace, handler);
         } else {
             console.info(`[framework] add reducer, namespace=${namespace}, actionType=${type}`);
-            app.reducerHandlers.put(type, namespace, handler);
+            app.reducers.put(type, namespace, handler);
         }
-    });
+    }
 
     initializeState(namespace, initialState);
 }
 
 function registerListener(namespace: string, listener: Listener): void {
     if (listener.onLocationChanged) {
-        app.effectHandlers.put(LocationChangedActionType, namespace, listener.onLocationChanged);     // LocationChangedActionType is already in app.sagaActionTypes
+        app.effects.put(LocationChangedActionType, namespace, listener.onLocationChanged);     // LocationChangedActionType is already in app.sagaActionTypes
     }
     if (listener.onError) {
-        app.effectHandlers.put(ErrorActionType, namespace, listener.onError);   // ErrorActionType is already in app.sagaActionTypes
+        app.effects.put(ErrorActionType, namespace, listener.onError);   // ErrorActionType is already in app.sagaActionTypes
     }
 
     // initialize after register handlers
