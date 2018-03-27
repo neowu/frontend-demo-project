@@ -1,4 +1,4 @@
-import {components} from "./module/main";
 import {render} from "framework";
+import {Main} from "./module/main";
 
-render(components.Main, "root");
+render(Main, "root");

@@ -1,11 +1,11 @@
-import {Actions, State} from "./type";
 import {push} from "connected-react-router";
-import {call, put} from "redux-saga/effects";
 import {effect, Listener, register} from "framework";
+import {call, put} from "redux-saga/effects";
 import {app} from "type/api";
+import {actionCreator} from "../../framework/action";
 import userAJAXService from "./ajax/user";
 import LoginForm from "./component/LoginForm";
-import {actionCreator} from "../../framework/action";
+import {Actions, State} from "./type";
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
 import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 
@@ -72,7 +72,6 @@ class ListenerImpl implements Listener {
 }
 
 const namespace = "user";
-const handler = new ActionHandler();
-const actions = actionCreator<Actions>(namespace, handler);
-register(namespace, handler, initialState, new ListenerImpl());
+const actions = actionCreator<Actions>(namespace, ActionHandler.prototype);
+register({namespace, actionHandler: new ActionHandler(), initialState, listener: new ListenerImpl()});
 export {actions, LoginForm};

@@ -1,9 +1,11 @@
-import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
+import {initializeStateAction} from "./action";
 import {app} from "./app";
+import {ErrorActionType} from "./exception";
 import {Handler, qualifiedActionType, run} from "./handler";
-import {Listener, LocationChangedEvent} from "./listener";
+import {Listener, LocationChangedActionType, LocationChangedEvent} from "./listener";
 
-export function register(namespace: string, actionHandler?: any, initialState?: any, lisener?: Listener): void {
+export function register(module: {namespace: string, actionHandler?: any, initialState?: any, listener?: Listener}): void {
+    const {namespace, actionHandler, initialState, listener} = module;
     if (!app.namespaces.has(namespace)) {
         app.namespaces.add(namespace);
         console.info(`[framework] register module, namespace=${namespace}`);
@@ -11,8 +13,8 @@ export function register(namespace: string, actionHandler?: any, initialState?: 
         if (actionHandler) {
             registerHandler(namespace, actionHandler, initialState);
         }
-        if (lisener) {
-            registerListener(namespace, lisener);
+        if (listener) {
+            registerListener(namespace, listener);
         }
     }
 }

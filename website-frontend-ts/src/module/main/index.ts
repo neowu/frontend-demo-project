@@ -1,4 +1,4 @@
-import Main from "./component/Main";
 import "module/error";
+import Main from "./component/Main";
 
-export const components = {Main};
+export {Main};

@@ -7,4 +7,6 @@ class ListenerImpl implements Listener {
     }
 }
 
-register("error", null, null, new ListenerImpl());
+const namespace = "error";
+const listener = new ListenerImpl();
+register({namespace, listener});

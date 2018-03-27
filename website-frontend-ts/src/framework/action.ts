@@ -1,6 +1,4 @@
-import {LOCATION_CHANGE} from "connected-react-router";
-import {Action as ReduxAction} from "redux";
-import {Exception} from "./exception";
+import {Action as ReduxAction, Reducer} from "redux";
 import {Handler, qualifiedActionType} from "./handler";
 
 export interface Action<P> extends ReduxAction {
@@ -8,9 +6,7 @@ export interface Action<P> extends ReduxAction {
     payload: P;
 }
 
-export const ErrorActionType: string = "@@framework/error";
-export const LocationChangedActionType: string = LOCATION_CHANGE;
-export const InitializeStateActionType: string = "@@framework/initializeState";
+const InitializeStateActionType: string = "@@framework/initializeState";
 
 interface InitializeStateActionPayload {
     namespace: string;
@@ -24,21 +20,27 @@ export function initializeStateAction(namespace: string, state: any): Action<Ini
     };
 }
 
-export function errorAction(error: Exception): Action<Exception> {
-    return {
-        type: ErrorActionType,
-        payload: error
+export function initializeStateReducer(next: Reducer<any>): Reducer<any> {
+    return (state: any = {}, action: Action<InitializeStateActionPayload>): any => {
+        switch (action.type) {
+            case InitializeStateActionType:
+                const {namespace, state: initialState} = action.payload;
+                return {...state, [namespace]: initialState};
+            default:
+                return next(state, action);
+        }
     };
 }
 
-type ActionCreator = (payload: any) => Action<any>;
+type ActionCreator = (payload?: any) => Action<any>;
 
-export function actionCreator<A>(namespace: string, actionHandler: A): {readonly [P in keyof A]?: ActionCreator; } {
+// usage: const actions = actionCreator(namespace, ActionHandler.prototype);
+export function actionCreator<A>(namespace: string, handlerPrototype: A): {readonly [P in keyof A]?: ActionCreator; } {
     const actionCreators = {};
-    Object.keys(Object.getPrototypeOf(actionHandler)).forEach(actionType => {
-        const handler: Handler = actionHandler[actionType];
+    Object.keys(handlerPrototype).forEach(actionType => {
+        const handler: Handler = handlerPrototype[actionType];
         const type = qualifiedActionType(handler, namespace, actionType);
-        actionCreators[actionType] = ((payload: any) => ({type, payload}));
+        actionCreators[actionType] = ((payload?: any) => ({type, payload}));
     });
     return actionCreators;
 }
