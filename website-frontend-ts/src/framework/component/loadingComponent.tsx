@@ -4,14 +4,15 @@ import {LoadingState} from "../loading";
 
 export const defaultLoadingComponent: React.ComponentType<any> = () => <div>loading...</div>;
 
-export function loadingComponent(loading: string, Component: React.ComponentType<any>, LoadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<any> {
-    interface Props {
-        show: boolean;
-    }
+interface Props {
+    show: boolean;
+}
 
+export function loadingComponent(loading: string, Component: React.ComponentType<any>, LoadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<any> {
     class Loading extends React.PureComponent<Props> {
         render() {
-            return this.props.show ? <LoadingComponent/> : <Component/>;
+            const {show} = this.props;
+            return show ? <LoadingComponent/> : <Component/>;
         }
     }
 

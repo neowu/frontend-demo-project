@@ -1,7 +1,7 @@
 import {Listener, LocationChangedEvent} from "./listener";
 import {app} from "./app";
 import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
-import {Handler, putHandler, qualifiedActionType, run} from "./handler";
+import {Handler, qualifiedActionType, run} from "./handler";
 
 export function register(namespace: string, actionHandler?: any, initialState?: any, lisener?: Listener): void {
     if (!app.namespaces.has(namespace)) {
@@ -27,10 +27,10 @@ function registerHandler(namespace: string, actionHandler: any, initialState: an
             if (!handler.global || !app.sagaActionTypes.includes(type)) {
                 app.sagaActionTypes.push(type);          // saga takeLatest() requires string[], global action type could exists in multiple modules
             }
-            putHandler(app.effectHandlers, namespace, type, handler);
+            app.effectHandlers.put(type, namespace, handler);
         } else {
             console.info(`[framework] add reducer, namespace=${namespace}, actionType=${type}`);
-            putHandler(app.reducerHandlers, namespace, type, handler);
+            app.reducerHandlers.put(type, namespace, handler);
         }
     });
 
@@ -39,10 +39,10 @@ function registerHandler(namespace: string, actionHandler: any, initialState: an
 
 function registerListener(namespace: string, listener: Listener): void {
     if (listener.onLocationChanged) {
-        putHandler(app.effectHandlers, namespace, LocationChangedActionType, listener.onLocationChanged);     // LocationChangedActionType is already in app.sagaActionTypes
+        app.effectHandlers.put(LocationChangedActionType, namespace, listener.onLocationChanged);     // LocationChangedActionType is already in app.sagaActionTypes
     }
     if (listener.onError) {
-        putHandler(app.effectHandlers, namespace, ErrorActionType, listener.onError);   // ErrorActionType is already in app.sagaActionTypes
+        app.effectHandlers.put(ErrorActionType, namespace, listener.onError);   // ErrorActionType is already in app.sagaActionTypes
     }
 
     // initialize after register handlers

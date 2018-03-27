@@ -71,8 +71,8 @@ function createApp(): App {
     console.info("[framework] initialize");
 
     const namespaces = new Set<string>();
-    const reducerHandlers: HandlerMap = {};
-    const effectHandlers: HandlerMap = {};
+    const reducerHandlers = new HandlerMap();
+    const effectHandlers = new HandlerMap();
     const sagaActionTypes = [LocationChangedActionType, ErrorActionType];    // actionTypes are shared by multiple modules
 
     function reducer(state: any = {}, action: Action<any>): any {
@@ -82,7 +82,7 @@ function createApp(): App {
             return {...state, [namespace]: initialState};
         }
 
-        const handlers = reducerHandlers[action.type];
+        const handlers = reducerHandlers.get(action.type);
         if (handlers) {
             const rootState = app.store.getState();
             const newState = {...state};
@@ -98,7 +98,7 @@ function createApp(): App {
 
     function* saga() {
         yield takeLatest(sagaActionTypes, function* (action: Action<any>) {
-            const handlers = effectHandlers[action.type];
+            const handlers = effectHandlers.get(action.type);
             if (handlers) {
                 const rootState = app.store.getState();
                 for (const namespace of Object.keys(handlers)) {

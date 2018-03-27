@@ -42,7 +42,7 @@ const config = {
                             libraryDirectory: "es",
                             style: true
                         })]
-                    }),
+                    })
                 }
             },
             {

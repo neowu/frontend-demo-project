@@ -1,5 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
+import {Spin} from "antd";
+import {loadingComponent} from "framework";
+import {LOADING_PRODUCT_LIST} from "../type";
 
 class ProductList extends React.PureComponent {
     render() {
@@ -9,4 +12,6 @@ class ProductList extends React.PureComponent {
     }
 }
 
-export default connect()(ProductList);
+const LoadingProductList = loadingComponent(LOADING_PRODUCT_LIST, ProductList, Spin);
+
+export default connect()(LoadingProductList);

@@ -37,7 +37,7 @@ const config = {
                             libraryDirectory: "es",
                             style: true
                         })]
-                    }),
+                    })
                 }
             },
             {
@@ -46,7 +46,7 @@ const config = {
                     loader: "less-loader",
                     options: {
                         javascriptEnabled: true
-                    },
+                    }
                 }]
             },
             {

@@ -10,8 +10,19 @@ interface HandlerMetadata {
 
 export type Handler = ((payload?: any, state?: any, rootState?: any) => any) & HandlerMetadata;
 
-export interface HandlerMap {
-    [actionType: string]: {[namespace: string]: Handler};
+export class HandlerMap {
+    private handlers: {[actionType: string]: {[namespace: string]: Handler}} = {};
+
+    public put(actionType: string, namespace: string, handler: Handler): void {
+        if (!this.handlers[actionType]) {
+            this.handlers[actionType] = {};
+        }
+        this.handlers[actionType][namespace] = handler;
+    }
+
+    public get(actionType: string): {[namespace: string]: Handler} {
+        return this.handlers[actionType];
+    }
 }
 
 export function effect(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
@@ -29,13 +40,6 @@ export function loading(loading: string): MethodDecorator {
 export function global(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
     const handler: Handler = descriptor.value;
     handler.global = true;
-}
-
-export function putHandler(handlers: HandlerMap, namesapce: string, actionType: string, handler: Handler): void {
-    if (!handlers[actionType]) {
-        handlers[actionType] = {};
-    }
-    handlers[actionType][namesapce] = handler;
 }
 
 export function* run(handler: Handler, payload?: any, state?: any, rootState?: any) {
