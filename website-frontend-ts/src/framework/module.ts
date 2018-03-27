@@ -1,7 +1,7 @@
-import {Listener, LocationChangedEvent} from "./listener";
-import {app} from "./app";
 import {ErrorActionType, initializeStateAction, LocationChangedActionType} from "./action";
+import {app} from "./app";
 import {Handler, qualifiedActionType, run} from "./handler";
+import {Listener, LocationChangedEvent} from "./listener";
 
 export function register(namespace: string, actionHandler?: any, initialState?: any, lisener?: Listener): void {
     if (!app.namespaces.has(namespace)) {

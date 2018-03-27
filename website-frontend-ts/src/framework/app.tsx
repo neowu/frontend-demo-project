@@ -1,18 +1,18 @@
+import "@babel/polyfill";
+import {ConnectedRouter, connectRouter, routerMiddleware} from "connected-react-router";
+import {History} from "history";
+import createHistory from "history/createBrowserHistory";
 import React, {ComponentType} from "react";
 import ReactDOM from "react-dom";
-import {applyMiddleware, combineReducers, compose, createStore, Dispatch, Middleware, Store, StoreEnhancer} from "redux";
 import {Provider} from "react-redux";
+import {withRouter} from "react-router-dom";
+import {applyMiddleware, combineReducers, compose, createStore, Dispatch, Middleware, Store, StoreEnhancer} from "redux";
 import createSagaMiddleware, {SagaMiddleware} from "redux-saga";
 import {takeLatest} from "redux-saga/effects";
-import {withRouter} from "react-router-dom";
-import {History} from "history";
-import {ConnectedRouter, connectRouter, routerMiddleware} from "connected-react-router";
-import createHistory from "history/createBrowserHistory";
-import ErrorBoundary from "./component/ErrorBoundary";
 import {Action, errorAction, ErrorActionType, InitializeStateActionType, LocationChangedActionType} from "./action";
-import {loadingReducer} from "./loading";
+import ErrorBoundary from "./component/ErrorBoundary";
 import {HandlerMap, run} from "./handler";
-import "@babel/polyfill";
+import {loadingReducer} from "./loading";
 
 interface App {
     store: Store<any>;

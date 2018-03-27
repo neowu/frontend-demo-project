@@ -1,6 +1,6 @@
 import {put} from "redux-saga/effects";
-import {loadingAction} from "./loading";
 import {errorAction} from "./action";
+import {loadingAction} from "./loading";
 
 interface HandlerMetadata {
     effect?: boolean;
