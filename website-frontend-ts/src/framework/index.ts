@@ -1,3 +1,5 @@
+import "@babel/polyfill";
+
 export {render} from "./app";
 export {actionCreator} from "./action";
 export {effect, loading, global} from "./handler";

@@ -1,4 +1,3 @@
-import "@babel/polyfill";
 import {ConnectedRouter, connectRouter, LOCATION_CHANGE, routerMiddleware} from "connected-react-router";
 import {History} from "history";
 import createHistory from "history/createBrowserHistory";
@@ -6,7 +5,7 @@ import React, {ComponentType} from "react";
 import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import {withRouter} from "react-router-dom";
-import {applyMiddleware, combineReducers, compose, createStore, Dispatch, Middleware, Reducer, Store, StoreEnhancer} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore, Dispatch, Middleware, MiddlewareAPI, Reducer, Store, StoreEnhancer} from "redux";
 import createSagaMiddleware, {SagaIterator, SagaMiddleware} from "redux-saga";
 import {takeLatest} from "redux-saga/effects";
 import {Action, initializeStateReducer} from "./action";
@@ -59,18 +58,18 @@ function devtools(enhancer: StoreEnhancer<State>): StoreEnhancer<State> {
 }
 
 function errorMiddleware(): Middleware {
-    return () => (next: Dispatch<State>) => (action: any) => {
+    return ((store: MiddlewareAPI<State>) => (next: Dispatch<State>) => (action: Action<any>): Action<any> => {
         try {
             return next(action);
         } catch (error) {
             console.error(error);
             return next(errorAction(error));
         }
-    };
+    }) as Middleware;
 }
 
-function reducer(reducers: HandlerMap): Reducer<any> {
-    return (state: any = {}, action: Action<any>): any => {
+function appReducer(reducers: HandlerMap): Reducer<any> {
+    const appReducer = (state: any = {}, action: Action<any>): any => {
         const handlers = reducers.get(action.type);
         if (handlers) {
             const rootState = app.store.getState();
@@ -83,6 +82,7 @@ function reducer(reducers: HandlerMap): Reducer<any> {
         }
         return state;
     };
+    return initializeStateReducer(appReducer);
 }
 
 function saga(sagaActionTypes: string[], effects: HandlerMap, store: Store<State>): () => SagaIterator {
@@ -110,10 +110,11 @@ function createApp(): App {
 
     const history = createHistory();
     const sagaMiddleware = createSagaMiddleware();
-    const rootReducer = combineReducers<State>({
+    const reducerMap: {[P in keyof State]?: Reducer<State[P]>} = {
         loading: loadingReducer,
-        app: initializeStateReducer(reducer(reducers))
-    });
+        app: appReducer(reducers)
+    };
+    const rootReducer = combineReducers<State>(reducerMap);
     const store = createStore(connectRouter(history)(rootReducer), devtools(applyMiddleware(errorMiddleware(), routerMiddleware(history), sagaMiddleware)));
     sagaMiddleware.run(saga(sagaActionTypes, effects, store));
 
