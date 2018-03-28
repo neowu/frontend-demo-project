@@ -1,6 +1,8 @@
+import {SagaIterator} from "redux-saga";
 import {put} from "redux-saga/effects";
 import {errorAction} from "./exception";
 import {loadingAction} from "./loading";
+import {State} from "./state";
 
 interface HandlerMetadata {
     effect?: boolean;
@@ -8,7 +10,7 @@ interface HandlerMetadata {
     global?: boolean;
 }
 
-export type Handler = ((payload?: any, state?: any, rootState?: any) => any) & HandlerMetadata;
+export type Handler = ((payload?: any, state?: any, rootState?: State) => any) & HandlerMetadata;
 
 export class HandlerMap {
     private handlers: {[actionType: string]: {[namespace: string]: Handler}} = {};
@@ -31,7 +33,7 @@ export function effect(target: any, propertyKey: string, descriptor: PropertyDes
 }
 
 export function loading(loading: string): MethodDecorator {
-    return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+    return (target: any, propertyKey: string, descriptor: PropertyDescriptor): void => {
         const handler: Handler = descriptor.value;
         handler.loading = loading;
     };
@@ -42,7 +44,7 @@ export function global(target: any, propertyKey: string, descriptor: PropertyDes
     handler.global = true;
 }
 
-export function* run(handler: Handler, payload?: any, state?: any, rootState?: any) {
+export function* run(handler: Handler, payload?: any, state?: any, rootState?: State): SagaIterator {
     try {
         if (handler.loading) {
             yield put(loadingAction(handler.loading, true));

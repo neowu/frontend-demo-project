@@ -1,5 +1,5 @@
 import "@babel/polyfill";
-import {ConnectedRouter, connectRouter, routerMiddleware} from "connected-react-router";
+import {ConnectedRouter, connectRouter, LOCATION_CHANGE, routerMiddleware} from "connected-react-router";
 import {History} from "history";
 import createHistory from "history/createBrowserHistory";
 import React, {ComponentType} from "react";
@@ -7,17 +7,17 @@ import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {applyMiddleware, combineReducers, compose, createStore, Dispatch, Middleware, Reducer, Store, StoreEnhancer} from "redux";
-import createSagaMiddleware, {SagaMiddleware} from "redux-saga";
+import createSagaMiddleware, {SagaIterator, SagaMiddleware} from "redux-saga";
 import {takeLatest} from "redux-saga/effects";
 import {Action, initializeStateReducer} from "./action";
 import ErrorBoundary from "./component/ErrorBoundary";
 import {errorAction, ErrorActionType} from "./exception";
 import {HandlerMap, run} from "./handler";
-import {LocationChangedActionType} from "./listener";
+import {State} from "./index";
 import {loadingReducer} from "./loading";
 
 interface App {
-    store: Store<any>;
+    store: Store<State>;
     history: History;
     sagaMiddleware: SagaMiddleware<any>;
     namespaces: Set<string>;
@@ -47,19 +47,19 @@ export function render(component: ComponentType<any>, container: string): void {
     console.timeEnd("[framework] initialized");
 }
 
-function devtools(enhancer: StoreEnhancer<{}>): StoreEnhancer<{}> {
+function devtools(enhancer: StoreEnhancer<State>): StoreEnhancer<State> {
     const production = process.env.NODE_ENV === "production";
     if (!production) {
-        const reduxExtension = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
-        if (reduxExtension) {
-            return compose(enhancer, reduxExtension({}));
+        const extension = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
+        if (extension) {
+            return compose(enhancer, extension({}));
         }
     }
     return enhancer;
 }
 
 function errorMiddleware(): Middleware {
-    return () => (next: Dispatch<any>) => (action: any) => {
+    return () => (next: Dispatch<State>) => (action: any) => {
         try {
             return next(action);
         } catch (error) {
@@ -85,12 +85,12 @@ function reducer(reducers: HandlerMap): Reducer<any> {
     };
 }
 
-function saga(sagaActionTypes: string[], effects: HandlerMap): () => Iterator<any> {
+function saga(sagaActionTypes: string[], effects: HandlerMap, store: Store<State>): () => SagaIterator {
     return function* saga() {
         yield takeLatest(sagaActionTypes, function* (action: Action<any>) {
             const handlers = effects.get(action.type);
             if (handlers) {
-                const rootState = app.store.getState();
+                const rootState = store.getState();
                 for (const namespace of Object.keys(handlers)) {
                     const handler = handlers[namespace];
                     yield* run(handler, action.payload, rootState.app[namespace], rootState);
@@ -105,19 +105,19 @@ function createApp(): App {
 
     const namespaces = new Set<string>();
     const reducers = new HandlerMap();
-    const sagaActionTypes = [LocationChangedActionType, ErrorActionType];    // actionTypes are shared by multiple modules
+    const sagaActionTypes = [LOCATION_CHANGE, ErrorActionType];    // actionTypes are shared by multiple modules
     const effects = new HandlerMap();
 
     const history = createHistory();
     const sagaMiddleware = createSagaMiddleware();
-    const rootReducer = combineReducers({
-        loadings: loadingReducer,
+    const rootReducer = combineReducers<State>({
+        loading: loadingReducer,
         app: initializeStateReducer(reducer(reducers))
     });
-    const store = createStore(connectRouter(history)(rootReducer), {}, devtools(applyMiddleware(errorMiddleware(), routerMiddleware(history), sagaMiddleware)));
-    sagaMiddleware.run(saga(sagaActionTypes, effects));
+    const store = createStore(connectRouter(history)(rootReducer), devtools(applyMiddleware(errorMiddleware(), routerMiddleware(history), sagaMiddleware)));
+    sagaMiddleware.run(saga(sagaActionTypes, effects, store));
 
-    window.onerror = (message: string, source?: string, line?: number, column?: number, error?: Error) => {
+    window.onerror = (message: string, source?: string, line?: number, column?: number, error?: Error): void => {
         store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases
     };
 

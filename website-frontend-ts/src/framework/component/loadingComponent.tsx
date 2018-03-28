@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {LoadingState} from "../loading";
+import {State} from "../state";
 
 export const defaultLoadingComponent: React.ComponentType<any> = () => <div>loading...</div>;
 
@@ -16,8 +16,8 @@ export function loadingComponent(loading: string, Component: React.ComponentType
         }
     }
 
-    return connect((state: LoadingState) => {
-        const show = state.loadings[loading] > 0;
+    return connect((state: State) => {
+        const show = state.loading[loading] > 0;
         return {show};
     })(Loading);
 }

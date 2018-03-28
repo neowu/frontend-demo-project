@@ -1,8 +1,8 @@
-import {State as UserState} from "module/user/type";
+import {State} from "framework";
 import {State as ProductState} from "module/product/type";
-import {FrameworkState} from "framework";
+import {State as UserState} from "module/user/type";
 
-export interface RootState extends FrameworkState {
+export interface RootState extends State {
     app: {
         user: UserState;
         product: ProductState;

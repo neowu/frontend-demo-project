@@ -1,8 +1,9 @@
+import {LOCATION_CHANGE} from "connected-react-router";
 import {initializeStateAction} from "./action";
 import {app} from "./app";
 import {ErrorActionType} from "./exception";
 import {Handler, qualifiedActionType, run} from "./handler";
-import {Listener, LocationChangedActionType, LocationChangedEvent} from "./listener";
+import {Listener, LocationChangedEvent} from "./listener";
 
 export function register(module: {namespace: string, handler?: any, initialState?: any, listener?: Listener}): void {
     const {namespace, handler, initialState, listener} = module;
@@ -41,7 +42,7 @@ function registerHandler(namespace: string, handlers: any, initialState: any): v
 
 function registerListener(namespace: string, listener: Listener): void {
     if (listener.onLocationChanged) {
-        app.effects.put(LocationChangedActionType, namespace, listener.onLocationChanged);     // LocationChangedActionType is already in app.sagaActionTypes
+        app.effects.put(LOCATION_CHANGE, namespace, listener.onLocationChanged);     // LocationChangedActionType is already in app.sagaActionTypes
     }
     if (listener.onError) {
         app.effects.put(ErrorActionType, namespace, listener.onError);   // ErrorActionType is already in app.sagaActionTypes
