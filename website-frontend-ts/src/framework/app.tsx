@@ -65,7 +65,7 @@ function errorMiddleware(): Middleware {
             console.error(error);
             return next(errorAction(error));
         }
-    }) as Middleware;
+    }) as Middleware;   // due to typescript limitation, Action<any> is not recognized as <A extend Action> (which should be), so here it has to cast to Middleware
 }
 
 function appReducer(reducers: HandlerMap): Reducer<any> {
