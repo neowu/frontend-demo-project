@@ -1,6 +1,8 @@
+import {Button} from "antd";
 import React from "react";
 import {connect} from "react-redux";
-import {Button} from "antd";
+
+const ui = require("conf/ui.json");
 
 const Welcome = () => {
     // const abc = 2;
@@ -12,7 +14,7 @@ const Welcome = () => {
     };
 
     return <div>
-        <h1>Welcome</h1>
+        <h1>Welcome, {ui.title}</h1>
         <Button onClick={onClick}>
             Test
         </Button>

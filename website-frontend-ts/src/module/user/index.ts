@@ -1,8 +1,7 @@
 import {push} from "connected-react-router";
-import {effect, Listener, register} from "framework";
+import {actionCreator, effect, Listener, register} from "framework";
 import {call, put} from "redux-saga/effects";
 import {app} from "type/api";
-import {actionCreator} from "../../framework/action";
 import userAJAXService from "./ajax/user";
 import LoginForm from "./component/LoginForm";
 import {Actions, State} from "./type";

@@ -28,7 +28,7 @@ module.exports = {
     nodeModules: resolve("node_modules"),
     src: resolve("src"),
     static: resolve("static"),
-    conf: resolve(`conf/${env == null ? "local" : env}`),
+    conf: env == null ? resolve("src/conf") : resolve(`conf/${env}`),
     lib: resolve("lib"),
     packageJSON: json(resolve("package.json")),
     tsConfig: resolve("webpack/tsconfig.json"),

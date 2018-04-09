@@ -1,7 +1,7 @@
 import {ajax} from "framework/ajax";
-import {app} from "../../../type/api";
-import ProductAJAXWebServiceMetadata = app.api.ProductAJAXWebServiceMetadata;
+import {app} from "type/api";
 import ProductAJAXWebService = app.api.ProductAJAXWebService;
+import ProductAJAXWebServiceMetadata = app.api.ProductAJAXWebServiceMetadata;
 
 class ProductAJAXWebServiceImpl implements ProductAJAXWebService {
     list(): Promise<app.api.product.ListProductResponse> {

@@ -24,9 +24,12 @@ function handleError(error: AxiosError) {
     throw new APIException(message, responseStatus, errorCode);
 }
 
-axios.interceptors.response.use(response => response, error => {
-    handleError(error);
-});
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        handleError(error);
+    },
+);
 
 export function ajax<Request, Response>(url: string, method: string, request: Request): Promise<Response> {
     const config: AxiosRequestConfig = {method, url};
