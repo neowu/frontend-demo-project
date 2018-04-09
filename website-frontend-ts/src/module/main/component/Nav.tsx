@@ -1,7 +1,7 @@
+import {Icon, Layout, Menu} from "antd";
 import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {Icon, Layout, Menu} from "antd";
 
 interface Props {
     role: string;
@@ -32,5 +32,5 @@ const Nav: React.SFC<Props> = ({role}) => {
 
 // state.app.user.currentUser.role
 export default connect((state: any) => ({
-    role: null
+    role: null,
 }))(Nav);

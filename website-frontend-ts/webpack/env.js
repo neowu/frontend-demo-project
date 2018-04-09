@@ -34,5 +34,5 @@ module.exports = {
     tsConfig: resolve("webpack/tsconfig.json"),
     tslintConfig: resolve("webpack/tslint.json"),
     stylelintConfig: resolve("webpack/stylelint.json"),
-    webpackJSON: webpackJSON()
+    webpackJSON: webpackJSON(),
 };

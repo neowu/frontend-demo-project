@@ -12,12 +12,12 @@ const initialState: State = {
     currentUser: {
         loggedIn: false,
         role: null,
-        name: null
+        name: null,
     },
     login: {
         success: false,
-        errorMessage: null
-    }
+        errorMessage: null,
+    },
 };
 
 class ActionHandler implements Actions {
@@ -42,8 +42,8 @@ class ActionHandler implements Actions {
             currentUser: {
                 loggedIn: response.loggedIn,
                 role: response.role,
-                name: response.name
-            }
+                name: response.name,
+            },
         };
     }
 
@@ -52,13 +52,13 @@ class ActionHandler implements Actions {
             ...state,
             login: {
                 success: response.success,
-                errorMessage: response.errorMessage
+                errorMessage: response.errorMessage,
             },
             currentUser: {
                 loggedIn: response.success,
                 role: response.role,
-                name: response.name
-            }
+                name: response.name,
+            },
         };
     }
 }

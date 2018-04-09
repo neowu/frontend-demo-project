@@ -9,7 +9,7 @@ function devServer(compiler) {
     Object.keys(env.packageJSON.config.pages).forEach(name => {
         rewrites.push({
             from: new RegExp(`/${name}`),
-            to: `/${name}.html`
+            to: `/${name}.html`,
         });
     });
     return new DevServer(compiler, {
@@ -21,18 +21,18 @@ function devServer(compiler) {
         progress: true,
         overlay: {
             warnings: true,
-            errors: true
+            errors: true,
         },
         stats: {
-            colors: true
+            colors: true,
         },
         proxy: {
             "/ajax": {
-                target: "https://localhost:8443",
+                target: "https://www.ceshi9527.com",
                 secure: false,
-                changeOrigin: true
-            }
-        }
+                changeOrigin: true,
+            },
+        },
     });
 }
 

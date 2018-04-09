@@ -1,11 +1,11 @@
-import React from "react";
-import {connect, DispatchProp} from "react-redux";
 import {Alert, Button, Form, Input} from "antd";
 import {FormComponentProps} from "antd/lib/form";
-import {RootState} from "type/state";
-import "./loginForm.less";
 
 import {actions} from "module/user";
+import React from "react";
+import {connect, DispatchProp} from "react-redux";
+import {RootState} from "type/state";
+import "./loginForm.less";
 
 interface Props extends FormComponentProps, DispatchProp<any> {
     errorMessage: string;
@@ -18,7 +18,7 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
             if (!errors) {
                 dispatch(actions.login({
                     username: values.username,
-                    password: values.password
+                    password: values.password,
                 }));
             }
         });
@@ -27,15 +27,15 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
     const usernameDecorator = form.getFieldDecorator("username", {
         rules: [{
             required: true,
-            message: "Please input your username!"
-        }]
+            message: "Please input your username!",
+        }],
     });
 
     const passwordDecorator = form.getFieldDecorator("password", {
         rules: [{
             required: true,
-            message: "Please input your Password!"
-        }]
+            message: "Please input your Password!",
+        }],
     });
 
     return <div>
@@ -56,7 +56,7 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
 
 const mapStateToProps = (state: RootState) => {
     return {
-        errorMessage: state.app.user.login.errorMessage
+        errorMessage: state.app.user.login.errorMessage,
     };
 };
 

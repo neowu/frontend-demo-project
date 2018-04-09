@@ -8,8 +8,8 @@ import {Actions, LOADING_PRODUCT_LIST, State} from "./type";
 
 const initialState: State = {
     createProductUI: {
-        types: []
-    }
+        types: [],
+    },
 };
 
 class ActionHandler implements Actions {
@@ -31,7 +31,7 @@ class ActionHandler implements Actions {
         });
         return {
             ...state,
-            createProductUI: {types}
+            createProductUI: {types},
         };
     }
 }

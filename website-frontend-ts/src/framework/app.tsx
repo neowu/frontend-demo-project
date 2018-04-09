@@ -112,7 +112,7 @@ function createApp(): App {
     const sagaMiddleware = createSagaMiddleware();
     const reducerMap: {[P in keyof State]?: Reducer<State[P]>} = {
         loading: loadingReducer,
-        app: appReducer(reducers)
+        app: appReducer(reducers),
     };
     const rootReducer = combineReducers<State>(reducerMap);
     const store = createStore(connectRouter(history)(rootReducer), devtools(applyMiddleware(errorMiddleware(), routerMiddleware(history), sagaMiddleware)));

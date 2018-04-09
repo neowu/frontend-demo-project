@@ -8,7 +8,7 @@ interface State {
 export function asyncComponent(resolve: () => Promise<ComponentType<any>>, LoadingComponent: React.ComponentType<any> = defaultLoadingComponent): React.ComponentType<{}> {
     class Async extends React.PureComponent<{}, State> {
         state: State = {
-            Component: null
+            Component: null,
         };
 
         public componentDidMount() {

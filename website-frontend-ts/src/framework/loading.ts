@@ -14,7 +14,7 @@ const LoadingActionType: string = "@@framework/loading";
 export function loadingAction(loading: string, show: boolean): Action<LoadingActionPayload> {
     return {
         type: LoadingActionType,
-        payload: {loading, show}
+        payload: {loading, show},
     };
 }
 
@@ -24,7 +24,7 @@ export function loadingReducer(state: LoadingState = {}, action: Action<LoadingA
         const count = state[payload.loading] || 0;
         return {
             ...state,
-            [payload.loading]: count + (payload.show ? 1 : -1)
+            [payload.loading]: count + (payload.show ? 1 : -1),
         };
     }
     return state;

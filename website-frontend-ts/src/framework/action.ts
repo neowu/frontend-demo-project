@@ -16,7 +16,7 @@ interface InitializeStateActionPayload {
 export function initializeStateAction(namespace: string, state: any): Action<InitializeStateActionPayload> {
     return {
         type: InitializeStateActionType,
-        payload: {namespace, state}
+        payload: {namespace, state},
     };
 }
 

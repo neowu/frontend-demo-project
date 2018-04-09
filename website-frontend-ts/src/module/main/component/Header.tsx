@@ -1,12 +1,12 @@
+import {Button, Layout, Menu} from "antd";
+import {actions as userActions} from "module/user";
 import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {Button, Layout, Menu} from "antd";
 import {Dispatch} from "redux";
+import {RootState} from "type/state";
 
 import "./header.less";
-import {actions as userActions} from "module/user";
-import {RootState} from "type/state";
 
 interface Props {
     loggedIn: boolean;
@@ -36,6 +36,6 @@ const mapStatsToProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch: Dispatch<RootState>) => ({
     logout: () => {
         dispatch(userActions.logout());
-    }
+    },
 });
 export default connect(mapStatsToProps, mapDispatchToProps)(Header);

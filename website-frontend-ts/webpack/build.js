@@ -11,9 +11,7 @@ function cleanup() {
 
 function copyStatic() {
     console.info(chalk.bold.white("copy static folder to dist"));
-    fs.copySync(env.static, env.dist, {
-        dereference: true
-    });
+    fs.copySync(env.static, env.dist, {dereference: true});
 }
 
 function build() {
@@ -31,10 +29,7 @@ function build() {
             if (error.details) console.error(error.details);
             process.exit(1);
         } else {
-            console.log(stats.toString({
-                chunks: false,
-                colors: true
-            }));
+            console.log(stats.toString({chunks: false, colors: true}));
             if (stats.hasErrors() || stats.hasWarnings()) {
                 process.exit(1);
             }
