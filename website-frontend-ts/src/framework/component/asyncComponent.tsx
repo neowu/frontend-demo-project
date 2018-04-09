@@ -11,14 +11,14 @@ export function asyncComponent(resolve: () => Promise<ComponentType<any>>, Loadi
             Component: null,
         };
 
-        public componentDidMount() {
+        componentDidMount() {
             const promise = resolve();
             promise.then(Component => {
                 this.setState({Component});
             });
         }
 
-        public render() {
+        render() {
             const {Component} = this.state;
             return Component ? <Component/> : <LoadingComponent/>;
         }
