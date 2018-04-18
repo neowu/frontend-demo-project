@@ -7,7 +7,6 @@ import {Dispatch} from "redux";
 import {RootState} from "type/state";
 
 import "./header.less";
-import {Action} from "framework";
 
 interface Props {
     loggedIn: boolean;
@@ -34,7 +33,7 @@ const mapStatsToProps = (state: RootState) => {
         userName: state.app.user.currentUser.name,
     };
 };
-const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
     logout: () => {
         dispatch(userActions.logout());
     },
