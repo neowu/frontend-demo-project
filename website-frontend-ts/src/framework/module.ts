@@ -1,7 +1,7 @@
 import {LOCATION_CHANGE} from "connected-react-router";
-import {initializeStateAction} from "./action";
+import {initStateAction} from "./action";
 import {app} from "./app";
-import {ErrorActionType} from "./exception";
+import {ERROR_ACTION_TYPE} from "./exception";
 import {Handler, qualifiedActionType, run} from "./handler";
 import {Listener, LocationChangedEvent} from "./listener";
 
@@ -45,7 +45,7 @@ function registerListener(namespace: string, listener: Listener): void {
         app.effects.put(LOCATION_CHANGE, namespace, listener.onLocationChanged);     // LocationChangedActionType is already in app.sagaActionTypes
     }
     if (listener.onError) {
-        app.effects.put(ErrorActionType, namespace, listener.onError);   // ErrorActionType is already in app.sagaActionTypes
+        app.effects.put(ERROR_ACTION_TYPE, namespace, listener.onError);   // ERROR_ACTION_TYPE is already in app.sagaActionTypes
     }
 
     // initialize after register handlers
@@ -63,5 +63,5 @@ function registerListener(namespace: string, listener: Listener): void {
 }
 
 function initializeState(namespace: string, initialState: any): void {
-    app.store.dispatch(initializeStateAction(namespace, initialState));
+    app.store.dispatch(initStateAction(namespace, initialState));
 }

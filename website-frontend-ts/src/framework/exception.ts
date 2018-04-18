@@ -4,11 +4,11 @@ export interface Exception {
     message: string;
 }
 
-export const ErrorActionType: string = "@@framework/error";
+export const ERROR_ACTION_TYPE: string = "@@framework/error";
 
 export function errorAction(error: Exception): Action<Exception> {
     return {
-        type: ErrorActionType,
+        type: ERROR_ACTION_TYPE,
         payload: error,
     };
 }

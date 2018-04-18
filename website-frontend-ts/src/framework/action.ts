@@ -1,35 +1,29 @@
-import {Action as ReduxAction, Reducer} from "redux";
+import {Action as ReduxAction} from "redux";
 import {Handler, qualifiedActionType} from "./handler";
+import {State} from "./state";
 
 export interface Action<P> extends ReduxAction {
     type: string;
     payload: P;
 }
 
-const InitializeStateActionType: string = "@@framework/initializeState";
+export const INIT_STATE_ACTION_TYPE: string = "@@framework/initState";
 
-interface InitializeStateActionPayload {
+interface InitStateActionPayload {
     namespace: string;
     state: any;
 }
 
-export function initializeStateAction(namespace: string, state: any): Action<InitializeStateActionPayload> {
+export function initStateAction(namespace: string, state: any): Action<InitStateActionPayload> {
     return {
-        type: InitializeStateActionType,
+        type: INIT_STATE_ACTION_TYPE,
         payload: {namespace, state},
     };
 }
 
-export function initializeStateReducer(next: Reducer<any>): Reducer<any> {
-    return (state: any = {}, action: Action<InitializeStateActionPayload>): any => {
-        switch (action.type) {
-            case InitializeStateActionType:
-                const {namespace, state: initialState} = action.payload;
-                return {...state, [namespace]: initialState};
-            default:
-                return next(state, action);
-        }
-    };
+export function initStateReducer(state: State["app"] = {}, action: Action<InitStateActionPayload>): State["app"] {
+    const {namespace, state: initialState} = action.payload;
+    return {...state, [namespace]: initialState};
 }
 
 type ActionCreator = <P>(payload?: P) => Action<P>;

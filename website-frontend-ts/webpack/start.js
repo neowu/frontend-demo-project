@@ -28,7 +28,7 @@ function devServer(compiler) {
         },
         proxy: {
             "/ajax": {
-                target: "https://www.ceshi9527.com",
+                target: "https://localhost:8443/",
                 secure: false,
                 changeOrigin: true,
             },

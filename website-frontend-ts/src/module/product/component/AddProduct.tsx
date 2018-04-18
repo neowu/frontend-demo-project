@@ -13,7 +13,7 @@ interface Props extends FormComponentProps {
         }>;
     };
 
-    dispatch: Dispatch<RootState>;
+    dispatch: Dispatch;
 }
 
 const AddProduct: React.SFC<Props> = ({ui, form}) => {
@@ -44,7 +44,7 @@ const mapStateToProps = (state: RootState) => ({
     ui: state.app.product.createProductUI,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<RootState>) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         dispatch,
     };

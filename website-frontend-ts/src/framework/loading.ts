@@ -9,23 +9,20 @@ interface LoadingActionPayload {
     show: boolean;
 }
 
-const LoadingActionType: string = "@@framework/loading";
+export const LOADING_ACTION_TYPE = "@@framework/loading";
 
 export function loadingAction(loading: string, show: boolean): Action<LoadingActionPayload> {
     return {
-        type: LoadingActionType,
+        type: LOADING_ACTION_TYPE,
         payload: {loading, show},
     };
 }
 
 export function loadingReducer(state: LoadingState = {}, action: Action<LoadingActionPayload>): LoadingState {
-    if (action.type === LoadingActionType) {
-        const payload = action.payload;
-        const count = state[payload.loading] || 0;
-        return {
-            ...state,
-            [payload.loading]: count + (payload.show ? 1 : -1),
-        };
-    }
-    return state;
+    const payload = action.payload;
+    const count = state[payload.loading] || 0;
+    return {
+        ...state,
+        [payload.loading]: count + (payload.show ? 1 : -1),
+    };
 }

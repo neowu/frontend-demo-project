@@ -6,3 +6,9 @@ export interface State {
     loading: LoadingState;
     app: {};
 }
+
+export const initialState: State = {
+    router: null,
+    loading: {},
+    app: {},
+};

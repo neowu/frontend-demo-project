@@ -5,15 +5,15 @@ import React, {ComponentType} from "react";
 import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import {withRouter} from "react-router-dom";
-import {applyMiddleware, combineReducers, compose, createStore, Dispatch, Middleware, MiddlewareAPI, Reducer, Store, StoreEnhancer} from "redux";
+import {applyMiddleware, compose, createStore, Dispatch, Middleware, MiddlewareAPI, Reducer, Store, StoreEnhancer} from "redux";
 import createSagaMiddleware, {SagaIterator, SagaMiddleware} from "redux-saga";
 import {takeLatest} from "redux-saga/effects";
-import {Action, initializeStateReducer} from "./action";
+import {Action, INIT_STATE_ACTION_TYPE, initStateReducer} from "./action";
 import ErrorBoundary from "./component/ErrorBoundary";
-import {errorAction, ErrorActionType} from "./exception";
+import {ERROR_ACTION_TYPE, errorAction} from "./exception";
 import {HandlerMap, run} from "./handler";
-import {State} from "./index";
-import {loadingReducer} from "./loading";
+import {LOADING_ACTION_TYPE, loadingReducer} from "./loading";
+import {initialState, State} from "./state";
 
 interface App {
     store: Store<State>;
@@ -46,7 +46,7 @@ export function render(component: ComponentType<any>, container: string): void {
     console.timeEnd("[framework] initialized");
 }
 
-function devtools(enhancer: StoreEnhancer<State>): StoreEnhancer<State> {
+function devtools(enhancer: StoreEnhancer): StoreEnhancer {
     const production = process.env.NODE_ENV === "production";
     if (!production) {
         const extension = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
@@ -57,32 +57,15 @@ function devtools(enhancer: StoreEnhancer<State>): StoreEnhancer<State> {
     return enhancer;
 }
 
-function errorMiddleware(): Middleware {
-    return ((store: MiddlewareAPI<State>) => (next: Dispatch<State>) => (action: Action<any>): Action<any> => {
+function errorMiddleware(): Middleware<{}, State, Dispatch<Action<any>>> {
+    return (store: MiddlewareAPI<Dispatch<Action<any>>, State>) => (next: Dispatch<Action<any>>) => (action: Action<any>): Action<any> => {
         try {
             return next(action);
         } catch (error) {
             console.error(error);
             return next(errorAction(error));
         }
-    }) as Middleware;   // due to typescript limitation, Action<any> is not recognized as <A extend Action> (which should be), so here it has to cast to Middleware
-}
-
-function appReducer(reducers: HandlerMap): Reducer<any> {
-    const appReducer = (state: any = {}, action: Action<any>): any => {
-        const handlers = reducers.get(action.type);
-        if (handlers) {
-            const rootState = app.store.getState();
-            const newState = {...state};
-            for (const namespace of Object.keys(handlers)) {
-                const handler = handlers[namespace];
-                newState[namespace] = handler(action.payload, state[namespace], rootState);
-            }
-            return newState;
-        }
-        return state;
     };
-    return initializeStateReducer(appReducer);
 }
 
 function saga(sagaActionTypes: string[], effects: HandlerMap, store: Store<State>): () => SagaIterator {
@@ -100,21 +83,48 @@ function saga(sagaActionTypes: string[], effects: HandlerMap, store: Store<State
     };
 }
 
+function createRootReducer(reducers: HandlerMap): Reducer<State, Action<any>> {
+    return (rootState: State = initialState, action: Action<any>): State => {
+        const nextState: State = initialState;
+
+        if (action.type === LOADING_ACTION_TYPE) {
+            nextState.loading = loadingReducer(rootState.loading, action);
+            return nextState;
+        }
+
+        if (action.type === INIT_STATE_ACTION_TYPE) {
+            nextState.app = initStateReducer(rootState.app, action);
+            return nextState;
+        }
+
+        const handlers = reducers.get(action.type);
+        if (handlers) {
+            const previousAppState = rootState.app;
+            const nextAppState = {...previousAppState};
+            for (const namespace of Object.keys(handlers)) {
+                const handler = handlers[namespace];
+                nextAppState[namespace] = handler(action.payload, previousAppState[namespace], rootState);
+            }
+            nextState.app = nextAppState;
+            return nextState;   // with our current design if action type is defined in handler, the state will always change
+        }
+
+        return rootState;
+    };
+}
+
 function createApp(): App {
     console.info("[framework] initialize");
 
     const namespaces = new Set<string>();
     const reducers = new HandlerMap();
-    const sagaActionTypes = [LOCATION_CHANGE, ErrorActionType];    // actionTypes are shared by multiple modules
+    const sagaActionTypes = [LOCATION_CHANGE, ERROR_ACTION_TYPE];    // actionTypes are shared by multiple modules
     const effects = new HandlerMap();
 
     const history = createHistory();
     const sagaMiddleware = createSagaMiddleware();
-    const reducerMap: {[P in keyof State]?: Reducer<State[P]>} = {
-        loading: loadingReducer,
-        app: appReducer(reducers),
-    };
-    const rootReducer = combineReducers<State>(reducerMap);
+
+    const rootReducer = createRootReducer(reducers);
     const store = createStore(connectRouter(history)(rootReducer), devtools(applyMiddleware(errorMiddleware(), routerMiddleware(history), sagaMiddleware)));
     sagaMiddleware.run(saga(sagaActionTypes, effects, store));
 
