@@ -62,7 +62,7 @@
     "stylelint-webpack-plugin": "0.10.4",
     "ts-import-plugin": "1.4.4",
     "ts-loader": "3.5.0",
-    "tslint": "5.9.1",
+    "tslint": "5.10.0",
     "tslint-react": "3.5.1",
     "typescript": "2.8.3",
     "url-loader": "1.0.1",
