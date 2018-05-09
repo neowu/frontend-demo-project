@@ -12,6 +12,7 @@ public class WebsiteApp extends App {
         http().httpsPort(8443);
         site().session().local();
         site().enableWebSecurity();
+        site().publishAPI();
 
         load(new WebModule());
     }
