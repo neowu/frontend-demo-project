@@ -31,6 +31,22 @@ axios.interceptors.response.use(
     }
 );
 
+const ISO_DATE_FORMAT = /^\d{4}-[01]\d-[0-3]\d(?:T[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d*)(?:Z|[\+-][\d|:]*)?)?$/;
+const parser = (key, value) => {
+    if (typeof value === "string" && ISO_DATE_FORMAT.test(value)) {
+        return new Date(value);
+    }
+    return value;
+};
+
+axios.defaults.transformResponse = (data, headers) => {
+    const contentType = headers["content-type"];
+    if (contentType && contentType.startsWith("application/json")) {
+        return JSON.parse(data, parser);
+    }
+    return data;
+};
+
 export function ajax<Request, Response>(url: string, method: string, request: Request): Promise<Response> {
     const config: AxiosRequestConfig = {method, url};
 
@@ -43,10 +59,11 @@ export function ajax<Request, Response>(url: string, method: string, request: Re
     return axios.request(config).then(response => response.data);
 }
 
-export function path(pattern: string, params: {[name: string]: string}): string {
+export function path(pattern: string, params: { [name: string]: string }): string {
     let path = pattern;
     Object.entries(params).forEach(([name, value]) => {
-        path = path.replace(":" + name, value);
+        const encodedValue = encodeURIComponent(value);
+        path = path.replace(":" + name, encodedValue);
     });
     return path;
 }
