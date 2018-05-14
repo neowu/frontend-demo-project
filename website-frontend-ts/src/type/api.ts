@@ -47,6 +47,7 @@ export namespace app.api.product {
     }
     export interface CreateProductConfigResponse {
         types?: app.api.product.CreateProductConfigResponse$ProductType[];
+        now?: Date;
     }
     export interface CreateProductConfigResponse$ProductType {
         name?: string;

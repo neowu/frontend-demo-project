@@ -11,6 +11,7 @@ interface Props extends FormComponentProps {
             name: string;
             value: string;
         }>;
+        now: Date;
     };
 
     dispatch: Dispatch;
@@ -27,6 +28,7 @@ const AddProduct: React.SFC<Props> = ({ui, form}) => {
     const typeDecorator = form.getFieldDecorator("type");
 
     return <div>
+        <h1>{ui.now == null ? "" : ui.now.toDateString()}</h1>
         <Form onSubmit={onSubmit}>
             <Form.Item>
                 {typeDecorator(<Radio.Group>
