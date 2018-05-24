@@ -5,17 +5,10 @@ const webpackConfig = require("./webpack.config.dev");
 const DevServer = require("webpack-dev-server");
 
 function devServer(compiler) {
-    const rewrites = [];
-    Object.keys(env.packageJSON.config.pages).forEach(name => {
-        rewrites.push({
-            from: new RegExp(`/${name}`),
-            to: `/${name}.html`,
-        });
-    });
     return new DevServer(compiler, {
         contentBase: env.static,
         https: true,
-        historyApiFallback: {rewrites: rewrites},
+        historyApiFallback: true,
         hot: true,
         compress: true,
         progress: true,
