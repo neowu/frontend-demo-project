@@ -39,10 +39,14 @@ const parser = (key, value) => {
     return value;
 };
 
+export function json(data: string): object {
+    return JSON.parse(data, parser);
+}
+
 axios.defaults.transformResponse = (data, headers) => {
     const contentType = headers["content-type"];
     if (contentType && contentType.startsWith("application/json")) {
-        return JSON.parse(data, parser);
+        return json(data);
     }
     return data;
 };

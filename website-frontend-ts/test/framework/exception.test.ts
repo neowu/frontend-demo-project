@@ -1,5 +1,5 @@
 import {errorAction} from "framework/exception";
 
-test("create error action", () => {
+test("errorAction", () => {
     expect(errorAction(null)).toEqual({payload: null, type: "@@framework/error"});
 });

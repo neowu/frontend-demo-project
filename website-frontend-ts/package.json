@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "website frontend",
   "scripts": {
-    "build": "node webpack/build.js",
+    "build": "jest --config webpack/jest.json && node webpack/build.js",
     "start": "node webpack/start.js",
     "test": "jest --config webpack/jest.json"
   },
