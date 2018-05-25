@@ -7,13 +7,14 @@ import {Provider} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {applyMiddleware, compose, createStore, Dispatch, Middleware, MiddlewareAPI, Reducer, Store, StoreEnhancer} from "redux";
 import createSagaMiddleware, {SagaIterator, SagaMiddleware} from "redux-saga";
-import {takeLatest} from "redux-saga/effects";
+import {call, takeLatest} from "redux-saga/effects";
 import {Action, INIT_STATE_ACTION_TYPE, initStateReducer} from "./action";
 import ErrorBoundary from "./component/ErrorBoundary";
 import {ERROR_ACTION_TYPE, errorAction} from "./exception";
 import {HandlerMap, run} from "./handler";
 import {LOADING_ACTION_TYPE, loadingReducer} from "./loading";
 import {initialState, State} from "./state";
+import {TickListener} from "./listener";
 
 interface App {
     store: Store<State>;
@@ -23,6 +24,7 @@ interface App {
     reducers: HandlerMap;
     sagaActionTypes: string[];
     effects: HandlerMap;
+    tickListeners: TickListener[];
 }
 
 console.time("[framework] initialized");
@@ -69,14 +71,14 @@ function errorMiddleware(): Middleware<{}, State, Dispatch<Action<any>>> {
 }
 
 function saga(sagaActionTypes: string[], effects: HandlerMap, store: Store<State>): () => SagaIterator {
-    return function* saga() {
+    return function* () {
         yield takeLatest(sagaActionTypes, function* (action: Action<any>) {
             const handlers = effects.get(action.type);
             if (handlers) {
                 const rootState = store.getState();
                 for (const namespace of Object.keys(handlers)) {
                     const handler = handlers[namespace];
-                    yield* run(handler, action.payload, rootState.app[namespace], rootState);
+                    yield call(run, handler, action.payload, rootState.app[namespace], rootState);
                 }
             }
         });
@@ -132,5 +134,5 @@ function createApp(): App {
         store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases
     };
 
-    return {history, store, namespaces, reducers, sagaActionTypes, effects, sagaMiddleware};
+    return {history, store, namespaces, reducers, sagaActionTypes, effects, sagaMiddleware, tickListeners: []};
 }

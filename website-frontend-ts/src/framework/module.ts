@@ -3,9 +3,11 @@ import {initStateAction} from "./action";
 import {app} from "./app";
 import {ERROR_ACTION_TYPE} from "./exception";
 import {Handler, qualifiedActionType, run} from "./handler";
-import {Listener, LocationChangedEvent} from "./listener";
+import {Listener, LocationChangedEvent, TickListener} from "./listener";
+import {call, fork} from "redux-saga/effects";
+import {delay, SagaIterator} from "redux-saga";
 
-export function register(module: {namespace: string, handler?: any, initialState?: any, listener?: Listener}): void {
+export function register(module: { namespace: string, handler?: any, initialState?: any, listener?: Listener }): void {
     const {namespace, handler, initialState, listener} = module;
     if (!app.namespaces.has(namespace)) {
         app.namespaces.add(namespace);
@@ -51,17 +53,41 @@ function registerListener(namespace: string, listener: Listener): void {
     // initialize after register handlers
     if (listener.onInitialized) {
         app.sagaMiddleware.run(function* () {
-            yield* run(listener.onInitialized);
+            yield call(run, listener.onInitialized);
         });
     }
     if (listener.onLocationChanged) {
         const event: LocationChangedEvent = {location: app.history.location, action: "PUSH"};
         app.sagaMiddleware.run(function* () {
-            yield* run(listener.onLocationChanged, event);
+            yield call(run, listener.onLocationChanged, event);
         });    // history listener won't trigger on first refresh or on module loading, manual trigger once
+    }
+    const onTick = listener.onTick as TickListener;
+    if (onTick) {
+        if (!onTick.interval) { // default interval is 1
+            onTick.interval = 1;
+        }
+        const start = app.tickListeners.length === 0;
+        app.tickListeners.push(onTick);
+        if (start) {
+            console.info(`[framework] start tick`);
+            app.sagaMiddleware.run(tick);
+        }
     }
 }
 
 function initializeState(namespace: string, initialState: any): void {
     app.store.dispatch(initStateAction(namespace, initialState));
+}
+
+function* tick(): SagaIterator {
+    let ticks = 0;      // presume it will never reach Number.MAX_VALUE
+    while (true) {
+        const listeners = app.tickListeners.filter(listener => ticks % listener.interval === 0);
+        for (const listener of listeners) {
+            yield fork(run, listener);
+        }
+        ticks += 1;
+        yield call(delay, 1000);
+    }
 }

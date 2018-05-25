@@ -45,6 +45,11 @@ class ListenerImpl implements Listener {
             yield put(actions.loadProductList());
         }
     }
+
+    // @interval(3)
+    // * onTick() {
+    //     console.log("from product module, print every 3 secs");
+    // }
 }
 
 const namespace = "product";

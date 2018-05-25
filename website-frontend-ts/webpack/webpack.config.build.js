@@ -71,7 +71,7 @@ const config = {
                 }),
             },
             {
-                test: /\.(png|jpe?g|gif|svg)$/,
+                test: /\.(png|jpe?g|gif)$/,
                 loader: "url-loader",
                 query: {
                     limit: 1024,
