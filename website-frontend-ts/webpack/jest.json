@@ -1,10 +1,17 @@
 {
   "verbose": true,
-  "rootDir": "../test",
+  "rootDir": "..",
+  "roots": ["<rootDir>/test"],
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
   },
   "testRegex": "\\.test\\.tsx?$",
   "moduleFileExtensions": ["ts", "tsx", "js"],
-  "moduleDirectories": ["node_modules", "src"]
+  "moduleDirectories": ["node_modules", "src"],
+  "globals": {
+    "ts-jest": {
+      "tsConfigFile": "webpack/tsconfig.json",
+      "enableTsDiagnostics": true
+    }
+  }
 }
