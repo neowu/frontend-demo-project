@@ -70,19 +70,17 @@ function errorMiddleware(): Middleware<{}, State, Dispatch<Action<any>>> {
     };
 }
 
-function saga(sagaActionTypes: string[], effects: HandlerMap, store: Store<State>): () => SagaIterator {
-    return function* () {
-        yield takeLatest(sagaActionTypes, function* (action: Action<any>) {
-            const handlers = effects.get(action.type);
-            if (handlers) {
-                const rootState = store.getState();
-                for (const namespace of Object.keys(handlers)) {
-                    const handler = handlers[namespace];
-                    yield call(run, handler, action.payload, rootState.app[namespace], rootState);
-                }
+function* saga(sagaActionTypes: string[], effects: HandlerMap, store: Store<State>): SagaIterator {
+    yield takeLatest(sagaActionTypes, function* (action: Action<any>) {
+        const handlers = effects.get(action.type);
+        if (handlers) {
+            const rootState = store.getState();
+            for (const namespace of Object.keys(handlers)) {
+                const handler = handlers[namespace];
+                yield call(run, handler, action.payload, rootState.app[namespace], rootState);
             }
-        });
-    };
+        }
+    });
 }
 
 function createRootReducer(reducers: HandlerMap): Reducer<State, Action<any>> {
@@ -128,7 +126,7 @@ function createApp(): App {
 
     const rootReducer = createRootReducer(reducers);
     const store = createStore(connectRouter(history)(rootReducer), devtools(applyMiddleware(errorMiddleware(), routerMiddleware(history), sagaMiddleware)));
-    sagaMiddleware.run(saga(sagaActionTypes, effects, store));
+    sagaMiddleware.run(saga, sagaActionTypes, effects, store);
 
     window.onerror = (message: string, source?: string, line?: number, column?: number, error?: Error): void => {
         store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases

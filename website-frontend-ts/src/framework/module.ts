@@ -52,15 +52,11 @@ function registerListener(namespace: string, listener: Listener): void {
 
     // initialize after register handlers
     if (listener.onInitialized) {
-        app.sagaMiddleware.run(function* () {
-            yield call(run, listener.onInitialized);
-        });
+        app.sagaMiddleware.run(run, listener.onInitialized);
     }
     if (listener.onLocationChanged) {
         const event: LocationChangedEvent = {location: app.history.location, action: "PUSH"};
-        app.sagaMiddleware.run(function* () {
-            yield call(run, listener.onLocationChanged, event);
-        });    // history listener won't trigger on first refresh or on module loading, manual trigger once
+        app.sagaMiddleware.run(run, listener.onLocationChanged, event);    // history listener won't trigger on first refresh or on module loading, manual trigger once
     }
     const onTick = listener.onTick as TickListener;
     if (onTick) {
@@ -71,7 +67,7 @@ function registerListener(namespace: string, listener: Listener): void {
         app.tickListeners.push(onTick);
         if (start) {
             console.info(`[framework] start tick`);
-            app.sagaMiddleware.run(tick);
+            app.sagaMiddleware.run(tick, app.tickListeners, 0);
         }
     }
 }
@@ -80,14 +76,12 @@ function initializeState(namespace: string, initialState: any): void {
     app.store.dispatch(initStateAction(namespace, initialState));
 }
 
-function* tick(): SagaIterator {
-    let ticks = 0;      // presume it will never reach Number.MAX_VALUE
+export function* tick(listeners: TickListener[], ticks: number): SagaIterator {
     while (true) {
-        const listeners = app.tickListeners.filter(listener => ticks % listener.interval === 0);
-        for (const listener of listeners) {
+        for (const listener of listeners.filter(listener => ticks % listener.interval === 0)) {
             yield fork(run, listener);
         }
-        ticks += 1;
+        ticks += 1;     // presume it will never reach Number.MAX_VALUE
         yield call(delay, 1000);
     }
 }
