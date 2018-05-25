@@ -54,7 +54,7 @@
     "fs-extra": "6.0.1",
     "glob": "7.1.2",
     "html-webpack-plugin": "3.2.0",
-    "jest": "22.4.4",
+    "jest": "23.0.0",
     "less": "3.0.4",
     "less-loader": "4.1.0",
     "postcss-loader": "2.1.5",
@@ -62,7 +62,7 @@
     "stylelint": "9.2.1",
     "stylelint-config-standard": "18.2.0",
     "stylelint-webpack-plugin": "0.10.5",
-    "ts-import-plugin": "1.4.4",
+    "ts-import-plugin": "1.4.5",
     "ts-jest": "22.4.6",
     "ts-loader": "3.5.0",
     "tslint": "5.10.0",
@@ -75,7 +75,7 @@
     "yargs": "11.0.0"
   },
   "dependencies": {
-    "@babel/polyfill": "7.0.0-beta.47",
+    "@babel/polyfill": "7.0.0-beta.48",
     "antd": "3.5.3",
     "axios": "0.18.0",
     "connected-react-router": "4.3.0",
