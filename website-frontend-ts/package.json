@@ -8,7 +8,7 @@
     "build": "prettier --config webpack/prettier.json --list-different \"{src,test}/**/*.{ts,tsx,less}\" && jest --config webpack/jest.json && node webpack/build.js",
     "start": "node webpack/start.js",
     "test": "jest --config webpack/jest.json",
-    "format": "prettier --config webpack/prettier.json --write --list-different \"{src,test}/**/*.{ts,tsx,less}\""
+    "format": "prettier --config webpack/prettier.json --write \"{src,test}/**/*.{ts,tsx,less}\""
   },
   "config": {
     "lib": {
