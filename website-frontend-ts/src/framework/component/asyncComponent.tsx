@@ -20,7 +20,7 @@ export function asyncComponent(resolve: () => Promise<ComponentType<any>>, Loadi
 
         render() {
             const {Component} = this.state;
-            return Component ? <Component/> : <LoadingComponent/>;
+            return Component ? <Component /> : <LoadingComponent />;
         }
     }
 

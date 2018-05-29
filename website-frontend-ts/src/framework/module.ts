@@ -1,13 +1,13 @@
 import {LOCATION_CHANGE} from "connected-react-router";
+import {delay, SagaIterator} from "redux-saga";
+import {call, fork} from "redux-saga/effects";
 import {initStateAction} from "./action";
 import {app} from "./app";
 import {ERROR_ACTION_TYPE} from "./exception";
 import {Handler, qualifiedActionType, run} from "./handler";
 import {Listener, LocationChangedEvent, TickListener} from "./listener";
-import {call, fork} from "redux-saga/effects";
-import {delay, SagaIterator} from "redux-saga";
 
-export function register(module: { namespace: string, handler?: any, initialState?: any, listener?: Listener }): void {
+export function register(module: {namespace: string; handler?: any; initialState?: any; listener?: Listener}): void {
     const {namespace, handler, initialState, listener} = module;
     if (!app.namespaces.has(namespace)) {
         app.namespaces.add(namespace);
@@ -30,7 +30,7 @@ function registerHandler(namespace: string, handlers: any, initialState: any): v
         if (handler.effect === true) {
             console.info(`[framework] add effect, namespace=${namespace}, actionType=${type}, loading=${handler.loading}`);
             if (!handler.global || !app.sagaActionTypes.includes(type)) {
-                app.sagaActionTypes.push(type);          // saga takeLatest() requires string[], global action type could exists in multiple modules
+                app.sagaActionTypes.push(type); // saga takeLatest() requires string[], global action type could exists in multiple modules
             }
             app.effects.put(type, namespace, handler);
         } else {
@@ -44,10 +44,10 @@ function registerHandler(namespace: string, handlers: any, initialState: any): v
 
 function registerListener(namespace: string, listener: Listener): void {
     if (listener.onLocationChanged) {
-        app.effects.put(LOCATION_CHANGE, namespace, listener.onLocationChanged);     // LocationChangedActionType is already in app.sagaActionTypes
+        app.effects.put(LOCATION_CHANGE, namespace, listener.onLocationChanged); // LocationChangedActionType is already in app.sagaActionTypes
     }
     if (listener.onError) {
-        app.effects.put(ERROR_ACTION_TYPE, namespace, listener.onError);   // ERROR_ACTION_TYPE is already in app.sagaActionTypes
+        app.effects.put(ERROR_ACTION_TYPE, namespace, listener.onError); // ERROR_ACTION_TYPE is already in app.sagaActionTypes
     }
 
     // initialize after register handlers
@@ -56,11 +56,12 @@ function registerListener(namespace: string, listener: Listener): void {
     }
     if (listener.onLocationChanged) {
         const event: LocationChangedEvent = {location: app.history.location, action: "PUSH"};
-        app.sagaMiddleware.run(run, listener.onLocationChanged, event);    // history listener won't trigger on first refresh or on module loading, manual trigger once
+        app.sagaMiddleware.run(run, listener.onLocationChanged, event); // history listener won't trigger on first refresh or on module loading, manual trigger once
     }
     const onTick = listener.onTick as TickListener;
     if (onTick) {
-        if (!onTick.interval) { // default interval is 1
+        if (!onTick.interval) {
+            // default interval is 1
             onTick.interval = 1;
         }
         const start = app.tickListeners.length === 0;
@@ -81,7 +82,7 @@ export function* tick(listeners: TickListener[], ticks: number): SagaIterator {
         for (const listener of listeners.filter(listener => ticks % listener.interval === 0)) {
             yield fork(run, listener);
         }
-        ticks += 1;     // presume it will never reach Number.MAX_VALUE
+        ticks += 1; // presume it will never reach Number.MAX_VALUE
         yield call(delay, 1000);
     }
 }

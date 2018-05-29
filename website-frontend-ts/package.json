@@ -2,13 +2,14 @@
   "name": "website-frontend",
   "version": "1.0.0",
   "description": "website frontend",
-  "scripts": {
-    "build": "jest --config webpack/jest.json && node webpack/build.js",
-    "start": "node webpack/start.js",
-    "test": "jest --config webpack/jest.json"
-  },
   "author": "neo",
   "license": "Apache-2.0",
+  "scripts": {
+    "build": "prettier --config webpack/prettier.json --list-different \"{src,test}/**/*.{ts,tsx,less}\" && jest --config webpack/jest.json && node webpack/build.js",
+    "start": "node webpack/start.js",
+    "test": "jest --config webpack/jest.json",
+    "format": "prettier --config webpack/prettier.json --write --list-different \"{src,test}/**/*.{ts,tsx,less}\""
+  },
   "config": {
     "lib": {
       "react": [
@@ -58,6 +59,7 @@
     "less": "3.0.4",
     "less-loader": "4.1.0",
     "postcss-loader": "2.1.5",
+    "prettier": "1.13.2",
     "style-loader": "0.21.0",
     "stylelint": "9.2.1",
     "stylelint-config-standard": "18.2.0",

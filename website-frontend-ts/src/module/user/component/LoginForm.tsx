@@ -16,42 +16,48 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
             if (!errors) {
-                dispatch(actions.login({
-                    username: values.username,
-                    password: values.password,
-                }));
+                dispatch(
+                    actions.login({
+                        username: values.username,
+                        password: values.password,
+                    })
+                );
             }
         });
     };
 
     const usernameDecorator = form.getFieldDecorator("username", {
-        rules: [{
-            required: true,
-            message: "Please input your username!",
-        }],
+        rules: [
+            {
+                required: true,
+                message: "Please input your username!",
+            },
+        ],
     });
 
     const passwordDecorator = form.getFieldDecorator("password", {
-        rules: [{
-            required: true,
-            message: "Please input your Password!",
-        }],
+        rules: [
+            {
+                required: true,
+                message: "Please input your Password!",
+            },
+        ],
     });
 
-    return <div>
-        {errorMessage ? <Alert message="Login Failed" description={errorMessage} type="error" closable/> : null}
-        <Form onSubmit={onSubmit} className="login-form">
-            <Form.Item>
-                {usernameDecorator(<Input placeholder="Username"/>)}
-            </Form.Item>
-            <Form.Item>
-                {passwordDecorator(<Input type="password" placeholder="Password"/>)}
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button">Log in</Button>
-            </Form.Item>
-        </Form>
-    </div>;
+    return (
+        <div>
+            {errorMessage ? <Alert message="Login Failed" description={errorMessage} type="error" closable /> : null}
+            <Form onSubmit={onSubmit} className="login-form">
+                <Form.Item>{usernameDecorator(<Input placeholder="Username" />)}</Form.Item>
+                <Form.Item>{passwordDecorator(<Input type="password" placeholder="Password" />)}</Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="login-form-button">
+                        Log in
+                    </Button>
+                </Form.Item>
+            </Form>
+        </div>
+    );
 };
 
 const mapStateToProps = (state: RootState) => {

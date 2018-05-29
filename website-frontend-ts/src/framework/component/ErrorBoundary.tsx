@@ -3,8 +3,7 @@ import {connect, DispatchProp} from "react-redux";
 import {errorAction, Exception} from "../exception";
 
 export class ReactException implements Exception {
-    constructor(public message: string, public stack: string, public componentStack: string) {
-    }
+    constructor(public message: string, public stack: string, public componentStack: string) {}
 }
 
 interface Props extends DispatchProp<any> {

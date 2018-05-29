@@ -15,14 +15,14 @@ const initialState: State = {
 
 class ActionHandler implements Actions {
     @effect
-    * loadCreateProductConfig() {
+    *loadCreateProductConfig() {
         const response = yield call(productAJAXService.createConfig);
         yield put(actions.populateCreateProductConfig(response));
     }
 
     @effect
     @loading(LOADING_PRODUCT_LIST)
-    * loadProductList() {
+    *loadProductList() {
         yield call(productAJAXService.list);
     }
 
@@ -38,7 +38,7 @@ class ActionHandler implements Actions {
 }
 
 class ListenerImpl implements Listener {
-    * onLocationChanged(event: LocationChangedEvent) {
+    *onLocationChanged(event: LocationChangedEvent) {
         if (event.location.pathname === "/product/add") {
             yield put(actions.loadCreateProductConfig());
         } else if (event.location.pathname === "/product/list") {
@@ -53,7 +53,7 @@ class ListenerImpl implements Listener {
 }
 
 const namespace = "product";
-const actions = actionCreator<Actions>(namespace, ActionHandler.prototype);     // specify <Actions> type, so all type definition will go to interface
+const actions = actionCreator<Actions>(namespace, ActionHandler.prototype); // specify <Actions> type, so all type definition will go to interface
 const handler = new ActionHandler();
 const listener = new ListenerImpl();
 register({namespace, handler, initialState, listener});

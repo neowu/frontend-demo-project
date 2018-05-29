@@ -12,7 +12,7 @@ export function loadingComponent(loading: string, Component: React.ComponentType
     class Loading extends React.PureComponent<Props> {
         render() {
             const {show} = this.props;
-            return show ? <LoadingComponent/> : <Component/>;
+            return show ? <LoadingComponent /> : <Component />;
         }
     }
 

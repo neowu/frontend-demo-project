@@ -15,16 +15,25 @@ interface Props {
 }
 
 const Header: React.SFC<Props> = ({logout, loggedIn, userName}) => {
-    const loginMenu = () =>
+    const loginMenu = () => (
         <Menu mode="horizontal" defaultSelectedKeys={["1"]}>
             <Menu.Item key="1">
                 <Link to={"/login"}>Login</Link>
             </Menu.Item>
-        </Menu>;
+        </Menu>
+    );
 
-    return <Layout.Header className="header-header">
-        {loggedIn ? <div>Hello {userName}, <Button onClick={logout}>Logout</Button></div> : loginMenu()}
-    </Layout.Header>;
+    return (
+        <Layout.Header className="header-header">
+            {loggedIn ? (
+                <div>
+                    Hello {userName}, <Button onClick={logout}>Logout</Button>
+                </div>
+            ) : (
+                loginMenu()
+            )}
+        </Layout.Header>
+    );
 };
 
 const mapStatsToProps = (state: RootState) => {
@@ -38,4 +47,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         dispatch(userActions.logout());
     },
 });
-export default connect(mapStatsToProps, mapDispatchToProps)(Header);
+export default connect(
+    mapStatsToProps,
+    mapDispatchToProps
+)(Header);

@@ -13,12 +13,12 @@ const Welcome = () => {
         throw new Error("test error in button");
     };
 
-    return <div>
-        <h1>Welcome, {ui.title}</h1>
-        <Button onClick={onClick}>
-            Test
-        </Button>
-    </div>;
+    return (
+        <div>
+            <h1>Welcome, {ui.title}</h1>
+            <Button onClick={onClick}>Test</Button>
+        </div>
+    );
 };
 
 export default connect()(Welcome);

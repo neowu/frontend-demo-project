@@ -7,5 +7,4 @@ build/
 */src/dev/java/
 .DS_Store
 website/src/main/dist
-*/tsconfig.json
-*/.stylelintrc.json
+/.vscode

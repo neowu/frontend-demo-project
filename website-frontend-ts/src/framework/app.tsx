@@ -12,9 +12,9 @@ import {Action, INIT_STATE_ACTION_TYPE, initStateReducer} from "./action";
 import ErrorBoundary from "./component/ErrorBoundary";
 import {ERROR_ACTION_TYPE, errorAction} from "./exception";
 import {HandlerMap, run} from "./handler";
+import {TickListener} from "./listener";
 import {LOADING_ACTION_TYPE, loadingReducer} from "./loading";
 import {initialState, State} from "./state";
-import {TickListener} from "./listener";
 
 interface App {
     store: Store<State>;
@@ -39,7 +39,7 @@ export function render(component: ComponentType<any>, container: string): void {
         <Provider store={app.store}>
             <ErrorBoundary>
                 <ConnectedRouter history={app.history}>
-                    <WithRouterComponent/>
+                    <WithRouterComponent />
                 </ConnectedRouter>
             </ErrorBoundary>
         </Provider>,
@@ -53,7 +53,10 @@ function devtools(enhancer: StoreEnhancer): StoreEnhancer {
     if (!production) {
         const extension = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
         if (extension) {
-            return compose(enhancer, extension({}));
+            return compose(
+                enhancer,
+                extension({})
+            );
         }
     }
     return enhancer;
@@ -71,7 +74,7 @@ function errorMiddleware(): Middleware<{}, State, Dispatch<Action<any>>> {
 }
 
 function* saga(sagaActionTypes: string[], effects: HandlerMap, store: Store<State>): SagaIterator {
-    yield takeLatest(sagaActionTypes, function* (action: Action<any>) {
+    yield takeLatest(sagaActionTypes, function*(action: Action<any>) {
         const handlers = effects.get(action.type);
         if (handlers) {
             const rootState = store.getState();
@@ -106,7 +109,7 @@ function createRootReducer(reducers: HandlerMap): Reducer<State, Action<any>> {
                 nextAppState[namespace] = handler(action.payload, previousAppState[namespace], rootState);
             }
             nextState.app = nextAppState;
-            return nextState;   // with our current design if action type is defined in handler, the state will always change
+            return nextState; // with our current design if action type is defined in handler, the state will always change
         }
 
         return rootState;
@@ -118,7 +121,7 @@ function createApp(): App {
 
     const namespaces = new Set<string>();
     const reducers = new HandlerMap();
-    const sagaActionTypes = [LOCATION_CHANGE, ERROR_ACTION_TYPE];    // actionTypes are shared by multiple modules
+    const sagaActionTypes = [LOCATION_CHANGE, ERROR_ACTION_TYPE]; // actionTypes are shared by multiple modules
     const effects = new HandlerMap();
 
     const history = createHistory();
@@ -129,7 +132,7 @@ function createApp(): App {
     sagaMiddleware.run(saga, sagaActionTypes, effects, store);
 
     window.onerror = (message: string, source?: string, line?: number, column?: number, error?: Error): void => {
-        store.dispatch(errorAction(error));     // TODO: error can be null, think about how to handle all cases
+        store.dispatch(errorAction(error)); // TODO: error can be null, think about how to handle all cases
     };
 
     return {history, store, namespaces, reducers, sagaActionTypes, effects, sagaMiddleware, tickListeners: []};

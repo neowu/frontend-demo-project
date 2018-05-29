@@ -2,7 +2,7 @@ import {message} from "antd";
 import {Listener, register} from "framework";
 
 class ListenerImpl implements Listener {
-    * onError(error: any) {
+    *onError(error: any) {
         message.error(error.message, 5);
     }
 }

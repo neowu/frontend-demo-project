@@ -22,13 +22,13 @@ const initialState: State = {
 
 class ActionHandler implements Actions {
     @effect
-    * logout() {
+    *logout() {
         yield call(userAJAXService.logout);
         yield put(actions.loginResult({success: false}));
     }
 
     @effect
-    * login(request: app.api.user.LoginAJAXRequest) {
+    *login(request: app.api.user.LoginAJAXRequest) {
         const response: LoginAJAXResponse = yield call(userAJAXService.login, request);
         yield put(actions.loginResult(response));
         if (response.success) {
@@ -64,7 +64,7 @@ class ActionHandler implements Actions {
 }
 
 class ListenerImpl implements Listener {
-    * onInitialized() {
+    *onInitialized() {
         const response: CurrentUserAJAXResponse = yield call(userAJAXService.currentUser);
         yield put(actions.populateCurrentUser(response));
     }

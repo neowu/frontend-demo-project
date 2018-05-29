@@ -27,19 +27,29 @@ const AddProduct: React.SFC<Props> = ({ui, form}) => {
 
     const typeDecorator = form.getFieldDecorator("type");
 
-    return <div>
-        <h1>{ui.now == null ? "" : ui.now.toDateString()}</h1>
-        <Form onSubmit={onSubmit}>
-            <Form.Item>
-                {typeDecorator(<Radio.Group>
-                    {ui.types.map(type => <Radio.Button key={type.value} value={type.value}>{type.name}</Radio.Button>)}
-                </Radio.Group>)}
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit">Create</Button>
-            </Form.Item>
-        </Form>
-    </div>;
+    return (
+        <div>
+            <h1>{ui.now == null ? "" : ui.now.toDateString()}</h1>
+            <Form onSubmit={onSubmit}>
+                <Form.Item>
+                    {typeDecorator(
+                        <Radio.Group>
+                            {ui.types.map(type => (
+                                <Radio.Button key={type.value} value={type.value}>
+                                    {type.name}
+                                </Radio.Button>
+                            ))}
+                        </Radio.Group>
+                    )}
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                        Create
+                    </Button>
+                </Form.Item>
+            </Form>
+        </div>
+    );
 };
 
 const mapStateToProps = (state: RootState) => ({
@@ -52,4 +62,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(AddProduct));
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Form.create()(AddProduct));

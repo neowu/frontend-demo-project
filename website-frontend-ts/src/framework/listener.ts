@@ -5,7 +5,7 @@ export interface Listener {
 
     onLocationChanged?(event: LocationChangedEvent);
 
-    onError?(error: any);        // TODO: formalize error type
+    onError?(error: any); // TODO: formalize error type
 
     onTick?();
 }
