@@ -1,11 +1,10 @@
 import {Button, Form, Radio} from "antd";
 import {FormComponentProps} from "antd/lib/form";
 import React from "react";
-import {connect} from "react-redux";
-import {Dispatch} from "redux";
+import {connect, DispatchProp} from "react-redux";
 import {RootState} from "type/state";
 
-interface Props extends FormComponentProps {
+interface Props extends FormComponentProps, DispatchProp<any> {
     ui: {
         types: Array<{
             name: string;
@@ -13,8 +12,6 @@ interface Props extends FormComponentProps {
         }>;
         now: Date;
     };
-
-    dispatch: Dispatch;
 }
 
 const AddProduct: React.SFC<Props> = ({ui, form}) => {
@@ -56,13 +53,4 @@ const mapStateToProps = (state: RootState) => ({
     ui: state.app.product.createProductUI,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        dispatch,
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Form.create()(AddProduct));
+export default connect(mapStateToProps)(Form.create()(AddProduct));

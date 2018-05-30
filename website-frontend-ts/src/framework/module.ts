@@ -61,8 +61,7 @@ function registerListener(namespace: string, listener: Listener): void {
     const onTick = listener.onTick as TickListener;
     if (onTick) {
         if (!onTick.interval) {
-            // default interval is 1
-            onTick.interval = 1;
+            onTick.interval = 1; // default interval is 1
         }
         const start = app.tickListeners.length === 0;
         app.tickListeners.push(onTick);

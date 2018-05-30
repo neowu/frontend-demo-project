@@ -17,14 +17,14 @@ import {LOADING_ACTION_TYPE, loadingReducer} from "./loading";
 import {initialState, State} from "./state";
 
 interface App {
-    store: Store<State>;
-    history: History;
-    sagaMiddleware: SagaMiddleware<any>;
-    namespaces: Set<string>;
-    reducers: HandlerMap;
-    sagaActionTypes: string[];
-    effects: HandlerMap;
-    tickListeners: TickListener[];
+    readonly store: Store<State>;
+    readonly history: History;
+    readonly sagaMiddleware: SagaMiddleware<any>;
+    readonly namespaces: Set<string>;
+    readonly reducers: HandlerMap;
+    readonly sagaActionTypes: string[];
+    readonly effects: HandlerMap;
+    readonly tickListeners: TickListener[];
 }
 
 console.time("[framework] initialized");
