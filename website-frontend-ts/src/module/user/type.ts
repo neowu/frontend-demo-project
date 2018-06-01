@@ -1,6 +1,7 @@
 import {app} from "type/api";
-import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
+import LoginAJAXRequest = app.api.user.LoginAJAXRequest;
+import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 
 export interface State {
     currentUser: {
@@ -19,7 +20,7 @@ export interface Actions {
 
     loginResult(response: LoginAJAXResponse);
 
-    login(request: app.api.user.LoginAJAXRequest);
+    login(request: LoginAJAXRequest);
 
     logout();
 }

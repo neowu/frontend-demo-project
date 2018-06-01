@@ -16,7 +16,7 @@ class AccountAJAXWebServiceClient implements AccountAJAXWebService {
 
     logout(): Promise<void> {
         const meta = AccountAJAXWebServiceMetadata.logout;
-        return ajax(meta.path, meta.method, {});
+        return ajax(meta.path, meta.method, undefined);
     }
 }
 
