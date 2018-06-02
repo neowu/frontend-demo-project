@@ -7,7 +7,9 @@ import {ERROR_ACTION_TYPE} from "./exception";
 import {Handler, qualifiedActionType, run} from "./handler";
 import {Listener, LocationChangedEvent, TickListener} from "./listener";
 
-export function register(module: {namespace: string; handler?: any; initialState?: any; listener?: Listener}): void {
+type ActionHandler<H, S> = {[K in keyof H]: Handler<S>};
+
+export function register<H, S>(module: {namespace: string; handler?: ActionHandler<H, S>; initialState?: S; listener?: Listener}): void {
     const {namespace, handler, initialState, listener} = module;
     if (!app.namespaces.has(namespace)) {
         app.namespaces.add(namespace);
@@ -22,9 +24,9 @@ export function register(module: {namespace: string; handler?: any; initialState
     }
 }
 
-function registerHandler(namespace: string, handlers: any, initialState: any): void {
+function registerHandler<H, S>(namespace: string, handlers: ActionHandler<H, S>, initialState: S): void {
     for (const actionType of Object.keys(Object.getPrototypeOf(handlers))) {
-        const handler: Handler = handlers[actionType];
+        const handler: Handler<S> = handlers[actionType];
 
         const type = qualifiedActionType(handler, namespace, actionType);
         if (handler.effect === true) {

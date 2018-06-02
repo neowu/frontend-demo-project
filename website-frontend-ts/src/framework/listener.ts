@@ -1,4 +1,5 @@
 import {Action as HistoryAction, Location} from "history";
+import {SagaIterator} from "redux-saga";
 
 export interface Listener {
     onInitialized?();
@@ -15,7 +16,7 @@ export interface LocationChangedEvent {
     action: HistoryAction;
 }
 
-export type TickListener = (() => void) & {
+export type TickListener = (() => SagaIterator) & {
     interval: number;
 };
 

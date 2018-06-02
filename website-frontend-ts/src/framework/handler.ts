@@ -10,41 +10,41 @@ interface HandlerMetadata {
     global?: boolean;
 }
 
-export type Handler = ((payload?: any, state?: any, rootState?: State) => any) & HandlerMetadata;
+export type Handler<S> = ((payload?: any, state?: S, rootState?: State) => S | SagaIterator) & HandlerMetadata;
 
 export class HandlerMap {
-    private handlers: {[actionType: string]: {[namespace: string]: Handler}} = {};
+    private handlers: {[actionType: string]: {[namespace: string]: Handler<any>}} = {};
 
-    public put(actionType: string, namespace: string, handler: Handler): void {
+    public put(actionType: string, namespace: string, handler: Handler<any>): void {
         if (!this.handlers[actionType]) {
             this.handlers[actionType] = {};
         }
         this.handlers[actionType][namespace] = handler;
     }
 
-    public get(actionType: string): {[namespace: string]: Handler} {
+    public get(actionType: string): {[namespace: string]: Handler<any>} {
         return this.handlers[actionType];
     }
 }
 
 export function effect(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
-    const handler: Handler = descriptor.value;
+    const handler: Handler<any> = descriptor.value;
     handler.effect = true;
 }
 
 export function loading(loading: string): MethodDecorator {
     return (target: any, propertyKey: string, descriptor: PropertyDescriptor): void => {
-        const handler: Handler = descriptor.value;
+        const handler: Handler<any> = descriptor.value;
         handler.loading = loading;
     };
 }
 
 export function global(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
-    const handler: Handler = descriptor.value;
+    const handler: Handler<any> = descriptor.value;
     handler.global = true;
 }
 
-export function* run(handler: Handler, payload?: any, state?: any, rootState?: State): SagaIterator {
+export function* run<S>(handler: Handler<S>, payload?: any, state?: S, rootState?: State): SagaIterator {
     try {
         if (handler.loading) {
             yield put(loadingAction(handler.loading, true));
@@ -60,6 +60,6 @@ export function* run(handler: Handler, payload?: any, state?: any, rootState?: S
     }
 }
 
-export function qualifiedActionType(handler: Handler, namespace: string, actionType: string): string {
+export function qualifiedActionType(handler: Handler<any>, namespace: string, actionType: string): string {
     return handler.global ? actionType : `${namespace}/${actionType}`;
 }
