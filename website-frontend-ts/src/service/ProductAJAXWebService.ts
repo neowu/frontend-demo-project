@@ -1,5 +1,5 @@
+import {ListProductResponse, CreateProductConfigResponse} from "type/api";
 import {ajax} from "framework/ajax";
-import {CreateProductConfigResponse, ListProductResponse} from "type/api";
 
 class ProductAJAXWebService {
     list(): Promise<ListProductResponse> {

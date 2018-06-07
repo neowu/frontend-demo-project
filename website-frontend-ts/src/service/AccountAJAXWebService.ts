@@ -1,5 +1,5 @@
-import {ajax} from "framework/ajax";
 import {CurrentUserAJAXResponse, LoginAJAXRequest, LoginAJAXResponse} from "type/api";
+import {ajax} from "framework/ajax";
 
 class AccountAJAXWebService {
     currentUser(): Promise<CurrentUserAJAXResponse> {
