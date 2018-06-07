@@ -1,7 +1,7 @@
 import {actionCreator, effect, Listener, loading, LocationChangedEvent, register} from "framework";
 import {call, put} from "redux-saga/effects";
-import {app} from "type/api";
-import productAJAXService from "./ajax/product";
+import productAJAXService from "service/ProductAJAXWebService";
+import {CreateProductConfigResponse} from "type/api";
 import AddProduct from "./component/AddProduct";
 import ProductList from "./component/ProductList";
 import {Actions, LOADING_PRODUCT_LIST, State} from "./type";
@@ -26,7 +26,7 @@ class ActionHandler implements Actions {
         yield call(productAJAXService.list);
     }
 
-    populateCreateProductConfig(response: app.api.product.CreateProductConfigResponse, state: State = initialState): State {
+    populateCreateProductConfig(response: CreateProductConfigResponse, state: State = initialState): State {
         const types = response.types.map(type => {
             return {name: type.name, value: type.value};
         });

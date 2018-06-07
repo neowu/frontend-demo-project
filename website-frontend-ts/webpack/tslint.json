@@ -13,7 +13,6 @@
     "member-ordering": false,
     "no-console": [true, "log"],
     "no-empty-interface": false,
-    "no-namespace": false,
     "no-shadowed-variable": false,
     "no-var-requires": false,
     "object-literal-sort-keys": false,

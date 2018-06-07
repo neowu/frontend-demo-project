@@ -1,5 +1,4 @@
-import {app} from "type/api";
-import CreateProductConfigResponse = app.api.product.CreateProductConfigResponse;
+import {CreateProductConfigResponse} from "type/api";
 
 export const LOADING_PRODUCT_LIST = "product/list";
 

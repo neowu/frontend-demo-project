@@ -1,7 +1,4 @@
-import {app} from "type/api";
-import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
-import LoginAJAXRequest = app.api.user.LoginAJAXRequest;
-import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
+import {CurrentUserAJAXResponse, LoginAJAXRequest, LoginAJAXResponse} from "../../type/api";
 
 export interface State {
     currentUser: {

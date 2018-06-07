@@ -1,12 +1,10 @@
 import {push} from "connected-react-router";
 import {actionCreator, effect, Listener, register} from "framework";
 import {call, put} from "redux-saga/effects";
-import {app} from "type/api";
-import userAJAXService from "./ajax/user";
+import userAJAXService from "service/AccountAJAXWebService";
+import {CurrentUserAJAXResponse, LoginAJAXRequest, LoginAJAXResponse} from "type/api";
 import LoginForm from "./component/LoginForm";
 import {Actions, State} from "./type";
-import CurrentUserAJAXResponse = app.api.user.CurrentUserAJAXResponse;
-import LoginAJAXResponse = app.api.user.LoginAJAXResponse;
 
 const initialState: State = {
     currentUser: {
@@ -28,7 +26,7 @@ class ActionHandler implements Actions {
     }
 
     @effect
-    *login(request: app.api.user.LoginAJAXRequest) {
+    *login(request: LoginAJAXRequest) {
         const response: LoginAJAXResponse = yield call(userAJAXService.login, request);
         yield put(actions.loginResult(response));
         if (response.success) {
@@ -36,7 +34,7 @@ class ActionHandler implements Actions {
         }
     }
 
-    populateCurrentUser(response: app.api.user.CurrentUserAJAXResponse, state: State = initialState): State {
+    populateCurrentUser(response: CurrentUserAJAXResponse, state: State = initialState): State {
         return {
             ...state,
             currentUser: {
@@ -47,7 +45,7 @@ class ActionHandler implements Actions {
         };
     }
 
-    loginResult(response: app.api.user.LoginAJAXResponse, state: State = initialState): State {
+    loginResult(response: LoginAJAXResponse, state: State = initialState): State {
         return {
             ...state,
             login: {
