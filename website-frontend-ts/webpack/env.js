@@ -10,16 +10,12 @@ function resolve(relativePath) {
     return path.resolve(__dirname, `../${relativePath}`);
 }
 
-function json(path) {
-    return JSON.parse(fs.readFileSync(path));
-}
-
 function webpackJSON() {
     if (env === null) return null;
     const path = resolve(`conf/${env}/webpack.json`);
     if (!fs.existsSync(path)) return null;
 
-    return json(path);
+    return JSON.parse(fs.readFileSync(path));
 }
 
 module.exports = {
