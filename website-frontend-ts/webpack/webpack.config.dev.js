@@ -7,9 +7,7 @@ const TSImportPlugin = require("ts-import-plugin");
 
 const config = {
     mode: "development",
-    entry: {
-        "main": ["webpack-dev-server/client?https://0.0.0.0:7443", "webpack/hot/dev-server", `${env.src}/index.tsx`]
-    },
+    entry: ["webpack-dev-server/client?https://0.0.0.0:7443", "webpack/hot/dev-server", `${env.src}/index.tsx`],
     output: {
         filename: "static/js/[name].js",
         chunkFilename: "static/js/[name]-[id].js",

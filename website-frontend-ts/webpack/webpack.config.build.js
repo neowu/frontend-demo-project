@@ -10,6 +10,7 @@ const TSImportPlugin = require("ts-import-plugin");
 
 const config = {
     mode: "production",
+    entry: `${env.src}/index.tsx`,
     output: {
         path: env.dist,
         filename: "static/js/[name].[chunkhash:8].js",
@@ -146,7 +147,7 @@ const config = {
                 useShortDoctype: true,
             },
         }),
-        new webpack.ProgressPlugin(),
+        new webpack.ProgressPlugin({profile: env.profile}),
     ],
 };
 

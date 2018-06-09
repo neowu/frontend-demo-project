@@ -3,7 +3,6 @@ const childProcess = require("child_process");
 const webpack = require("webpack");
 const fs = require("fs-extra");
 const env = require("./env");
-const argv = require("yargs").argv;
 const webpackConfig = require("./webpack.config.build");
 
 function fork(modulePath, arguments, onError) {
@@ -67,7 +66,7 @@ async function build() {
             process.exit(1);
         } else {
             console.log(stats.toString({chunks: false, colors: true, warningsFilter: /export .* was not found in/}));
-            if (argv.profile) {
+            if (env.profile) {
                 console.info(chalk`{green.bold [task]} write stats.json`);
                 fs.writeFileSync("stats.json", JSON.stringify(stats.toJson({}), null, 2));
             }

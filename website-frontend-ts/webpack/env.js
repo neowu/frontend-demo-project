@@ -1,9 +1,10 @@
 const path = require("path");
 const fs = require("fs");
-const argv = require("yargs").argv;
+const yargs = require("yargs");
 
 // use "npm run build -- --env dev" or "yarn run build --env dev" to pass
-const env = argv.env || null;
+const env = yargs.argv.env || null;
+const profile = yargs.argv.profile || false;
 
 function resolve(relativePath) {
     return path.resolve(__dirname, `../${relativePath}`);
@@ -32,4 +33,5 @@ module.exports = {
     tslintConfig: resolve("webpack/tslint.json"),
     stylelintConfig: resolve("webpack/stylelint.json"),
     webpackJSON: webpackJSON(),
+    profile: profile,
 };

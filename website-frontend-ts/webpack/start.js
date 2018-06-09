@@ -11,7 +11,6 @@ function devServer(compiler) {
         historyApiFallback: true,
         hot: true,
         compress: true,
-        progress: true,
         overlay: {
             warnings: false,
             errors: true,
