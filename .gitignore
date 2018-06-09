@@ -7,4 +7,4 @@ build/
 */src/dev/java/
 .DS_Store
 website/src/main/dist
-/.vscode
+.vscode
