@@ -1,9 +1,9 @@
 const path = require("path");
 const fs = require("fs");
-const yargs = require("yargs");
+const argv = require("yargs").argv;
 
 // use "npm run build -- --env dev" or "yarn run build --env dev" to pass
-const env = yargs.argv.env || null;
+const env = argv.env || null;
 
 function resolve(relativePath) {
     return path.resolve(__dirname, `../${relativePath}`);
