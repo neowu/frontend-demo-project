@@ -22,15 +22,12 @@ function webpackJSON() {
 }
 
 module.exports = {
-    env: env,
-    root: resolve(""),
     dist: resolve("build/dist"),
     nodeModules: resolve("node_modules"),
     src: resolve("src"),
     static: resolve("static"),
     conf: env == null ? resolve("src/conf") : resolve(`conf/${env}`),
     lib: resolve("lib"),
-    packageJSON: json(resolve("package.json")),
     tsConfig: resolve("webpack/tsconfig.json"),
     tslintConfig: resolve("webpack/tslint.json"),
     stylelintConfig: resolve("webpack/stylelint.json"),

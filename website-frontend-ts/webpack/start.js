@@ -13,11 +13,12 @@ function devServer(compiler) {
         compress: true,
         progress: true,
         overlay: {
-            warnings: true,
+            warnings: false,
             errors: true,
         },
         stats: {
             colors: true,
+            warningsFilter: /export .* was not found in/
         },
         proxy: {
             "/ajax": {

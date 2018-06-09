@@ -1,16 +1,15 @@
 const webpack = require("webpack");
 const env = require("./env");
 const autoprefixer = require("autoprefixer");
-const AutoDllPlugin = require("autodll-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const StylelintPlugin = require("stylelint-webpack-plugin");
-const HTMLPlugin = require("html-webpack-plugin");
-const ParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
+const ExtractCSSPlugin = require("mini-css-extract-plugin");
 const ForkTSCheckerPlugin = require("fork-ts-checker-webpack-plugin");
+const HTMLPlugin = require("html-webpack-plugin");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const StylelintPlugin = require("stylelint-webpack-plugin");
 const TSImportPlugin = require("ts-import-plugin");
 
 const config = {
-    entry: {},
+    mode: "production",
     output: {
         path: env.dist,
         filename: "static/js/[name].[chunkhash:8].js",
@@ -27,6 +26,30 @@ const config = {
     },
     devtool: "nosources-source-map",
     bail: true,
+    optimization: {
+        namedModules: true,
+        runtimeChunk: "single",
+        splitChunks: {
+            chunks: "all",
+            automaticNameDelimiter: "-",
+        },
+        minimizer: [
+            new UglifyJSPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true,
+                uglifyOptions: {
+                    compress: {
+                        pure_funcs: ["console.info", "console.debug", "console.time", "console.timeEnd"],
+                    },
+                },
+            }),
+        ],
+    },
+    performance: {
+        maxEntrypointSize: 500000,
+        maxAssetSize: 500000,
+    },
     module: {
         rules: [
             {
@@ -43,32 +66,31 @@ const config = {
             },
             {
                 test: /\.(css|less)$/,
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: "css-loader",
-                            options: {
-                                sourceMap: true,
-                                minimize: {safe: true},
-                                importLoaders: 2,
-                            },
+                use: [
+                    ExtractCSSPlugin.loader,
+                    {
+                        loader: "css-loader",
+                        options: {
+                            sourceMap: true,
+                            minimize: {safe: true},
+                            importLoaders: 2,
                         },
-                        {
-                            loader: "postcss-loader",
-                            options: {
-                                sourceMap: true,
-                                plugins: () => [autoprefixer],
-                            },
+                    },
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            sourceMap: true,
+                            plugins: () => [autoprefixer],
                         },
-                        {
-                            loader: "less-loader",
-                            options: {
-                                javascriptEnabled: true,
-                                sourceMap: true,
-                            },
+                    },
+                    {
+                        loader: "less-loader",
+                        options: {
+                            javascriptEnabled: true,
+                            sourceMap: true,
                         },
-                    ],
-                }),
+                    },
+                ],
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
@@ -88,20 +110,10 @@ const config = {
         ],
     },
     plugins: [
-        new webpack.DefinePlugin({"process.env": {NODE_ENV: JSON.stringify("production")}}),
-        new ExtractTextPlugin({
+        new ExtractCSSPlugin({
             filename: "static/css/[name].[contenthash:8].css",
-            allChunks: true,
+            chunkFilename: "static/css/[name]-[id].[contenthash:8].css",
         }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "vendor",
-            minChunks: module => module.context && module.context.includes("node_modules"),
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "manifest",
-            minChunks: Infinity,
-        }),
-        new webpack.NamedModulesPlugin(), // even though webpack doc recommends HashedModuleIdsPlugin, NamedModulesPlugin results in smaller file after gzip
         new ForkTSCheckerPlugin({
             tsconfig: env.tsConfig,
             tslint: env.tslintConfig,
@@ -113,77 +125,29 @@ const config = {
             files: "**/*.less",
             syntax: "less",
         }),
-        new ParallelUglifyPlugin({
-            cacheDir: `${env.nodeModules}/.cache/webpack-parallel-uglify-plugin`,
-            sourceMap: true,
-            uglifyJS: {
-                compress: {
-                    pure_funcs: ["console.info", "console.debug", "console.time", "console.timeEnd"],
-                },
+        new HTMLPlugin({
+            template: `${env.src}/index.html`,
+            minify: {
+                collapseBooleanAttributes: true,
+                collapseInlineTagWhitespace: true,
+                collapseWhitespace: true,
+                includeAutoGeneratedTags: false,
+                keepClosingSlash: true,
+                minifyCSS: true,
+                minifyJS: true,
+                minifyURLs: true,
+                removeAttributeQuotes: true,
+                removeComments: true,
+                removeEmptyAttributes: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                removeTagWhitespace: true,
+                useShortDoctype: true,
             },
         }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.ProgressPlugin(),
     ],
 };
-
-function configureDLL() {
-    Object.entries(env.packageJSON.config.lib).forEach(([name, lib]) => {
-        config.plugins.push(
-            new AutoDllPlugin({
-                context: env.root,
-                inject: true,
-                debug: true,
-                filename: "[name].[hash:8].js",
-                path: "static/js",
-                plugins: [
-                    new webpack.DefinePlugin({"process.env": {NODE_ENV: JSON.stringify("production")}}),
-                    new ParallelUglifyPlugin({
-                        cacheDir: `${env.nodeModules}/.cache/webpack-parallel-uglify-plugin`,
-                        sourceMap: true,
-                        uglifyJS: {},
-                    }),
-                    new webpack.optimize.ModuleConcatenationPlugin(),
-                ],
-                inherit: true,
-                entry: {[name]: lib},
-            })
-        );
-    });
-}
-
-function configurePages() {
-    Object.entries(env.packageJSON.config.pages).forEach(([name, page]) => {
-        config.entry[name] = `${env.src}/${page.js}`;
-        config.plugins.push(
-            new HTMLPlugin({
-                filename: `${name}.html`,
-                template: `${env.src}/${page.template}`,
-                chunks: ["manifest", "vendor", name],
-                minify: {
-                    collapseBooleanAttributes: true,
-                    collapseInlineTagWhitespace: true,
-                    collapseWhitespace: true,
-                    includeAutoGeneratedTags: false,
-                    keepClosingSlash: true,
-                    minifyCSS: true,
-                    minifyJS: true,
-                    minifyURLs: true,
-                    removeAttributeQuotes: true,
-                    removeComments: true,
-                    removeEmptyAttributes: true,
-                    removeRedundantAttributes: true,
-                    removeScriptTypeAttributes: true,
-                    removeStyleLinkTypeAttributes: true,
-                    removeTagWhitespace: true,
-                    useShortDoctype: true,
-                },
-            })
-        );
-    });
-}
-
-configureDLL();
-configurePages();
 
 module.exports = config;

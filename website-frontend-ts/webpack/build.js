@@ -51,7 +51,6 @@ async function build() {
     await checkCodeStyle();
     await test();
 
-    console.info(chalk`{white.bold [env]} env=${env.env}`);
     console.info(chalk`{white.bold [env]} webpackJSON=${env.webpackJSON === null ? null : JSON.stringify(env.webpackJSON)}`);
     console.info(chalk`{white.bold [env]} conf=${env.conf}`);
 
@@ -66,8 +65,8 @@ async function build() {
             if (error.details) console.error(error.details);
             process.exit(1);
         } else {
-            console.log(stats.toString({chunks: false, colors: true}));
-            if (stats.hasErrors() || stats.hasWarnings()) {
+            console.log(stats.toString({chunks: false, colors: true, warningsFilter: /export .* was not found in/}));
+            if (stats.hasErrors()) {
                 process.exit(1);
             }
         }

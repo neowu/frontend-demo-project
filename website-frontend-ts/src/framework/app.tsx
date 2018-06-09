@@ -7,7 +7,7 @@ import {Provider} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {applyMiddleware, compose, createStore, Dispatch, Middleware, MiddlewareAPI, Reducer, Store, StoreEnhancer} from "redux";
 import createSagaMiddleware, {SagaIterator, SagaMiddleware} from "redux-saga";
-import {call, takeLatest} from "redux-saga/effects";
+import {call, takeEvery} from "redux-saga/effects";
 import {Action, INIT_STATE_ACTION_TYPE, initStateReducer} from "./action";
 import ErrorBoundary from "./component/ErrorBoundary";
 import {ERROR_ACTION_TYPE, errorAction} from "./exception";
@@ -74,7 +74,7 @@ function errorMiddleware(): Middleware<{}, State, Dispatch<Action<any>>> {
 }
 
 function* saga(sagaActionTypes: string[], effects: HandlerMap, store: Store<State>): SagaIterator {
-    yield takeLatest(sagaActionTypes, function*(action: Action<any>) {
+    yield takeEvery(sagaActionTypes, function*(action: Action<any>) {
         const handlers = effects.get(action.type);
         if (handlers) {
             const rootState = store.getState();
