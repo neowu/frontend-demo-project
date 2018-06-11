@@ -332,9 +332,9 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-3.6.1.tgz#5df7823ec03d9991084c1b14fb5fbfaf63f0a885"
+antd@3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-3.6.2.tgz#ae679e3138d24f73aa133a73a96a3b8fd5ce3ddd"
   dependencies:
     array-tree-filter "^2.0.0"
     babel-runtime "6.x"
@@ -7327,7 +7327,7 @@ ts-loader@4.4.1:
     micromatch "^3.1.4"
     semver "^5.0.1"
 
-ts-node@^6.1.0:
+ts-node@6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-6.1.0.tgz#a2c37a11fdb58e60eca887a1269b025cf4d2f8b8"
   dependencies:
