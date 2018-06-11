@@ -19,7 +19,7 @@ const config = {
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".less"],
-        modules: [env.src, env.nodeModules],
+        modules: [env.src, "node_modules"],
         alias: {
             conf: env.conf,
             lib: env.lib,

@@ -1,6 +1,6 @@
 import {LOCATION_CHANGE} from "connected-react-router";
 import {delay, SagaIterator} from "redux-saga";
-import {call, fork} from "redux-saga/effects";
+import {call} from "redux-saga/effects";
 import {initStateAction} from "./action";
 import {app} from "./app";
 import {ERROR_ACTION_TYPE} from "./exception";
@@ -52,38 +52,30 @@ function registerListener(namespace: string, listener: Listener): void {
         app.effects.put(ERROR_ACTION_TYPE, namespace, listener.onError); // ERROR_ACTION_TYPE is already in app.sagaActionTypes
     }
 
-    // initialize after register handlers
-    if (listener.onInitialized) {
-        app.sagaMiddleware.run(run, listener.onInitialized);
-    }
-    if (listener.onLocationChanged) {
-        const event: LocationChangedEvent = {location: app.history.location, action: "PUSH"};
-        app.sagaMiddleware.run(run, listener.onLocationChanged, event); // history listener won't trigger on first refresh or on module loading, manual trigger once
-    }
-    const onTick = listener.onTick as TickListener;
-    if (onTick) {
-        if (!onTick.interval) {
-            onTick.interval = 1; // default interval is 1
-        }
-        const start = app.tickListeners.length === 0;
-        app.tickListeners.push(onTick);
-        if (start) {
-            console.info(`[framework] start tick`);
-            app.sagaMiddleware.run(tick, app.tickListeners, 0);
-        }
-    }
+    app.sagaMiddleware.run(initializeModule, listener);
 }
 
 function initializeState(namespace: string, initialState: any): void {
     app.store.dispatch(initStateAction(namespace, initialState));
 }
 
-export function* tick(listeners: TickListener[], ticks: number): SagaIterator {
-    while (true) {
-        for (const listener of listeners.filter(listener => ticks % listener.interval === 0)) {
-            yield fork(run, listener);
+// initialize module in one effect to make it deterministic, onInitialized -> onLocationChanged -> onTick (repeated)
+export function* initializeModule(listener: Listener): SagaIterator {
+    if (listener.onInitialized) {
+        yield call(run, listener.onInitialized);
+    }
+
+    if (listener.onLocationChanged) {
+        const event: LocationChangedEvent = {location: app.history.location, action: "PUSH"};
+        yield call(run, listener.onLocationChanged, event); // history listener won't trigger on first refresh or on module loading, manual trigger once
+    }
+
+    const onTick = listener.onTick as TickListener;
+    if (onTick) {
+        while (true) {
+            // use call instead of fork, to delay next tick execution if onTick() took long. usually, it will not happen! Because we only put(action) within most onTick(), which is a non-blocking effect.
+            yield call(run, onTick);
+            yield call(delay, (onTick.interval || 1) * 1000);
         }
-        ticks += 1; // presume it will never reach Number.MAX_VALUE
-        yield call(delay, 1000);
     }
 }

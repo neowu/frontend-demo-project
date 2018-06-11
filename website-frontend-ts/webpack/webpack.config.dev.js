@@ -10,18 +10,23 @@ const config = {
     entry: ["webpack-dev-server/client?https://0.0.0.0:7443", "webpack/hot/dev-server", `${env.src}/index.tsx`],
     output: {
         filename: "static/js/[name].js",
-        chunkFilename: "static/js/[name]-[id].js",
         publicPath: "/",
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".less"],
-        modules: [env.src, env.nodeModules],
+        modules: [env.src, "node_modules"],
         alias: {
             conf: env.conf,
             lib: env.lib,
         },
     },
     devtool: "cheap-module-source-map",
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+            automaticNameDelimiter: "-",
+        },
+    },
     module: {
         rules: [
             {
@@ -30,7 +35,7 @@ const config = {
                 loader: "ts-loader",
                 options: {
                     configFile: env.tsConfig,
-                    // transpileOnly: true,
+                    transpileOnly: true,
                     getCustomTransformers: () => ({
                         before: [TSImportPlugin({libraryName: "antd", libraryDirectory: "es", style: true})],
                     }),
@@ -76,6 +81,7 @@ const config = {
         new ForkTSCheckerPlugin({
             tsconfig: env.tsConfig,
             tslint: env.tslintConfig,
+            workers: ForkTSCheckerPlugin.TWO_CPUS_FREE,
         }),
         new HTMLPlugin({
             template: `${env.src}/index.html`,

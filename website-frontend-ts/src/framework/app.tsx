@@ -12,7 +12,6 @@ import {Action, INIT_STATE_ACTION_TYPE, initStateReducer} from "./action";
 import ErrorBoundary from "./component/ErrorBoundary";
 import {ERROR_ACTION_TYPE, errorAction} from "./exception";
 import {HandlerMap, run} from "./handler";
-import {TickListener} from "./listener";
 import {LOADING_ACTION_TYPE, loadingReducer} from "./loading";
 import {initialState, State} from "./state";
 
@@ -24,7 +23,6 @@ interface App {
     readonly reducers: HandlerMap;
     readonly sagaActionTypes: string[];
     readonly effects: HandlerMap;
-    readonly tickListeners: TickListener[];
 }
 
 console.time("[framework] initialized");
@@ -135,5 +133,5 @@ function createApp(): App {
         store.dispatch(errorAction(error)); // TODO: error can be null, think about how to handle all cases
     };
 
-    return {history, store, namespaces, reducers, sagaActionTypes, effects, sagaMiddleware, tickListeners: []};
+    return {history, store, namespaces, reducers, sagaActionTypes, effects, sagaMiddleware};
 }

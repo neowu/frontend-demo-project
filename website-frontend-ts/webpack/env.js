@@ -20,7 +20,6 @@ function webpackJSON() {
 
 module.exports = {
     dist: resolve("build/dist"),
-    nodeModules: resolve("node_modules"),
     src: resolve("src"),
     static: resolve("static"),
     conf: env == null ? resolve("src/conf") : resolve(`conf/${env}`),
