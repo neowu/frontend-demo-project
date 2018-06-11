@@ -14,7 +14,6 @@ const config = {
     output: {
         path: env.dist,
         filename: "static/js/[name].[chunkhash:8].js",
-        chunkFilename: "static/js/[name]-[id].[chunkhash:8].js",
         publicPath: env.webpackJSON === null ? "/" : env.webpackJSON.publicPath,
     },
     resolve: {
@@ -113,7 +112,6 @@ const config = {
     plugins: [
         new ExtractCSSPlugin({
             filename: "static/css/[name].[contenthash:8].css",
-            chunkFilename: "static/css/[name]-[id].[contenthash:8].css",
         }),
         new ForkTSCheckerPlugin({
             tsconfig: env.tsConfig,
