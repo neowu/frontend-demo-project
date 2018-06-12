@@ -23,7 +23,6 @@ const config = {
     devtool: "cheap-module-source-map",
     optimization: {
         splitChunks: {
-            chunks: "all",
             automaticNameDelimiter: "-",
         },
     },
@@ -59,14 +58,14 @@ const config = {
                 loader: "url-loader",
                 query: {
                     limit: 1024,
-                    name: "static/img/[name].[ext]",
+                    name: "static/img/[name].[hash:8].[ext]",   // resources from different folder can have same file name, use hash to differentiate
                 },
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 loader: "file-loader",
                 options: {
-                    name: "static/font/[name].[ext]",
+                    name: "static/font/[name].[hash:8].[ext]",  // resources from different folder can have same file name, use hash to differentiate
                 },
             },
         ],
