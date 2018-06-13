@@ -6,7 +6,7 @@ const yargs = require("yargs");
 const childProcess = require("child_process");
 const Agent = require("https").Agent;
 
-const apiURL = yargs.argv.url || "https://localhost:8443/_sys/api/v2";
+const apiURL = yargs.argv.url || "https://localhost:8443/_sys/api";
 const typeModule = "type";
 const typeSourcePath = path.resolve(__dirname, `../src/${typeModule}/api.ts`);
 const serviceModule = "service";
