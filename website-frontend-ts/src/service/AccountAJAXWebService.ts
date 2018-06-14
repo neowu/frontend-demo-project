@@ -3,13 +3,13 @@ import {ajax} from "framework/ajax";
 
 class AccountAJAXWebService {
     currentUser(): Promise<CurrentUserAJAXResponse> {
-        return ajax("/ajax/currentUser", "GET", null);
+        return ajax("GET", "/ajax/currentUser", {}, null);
     }
     login(request: LoginAJAXRequest): Promise<LoginAJAXResponse> {
-        return ajax("/ajax/login", "PUT", request);
+        return ajax("PUT", "/ajax/login", {}, request);
     }
     logout(): Promise<void> {
-        return ajax("/ajax/logout", "PUT", null);
+        return ajax("PUT", "/ajax/logout", {}, null);
     }
 }
 export default new AccountAJAXWebService();

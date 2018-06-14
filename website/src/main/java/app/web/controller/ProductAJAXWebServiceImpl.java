@@ -2,6 +2,7 @@ package app.web.controller;
 
 import app.api.ProductAJAXWebService;
 import app.api.product.CreateProductConfigResponse;
+import app.api.product.GetProductResponse;
 import app.api.product.ListProductResponse;
 import core.framework.util.Lists;
 
@@ -26,6 +27,16 @@ public class ProductAJAXWebServiceImpl implements ProductAJAXWebService {
         response.types.add(type("type1", "1"));
         response.types.add(type("type2", "2"));
         return response;
+    }
+
+    @Override
+    public GetProductResponse get(String id) {
+        return new GetProductResponse();
+    }
+
+    @Override
+    public GetProductResponse getChild(String id, String childId) {
+        return new GetProductResponse();
     }
 
     private CreateProductConfigResponse.ProductType type(String name, String value) {

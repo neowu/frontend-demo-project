@@ -3,11 +3,12 @@ const childProcess = require("child_process");
 const webpack = require("webpack");
 const fs = require("fs-extra");
 const env = require("./env");
+const path = require("path");
 const webpackConfig = require("./webpack.config.build");
 
 function fork(modulePath, arguments, onError) {
     return new Promise((resolve, reject) => {
-        const child = childProcess.fork(modulePath, arguments);
+        const child = childProcess.fork(path.normalize(modulePath), arguments);
         child.on("error", error => {
             console.error(error);
             process.exit(1);

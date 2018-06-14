@@ -34,17 +34,18 @@ function generateService(serviceName, operations) {
     lines.push(``);
     lines.push(`class ${serviceName} {`);
     operations.forEach(operation => {
-        let path = `"${operation.path}"`, requestBody = `null`, responseType = operation.responseType, parameters = operation.pathParams;
-        parameters.forEach(param => path += `.replace(":${param.name}", ${param.name})`);
+        const pathParams = "{" + operation.pathParams.map(param => param.name).join(",") + "}";
 
+        let requestBody = "null";
+        const parameters = operation.pathParams.slice();
         if (operation.requestType) {
             parameters.push({name: "request", type: operation.requestType});
             requestBody = `request`;
         }
-
         const parameterSignature = parameters.map(param => param.name + ":" + checkType(param.type)).join(",");
-        lines.push(`${operation.name}(${parameterSignature}): Promise<${checkType(responseType)}>{`);
-        lines.push(`return ajax(${path}, "${operation.method}", ${requestBody});`);
+
+        lines.push(`${operation.name}(${parameterSignature}): Promise<${checkType(operation.responseType)}>{`);
+        lines.push(`return ajax("${operation.method}", "${operation.path}", ${pathParams}, ${requestBody});`);
         lines.push("}");
     });
 
@@ -85,7 +86,7 @@ function createDirs() {
 
 function formatSources() {
     console.info(chalk`{white.bold format generated sources}`);
-    childProcess.fork("./node_modules/.bin/prettier", ["--config", "webpack/prettier.json", "--write", `src/{${serviceModule},${typeModule}}/*.ts`]);
+    childProcess.fork(path.normalize("./node_modules/.bin/prettier"), ["--config", "webpack/prettier.json", "--write", `src/{${serviceModule},${typeModule}}/*.ts`]);
 }
 
 async function generate() {

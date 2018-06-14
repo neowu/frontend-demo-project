@@ -14,6 +14,7 @@ export interface LoginAJAXResponse {
     errorMessage?: string;
 }
 export interface ListProductResponse {}
+export interface GetProductResponse {}
 export interface CreateProductConfigResponse {
     types?: CreateProductConfigResponse$ProductType[];
     now?: Date;
