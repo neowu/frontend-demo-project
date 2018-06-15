@@ -6,7 +6,7 @@ const env = require("./env");
 const webpackConfig = require("./webpack.config.build");
 
 function spawn(command, arguments, errorMessage) {
-    const isWindows = process.platform === "win32"; // spawn with {shell: true} can solve .cmd resolving, but prettier doesn't run correct on mac, so not using shell
+    const isWindows = process.platform === "win32"; // spawn with {shell: true} can solve .cmd resolving, but prettier doesn't run correctly on mac/linux
     const result = childProcess.spawnSync(isWindows ? command + ".cmd" : command, arguments, {stdio: "inherit"});
     if (result.error) {
         console.error(result.error);

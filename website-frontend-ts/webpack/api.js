@@ -85,7 +85,7 @@ function createDirs() {
 }
 
 function spawn(command, arguments) {
-    const isWindows = process.platform === "win32"; // spawn with {shell: true} can solve .cmd resolving, but prettier doesn't run correct on mac, so not using shell
+    const isWindows = process.platform === "win32";
     const result = childProcess.spawnSync(isWindows ? command + ".cmd" : command, arguments, {stdio: "inherit"});
     if (result.error) {
         console.error(result.error);
