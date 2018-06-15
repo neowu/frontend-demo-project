@@ -84,9 +84,22 @@ function createDirs() {
     if (!fs.existsSync(typeSourceParentDir)) fs.mkdirSync(typeSourceParentDir);
 }
 
+function spawn(command, arguments) {
+    const isWindows = process.platform === "win32"; // spawn with {shell: true} can solve .cmd resolving, but prettier doesn't run correct on mac, so not using shell
+    const result = childProcess.spawnSync(isWindows ? command + ".cmd" : command, arguments, {stdio: "inherit"});
+    if (result.error) {
+        console.error(result.error);
+        process.exit(1);
+    }
+    if (result.status !== 0) {
+        console.error(`non-zero exit code returned, code=${result.status}, command=${command} ${arguments.join(" ")}`);
+        process.exit(1);
+    }
+}
+
 function formatSources() {
     console.info(chalk`{white.bold format generated sources}`);
-    childProcess.fork(path.normalize("./node_modules/.bin/prettier"), ["--config", "webpack/prettier.json", "--write", `src/{${serviceModule},${typeModule}}/*.ts`]);
+    spawn("prettier", ["--config", "webpack/prettier.json", "--write", `src/{${serviceModule},${typeModule}}/*.ts`]);
 }
 
 async function generate() {

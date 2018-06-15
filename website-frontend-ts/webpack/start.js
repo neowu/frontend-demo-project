@@ -17,7 +17,7 @@ function devServer(compiler) {
         },
         stats: {
             colors: true,
-            warningsFilter: /export .* was not found in/
+            warningsFilter: /export .* was not found in/,
         },
         proxy: {
             "/ajax": {
