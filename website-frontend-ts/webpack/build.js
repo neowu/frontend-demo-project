@@ -6,6 +6,42 @@ const env = require("./env");
 const path = require("path");
 const webpackConfig = require("./webpack.config.build");
 
+// function execute() {
+//     exec('prettier --config webpack/prettier.json --list-different "{src,test}/**/*.{ts,tsx,less}"', (error, stdout, stderr) => {
+//         console.info(chalk`{white.bold ${stdout}}`);
+//         if (stderr) console.error(stderr);
+//         if (error) {
+//             console.error(chalk`{red.bold check code style failed, please format above files}`);
+//             console.error(error);
+//             process.exit(1);
+//         }
+//     });
+// }
+
+function spawn(command, arguments, onError) {
+    return new Promise((resolve, reject) => {
+        const child = childProcess.spawn(command, arguments);
+        child.stdout.on("data", (data) => {
+            console.info(data.toString());
+        });
+        child.stderr.on("data", (data) => {
+            console.error(data.toString());
+        });
+        child.on("error", error => {
+            console.error(error);
+            process.exit(1);
+        });
+        child.on("exit", code => {
+            if (code !== 0) {
+                onError();
+                console.error(`non-zero exit code returned, code=${code}, command=${command}`);
+                process.exit(1);
+            }
+            resolve();
+        });
+    })
+}
+
 function fork(modulePath, arguments, onError) {
     return new Promise((resolve, reject) => {
         const child = childProcess.fork(path.normalize(modulePath), arguments);
@@ -26,7 +62,7 @@ function fork(modulePath, arguments, onError) {
 
 function checkCodeStyle() {
     console.info(chalk`{green.bold [task]} {white.bold check code style}`);
-    return fork("./node_modules/.bin/prettier", ["--config", "webpack/prettier.json", "--list-different", "{src,test}/**/*.{ts,tsx,less}"], () => {
+    return spawn("prettier", ["--config", "webpack/prettier.json", "--list-different", "{src,test}/**/*.{ts,tsx,less}"], () => {
         console.error(chalk`{red.bold check code style failed, please format above files}`);
     });
 }
