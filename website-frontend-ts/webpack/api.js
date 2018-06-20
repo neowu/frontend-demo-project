@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const axios = require("axios");
 const yargs = require("yargs");
@@ -30,7 +30,7 @@ function generateService(serviceName, operations) {
     };
 
     const lines = [];
-    lines.push(`import {ajax} from "framework/ajax";`);
+    lines.push(`import {ajax} from "core-fe";`);
     lines.push(``);
     lines.push(`class ${serviceName} {`);
     operations.forEach(operation => {
@@ -78,7 +78,7 @@ async function fetchAPIDefinition() {
 }
 
 function createDirs() {
-    if (!fs.existsSync(serviceSourceDir)) fs.mkdirSync(serviceSourceDir);
+    fs.emptyDirSync(serviceSourceDir);
 
     const typeSourceParentDir = path.resolve(typeSourcePath, "../");
     if (!fs.existsSync(typeSourceParentDir)) fs.mkdirSync(typeSourceParentDir);

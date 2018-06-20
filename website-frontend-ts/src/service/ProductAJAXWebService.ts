@@ -1,5 +1,5 @@
 import {ListProductResponse, GetProductResponse, CreateProductConfigResponse} from "type/api";
-import {ajax} from "framework/ajax";
+import {ajax} from "core-fe";
 
 class ProductAJAXWebService {
     list(): Promise<ListProductResponse> {

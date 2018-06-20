@@ -1,5 +1,5 @@
 import {Layout} from "antd";
-import {asyncComponent} from "framework";
+import {asyncComponent} from "core-fe";
 import {LoginForm} from "module/user";
 import React from "react";
 import {connect} from "react-redux";

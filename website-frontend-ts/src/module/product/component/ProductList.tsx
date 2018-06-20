@@ -1,5 +1,5 @@
 import {Spin} from "antd";
-import {loadingComponent} from "framework";
+import {loadingComponent} from "core-fe";
 import React from "react";
 import {connect} from "react-redux";
 import {LOADING_PRODUCT_LIST} from "../type";

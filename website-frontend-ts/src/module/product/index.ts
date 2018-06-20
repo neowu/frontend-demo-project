@@ -1,4 +1,4 @@
-import {actionCreator, effect, Listener, loading, LocationChangedEvent, register} from "framework";
+import {actionCreator, effect, Listener, loading, LocationChangedEvent, register} from "core-fe";
 import {call, put} from "redux-saga/effects";
 import productAJAXService from "service/ProductAJAXWebService";
 import {CreateProductConfigResponse} from "type/api";

@@ -1,5 +1,5 @@
 import {message} from "antd";
-import {Listener, register} from "framework";
+import {Listener, register} from "core-fe";
 
 class ListenerImpl implements Listener {
     *onError(error: any) {
