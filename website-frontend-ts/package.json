@@ -34,7 +34,7 @@
     "ts-import-plugin": "1.5.2",
     "ts-jest": "22.4.6",
     "ts-loader": "4.4.1",
-    "ts-node": "6.1.1",
+    "ts-node": "6.1.2",
     "tslint": "5.10.0",
     "tslint-react": "3.6.0",
     "typescript": "2.9.2",
@@ -45,6 +45,6 @@
   },
   "dependencies": {
     "antd": "3.6.3",
-    "core-fe": "0.0.3"
+    "core-fe": "0.0.6"
   }
 }
