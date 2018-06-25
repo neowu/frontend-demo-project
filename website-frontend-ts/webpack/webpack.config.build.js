@@ -47,8 +47,8 @@ const config = {
         ],
     },
     performance: {
-        maxEntrypointSize: 500000,
-        maxAssetSize: 500000,
+        maxEntrypointSize: 1000000,
+        maxAssetSize: 1000000,
     },
     module: {
         rules: [

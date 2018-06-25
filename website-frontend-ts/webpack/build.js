@@ -57,12 +57,12 @@ function build() {
             if (error.details) console.error(error.details);
             process.exit(1);
         } else {
-            console.log(stats.toString({chunks: false, colors: true, warningsFilter: /export .* was not found in/}));
+            console.log(stats.toString({chunks: false, colors: true}));
             if (env.profile) {
                 console.info(chalk`{green.bold [task]} write stats.json`);
                 fs.writeFileSync("stats.json", JSON.stringify(stats.toJson({}), null, 2));
             }
-            if (stats.hasErrors()) {
+            if (stats.hasErrors() || stats.hasWarnings()) {
                 process.exit(1);
             }
         }
