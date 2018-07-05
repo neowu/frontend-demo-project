@@ -1,5 +1,5 @@
-import {actionCreator, effect, Listener, loading, LocationChangedEvent, register} from "core-fe";
-import {call, put} from "redux-saga/effects";
+import {actionCreator, effect, Listener, loading, LocationChangedEvent, register, callAJAX} from "core-fe";
+import {put} from "redux-saga/effects";
 import productAJAXService from "service/ProductAJAXWebService";
 import {CreateProductConfigResponse} from "type/api";
 import AddProduct from "./component/AddProduct";
@@ -15,15 +15,17 @@ const initialState: State = {
 
 class ActionHandler implements Actions {
     @effect
-    *loadCreateProductConfig() {
-        const response = yield call(productAJAXService.createConfig);
+    * loadCreateProductConfig() {
+        const effect = callAJAX(productAJAXService.createConfig);
+        yield effect;
+        const response = effect.response();
         yield put(actions.populateCreateProductConfig(response));
     }
 
     @effect
     @loading(LOADING_PRODUCT_LIST)
-    *loadProductList() {
-        yield call(productAJAXService.list);
+    * loadProductList() {
+        yield callAJAX(productAJAXService.list);
     }
 
     populateCreateProductConfig(response: CreateProductConfigResponse, state: State = initialState): State {
@@ -38,7 +40,7 @@ class ActionHandler implements Actions {
 }
 
 class ListenerImpl implements Listener {
-    *onLocationChanged(event: LocationChangedEvent) {
+    * onLocationChanged(event: LocationChangedEvent) {
         if (event.location.pathname === "/product/add") {
             yield put(actions.loadCreateProductConfig());
         } else if (event.location.pathname === "/product/list") {
