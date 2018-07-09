@@ -11,7 +11,7 @@ to start backend on https://localhost:8443
 ```
 start frontend dev server
 ```
-cd website-frontend
+cd website-frontend-ts
 yarn install && yarn start
 ```
 full build, dist to build/website/install/website

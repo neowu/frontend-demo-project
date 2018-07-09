@@ -15,7 +15,7 @@ const initialState: State = {
 
 class ActionHandler implements Actions {
     @effect
-    * loadCreateProductConfig() {
+    *loadCreateProductConfig() {
         const effect = callAJAX(productAJAXService.createConfig);
         yield effect;
         const response = effect.response();
@@ -24,7 +24,7 @@ class ActionHandler implements Actions {
 
     @effect
     @loading(LOADING_PRODUCT_LIST)
-    * loadProductList() {
+    *loadProductList() {
         yield callAJAX(productAJAXService.list);
     }
 
@@ -40,7 +40,7 @@ class ActionHandler implements Actions {
 }
 
 class ListenerImpl implements Listener {
-    * onLocationChanged(event: LocationChangedEvent) {
+    *onLocationChanged(event: LocationChangedEvent) {
         if (event.location.pathname === "/product/add") {
             yield put(actions.loadCreateProductConfig());
         } else if (event.location.pathname === "/product/list") {
