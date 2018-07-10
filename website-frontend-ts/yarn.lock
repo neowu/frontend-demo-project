@@ -16,9 +16,9 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@babel/polyfill@7.0.0-beta.51":
-  version "7.0.0-beta.51"
-  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.0.0-beta.51.tgz#f880a16825571729dceeb76a9bbe74c06321e756"
+"@babel/polyfill@7.0.0-beta.52":
+  version "7.0.0-beta.52"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.0.0-beta.52.tgz#dcea55e5347e9cea92f5ef945c1a8417ea1d74d4"
   dependencies:
     core-js "^2.5.7"
     regenerator-runtime "^0.11.1"
@@ -45,10 +45,6 @@
 "@types/node@*", "@types/node@10.5.2":
   version "10.5.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.2.tgz#f19f05314d5421fe37e74153254201a7bf00a707"
-
-"@types/node@10.5.1":
-  version "10.5.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.1.tgz#d578446f4abff5c0b49ade9b4e5274f6badaadfc"
 
 "@types/react-dom@16.0.6":
   version "16.0.6"
@@ -1474,12 +1470,11 @@ copy-descriptor@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
 
-core-fe@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/core-fe/-/core-fe-0.1.0.tgz#920e7f2d5cb7864711b476d135683f24452af8b9"
+"core-fe@file:../../frontend-framework/build/dist":
+  version "0.2.0"
   dependencies:
-    "@babel/polyfill" "7.0.0-beta.51"
-    "@types/node" "10.5.1"
+    "@babel/polyfill" "7.0.0-beta.52"
+    "@types/node" "10.5.2"
     "@types/react" "16.4.6"
     "@types/react-dom" "16.0.6"
     "@types/react-redux" "6.0.3"

@@ -55,8 +55,8 @@ class ListenerImpl implements Listener {
 }
 
 const namespace = "product";
-const actions = actionCreator<Actions>(namespace, ActionHandler.prototype); // specify <Actions> type, so all type definition will go to interface
 const handler = new ActionHandler();
+const actions = actionCreator<Actions>(namespace, handler); // specify <Actions> type, so all type definition will go to interface
 const listener = new ListenerImpl();
 register({namespace, handler, initialState, listener});
 export {actions, AddProduct, ProductList};

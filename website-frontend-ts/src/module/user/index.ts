@@ -73,8 +73,8 @@ class ListenerImpl implements Listener {
 }
 
 const namespace = "user";
-const actions = actionCreator<Actions>(namespace, ActionHandler.prototype);
 const handler = new ActionHandler();
+const actions = actionCreator<Actions>(namespace, handler);
 const listener = new ListenerImpl();
 register({namespace, handler, initialState, listener});
 export {actions, LoginForm};
