@@ -1,0 +1,7 @@
+{
+  "extends": "./webpack/tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true
+  }
+}

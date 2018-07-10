@@ -1,5 +1,5 @@
 import {Layout} from "antd";
-import {asyncComponent} from "core-fe";
+import {async} from "core-fe";
 import {LoginForm} from "module/user";
 import React from "react";
 import {connect} from "react-redux";
@@ -11,8 +11,8 @@ import NotFound from "./NotFound";
 import Welcome from "./Welcome";
 
 const Main = () => {
-    const AddProduct = asyncComponent(() => import(/* webpackChunkName: "product" */ "module/product").then(module => module.AddProduct));
-    const ProductList = asyncComponent(() => import(/* webpackChunkName: "product" */ "module/product").then(module => module.ProductList));
+    const AddProduct = async(() => import(/* webpackChunkName: "product" */ "module/product"), "AddProduct");
+    const ProductList = async(() => import(/* webpackChunkName: "product" */ "module/product"), "ProductList");
 
     return (
         <Layout>

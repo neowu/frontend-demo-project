@@ -12,26 +12,26 @@
     "api": "node webpack/api.js"
   },
   "devDependencies": {
-    "@types/jest": "23.1.4",
+    "@types/jest": "23.1.5",
     "autoprefixer": "8.6.5",
     "chalk": "2.4.1",
-    "css-loader": "0.28.11",
+    "css-loader": "1.0.0",
     "file-loader": "1.1.11",
-    "fork-ts-checker-webpack-plugin": "0.4.2",
+    "fork-ts-checker-webpack-plugin": "0.4.3",
     "fs-extra": "6.0.1",
     "html-webpack-plugin": "4.0.0-alpha",
-    "jest": "23.3.0",
-    "less": "3.5.2",
+    "jest": "23.4.0",
+    "less": "3.6.0",
     "less-loader": "4.1.0",
     "mini-css-extract-plugin": "0.4.1",
-    "postcss-loader": "2.1.5",
+    "postcss-loader": "2.1.6",
     "prettier": "1.13.7",
     "style-loader": "0.21.0",
     "stylelint": "9.3.0",
     "stylelint-config-standard": "18.2.0",
     "stylelint-webpack-plugin": "0.10.5",
     "ts-import-plugin": "1.5.4",
-    "ts-jest": "22.4.6",
+    "ts-jest": "23.0.0",
     "ts-loader": "4.4.2",
     "ts-node": "7.0.0",
     "tslint": "5.10.0",
@@ -43,7 +43,7 @@
     "yargs": "12.0.1"
   },
   "dependencies": {
-    "antd": "3.6.5",
+    "antd": "3.6.6",
     "core-fe": "file:../../frontend-framework/build/dist"
   }
 }

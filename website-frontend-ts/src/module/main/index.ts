@@ -3,7 +3,7 @@ import {Listener, register} from "core-fe";
 import Main from "./component/Main";
 
 class ListenerImpl implements Listener {
-    * onError(error: any) {
+    *onError(error: any) {
         message.error(error.message, 5);
     }
 }

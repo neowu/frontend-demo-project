@@ -1,19 +1,24 @@
 import {Spin} from "antd";
-import {loadingComponent} from "core-fe";
+import {Loading} from "core-fe";
 import React from "react";
 import {connect} from "react-redux";
 import {LOADING_PRODUCT_LIST} from "../type";
 
-class ProductList extends React.PureComponent {
+class Component extends React.PureComponent {
     render() {
         return (
-            <div>
-                <h1>product list</h1>
-            </div>
+            <Loading
+                loading={LOADING_PRODUCT_LIST}
+                render={props => (
+                    <Spin size={"large"} spinning={props.show}>
+                        <div>
+                            <h1>product list</h1>
+                        </div>
+                    </Spin>
+                )}
+            />
         );
     }
 }
 
-const LoadingProductList = loadingComponent(LOADING_PRODUCT_LIST, ProductList, Spin);
-
-export default connect()(LoadingProductList);
+export default connect()(Component);

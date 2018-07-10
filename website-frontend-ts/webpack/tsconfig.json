@@ -16,9 +16,8 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
     "downlevelIteration": true,
     "resolveJsonModule": true
   },
-  "include": ["../src/**/*", "../test/**/*"]
+  "include": ["../src", "../test"]
 }
