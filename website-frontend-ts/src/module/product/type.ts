@@ -1,5 +1,3 @@
-import {CreateProductConfigResponse} from "type/api";
-
 export const LOADING_PRODUCT_LIST = "product/list";
 
 export interface State {
@@ -10,12 +8,4 @@ export interface State {
         }>;
         now: Date;
     };
-}
-
-export interface Actions {
-    populateCreateProductConfig(response: CreateProductConfigResponse);
-
-    loadProductList();
-
-    loadCreateProductConfig();
 }

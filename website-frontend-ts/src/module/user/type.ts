@@ -1,5 +1,3 @@
-import {CurrentUserAJAXResponse, LoginAJAXRequest, LoginAJAXResponse} from "../../type/api";
-
 export interface State {
     currentUser: {
         loggedIn: boolean;
@@ -10,14 +8,4 @@ export interface State {
         success: boolean;
         errorMessage: string;
     };
-}
-
-export interface Actions {
-    populateCurrentUser(response: CurrentUserAJAXResponse);
-
-    loginResult(response: LoginAJAXResponse);
-
-    login(request: LoginAJAXRequest);
-
-    logout();
 }

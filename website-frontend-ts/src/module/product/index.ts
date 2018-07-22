@@ -1,10 +1,11 @@
-import {actionCreator, effect, Listener, loading, LocationChangedEvent, register, callAJAX} from "core-fe";
+import {Listener, loading, LocationChangedEvent, register, callAJAX, Handler, actionCreator} from "core-fe";
 import {put} from "redux-saga/effects";
 import productAJAXService from "service/ProductAJAXWebService";
 import {CreateProductConfigResponse} from "type/api";
 import AddProduct from "./component/AddProduct";
 import ProductList from "./component/ProductList";
-import {Actions, LOADING_PRODUCT_LIST, State} from "./type";
+import {LOADING_PRODUCT_LIST, State} from "./type";
+import {SagaIterator} from "redux-saga";
 
 const initialState: State = {
     createProductUI: {
@@ -13,33 +14,33 @@ const initialState: State = {
     },
 };
 
-class ActionHandler implements Actions {
-    @effect
-    *loadCreateProductConfig() {
+class ActionHandler extends Handler<State> implements Listener {
+    constructor() {
+        super("product", initialState);
+    }
+
+    *loadCreateProductConfig(): SagaIterator {
         const effect = callAJAX(productAJAXService.createConfig);
         yield effect;
         const response = effect.response();
         yield put(actions.populateCreateProductConfig(response));
     }
 
-    @effect
     @loading(LOADING_PRODUCT_LIST)
-    *loadProductList() {
+    *loadProductList(): SagaIterator {
         yield callAJAX(productAJAXService.list);
     }
 
-    populateCreateProductConfig(response: CreateProductConfigResponse, state: State = initialState): State {
+    populateCreateProductConfig(response: CreateProductConfigResponse): State {
         const types = response.types.map(type => {
             return {name: type.name, value: type.value};
         });
         return {
-            ...state,
+            ...this.state(),
             createProductUI: {types, now: response.now},
         };
     }
-}
 
-class ListenerImpl implements Listener {
     *onLocationChanged(event: LocationChangedEvent) {
         if (event.location.pathname === "/product/add") {
             yield put(actions.loadCreateProductConfig());
@@ -54,9 +55,7 @@ class ListenerImpl implements Listener {
     // }
 }
 
-const namespace = "product";
 const handler = new ActionHandler();
-const actions = actionCreator<Actions>(namespace, handler); // specify <Actions> type, so all type definition will go to interface
-const listener = new ListenerImpl();
-register({namespace, handler, initialState, listener});
+const actions = actionCreator(handler);
+register(handler);
 export {actions, AddProduct, ProductList};

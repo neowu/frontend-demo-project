@@ -1,10 +1,11 @@
 import {push} from "connected-react-router";
-import {actionCreator, effect, Listener, register, callAJAX} from "core-fe";
+import {Listener, register, callAJAX, Handler, actionCreator} from "core-fe";
 import {call, put} from "redux-saga/effects";
 import userAJAXService from "service/AccountAJAXWebService";
 import {CurrentUserAJAXResponse, LoginAJAXRequest, LoginAJAXResponse} from "type/api";
 import LoginForm from "./component/LoginForm";
-import {Actions, State} from "./type";
+import {State} from "./type";
+import {SagaIterator} from "redux-saga";
 
 const initialState: State = {
     currentUser: {
@@ -18,15 +19,17 @@ const initialState: State = {
     },
 };
 
-class ActionHandler implements Actions {
-    @effect
-    *logout() {
+class ActionHandler extends Handler<State> implements Listener {
+    constructor() {
+        super("user", initialState);
+    }
+
+    *logout(): SagaIterator {
         yield call(userAJAXService.logout);
         yield put(actions.loginResult({success: false}));
     }
 
-    @effect
-    *login(request: LoginAJAXRequest) {
+    *login(request: LoginAJAXRequest): SagaIterator {
         const effect = callAJAX(userAJAXService.login, request);
         yield effect;
         const response = effect.response();
@@ -36,20 +39,17 @@ class ActionHandler implements Actions {
         }
     }
 
-    populateCurrentUser(response: CurrentUserAJAXResponse, state: State = initialState): State {
-        return {
-            ...state,
-            currentUser: {
+    populateCurrentUser(response: CurrentUserAJAXResponse): State {
+        return this.reduceState({currentUser: {
                 loggedIn: response.loggedIn,
                 role: response.role,
                 name: response.name,
-            },
-        };
+            }});
     }
 
-    loginResult(response: LoginAJAXResponse, state: State = initialState): State {
+    loginResult(response: LoginAJAXResponse): State {
         return {
-            ...state,
+            ...this.state(),
             login: {
                 success: response.success,
                 errorMessage: response.errorMessage,
@@ -61,9 +61,7 @@ class ActionHandler implements Actions {
             },
         };
     }
-}
 
-class ListenerImpl implements Listener {
     *onInitialized() {
         const effect = callAJAX(userAJAXService.currentUser);
         yield effect;
@@ -72,9 +70,7 @@ class ListenerImpl implements Listener {
     }
 }
 
-const namespace = "user";
 const handler = new ActionHandler();
-const actions = actionCreator<Actions>(namespace, handler);
-const listener = new ListenerImpl();
-register({namespace, handler, initialState, listener});
+const actions = actionCreator(handler);
+register(handler);
 export {actions, LoginForm};
