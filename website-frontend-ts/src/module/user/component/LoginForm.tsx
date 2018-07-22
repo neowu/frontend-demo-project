@@ -16,12 +16,7 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
             if (!errors) {
-                dispatch(
-                    actions.login({
-                        username: values.username,
-                        password: values.password,
-                    })
-                );
+                dispatch(actions.login(values.username, values.password));
             }
         });
     };

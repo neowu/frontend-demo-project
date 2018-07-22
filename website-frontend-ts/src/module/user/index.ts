@@ -29,8 +29,8 @@ class ActionHandler extends Handler<State> implements Listener {
         yield put(actions.loginResult({success: false}));
     }
 
-    *login(request: LoginAJAXRequest): SagaIterator {
-        const effect = callAJAX(userAJAXService.login, request);
+    *login(username: string, password: string): SagaIterator {
+        const effect = callAJAX(userAJAXService.login, {username, password});
         yield effect;
         const response = effect.response();
         yield put(actions.loginResult(response));
