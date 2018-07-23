@@ -15,10 +15,6 @@ const initialState: State = {
 };
 
 class ActionHandler extends Handler<State> implements Listener {
-    constructor() {
-        super("product", initialState);
-    }
-
     *loadCreateProductConfig(): SagaIterator {
         const effect = callAJAX(productAJAXService.createConfig);
         yield effect;
@@ -36,7 +32,7 @@ class ActionHandler extends Handler<State> implements Listener {
             return {name: type.name, value: type.value};
         });
         return {
-            ...this.state(),
+            ...this.state,
             createProductUI: {types, now: response.now},
         };
     }
@@ -55,7 +51,7 @@ class ActionHandler extends Handler<State> implements Listener {
     // }
 }
 
-const handler = new ActionHandler();
+const handler = new ActionHandler("product", initialState);
 const actions = actionCreator(handler);
 register(handler);
 export {actions, AddProduct, ProductList};

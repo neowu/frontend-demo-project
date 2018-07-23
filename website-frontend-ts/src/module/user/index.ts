@@ -20,10 +20,6 @@ const initialState: State = {
 };
 
 class ActionHandler extends Handler<State> implements Listener {
-    constructor() {
-        super("user", initialState);
-    }
-
     *logout(): SagaIterator {
         yield call(userAJAXService.logout);
         yield put(actions.loginResult({success: false}));
@@ -40,16 +36,16 @@ class ActionHandler extends Handler<State> implements Listener {
     }
 
     populateCurrentUser(response: CurrentUserAJAXResponse): State {
-        return this.reduceState({currentUser: {
+        return {...this.state, currentUser: {
                 loggedIn: response.loggedIn,
                 role: response.role,
                 name: response.name,
-            }});
+            }};
     }
 
     loginResult(response: LoginAJAXResponse): State {
         return {
-            ...this.state(),
+            ...this.state,
             login: {
                 success: response.success,
                 errorMessage: response.errorMessage,
@@ -70,7 +66,7 @@ class ActionHandler extends Handler<State> implements Listener {
     }
 }
 
-const handler = new ActionHandler();
+const handler = new ActionHandler("user", initialState);
 const actions = actionCreator(handler);
 register(handler);
 export {actions, LoginForm};
