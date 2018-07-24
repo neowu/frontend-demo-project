@@ -1,5 +1,5 @@
 import {push} from "connected-react-router";
-import {Listener, register, callAJAX, Handler, actionCreator} from "core-fe";
+import {Listener, register, callAJAX, Handler, actionCreator, effect} from "core-fe";
 import {call, put} from "redux-saga/effects";
 import userAJAXService from "service/AccountAJAXWebService";
 import {CurrentUserAJAXResponse, LoginAJAXRequest, LoginAJAXResponse} from "type/api";
@@ -20,11 +20,13 @@ const initialState: State = {
 };
 
 class ActionHandler extends Handler<State> implements Listener {
+    @effect
     *logout(): SagaIterator {
         yield call(userAJAXService.logout);
         yield put(actions.loginResult({success: false}));
     }
 
+    @effect
     *login(username: string, password: string): SagaIterator {
         const effect = callAJAX(userAJAXService.login, {username, password});
         yield effect;
@@ -36,11 +38,14 @@ class ActionHandler extends Handler<State> implements Listener {
     }
 
     populateCurrentUser(response: CurrentUserAJAXResponse): State {
-        return {...this.state, currentUser: {
+        return {
+            ...this.state,
+            currentUser: {
                 loggedIn: response.loggedIn,
                 role: response.role,
                 name: response.name,
-            }};
+            },
+        };
     }
 
     loginResult(response: LoginAJAXResponse): State {
