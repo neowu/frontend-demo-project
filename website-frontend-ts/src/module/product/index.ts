@@ -1,6 +1,6 @@
 import {Listener, loading, LocationChangedEvent, register, callAJAX, Handler, actionCreator, effect} from "core-fe";
 import {put} from "redux-saga/effects";
-import productAJAXService from "service/ProductAJAXWebService";
+import {ProductAJAXWebService} from "service/ProductAJAXWebService";
 import {CreateProductConfigResponse} from "type/api";
 import AddProduct from "./component/AddProduct";
 import ProductList from "./component/ProductList";
@@ -17,7 +17,7 @@ const initialState: State = {
 class ActionHandler extends Handler<State> implements Listener {
     @effect
     *loadCreateProductConfig(): SagaIterator {
-        const effect = callAJAX(productAJAXService.createConfig);
+        const effect = callAJAX(ProductAJAXWebService.createConfig);
         yield effect;
         const response = effect.response();
         yield put(actions.populateCreateProductConfig(response));
@@ -26,7 +26,7 @@ class ActionHandler extends Handler<State> implements Listener {
     @effect
     @loading(LOADING_PRODUCT_LIST)
     *loadProductList(): SagaIterator {
-        yield callAJAX(productAJAXService.list);
+        yield callAJAX(ProductAJAXWebService.list);
     }
 
     populateCreateProductConfig(response: CreateProductConfigResponse): State {

@@ -32,7 +32,7 @@ function generateService(serviceName, operations) {
     const lines = [];
     lines.push(`import {ajax} from "core-fe";`);
     lines.push(``);
-    lines.push(`class ${serviceName} {`);
+    lines.push(`export class ${serviceName} {`);
     operations.forEach(operation => {
         const pathParams = "{" + operation.pathParams.map(param => param.name).join(",") + "}";
 
@@ -44,13 +44,12 @@ function generateService(serviceName, operations) {
         }
         const parameterSignature = parameters.map(param => param.name + ":" + checkType(param.type)).join(",");
 
-        lines.push(`${operation.name}(${parameterSignature}): Promise<${checkType(operation.responseType)}>{`);
+        lines.push(`static ${operation.name}(${parameterSignature}): Promise<${checkType(operation.responseType)}>{`);
         lines.push(`return ajax("${operation.method}", "${operation.path}", ${pathParams}, ${requestBody});`);
         lines.push("}");
     });
 
     lines.push(`}`);
-    lines.push(`export default new ${serviceName}();`);
     if (requiredTypes.length > 0) lines.unshift(`import {${requiredTypes.join(",")}} from "${typeModule}/api";`);
 
     const serviceSourcePath = `${serviceSourceDir}/${serviceName}.ts`;

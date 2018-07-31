@@ -14,7 +14,8 @@ const Nav: React.SFC<Props> = ({role}) => {
                 key="sub1"
                 title={
                     <span>
-                        <Icon type="user" />Users
+                        <Icon type="user" />
+                        Users
                     </span>
                 }
             >
@@ -38,7 +39,8 @@ const Nav: React.SFC<Props> = ({role}) => {
                     key="sub2"
                     title={
                         <span>
-                            <Icon type="laptop" />Games
+                            <Icon type="laptop" />
+                            Games
                         </span>
                     }
                 >
@@ -49,7 +51,8 @@ const Nav: React.SFC<Props> = ({role}) => {
                     key="sub3"
                     title={
                         <span>
-                            <Icon type="appstore" />Product
+                            <Icon type="appstore" />
+                            Product
                         </span>
                     }
                 >
