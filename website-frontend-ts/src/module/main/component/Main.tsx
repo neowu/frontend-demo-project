@@ -10,37 +10,6 @@ import Nav from "./Nav";
 import NotFound from "./NotFound";
 import Welcome from "./Welcome";
 
-// // type ReactComponentKeyOf<T> = {[P in keyof T]: T[P] extends React.ComponentType<any> ? P : never}[keyof T];
-//
-// function async<T>(module: string, component: string, loadingComponent: React.ReactNode = null): React.ComponentType<any> {
-//     // const m = module;
-//     // const promise = Promise.resolve(resolve => import(/* webpackMode: "lazy-once", webpackChunkName: "[request]" */ `${m}`).then(module => resolve(module)));
-//     interface State {
-//         Component: React.ComponentType<any> | null;
-//     }
-//
-//     class Component extends React.PureComponent<{}, State> {
-//         state: State = {
-//             Component: null,
-//         };
-//
-//         componentDidMount() {
-//             const resolve = () => import(/* webpackMode: "lazy", webpackChunkName: "[request]" */ `module/${module}`);
-//             resolve().then(module => {
-//                 const Component = module[component] as any;
-//                 this.setState({Component});
-//             });
-//         }
-//
-//         render() {
-//             const {Component} = this.state;
-//             return Component ? <Component /> : loadingComponent;
-//         }
-//     }
-//
-//     return Component;
-// }
-
 const Main = () => {
     const AddProduct = async(() => import(/* webpackChunkName: "product" */ "module/product"), "AddProduct");
     const ProductList = async(() => import(/* webpackChunkName: "product" */ "module/product"), "ProductList");

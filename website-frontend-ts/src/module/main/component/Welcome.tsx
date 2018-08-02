@@ -1,7 +1,8 @@
 import {Button} from "antd";
-import ui from "conf/ui.json";
 import React from "react";
 import {connect} from "react-redux";
+
+const ui = require("conf/ui.json");
 
 const Welcome = () => {
     // const abc = 2;

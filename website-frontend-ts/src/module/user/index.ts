@@ -2,7 +2,7 @@ import {push} from "connected-react-router";
 import {Listener, register, callAJAX, Handler, actionCreator, effect} from "core-fe";
 import {call, put} from "redux-saga/effects";
 import {AccountAJAXWebService} from "service/AccountAJAXWebService";
-import {CurrentUserAJAXResponse, LoginAJAXRequest, LoginAJAXResponse} from "type/api";
+import {CurrentUserAJAXResponse, LoginAJAXResponse} from "type/api";
 import LoginForm from "./component/LoginForm";
 import {State} from "./type";
 import {SagaIterator} from "redux-saga";
