@@ -1,5 +1,5 @@
 export interface CurrentUserAJAXResponse {
-    loggedIn?: boolean;
+    loggedIn: boolean;
     name?: string;
     role?: string;
 }
