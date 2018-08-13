@@ -1,12 +1,13 @@
 const webpack = require("webpack");
 const env = require("./env");
 const autoprefixer = require("autoprefixer");
-const ExtractCSSPlugin = require("mini-css-extract-plugin");
+const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const ForkTSCheckerPlugin = require("fork-ts-checker-webpack-plugin");
 const HTMLPlugin = require("html-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const TSImportPlugin = require("ts-import-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const config = {
     mode: "production",
@@ -44,7 +45,15 @@ const config = {
                     },
                 },
             }),
+            new OptimizeCSSAssetsPlugin({
+                cssProcessorOptions: {
+                    map: {
+                        inline: false,
+                    },
+                }
+            }),
         ],
+
     },
     performance: {
         maxEntrypointSize: 1000000,
@@ -67,7 +76,7 @@ const config = {
             {
                 test: /\.(css|less)$/,
                 use: [
-                    ExtractCSSPlugin.loader,
+                    MiniCSSExtractPlugin.loader,
                     {
                         loader: "css-loader",
                         options: {
@@ -110,7 +119,7 @@ const config = {
         ],
     },
     plugins: [
-        new ExtractCSSPlugin({
+        new MiniCSSExtractPlugin({
             filename: "static/css/[name].[contenthash:8].css",
         }),
         new ForkTSCheckerPlugin({
