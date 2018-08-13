@@ -14,7 +14,7 @@ const initialState: State = {
 };
 
 class ActionHandler extends Handler<State> implements Listener {
-    *loadCreateProductConfig(): SagaIterator {
+    *loadCreateProductConfig() {
         const effect = call(ProductAJAXWebService.createConfig);
         yield effect;
         const response = effect.result();
@@ -33,9 +33,9 @@ class ActionHandler extends Handler<State> implements Listener {
 
     *onLocationChanged(event: LocationChangedEvent) {
         if (event.location.pathname === "/product/add") {
-            yield put(actions.loadCreateProductConfig());
+            yield* this.loadCreateProductConfig();
         } else if (event.location.pathname === "/product/list") {
-            yield put(actions.loadProductList());
+            yield* this.loadProductList();
         }
     }
 
