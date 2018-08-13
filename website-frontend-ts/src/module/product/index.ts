@@ -1,10 +1,9 @@
-import {Listener, loading, LocationChangedEvent, register, call, Handler, actionCreator} from "core-fe";
-import {put} from "redux-saga/effects";
+import {actionCreator, call, Handler, Listener, loading, LocationChangedEvent, register} from "core-fe";
+import {SagaIterator} from "redux-saga";
 import {ProductAJAXWebService} from "service/ProductAJAXWebService";
 import AddProduct from "./component/AddProduct";
 import ProductList from "./component/ProductList";
 import {LOADING_PRODUCT_LIST, State} from "./type";
-import {SagaIterator} from "redux-saga";
 
 const initialState: State = {
     createProductUI: {
