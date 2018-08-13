@@ -10,12 +10,12 @@ interface Props extends FormComponentProps, DispatchProp<any> {
             name: string;
             value: string;
         }>;
-        now: Date;
+        now: Date | null;
     };
 }
 
 const AddProduct: React.SFC<Props> = ({ui, form}) => {
-    const onSubmit = event => {
+    const onSubmit = (event: any) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
             // console.info(values);

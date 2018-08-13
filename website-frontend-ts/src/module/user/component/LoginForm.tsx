@@ -8,11 +8,11 @@ import {RootState} from "type/state";
 import "./loginForm.less";
 
 interface Props extends FormComponentProps, DispatchProp<any> {
-    errorMessage: string;
+    errorMessage?: string;
 }
 
 const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
-    const onSubmit = event => {
+    const onSubmit = (event: any) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
             if (!errors) {

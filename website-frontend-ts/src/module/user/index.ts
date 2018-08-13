@@ -8,12 +8,9 @@ import {State} from "./type";
 const initialState: State = {
     currentUser: {
         loggedIn: false,
-        role: null,
-        name: null,
     },
     login: {
         success: false,
-        errorMessage: null,
     },
 };
 

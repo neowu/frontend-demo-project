@@ -6,6 +6,6 @@ export interface State {
             name: string;
             value: string;
         }>;
-        now: Date;
+        now: Date | null;
     };
 }

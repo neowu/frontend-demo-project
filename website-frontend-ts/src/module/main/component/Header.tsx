@@ -10,7 +10,7 @@ import "./header.less";
 
 interface Props {
     loggedIn: boolean;
-    userName: string;
+    userName?: string;
     logout: () => void;
 }
 

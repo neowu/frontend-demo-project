@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 
 interface Props {
-    role: string;
+    role: string | null;
 }
 
 const Nav: React.SFC<Props> = ({role}) => {

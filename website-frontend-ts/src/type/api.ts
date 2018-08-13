@@ -8,7 +8,7 @@ export interface LoginAJAXRequest {
     password: string;
 }
 export interface LoginAJAXResponse {
-    success?: boolean;
+    success: boolean;
     name?: string;
     role?: string;
     errorMessage?: string;
@@ -16,10 +16,10 @@ export interface LoginAJAXResponse {
 export interface ListProductResponse {}
 export interface GetProductResponse {}
 export interface CreateProductConfigResponse {
-    types?: CreateProductConfigResponse$ProductType[];
+    types: CreateProductConfigResponse$ProductType[];
     now: Date;
 }
 export interface CreateProductConfigResponse$ProductType {
-    name?: string;
-    value?: string;
+    name: string;
+    value: string;
 }
