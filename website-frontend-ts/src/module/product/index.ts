@@ -1,4 +1,4 @@
-import {actionCreator, call, Handler, Listener, loading, LocationChangedEvent, register} from "core-fe";
+import {call, Handler, Listener, loading, LocationChangedEvent, register} from "core-fe";
 import {SagaIterator} from "redux-saga";
 import {ProductAJAXWebService} from "service/ProductAJAXWebService";
 import AddProduct from "./component/AddProduct";
@@ -44,7 +44,5 @@ class ActionHandler extends Handler<State> implements Listener {
     // }
 }
 
-const handler = new ActionHandler("product", initialState);
-const actions = actionCreator(handler);
-register(handler);
+const actions = register(new ActionHandler("product", initialState));
 export {actions, AddProduct, ProductList};

@@ -1,5 +1,5 @@
 import {push} from "connected-react-router";
-import {actionCreator, call, Handler, Listener, register} from "core-fe";
+import {call, Handler, Listener, register} from "core-fe";
 import {put} from "redux-saga/effects";
 import {AccountAJAXWebService} from "service/AccountAJAXWebService";
 import LoginForm from "./component/LoginForm";
@@ -61,7 +61,5 @@ class ActionHandler extends Handler<State> implements Listener {
     }
 }
 
-const handler = new ActionHandler("user", initialState);
-const actions = actionCreator(handler);
-register(handler);
+const actions = register(new ActionHandler("user", initialState));
 export {actions, LoginForm};
