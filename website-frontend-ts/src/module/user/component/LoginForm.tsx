@@ -7,12 +7,12 @@ import {connect, DispatchProp} from "react-redux";
 import {RootState} from "type/state";
 import "./loginForm.less";
 
-interface Props extends FormComponentProps, DispatchProp<any> {
+interface Props extends FormComponentProps, DispatchProp {
     errorMessage?: string;
 }
 
 const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
-    const onSubmit = (event: any) => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
             if (!errors) {

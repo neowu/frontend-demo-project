@@ -4,7 +4,7 @@ import React from "react";
 import {connect, DispatchProp} from "react-redux";
 import {RootState} from "type/state";
 
-interface Props extends FormComponentProps, DispatchProp<any> {
+interface Props extends FormComponentProps, DispatchProp {
     ui: {
         types: Array<{
             name: string;
@@ -15,7 +15,7 @@ interface Props extends FormComponentProps, DispatchProp<any> {
 }
 
 const AddProduct: React.SFC<Props> = ({ui, form}) => {
-    const onSubmit = (event: any) => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
             // console.info(values);

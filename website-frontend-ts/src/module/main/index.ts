@@ -1,10 +1,10 @@
 import {message} from "antd";
-import {Handler, Listener, register} from "core-fe";
+import {Handler, Listener, register, Exception} from "core-fe";
 import {SagaIterator} from "redux-saga";
 import Main from "./component/Main";
 
 class ActionHandler extends Handler<{}> implements Listener {
-    *onError(error: any): SagaIterator {
+    *onError(error: Exception): SagaIterator {
         message.error(error.message, 5);
     }
 }

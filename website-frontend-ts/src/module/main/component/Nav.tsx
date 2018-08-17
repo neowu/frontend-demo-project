@@ -2,6 +2,7 @@ import {Icon, Layout, Menu} from "antd";
 import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import {RootState} from "type/state";
 
 interface Props {
     role: string | null;
@@ -69,6 +70,6 @@ const Nav: React.SFC<Props> = ({role}) => {
 };
 
 // state.app.user.currentUser.role
-export default connect((state: any) => ({
+export default connect((state: RootState) => ({
     role: null,
 }))(Nav);
