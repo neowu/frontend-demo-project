@@ -41,7 +41,7 @@ class ActionHandler extends Handler<State> implements Listener {
                 role: response.role,
                 name: response.name,
             },
-        });
+        }, "populateLoginResult");
         if (response.success) {
             yield put(push("/"));
         }
@@ -57,7 +57,7 @@ class ActionHandler extends Handler<State> implements Listener {
                 role: response.role,
                 name: response.name,
             },
-        });
+        }, "loadCurrentUser");
     }
 }
 
