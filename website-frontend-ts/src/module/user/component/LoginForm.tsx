@@ -7,9 +7,11 @@ import {connect, DispatchProp} from "react-redux";
 import {RootState} from "type/state";
 import "./loginForm.less";
 
-interface Props extends FormComponentProps, DispatchProp {
+interface StateProps {
     errorMessage?: string;
 }
+
+interface Props extends StateProps, FormComponentProps, DispatchProp {}
 
 const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,7 +57,7 @@ const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
     );
 };
 
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (state: RootState): StateProps => {
     return {
         errorMessage: state.app.user.login.errorMessage,
     };

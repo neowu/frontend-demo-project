@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {RootState} from "type/state";
 
 interface Props {
-    role: string | null;
+    role?: string;
 }
 
 const Nav: React.SFC<Props> = ({role}) => {
@@ -69,7 +69,10 @@ const Nav: React.SFC<Props> = ({role}) => {
     );
 };
 
-// state.app.user.currentUser.role
-export default connect((state: RootState) => ({
-    role: null,
-}))(Nav);
+const mapStateToProps = (state: RootState): Props => {
+    return {
+        role: state.app.user.currentUser.role,
+    };
+};
+
+export default connect(mapStateToProps)(Nav);

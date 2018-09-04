@@ -4,7 +4,7 @@ import React from "react";
 import {connect, DispatchProp} from "react-redux";
 import {RootState} from "type/state";
 
-interface Props extends FormComponentProps, DispatchProp {
+interface StateProps {
     ui: {
         types: Array<{
             name: string;
@@ -13,6 +13,8 @@ interface Props extends FormComponentProps, DispatchProp {
         now: Date | null;
     };
 }
+
+interface Props extends StateProps, FormComponentProps, DispatchProp {}
 
 const AddProduct: React.SFC<Props> = ({ui, form}) => {
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,8 +51,10 @@ const AddProduct: React.SFC<Props> = ({ui, form}) => {
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
-    ui: state.app.product.createProductUI,
-});
+const mapStateToProps = (state: RootState): StateProps => {
+    return {
+        ui: state.app.product.createProductUI,
+    };
+};
 
 export default connect(mapStateToProps)(Form.create()(AddProduct));
