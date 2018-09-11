@@ -155,6 +155,7 @@ const config = {
             },
         }),
         new webpack.ProgressPlugin({profile: env.profile}),
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
 };
 
