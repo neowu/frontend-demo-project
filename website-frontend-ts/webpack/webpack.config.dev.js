@@ -24,6 +24,7 @@ const config = {
     optimization: {
         splitChunks: {
             automaticNameDelimiter: "-",
+            maxAsyncRequests: 10,
         },
     },
     module: {
@@ -87,6 +88,7 @@ const config = {
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.ProgressPlugin(),
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
 };
 
