@@ -31,8 +31,8 @@ const config = {
         namedModules: true,
         runtimeChunk: "single",
         splitChunks: {
-            chunks: "all",
             automaticNameDelimiter: "-",
+            maxAsyncRequests: 10,
         },
         minimizer: [
             new UglifyJSPlugin({
@@ -53,7 +53,6 @@ const config = {
                 }
             }),
         ],
-
     },
     performance: {
         maxEntrypointSize: 1000000,

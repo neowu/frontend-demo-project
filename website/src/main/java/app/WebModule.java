@@ -7,6 +7,7 @@ import app.web.controller.AccountAJAXWebServiceImpl;
 import app.web.controller.HomeController;
 import app.web.controller.ProductAJAXWebServiceImpl;
 import app.web.interceptor.LoginInterceptor;
+import core.framework.http.HTTPMethod;
 import core.framework.module.Module;
 
 /**
@@ -22,8 +23,8 @@ public class WebModule extends Module {
         site().staticContent("/robots.txt");
 
         HomeController homeController = bind(HomeController.class);
-        route().get("/", homeController::home);
-        route().get("/:path(*)", homeController::home);
+        http().route(HTTPMethod.GET, "/", homeController::home);
+        http().route(HTTPMethod.GET, "/:path(*)", homeController::home);
 
         api().service(AccountAJAXWebService.class, bind(AccountAJAXWebServiceImpl.class));
         api().service(ProductAJAXWebService.class, bind(ProductAJAXWebServiceImpl.class));
