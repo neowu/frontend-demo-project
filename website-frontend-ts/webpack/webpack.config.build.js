@@ -23,6 +23,7 @@ const config = {
         alias: {
             conf: env.conf,
             lib: env.lib,
+            "@ant-design/icons/lib/dist$": `${env.src}/asset/ant-icons.ts`,
         },
     },
     devtool: "nosources-source-map",
