@@ -2,7 +2,6 @@ package app;
 
 import app.api.AccountAJAXWebService;
 import app.api.ProductAJAXWebService;
-import app.web.WebsiteErrorHandler;
 import app.web.controller.AccountAJAXWebServiceImpl;
 import app.web.controller.HomeController;
 import app.web.controller.ProductAJAXWebServiceImpl;
@@ -16,7 +15,6 @@ import core.framework.module.Module;
 public class WebModule extends Module {
     @Override
     protected void initialize() {
-        http().errorHandler(bind(WebsiteErrorHandler.class));
         http().intercept(bind(LoginInterceptor.class));
 
         site().staticContent("/static");

@@ -8,7 +8,7 @@ import core.framework.module.App;
 public class WebsiteApp extends App {
     @Override
     protected void initialize() {
-        log().writeToConsole();
+        log().appendToConsole();
         http().httpsPort(8443);
         site().session().local();
         site().security();
