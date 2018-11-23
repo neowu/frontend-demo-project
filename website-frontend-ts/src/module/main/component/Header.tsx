@@ -10,11 +10,11 @@ import "./header.less";
 
 interface Props {
     loggedIn: boolean;
-    userName?: string;
+    userName: string | null;
     logout: () => void;
 }
 
-const Header: React.SFC<Props> = ({logout, loggedIn, userName}) => {
+const Header: React.FunctionComponent<Props> = ({logout, loggedIn, userName}) => {
     const loginMenu = () => (
         <Menu mode="horizontal" defaultSelectedKeys={["1"]}>
             <Menu.Item key="1">

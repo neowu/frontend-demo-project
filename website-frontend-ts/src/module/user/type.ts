@@ -1,11 +1,11 @@
 export interface State {
     currentUser: {
         loggedIn: boolean;
-        role?: string;
-        name?: string;
+        role: string | null;
+        name: string | null;
     };
     login: {
         success: boolean;
-        errorMessage?: string;
+        errorMessage: string | null;
     };
 }

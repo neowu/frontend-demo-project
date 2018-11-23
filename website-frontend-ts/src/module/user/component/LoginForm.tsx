@@ -8,12 +8,12 @@ import {RootState} from "type/state";
 import "./loginForm.less";
 
 interface StateProps {
-    errorMessage?: string;
+    errorMessage: string | null;
 }
 
 interface Props extends StateProps, FormComponentProps, DispatchProp {}
 
-const LoginForm: React.SFC<Props> = ({dispatch, form, errorMessage}) => {
+const LoginForm: React.FunctionComponent<Props> = ({dispatch, form, errorMessage}) => {
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         form.validateFields((errors, values) => {

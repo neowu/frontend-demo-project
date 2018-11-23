@@ -1,8 +1,10 @@
 package app.api.user;
 
 import core.framework.api.json.Property;
+import core.framework.api.validate.NotNull;
 
 public class LoginAJAXResponse {
+    @NotNull
     @Property(name = "success")
     public Boolean success;
 

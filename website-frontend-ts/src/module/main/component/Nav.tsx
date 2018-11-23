@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {RootState} from "type/state";
 
 interface Props {
-    role?: string;
+    role: string | null;
 }
 
 const Nav: React.SFC<Props> = ({role}) => {

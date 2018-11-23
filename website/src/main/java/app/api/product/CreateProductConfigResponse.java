@@ -10,6 +10,7 @@ import java.util.List;
  * @author neo
  */
 public class CreateProductConfigResponse {
+    @NotNull
     @Property(name = "types")
     public List<ProductType> types;
 
@@ -18,8 +19,11 @@ public class CreateProductConfigResponse {
     public ZonedDateTime now = ZonedDateTime.now();
 
     public static class ProductType {
+        @NotNull
         @Property(name = "name")
         public String name;
+
+        @NotNull
         @Property(name = "value")
         public String value;
     }

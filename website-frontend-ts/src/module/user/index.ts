@@ -8,9 +8,12 @@ import {State} from "./type";
 const initialState: State = {
     currentUser: {
         loggedIn: false,
+        name: null,
+        role: null,
     },
     login: {
         success: false,
+        errorMessage: null,
     },
 };
 
@@ -20,9 +23,12 @@ class ActionHandler extends Handler<State> implements Listener {
         yield* this.setState({
             login: {
                 success: false,
+                errorMessage: null,
             },
             currentUser: {
                 loggedIn: false,
+                name: null,
+                role: null,
             },
         });
     }

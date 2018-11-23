@@ -1,7 +1,7 @@
 export interface CurrentUserAJAXResponse {
     loggedIn: boolean;
-    name?: string;
-    role?: string;
+    name: string | null;
+    role: string | null;
 }
 export interface LoginAJAXRequest {
     username: string;
@@ -9,9 +9,9 @@ export interface LoginAJAXRequest {
 }
 export interface LoginAJAXResponse {
     success: boolean;
-    name?: string;
-    role?: string;
-    errorMessage?: string;
+    name: string | null;
+    role: string | null;
+    errorMessage: string | null;
 }
 export interface ListProductResponse {}
 export interface GetProductResponse {}
