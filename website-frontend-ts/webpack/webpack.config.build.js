@@ -51,7 +51,7 @@ const config = {
                     map: {
                         inline: false,
                     },
-                }
+                },
             }),
         ],
     },
@@ -81,7 +81,6 @@ const config = {
                         loader: "css-loader",
                         options: {
                             sourceMap: true,
-                            minimize: {safe: true},
                             importLoaders: 2,
                         },
                     },
