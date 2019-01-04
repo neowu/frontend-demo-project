@@ -25,7 +25,7 @@ public class AccountAJAXWebServiceImpl implements AccountAJAXWebService {
             loginUser.name = "user";
             loginUser.role = "user";
             Sessions.setLoginUser(context.request(), loginUser);
-            response.success = true;
+            response.success = Boolean.TRUE;
             response.name = "user";
             response.role = "user";
         } else if ("admin".equals(request.username) && "123".equals(request.password)) {
@@ -34,11 +34,11 @@ public class AccountAJAXWebServiceImpl implements AccountAJAXWebService {
             loginUser.name = "admin";
             loginUser.role = "admin";
             Sessions.setLoginUser(context.request(), loginUser);
-            response.success = true;
+            response.success = Boolean.TRUE;
             response.name = "admin";
             response.role = "admin";
         } else {
-            response.success = false;
+            response.success = Boolean.FALSE;
             response.errorMessage = "login failed";
         }
         return response;
@@ -54,11 +54,11 @@ public class AccountAJAXWebServiceImpl implements AccountAJAXWebService {
         CurrentUserAJAXResponse response = new CurrentUserAJAXResponse();
         if (Sessions.isUserLogin(context.request())) {
             LoginUser loginUser = Sessions.loginUser(context.request());
-            response.loggedIn = true;
+            response.loggedIn = Boolean.TRUE;
             response.name = loginUser.name;
             response.role = loginUser.role;
         } else {
-            response.loggedIn = false;
+            response.loggedIn = Boolean.FALSE;
         }
         return response;
     }

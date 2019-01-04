@@ -13,10 +13,9 @@ import core.framework.web.WebContext;
 public class LoginInterceptor implements Interceptor {
     @Override
     public Response intercept(Invocation invocation) throws Exception {
-        WebContext context = invocation.context();
-        Request request = context.request();
-
         if (invocation.annotation(LoginRequired.class) != null) {
+            WebContext context = invocation.context();
+            Request request = context.request();
             Sessions.loginUser(request);
         }
 

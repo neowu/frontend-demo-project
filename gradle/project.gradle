@@ -3,6 +3,8 @@ import java.time.Instant
 defaultTasks 'clean', 'build'
 
 subprojects {
+    if (!childProjects.isEmpty()) return    // ignore parent project
+
     apply plugin: 'java'
     apply plugin: 'maven'
 
@@ -20,9 +22,9 @@ subprojects {
         mavenLocal()
     }
 
-    buildDir = "${rootDir}/build/${name}"
+    buildDir = "${rootDir}/build/${rootDir.relativePath(projectDir)}"
 
-    test {
+    tasks.named('test') {
         useJUnitPlatform()
         failFast = true
         testLogging.exceptionFormat 'full'
@@ -48,6 +50,6 @@ allprojects {
     idea.module.inheritOutputDirs = true
 }
 
-wrapper {
-    gradleVersion = '4.10.2'
+tasks.named('wrapper') {
+    gradleVersion = '5.1'
 }
