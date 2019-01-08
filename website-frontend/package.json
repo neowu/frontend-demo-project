@@ -13,9 +13,9 @@
   },
   "devDependencies": {
     "@babel/core": "7.2.2",
-    "@types/jest": "23.3.10",
-    "autoprefixer": "9.4.3",
-    "chalk": "2.4.1",
+    "@types/jest": "23.3.12",
+    "autoprefixer": "9.4.4",
+    "chalk": "2.4.2",
     "css-loader": "2.1.0",
     "file-loader": "3.0.1",
     "fork-ts-checker-webpack-plugin": "0.5.2",
@@ -34,19 +34,19 @@
     "stylelint-webpack-plugin": "0.10.5",
     "ts-import-plugin": "1.5.5",
     "ts-jest": "23.10.5",
-    "ts-loader": "5.3.2",
+    "ts-loader": "5.3.3",
     "ts-node": "7.0.1",
     "tslint": "5.12.0",
     "tslint-react": "3.6.0",
     "typescript": "3.2.2",
-    "uglifyjs-webpack-plugin": "2.1.0",
+    "uglifyjs-webpack-plugin": "2.1.1",
     "url-loader": "1.1.2",
     "webpack": "4.28.2",
     "webpack-dev-server": "3.1.14",
     "yargs": "12.0.5"
   },
   "dependencies": {
-    "antd": "3.11.6",
+    "antd": "3.12.1",
     "core-fe": "file:../../core-fe-project/build/dist"
   }
 }
