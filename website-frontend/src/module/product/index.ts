@@ -1,4 +1,4 @@
-import {call, Handler, Listener, loading, LocationChangedEvent, register} from "core-fe";
+import {call, Handler, Listener, loading, LocationChangedEvent, register, interval} from "core-fe";
 import {SagaIterator} from "redux-saga";
 import {ProductAJAXWebService} from "service/ProductAJAXWebService";
 import AddProduct from "./component/AddProduct";
@@ -38,10 +38,10 @@ class ActionHandler extends Handler<State> implements Listener {
         }
     }
 
-    // @interval(3)
-    // * onTick() {
-    //     console.log("from product module, print every 3 secs");
-    // }
+    @interval(3)
+    *onTick(): SagaIterator {
+        // console.log("from product module, print every 3 secs");
+    }
 }
 
 const actions = register(new ActionHandler("product", initialState));
