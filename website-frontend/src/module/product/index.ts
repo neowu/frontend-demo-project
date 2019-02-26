@@ -1,8 +1,9 @@
-import {call, Handler, Listener, loading, LocationChangedEvent, register, interval} from "core-fe";
+import {call, Loading, register, Interval, Module, Lifecycle} from "core-fe";
+import {Location} from "history";
 import {SagaIterator} from "redux-saga";
 import {ProductAJAXWebService} from "service/ProductAJAXWebService";
-import AddProduct from "./component/AddProduct";
-import ProductList from "./component/ProductList";
+import AddProductComponent from "./component/AddProduct";
+import ProductListComponent from "./component/ProductList";
 import {LOADING_PRODUCT_LIST, State} from "./type";
 
 const initialState: State = {
@@ -12,7 +13,7 @@ const initialState: State = {
     },
 };
 
-class ActionHandler extends Handler<State> implements Listener {
+class ProductModule extends Module<State> {
     *loadCreateProductConfig() {
         const effect = call(ProductAJAXWebService.createConfig);
         yield effect;
@@ -25,24 +26,27 @@ class ActionHandler extends Handler<State> implements Listener {
         });
     }
 
-    @loading(LOADING_PRODUCT_LIST)
+    @Loading(LOADING_PRODUCT_LIST)
     *loadProductList(): SagaIterator {
         yield call(ProductAJAXWebService.list);
     }
 
-    *onLocationChanged(event: LocationChangedEvent) {
-        if (event.location.pathname === "/product/add") {
+    @Lifecycle()
+    *onEnter(location: Location): SagaIterator {
+        if (location.pathname === "/product/add") {
             yield* this.loadCreateProductConfig();
-        } else if (event.location.pathname === "/product/list") {
+        } else if (location.pathname === "/product/list") {
             yield* this.loadProductList();
         }
     }
 
-    @interval(3)
+    @Interval(3)
     *onTick(): SagaIterator {
         // console.log("from product module, print every 3 secs");
     }
 }
 
-const actions = register(new ActionHandler("product", initialState));
-export {actions, AddProduct, ProductList};
+const module = register(new ProductModule("product", initialState));
+export const actions = module.getActions();
+export const AddProduct = module.attachLifecycle(AddProductComponent);
+export const ProductList = module.attachLifecycle(ProductListComponent);

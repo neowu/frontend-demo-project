@@ -1,8 +1,7 @@
 import {push} from "connected-react-router";
-import {call, Handler, Listener, register} from "core-fe";
+import {call, Lifecycle, Module, register} from "core-fe";
 import {put} from "redux-saga/effects";
 import {AccountAJAXWebService} from "service/AccountAJAXWebService";
-import LoginForm from "./component/LoginForm";
 import {State} from "./type";
 
 const initialState: State = {
@@ -17,7 +16,7 @@ const initialState: State = {
     },
 };
 
-class ActionHandler extends Handler<State> implements Listener {
+class UserModule extends Module<State, {}, {}> {
     *logout() {
         yield call(AccountAJAXWebService.logout);
         yield* this.setState({
@@ -53,7 +52,8 @@ class ActionHandler extends Handler<State> implements Listener {
         }
     }
 
-    *onInitialized() {
+    @Lifecycle()
+    *onRegister() {
         const effect = call(AccountAJAXWebService.currentUser);
         yield effect;
         const response = effect.result();
@@ -67,5 +67,6 @@ class ActionHandler extends Handler<State> implements Listener {
     }
 }
 
-const actions = register(new ActionHandler("user", initialState));
-export {actions, LoginForm};
+const module = register(new UserModule("user", initialState));
+export const actions = module.getActions();
+export {default as LoginForm} from "./component/LoginForm";
