@@ -32,7 +32,7 @@ class ProductModule extends Module<State> {
     }
 
     @Lifecycle()
-    *onEnter(location: Location): SagaIterator {
+    *onEnter(routeParameters: {}, location: Location): SagaIterator {
         if (location.pathname === "/product/add") {
             yield* this.loadCreateProductConfig();
         } else if (location.pathname === "/product/list") {
@@ -40,6 +40,7 @@ class ProductModule extends Module<State> {
         }
     }
 
+    @Lifecycle()
     @Interval(3)
     *onTick(): SagaIterator {
         // console.log("from product module, print every 3 secs");

@@ -124,6 +124,7 @@ const config = {
         new ForkTSCheckerPlugin({
             tsconfig: env.tsConfig,
             tslint: env.tslintConfig,
+            useTypescriptIncrementalApi: false,
             workers: ForkTSCheckerPlugin.TWO_CPUS_FREE,
         }),
         new StylelintPlugin({

@@ -82,7 +82,6 @@ const config = {
         new ForkTSCheckerPlugin({
             tsconfig: env.tsConfig,
             tslint: env.tslintConfig,
-            workers: ForkTSCheckerPlugin.TWO_CPUS_FREE,
         }),
         new HTMLPlugin({
             template: `${env.src}/index.html`,
