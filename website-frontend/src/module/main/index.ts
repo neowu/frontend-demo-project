@@ -1,13 +1,7 @@
-import {message} from "antd";
-import {Module, register, Exception} from "core-fe";
-import {SagaIterator} from "redux-saga";
+import {Module, register} from "core-fe";
 import MainComponent from "./component/Main";
 
-class MainModule extends Module<{}> {
-    *onError(error: Exception): SagaIterator {
-        message.error(error.message, 5);
-    }
-}
+class MainModule extends Module<{}> {}
 
 const module = register(new MainModule("main", {}));
 export const Main = module.attachLifecycle(MainComponent);

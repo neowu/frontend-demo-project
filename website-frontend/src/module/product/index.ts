@@ -21,7 +21,7 @@ class ProductModule extends Module<State> {
         const types = response.types.map(type => {
             return {name: type.name, value: type.value};
         });
-        yield* this.setState({
+        this.setState({
             createProductUI: {types, now: response.now},
         });
     }
@@ -32,7 +32,7 @@ class ProductModule extends Module<State> {
     }
 
     @Lifecycle()
-    *onEnter(routeParameters: {}, location: Location): SagaIterator {
+    *onRender(routeParameters: {}, location: Location): SagaIterator {
         if (location.pathname === "/product/add") {
             yield* this.loadCreateProductConfig();
         } else if (location.pathname === "/product/list") {

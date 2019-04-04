@@ -1,8 +1,7 @@
-import {push} from "connected-react-router";
 import {call, Lifecycle, Module, register} from "core-fe";
-import {put} from "redux-saga/effects";
 import {AccountAJAXWebService} from "service/AccountAJAXWebService";
 import {State} from "./type";
+import {SagaIterator} from "redux-saga";
 
 const initialState: State = {
     currentUser: {
@@ -19,7 +18,7 @@ const initialState: State = {
 class UserModule extends Module<State, {}, {}> {
     *logout() {
         yield call(AccountAJAXWebService.logout);
-        yield* this.setState({
+        this.setState({
             login: {
                 success: false,
                 errorMessage: null,
@@ -36,7 +35,7 @@ class UserModule extends Module<State, {}, {}> {
         const effect = call(AccountAJAXWebService.login, {username, password});
         yield effect;
         const response = effect.result();
-        yield* this.setState({
+        this.setState({
             login: {
                 success: response.success,
                 errorMessage: response.errorMessage,
@@ -48,16 +47,16 @@ class UserModule extends Module<State, {}, {}> {
             },
         });
         if (response.success) {
-            yield put(push("/"));
+            this.setHistory("/");
         }
     }
 
     @Lifecycle()
-    *onRegister() {
+    *onRender(): SagaIterator {
         const effect = call(AccountAJAXWebService.currentUser);
         yield effect;
         const response = effect.result();
-        yield* this.setState({
+        this.setState({
             currentUser: {
                 loggedIn: response.loggedIn,
                 role: response.role,
