@@ -4,7 +4,7 @@ const autoprefixer = require("autoprefixer");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const ForkTSCheckerPlugin = require("fork-ts-checker-webpack-plugin");
 const HTMLPlugin = require("html-webpack-plugin");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const TSImportPlugin = require("ts-import-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
@@ -36,15 +36,10 @@ const config = {
             maxAsyncRequests: 10,
         },
         minimizer: [
-            new UglifyJSPlugin({
+            new TerserPlugin({
                 cache: true,
                 parallel: true,
                 sourceMap: true,
-                uglifyOptions: {
-                    compress: {
-                        pure_funcs: ["console.info", "console.debug", "console.time", "console.timeEnd"],
-                    },
-                },
             }),
             new OptimizeCSSAssetsPlugin({
                 cssProcessorOptions: {
