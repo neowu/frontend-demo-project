@@ -1,8 +1,8 @@
 import {startApp} from "core-fe";
-import {ErrorHandlerModule} from "./module/ErrorHandlerModule";
+import {ErrorHandler} from "./module/ErrorHandler";
 import {Main} from "./module/main";
 
 startApp({
     componentType: Main,
-    errorHandlerModule: ErrorHandlerModule,
+    errorListener: new ErrorHandler(),
 });
