@@ -30,7 +30,19 @@ subprojects {
         testLogging.exceptionFormat 'full'
     }
 
+    tasks.named('jar') {
+        // put parent name in final jar name, to resolve collision of child projects with same name under different parents
+        if (parent.depth > 0) {
+            archiveBaseName = "${parent.name}-${archiveBaseName.get()}"
+        }
+    }
+
     afterEvaluate {
+        // update group on afterEvaluate since the project.gradle usually included in the first line of project build.gradle, which project.group is not assigned yet
+        if (parent.depth > 0) {
+            group = "${group}.${parent.name}"    // append parent into group, let child projects with same name under different parent have different artifactId
+        }
+
         tasks.withType(Jar).configureEach {
             manifest {
                 attributes 'Implementation-Title': project.name,
@@ -51,5 +63,5 @@ allprojects {
 }
 
 tasks.named('wrapper') {
-    gradleVersion = '5.1'
+    gradleVersion = '5.4'
 }
