@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "..",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react-native",
+    "lib": ["es2017", "esnext"],
+    "noEmit": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "downlevelIteration": true,
+    "strict": true
+  },
+  "include": ["../app", "../test"]
+}
