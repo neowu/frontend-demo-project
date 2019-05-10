@@ -1,4 +1,3 @@
-import {NavigationService} from "app/service/NavigationService";
 import {RootState} from "app/type/state";
 import {createRegularDecorator} from "core-native";
 

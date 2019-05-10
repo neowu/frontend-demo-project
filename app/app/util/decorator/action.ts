@@ -1,18 +1,7 @@
-import {OverlayManager} from "app/component/library";
 import {NavigationService} from "app/service/NavigationService";
 import {RootState} from "app/type/state";
 import {call, createActionHandlerDecorator, NetworkConnectionException} from "core-native";
 import {call as sagaCall, delay, race} from "redux-saga/effects";
-
-export function WithConfirm(text: string) {
-    return createActionHandlerDecorator(function*(handler) {
-        const effect = call(OverlayManager.confirm, text);
-        yield effect;
-        if (effect.result() === "ok") {
-            yield* handler();
-        }
-    });
-}
 
 export function GoBackOnError() {
     return createActionHandlerDecorator<RootState>(function*(handler) {

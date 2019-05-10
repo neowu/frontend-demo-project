@@ -1,5 +1,3 @@
-import {ConfigService} from "app/service/ConfigService";
-import {ThirdPartyLauncher} from "app/service/ThirdPartyLauncher";
 import {Vibration} from "react-native";
 
 interface Setting {
@@ -11,42 +9,33 @@ interface Setting {
 type SoundEffect = "a" | "b";
 
 export class SettingService {
-    private static readonly config: ConfigService<Setting> = new ConfigService("setting", {
+    private static readonly config = {
         allowSound: true,
         allowVibration: true,
         customerServiceURL: null,
-    });
+    };
 
-    static async init() {
-        await SettingService.config.load();
-    }
+    static async init() {}
 
     static vibrate() {
-        if (SettingService.config.get("allowVibration")) {
-            Vibration.vibrate(150, false);
-        }
+        Vibration.vibrate(150, false);
     }
 
-    static playSound(type: SoundEffect) {
-        if (SettingService.config.get("allowSound")) {
-            // Add in 2nd phase
-            // https://github.com/johnsonsu/react-native-sound-player
-        }
-    }
+    static playSound(type: SoundEffect) {}
 
     static openCustomerService() {
-        ThirdPartyLauncher.open(SettingService.config.get("customerServiceURL"));
+        return;
     }
 
     static isVibrationOn() {
-        return SettingService.config.get("allowVibration");
+        return false;
     }
 
     static isSoundOn() {
-        return SettingService.config.get("allowSound");
+        return false;
     }
 
     static async updateConfig<T extends keyof Setting>(key: T, value: NonNullable<Setting[T]>) {
-        await SettingService.config.update(key, value);
+        return;
     }
 }

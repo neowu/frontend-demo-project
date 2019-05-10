@@ -1,9 +1,9 @@
 import {HomeComponent} from "app/module/common/home";
-import {LoginComponent, Demo} from "app/module/main";
-import React from "react";
-import {createAppContainer, createBottomTabNavigator, createSwitchNavigator, NavigationActions, NavigationContainerComponent, NavigationRouteConfig, BottomTabNavigatorConfig, createStackNavigator} from "react-navigation";
+import {LoginComponent} from "app/module/main";
 import {Throttle} from "app/util/decorator/regular";
-import {Icon, IconClass, Text} from "app/component/library";
+import {Accordion, Text} from "native-base";
+import React from "react";
+import {BottomTabNavigatorConfig, createAppContainer, createBottomTabNavigator, createStackNavigator, createSwitchNavigator, NavigationActions, NavigationContainerComponent, NavigationRouteConfig} from "react-navigation";
 
 type Switch = "Login" | "Core" | "Demo"; // TODO: remove Demo
 type TabsScreen = "Home" | "Report" | "Team" | "Account";
@@ -25,14 +25,7 @@ export class NavigationService {
         const tabsNavigatorConfig: BottomTabNavigatorConfig = {
             defaultNavigationOptions: ({navigation}) => ({
                 tabBarIcon: ({focused, tintColor}) => {
-                    // TODO: replace icon
-                    const tabsIcons: Record<TabsScreen, IconClass> = {
-                        Home: IconClass.TOPUP_RECORD,
-                        Report: IconClass.REPORT_FORM,
-                        Team: IconClass.TEAM_MANAGEMENT,
-                        Account: IconClass.USER,
-                    };
-                    return <Icon size="title" type={tabsIcons[navigation.state.routeName]} style={{color: focused ? tintColor! : undefined}} />;
+                    return <Accordion dataArray={[""]} icon="add" expandedIcon="remove"/>;
                 },
                 tabBarLabel: ({focused, tintColor}) => {
                     const tabsIcons: Record<TabsScreen, string> = {
@@ -42,7 +35,7 @@ export class NavigationService {
                         Account: "我的",
                     };
                     return (
-                        <Text style={{color: focused ? tintColor! : undefined}} size="small">
+                        <Text>
                             {tabsIcons[navigation.state.routeName]}
                         </Text>
                     );
@@ -61,13 +54,12 @@ export class NavigationService {
         const CoreStack = createStackNavigator(coreNavigator, {headerMode: "none"});
         const AppContainer = createAppContainer(
             createSwitchNavigator({
-                Demo,
                 Login: LoginComponent,
                 Core: CoreStack,
             })
         );
         // return <AppContainer persistenceKey={__DEV__ ? "app.dev.route" : null} ref={(_: any) => (NavigationService.rootNavigator = _)} />;
-        return <AppContainer ref={(_: any) => (NavigationService.rootNavigator = _)} />;
+        return <AppContainer ref={(_: any) => (NavigationService.rootNavigator = _)}/>;
     }
 
     static getRouteInfo() {

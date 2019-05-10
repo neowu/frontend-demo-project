@@ -1,4 +1,3 @@
-import {OverlayManager} from "app/component/library";
 import React from "react";
 import {Clipboard} from "react-native";
 
@@ -72,7 +71,7 @@ export function getRandomElement<T>(array: T[]): T | null {
 
 export function copyToClipboard(str: string) {
     Clipboard.setString(str);
-    OverlayManager.toast("复制成功");
+    // OverlayManager.toast("复制成功");
 }
 
 export function deepClone<T extends object>(object: T): T {

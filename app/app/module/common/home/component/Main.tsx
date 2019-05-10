@@ -1,7 +1,7 @@
-import {Text, Button} from "app/component/library";
 import {RootState} from "app/type/state";
+import {Button, Text} from "native-base";
 import React from "react";
-import {StyleSheet, SafeAreaView} from "react-native";
+import {StyleSheet, SafeAreaView, } from "react-native";
 import {connect, DispatchProp} from "react-redux";
 import {NavigationService} from "app/service/NavigationService";
 
@@ -13,7 +13,9 @@ class HomeMain extends React.PureComponent<Props> {
     render() {
         return (
             <SafeAreaView>
-                <Button text="Login" onPress={() => NavigationService.switch("Login")} />
+                <Button>
+                    <Text>Click Me!</Text>
+                </Button>
             </SafeAreaView>
         );
     }

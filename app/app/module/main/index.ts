@@ -6,7 +6,6 @@ import {SilentOnNetworkConnectionError, TimeLimit} from "app/util/decorator/acti
 import {call, Interval, Lifecycle, Loading, Log, Module, register} from "core-native";
 import SplashScreen from "react-native-splash-screen";
 import {SagaIterator} from "redux-saga";
-import Demo from "./component/Demo";
 import AppMain from "./component/Main";
 import {CurrentUser, State} from "./type";
 
@@ -87,4 +86,4 @@ class AppModule extends Module<State> {
 const module = register(new AppModule("main", initialState));
 export const actions = module.getActions();
 export const AppComponent = module.attachLifecycle(AppMain);
-export {LoginComponent, Demo};
+export {LoginComponent};
