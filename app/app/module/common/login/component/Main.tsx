@@ -2,7 +2,7 @@ import React from "react";
 import {connect, DispatchProp} from "react-redux";
 import {InputValidator} from "app/service/InputValidator";
 import {actions as mainActions} from "app/module/main";
-import { Container, Header, Content, Form, Item, Input } from "native-base";
+import {Container, Header, Content, Form, Item, Input} from "native-base";
 
 interface StateProps {}
 

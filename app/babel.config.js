@@ -1,15 +1,15 @@
-let contextEnv = process.env["APP_BUILD_ENV"] || null; // NULL means default
+const projectPackageName = require("./package.json").name;
+const appBuildEnv = process.env["APP_BUILD_ENV"] || null; // NULL means default
 
 module.exports = {
     presets: ["module:metro-react-native-babel-preset"],
     plugins: [
         ["@babel/plugin-proposal-decorators", {decoratorsBeforeExport: true}],
-        [
-            "module-resolver",
+        ["module-resolver",
             {
                 root: ["."],
-                alias: {"^app/conf/(.+)": contextEnv ? `app/conf/${contextEnv}/\\1` : "app/conf/\\1"},
-            },
+                alias: {"^app/conf/(.+)": appBuildEnv ? `${projectPackageName}/conf/${appBuildEnv}/\\1` : "app/conf/\\1"},
+            }
         ],
     ],
     env: {

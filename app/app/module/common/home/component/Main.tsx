@@ -1,22 +1,32 @@
 import {RootState} from "app/type/state";
-import {Button, Text} from "native-base";
+import {Button, Col, Container, Grid, Header, Text} from "native-base";
 import React from "react";
-import {StyleSheet, SafeAreaView, } from "react-native";
+import {StyleSheet} from "react-native";
+import {NavigationScreenProp} from "react-navigation";
 import {connect, DispatchProp} from "react-redux";
-import {NavigationService} from "app/service/NavigationService";
+import {actions} from "../index";
 
 interface StateProps {}
 
-interface Props extends StateProps, DispatchProp {}
+interface Props extends StateProps, DispatchProp {
+    navigation: NavigationScreenProp<any, any>;
+}
 
 class HomeMain extends React.PureComponent<Props> {
     render() {
         return (
-            <SafeAreaView>
-                <Button>
-                    <Text>Click Me!</Text>
-                </Button>
-            </SafeAreaView>
+            <React.Fragment>
+                <Container>
+                    <Header />
+                    <Grid>
+                        <Col style={{backgroundColor: "#635DB7", height: 200}} />
+                        <Col style={{backgroundColor: "#00CE9F", height: 200}} />
+                        <Button onPress={() => this.props.dispatch(actions.goLogin())}>
+                            <Text>Click Me!</Text>
+                        </Button>
+                    </Grid>
+                </Container>
+            </React.Fragment>
         );
     }
 }

@@ -1,40 +1,23 @@
+import {LoginComponent} from "app/module/common/login";
 import {NavigationService} from "app/service/NavigationService";
 import {RootState} from "app/type/state";
 import {showLoading} from "core-native";
-import {Container, Header} from "native-base";
 import React from "react";
-import {Col, Grid} from "react-native-easy-grid";
+import {createAppContainer, createStackNavigator, NavigationContainerComponent, NavigationScreenProp} from "react-navigation";
 import {connect, DispatchProp} from "react-redux";
+import {HomeComponent} from "../../common/home";
 
 interface StateProps {
     showGlobalLoading: boolean;
 }
 
 interface Props extends StateProps, DispatchProp {
+    navigation: NavigationScreenProp<any, any>;
 }
 
 class AppMain extends React.PureComponent<Props> {
-    // Use pre-stored value, to make sure every render() uses same Context.Provider value
-    // Ref: https://reactjs.org/docs/context.html#caveats
-    private readonly rootRouter: React.ReactNode = NavigationService.rootRouter();
-
-    // onModalRequestClose is required by Android
-    onModalRequestClose = () => {
-    };
-
     render() {
-        const {showGlobalLoading} = this.props;
-        return (
-            <React.Fragment>
-                <Container>
-                    <Header/>
-                    <Grid>
-                        <Col style={{backgroundColor: "#635DB7", height: 200}}/>
-                        <Col style={{backgroundColor: "#00CE9F", height: 200}}/>
-                    </Grid>
-                </Container>
-            </React.Fragment>
-        );
+        return <AppContainer ref={(_: NavigationContainerComponent) => (NavigationService.rootNavigator = _)} />;
     }
 }
 
@@ -45,5 +28,11 @@ const mapStateToProps = (state: RootState): StateProps => {
     };
 };
 
-export default connect(mapStateToProps)(AppMain);
+const MainNavigator = createStackNavigator({
+    Home: {screen: HomeComponent},
+    Login: {screen: LoginComponent},
+});
 
+const AppContainer = createAppContainer(MainNavigator);
+
+export default connect(mapStateToProps)(AppMain);

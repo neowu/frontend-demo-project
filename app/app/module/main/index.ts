@@ -19,7 +19,7 @@ const initialState: State = {
 
 class AppModule extends Module<State> {
     @Lifecycle()
-    * onEnter(): SagaIterator {
+    *onEnter(): SagaIterator {
         try {
             // Register logger context
             // this.logger.setContext({
@@ -38,13 +38,13 @@ class AppModule extends Module<State> {
 
     @Lifecycle()
     @Interval(5)
-    * onTick(): SagaIterator {
+    *onTick(): SagaIterator {
         yield* this.fetchNotification();
     }
 
     @Log()
     @Loading()
-    * login(request: LoginAJAXRequest): SagaIterator {
+    *login(request: LoginAJAXRequest): SagaIterator {
         const effect = call(AccountAJAXWebService.login, request);
         yield effect;
         const response = effect.result();
@@ -57,25 +57,25 @@ class AppModule extends Module<State> {
     }
 
     @Log()
-    * logout(): SagaIterator {
+    *logout(): SagaIterator {
         yield call(AccountAJAXWebService.logout);
         yield* this.populateCurrentUser({loggedIn: false});
     }
 
     @SilentOnNetworkConnectionError()
-    * fetchNotification(): SagaIterator {
+    *fetchNotification(): SagaIterator {
         if (this.state.currentUser) {
             // TODO
         }
     }
 
-    * populateCurrentUser(currentUser: CurrentUser): SagaIterator {
+    *populateCurrentUser(currentUser: CurrentUser): SagaIterator {
         this.setState({currentUser});
-        NavigationService.switch(currentUser ? "Core" : "Login");
+        // NavigationService.switch(currentUser ? "Core" : "Login");
     }
 
     @TimeLimit(10)
-    private* fetchCurrentUser(): SagaIterator {
+    private *fetchCurrentUser(): SagaIterator {
         const effect = call(AccountAJAXWebService.currentUser);
         yield effect;
         const response = effect.result();
