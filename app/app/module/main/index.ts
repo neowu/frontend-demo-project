@@ -1,9 +1,7 @@
 import {LoginComponent} from "app/module/common/login";
 import {AccountAJAXWebService} from "app/service/api/AccountAJAXWebService";
-import {NavigationService} from "app/service/NavigationService";
 import {LoginAJAXRequest} from "app/type/api";
-import {SilentOnNetworkConnectionError, TimeLimit} from "app/util/decorator/action";
-import {call, Interval, Lifecycle, Loading, Log, Module, register} from "core-native";
+import {call, Lifecycle, Loading, Log, Module, register} from "core-native";
 import SplashScreen from "react-native-splash-screen";
 import {SagaIterator} from "redux-saga";
 import AppMain from "./component/Main";
@@ -36,12 +34,6 @@ class AppModule extends Module<State> {
         }
     }
 
-    @Lifecycle()
-    @Interval(5)
-    *onTick(): SagaIterator {
-        yield* this.fetchNotification();
-    }
-
     @Log()
     @Loading()
     *login(request: LoginAJAXRequest): SagaIterator {
@@ -50,7 +42,6 @@ class AppModule extends Module<State> {
         const response = effect.result();
         if (response.success) {
             yield* this.populateCurrentUser({name: response.name, loggedIn: true, role: response.role});
-            yield* this.fetchNotification();
         } else {
             // TODO
         }
@@ -62,19 +53,11 @@ class AppModule extends Module<State> {
         yield* this.populateCurrentUser({loggedIn: false});
     }
 
-    @SilentOnNetworkConnectionError()
-    *fetchNotification(): SagaIterator {
-        if (this.state.currentUser) {
-            // TODO
-        }
-    }
-
     *populateCurrentUser(currentUser: CurrentUser): SagaIterator {
         this.setState({currentUser});
         // NavigationService.switch(currentUser ? "Core" : "Login");
     }
 
-    @TimeLimit(10)
     private *fetchCurrentUser(): SagaIterator {
         const effect = call(AccountAJAXWebService.currentUser);
         yield effect;

@@ -5,6 +5,10 @@ import {NetworkService} from "app/service/NetworkService";
 import {SettingService} from "app/service/SettingService";
 import {startApp} from "core-native";
 import {YellowBox} from "react-native";
+import {Navigation} from "./module/Navigation";
+
+// load navigation before start
+Navigation.rootRouter();
 
 export function bootstrap() {
     startApp({
