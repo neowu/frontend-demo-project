@@ -30,7 +30,7 @@ export class NetworkService {
     }
 
     static async ajax<TRequest, TResponse>(method: string, path: string, pathParams: object, request: TRequest, isRetry: boolean = false): Promise<TResponse> {
-        const fullPath = "https://api:8443" + path;
+        const fullPath = "https://localhost:8443" + path;
         return await ajax<TRequest, TResponse>(method, fullPath, pathParams, request);
     }
 }
