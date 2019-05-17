@@ -1,4 +1,4 @@
-import {LoginComponent} from "app/module/common/login";
+import {LoginComponent} from "app/module/login";
 import {AccountAJAXWebService} from "app/service/api/AccountAJAXWebService";
 import {LoginAJAXRequest} from "app/type/api";
 import {call, Lifecycle, Loading, Log, Module, register} from "core-native";

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {createAppContainer, createStackNavigator, NavigationActions, NavigationContainerComponent} from "react-navigation";
-import {HomeComponent} from "./common/home";
-import {LoginComponent} from "./common/login";
+import {HomeComponent} from "./home";
+import {LoginComponent} from "./login";
 
 const MainNavigator = createStackNavigator({
     Home: {screen: HomeComponent},
