@@ -12,14 +12,9 @@ export function bootstrap() {
         registeredAppName: "demo",
         componentType: AppComponent,
         errorListener: new ErrorHandler(),
-        logger: {
-            sendingFrequency: 10,
-            serverURL: appConfig.logServer,
-            maskedKeywords: [/password/i],
-        },
         beforeRendering: async () => {
             YellowBox.ignoreWarnings(["Require cycle", "Async Storage"]);
-            await NetworkService.init();
+            await NetworkService.init(appConfig.apiURL);
             await SettingService.init();
         },
     });

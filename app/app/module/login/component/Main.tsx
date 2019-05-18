@@ -1,8 +1,7 @@
+import {actions as mainActions} from "app/module/main";
+import {Button, Container, Content, Form, Input, Item, Text} from "native-base";
 import React from "react";
 import {connect, DispatchProp} from "react-redux";
-import {InputValidator} from "app/service/InputValidator";
-import {actions as mainActions} from "app/module/main";
-import {Container, Header, Content, Form, Item, Input} from "native-base";
 
 interface StateProps {}
 
@@ -30,39 +29,26 @@ class LoginMain extends React.PureComponent<Props, State> {
 
     onChangePassword = (password: string) => this.setState({password});
 
-    validateUsername = () => {
-        const nameErrorMessage = InputValidator.validateUsername(this.state.username);
-        this.setState({nameErrorMessage});
-        return nameErrorMessage === null;
-    };
-
-    validatePassword = () => {
-        const passwordErrorMessage = InputValidator.validatePassword(this.state.password);
-        this.setState({passwordErrorMessage});
-        return passwordErrorMessage === null;
-    };
-
     login = () => {
         const {username, password} = this.state;
-        const validators = [this.validateUsername(), this.validatePassword()];
-        if (validators.every(_ => _)) {
-            this.props.dispatch(mainActions.login({username, password}));
-        }
+        this.props.dispatch(mainActions.login({username, password}));
     };
 
     render() {
         const {username, password, nameErrorMessage, passwordErrorMessage} = this.state;
         return (
             <Container>
-                <Header />
                 <Content>
                     <Form>
                         <Item>
-                            <Input placeholder="Username" />
+                            <Input placeholder="Username" onChangeText={this.onChangeUsername} autoCapitalize={"none"} autoCorrect={false} />
                         </Item>
                         <Item last>
-                            <Input placeholder="Password" />
+                            <Input placeholder="Password" onChangeText={this.onChangePassword} secureTextEntry />
                         </Item>
+                        <Button onPress={this.login}>
+                            <Text>Login</Text>
+                        </Button>
                     </Form>
                 </Content>
             </Container>

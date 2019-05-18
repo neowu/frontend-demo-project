@@ -13,7 +13,8 @@
     "allowSyntheticDefaultImports": true,
     "suppressImplicitAnyIndexErrors": true,
     "downlevelIteration": true,
+    "resolveJsonModule": true,
     "strict": true
   },
-  "include": ["../app", "../test"]
+  "include": ["../app"]
 }

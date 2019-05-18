@@ -1,15 +1,16 @@
-import appConfig from "app/conf/default";
 import {Device} from "app/service/Device";
 import {ajax, setRequestInterceptor, setResponseInterceptor} from "core-native";
+import packageConfig from "../../package.json";
 
 export class NetworkService {
     private static readonly config = {
+        apiURL: "",
         sessionId: "",
     };
 
     static getHTTPHeaders() {
         const headers = {
-            Version: appConfig.version,
+            Version: packageConfig.version,
             DeviceOS: Device.os(),
             DeviceId: Device.id(),
         };
@@ -17,7 +18,8 @@ export class NetworkService {
         return sessionId ? {...headers, SessionId: sessionId} : headers;
     }
 
-    static async init() {
+    static async init(apiURL: string) {
+        NetworkService.config.apiURL = apiURL;
         setRequestInterceptor(request => {
             request.headers = {...request.headers, ...NetworkService.getHTTPHeaders()};
         });
@@ -29,8 +31,8 @@ export class NetworkService {
         });
     }
 
-    static async ajax<TRequest, TResponse>(method: string, path: string, pathParams: object, request: TRequest, isRetry: boolean = false): Promise<TResponse> {
-        const fullPath = "https://localhost:8443" + path;
+    static async ajax<TRequest, TResponse>(method: string, path: string, pathParams: object, request: TRequest): Promise<TResponse> {
+        const fullPath = NetworkService.config.apiURL + path;
         return await ajax<TRequest, TResponse>(method, fullPath, pathParams, request);
     }
 }
