@@ -17,12 +17,12 @@ const initialState: State = {
 
 class AppModule extends Module<State> {
     @Lifecycle()
-    * onEnter(): SagaIterator {
+    *onEnter(): SagaIterator {
         yield* this.fetchCurrentUser();
     }
 
     @Loading()
-    * login(request: LoginAJAXRequest): SagaIterator {
+    *login(request: LoginAJAXRequest): SagaIterator {
         const effect = call(AccountAJAXWebService.login, request);
         yield effect;
         const response = effect.result();
@@ -34,20 +34,20 @@ class AppModule extends Module<State> {
         }
     }
 
-    * logout(): SagaIterator {
+    *logout(): SagaIterator {
         yield call(AccountAJAXWebService.logout);
         yield* this.populateCurrentUser({loggedIn: false});
     }
 
-    * populateCurrentUser(currentUser: CurrentUser): SagaIterator {
+    *populateCurrentUser(currentUser: CurrentUser): SagaIterator {
         this.setState({currentUser});
     }
 
-    * navigate(screen: string): SagaIterator {
+    *navigate(screen: string): SagaIterator {
         Navigation.switch(screen);
     }
 
-    private* fetchCurrentUser(): SagaIterator {
+    private *fetchCurrentUser(): SagaIterator {
         const effect = call(AccountAJAXWebService.currentUser);
         yield effect;
         const response = effect.result();

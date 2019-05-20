@@ -4,8 +4,7 @@ import React from "react";
 import {connect, DispatchProp} from "react-redux";
 import {Navigation} from "app/module/Navigation";
 
-interface StateProps {
-}
+interface StateProps {}
 
 interface Props extends StateProps, DispatchProp {
     userName: string | null;
