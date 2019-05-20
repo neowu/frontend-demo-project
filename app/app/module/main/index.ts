@@ -21,7 +21,6 @@ class AppModule extends Module<State> {
         yield* this.fetchCurrentUser();
     }
 
-    @Loading()
     *login(request: LoginAJAXRequest): SagaIterator {
         const effect = call(AccountAJAXWebService.login, request);
         yield effect;

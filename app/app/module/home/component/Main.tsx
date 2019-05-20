@@ -1,25 +1,40 @@
+import {actions} from "app/module/main";
+import {Navigation} from "app/module/Navigation";
 import {RootState} from "app/type/state";
 import {Button, Container, Text} from "native-base";
 import React from "react";
 import {connect, DispatchProp} from "react-redux";
-import {Navigation} from "app/module/Navigation";
 
-interface StateProps {}
+interface StateProps {
+}
 
 interface Props extends StateProps, DispatchProp {
+    loggedIn: boolean;
     userName: string | null;
 }
 
 class HomeMain extends React.PureComponent<Props> {
     showLoginButton() {
-        if (this.props.userName !== null) {
-            return null;
-        } else {
+        if (!this.props.loggedIn) {
             return (
                 <Button onPress={() => Navigation.switch("Login")}>
                     <Text>Login</Text>
                 </Button>
             );
+        } else {
+            return null;
+        }
+    }
+
+    showLogoutButton() {
+        if (this.props.loggedIn) {
+            return (
+                <Button onPress={() => this.props.dispatch(actions.logout())}>
+                    <Text>Logout</Text>
+                </Button>
+            );
+        } else {
+            return null;
         }
     }
 
@@ -28,6 +43,7 @@ class HomeMain extends React.PureComponent<Props> {
             <Container>
                 <Text>Welcome, {this.props.userName}</Text>
                 {this.showLoginButton()}
+                {this.showLogoutButton()}
             </Container>
         );
     }
@@ -35,6 +51,7 @@ class HomeMain extends React.PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): StateProps => {
     return {
+        loggedIn: state.app.main.currentUser.loggedIn,
         userName: state.app.main.currentUser.name,
     };
 };
