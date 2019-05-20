@@ -2,10 +2,12 @@ import * as React from "react";
 import {createAppContainer, createStackNavigator, NavigationActions, NavigationContainerComponent} from "react-navigation";
 import {HomeComponent} from "./home";
 import {LoginComponent} from "./login";
+import {ProductListComponent} from "./product";
 
 const MainNavigator = createStackNavigator({
     Home: {screen: HomeComponent},
     Login: {screen: LoginComponent},
+    Product: {screen: ProductListComponent},
 });
 
 const AppContainer = createAppContainer(MainNavigator);
