@@ -1,7 +1,7 @@
 import {LoginComponent} from "app/module/login";
 import {AccountAJAXWebService} from "app/service/api/AccountAJAXWebService";
 import {LoginAJAXRequest} from "app/type/api";
-import {call, Lifecycle, Log, Module, register} from "core-native";
+import {call, Lifecycle, Loading, Module, register} from "core-native";
 import SplashScreen from "react-native-splash-screen";
 import {SagaIterator} from "redux-saga";
 import {Navigation} from "../Navigation";
@@ -26,6 +26,7 @@ class AppModule extends Module<State> {
         }
     }
 
+    @Loading()
     *login(request: LoginAJAXRequest): SagaIterator {
         const effect = call(AccountAJAXWebService.login, request);
         yield effect;
@@ -38,7 +39,6 @@ class AppModule extends Module<State> {
         }
     }
 
-    @Log()
     *logout(): SagaIterator {
         yield call(AccountAJAXWebService.logout);
         yield* this.populateCurrentUser({loggedIn: false});
@@ -46,10 +46,6 @@ class AppModule extends Module<State> {
 
     *populateCurrentUser(currentUser: CurrentUser): SagaIterator {
         this.setState({currentUser});
-    }
-
-    *navigate(screen: string): SagaIterator {
-        Navigation.switch(screen);
     }
 
     private *fetchCurrentUser(): SagaIterator {
