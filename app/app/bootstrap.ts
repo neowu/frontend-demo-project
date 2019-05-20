@@ -4,7 +4,7 @@ import {AppComponent} from "app/module/main";
 import {NetworkService} from "app/service/NetworkService";
 import {startApp} from "core-native";
 import {YellowBox} from "react-native";
-import "react-native-gesture-handler";
+// import "react-native-gesture-handler";
 
 export function bootstrap() {
     startApp({

@@ -1,11 +1,11 @@
 import {RootState} from "app/type/state";
 import {Button, Container, Text} from "native-base";
 import React from "react";
-import {StyleSheet} from "react-native";
 import {connect, DispatchProp} from "react-redux";
-import {actions} from "../index";
+import {Navigation} from "app/module/Navigation";
 
-interface StateProps {}
+interface StateProps {
+}
 
 interface Props extends StateProps, DispatchProp {
     userName: string | null;
@@ -17,7 +17,7 @@ class HomeMain extends React.PureComponent<Props> {
             return null;
         } else {
             return (
-                <Button onPress={() => this.props.dispatch(actions.goLogin())}>
+                <Button onPress={() => Navigation.switch("Login")}>
                     <Text>Login</Text>
                 </Button>
             );
@@ -41,5 +41,3 @@ const mapStateToProps = (state: RootState): StateProps => {
 };
 
 export default connect(mapStateToProps)(HomeMain);
-
-const styles = StyleSheet.create({});
