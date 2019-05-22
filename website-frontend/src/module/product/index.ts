@@ -14,7 +14,7 @@ const initialState: State = {
 };
 
 class ProductModule extends Module<State> {
-    *loadCreateProductConfig() {
+    *loadCreateProductConfig(): SagaIterator {
         const effect = call(ProductAJAXWebService.createConfig);
         yield effect;
         const response = effect.result();

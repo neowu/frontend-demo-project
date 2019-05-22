@@ -16,7 +16,7 @@ const initialState: State = {
 };
 
 class UserModule extends Module<State, {}, {}> {
-    *logout() {
+    *logout(): SagaIterator {
         yield call(AccountAJAXWebService.logout);
         this.setState({
             login: {
@@ -31,7 +31,7 @@ class UserModule extends Module<State, {}, {}> {
         });
     }
 
-    *login(username: string, password: string) {
+    *login(username: string, password: string): SagaIterator {
         const effect = call(AccountAJAXWebService.login, {username, password});
         yield effect;
         const response = effect.result();

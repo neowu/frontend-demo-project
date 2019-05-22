@@ -1,1 +1,1 @@
-module.exports = require("./webpack/stylelint.json");
+module.exports = require("./webpack/lint/stylelint.json");

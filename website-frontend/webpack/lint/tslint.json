@@ -1,6 +1,10 @@
 {
+  "rulesDirectory": "./",
   "extends": ["tslint:recommended", "tslint-react"],
   "rules": {
+    "custom-lint": true,
+    "no-empty": false,
+    "object-literal-key-quotes": [true, "as-needed"],
     "arrow-parens": [true, "ban-single-arg-parens"],
     "interface-name": [true, "never-prefix"],
     "jsx-boolean-value": [true, "never"],
