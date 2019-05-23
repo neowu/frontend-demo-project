@@ -33,7 +33,7 @@ function checkTypeScript() {
 function checkLint() {
     console.info(chalk`{green.bold [task]} {white.bold Check Lint}`);
     // Always re-compile the lint rule (ts) into js
-    // spawn("tsc", ["-p", "node/lint/lintTSCompilerConfig.json"]);
+    spawn("tsc", ["-p", "node/lint/lintTSConfig.json"]);
     spawn("tslint", ["--config", "./tslint.json", "{app,test}/**/*.{ts,tsx}"]);
 }
 

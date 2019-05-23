@@ -8,3 +8,4 @@ build/
 .DS_Store
 website/src/main/dist
 .vscode
+customLintRule.js
