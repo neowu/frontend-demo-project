@@ -17,15 +17,15 @@
     "native-base": "^2.12.1",
     "react": "16.8.6",
     "react-native": "0.59.8",
-    "react-native-device-info": "2.0.0",
+    "react-native-device-info": "2.0.2",
     "react-native-gesture-handler": "1.2.1",
     "react-navigation": "3.11.0"
   },
   "devDependencies": {
-    "@babel/core": "7.4.4",
+    "@babel/core": "7.4.5",
     "@babel/plugin-proposal-decorators": "7.4.4",
     "@babel/plugin-transform-flow-strip-types": "^7.4.4",
-    "@babel/runtime": "7.4.4",
+    "@babel/runtime": "7.4.5",
     "axios": "0.18.0",
     "babel-plugin-module-resolver": "3.2.0",
     "babel-plugin-transform-remove-console": "6.9.4",
