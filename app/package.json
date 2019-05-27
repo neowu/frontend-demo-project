@@ -10,7 +10,6 @@
     "debug": "open \"rndebugger://set-debugger-loc?host=localhost&port=8081\"",
     "api": "node node/api.js",
     "module": "node node/module.js",
-    "icon": "node node/icon.js",
     "bundle-ios": "react-native bundle --platform ios --entry-file index.js --dev false --reset-cache --bundle-output ./ios/main.jsbundle --assets-dest ios"
   },
   "dependencies": {
