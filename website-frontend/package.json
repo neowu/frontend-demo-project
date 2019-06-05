@@ -11,6 +11,9 @@
     "format": "prettier --config webpack/prettier.json --write \"{src,test}/**/*.{ts,tsx,less}\"",
     "api": "node webpack/api.js"
   },
+  "resolutions": {
+    "@types/react": "*"
+  },
   "devDependencies": {
     "@types/jest": "24.0.13",
     "autoprefixer": "9.5.1",

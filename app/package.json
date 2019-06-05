@@ -12,6 +12,9 @@
     "module": "node node/module.js",
     "bundle-ios": "react-native bundle --platform ios --entry-file index.js --dev false --reset-cache --bundle-output ./ios/main.jsbundle --assets-dest ios"
   },
+  "resolutions": {
+    "@types/react": "*"
+  },
   "dependencies": {
     "core-native": "file:../../core-native-project/build/dist",
     "native-base": "^2.12.1",
