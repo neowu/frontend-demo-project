@@ -9,18 +9,16 @@ interface StateProps {
     showLoading: boolean;
 }
 
-interface Props extends StateProps, DispatchProp {
-}
+interface Props extends StateProps, DispatchProp {}
 
 class Component extends React.PureComponent<Props> {
     render() {
-        return (
-            this.props.showLoading ?
-                <Spinner/>
-                :
-                <Content>
-                    <Text>product list</Text>
-                </Content>
+        return this.props.showLoading ? (
+            <Spinner />
+        ) : (
+            <Content>
+                <Text>product list</Text>
+            </Content>
         );
     }
 }

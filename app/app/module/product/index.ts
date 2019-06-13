@@ -13,7 +13,7 @@ class ProductModule extends Module<State> {
     }
 
     @Loading(LOADING_PRODUCT_LIST)
-    * loadProductList(): SagaIterator {
+    *loadProductList(): SagaIterator {
         yield call(ProductAJAXWebService.list);
     }
 }

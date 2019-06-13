@@ -5,8 +5,7 @@ import {Button, Container, Text} from "native-base";
 import React from "react";
 import {connect, DispatchProp} from "react-redux";
 
-interface StateProps {
-}
+interface StateProps {}
 
 interface Props extends StateProps, DispatchProp {
     loggedIn: boolean;
