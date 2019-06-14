@@ -1,0 +1,37 @@
+fastlane_version '2.125.2'
+
+before_all do
+  ensure_git_branch
+  #ensure_git_status_clean
+  #git_pull
+end
+
+platform :ios do
+   desc 'Build the iOS application.'
+
+   project_path='./ios/demo.xcodeproj'
+   plist_path='demo/Info.plist'
+   output_path='./build/ios'
+
+   lane :build do
+     produce(app_name: 'demo', skip_itc: true, app_identifier: ENV['APP_IDENTIFIER'])
+     disable_automatic_code_signing(path: project_path)
+     update_app_identifier(xcodeproj: project_path, plist_path: plist_path, app_identifier: ENV['APP_IDENTIFIER'])
+     update_info_plist(xcodeproj: project_path, plist_path: plist_path, display_name: "MyApp-Beta")
+     # increment_build_number(xcodeproj: project_path)
+     get_certificates(output_path: output_path)
+     get_provisioning_profile(output_path: output_path, app_identifier: ENV['APP_IDENTIFIER'])
+     update_project_team(path: project_path)
+     update_project_provisioning(xcodeproj: project_path, build_configuration: "Release")
+     build_ios_app(scheme: 'demo', clean: true, project: project_path, output_directory: output_path)
+   end
+end
+
+platform :android do
+  desc 'Build the Android application.'
+  lane :build do
+    app_identifier "app.demo"
+    gradle(task: 'clean', project_dir: 'android/')
+    gradle(task: 'assemble', build_type: 'Release', project_dir: 'android/')
+  end
+end

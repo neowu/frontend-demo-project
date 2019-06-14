@@ -11,3 +11,10 @@ add following
   completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
 }
 ```
+
+# ios build
+```bash
+brew cask install fastlane
+fastlane ios build --env dev
+```
+
