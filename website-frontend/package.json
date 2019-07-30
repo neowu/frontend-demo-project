@@ -15,18 +15,18 @@
     "@types/react": "*"
   },
   "devDependencies": {
-    "@types/jest": "24.0.15",
+    "@types/jest": "24.0.16",
     "autoprefixer": "9.6.1",
     "chalk": "2.4.2",
-    "css-loader": "3.0.0",
-    "file-loader": "4.0.0",
-    "fork-ts-checker-webpack-plugin": "1.4.0",
+    "css-loader": "3.1.0",
+    "file-loader": "4.1.0",
+    "fork-ts-checker-webpack-plugin": "1.4.3",
     "fs-extra": "8.1.0",
     "html-webpack-plugin": "4.0.0-alpha",
     "jest": "24.8.0",
     "less": "3.9.0",
     "less-loader": "5.0.0",
-    "mini-css-extract-plugin": "0.7.0",
+    "mini-css-extract-plugin": "0.8.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "postcss-loader": "3.0.0",
     "prettier": "1.18.2",
@@ -42,13 +42,13 @@
     "tslint": "5.18.0",
     "tslint-react": "4.0.0",
     "typescript": "3.5.3",
-    "url-loader": "2.0.1",
-    "webpack": "4.35.3",
+    "url-loader": "2.1.0",
+    "webpack": "4.38.0",
     "webpack-dev-server": "3.7.2",
-    "yargs": "13.2.4"
+    "yargs": "13.3.0"
   },
   "dependencies": {
-    "antd": "3.20.2",
+    "antd": "3.20.7",
     "core-fe": "file:../../core-fe-project/build/dist"
   }
 }

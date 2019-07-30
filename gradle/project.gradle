@@ -27,6 +27,7 @@ subprojects {
     tasks.named('test') {
         useJUnitPlatform()
         failFast = true
+        testLogging.showStandardStreams = true
         testLogging.exceptionFormat 'full'
     }
 
@@ -63,5 +64,5 @@ allprojects {
 }
 
 tasks.named('wrapper') {
-    gradleVersion = '5.4'
+    gradleVersion = '5.5'
 }
