@@ -5,12 +5,12 @@ import React from "react";
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 import Header from "./Header";
-import "./main.less";
+import "./home.less";
 import Nav from "./Nav";
 import NotFound from "./NotFound";
 import Welcome from "./Welcome";
 
-const Main = () => {
+const Home = () => {
     const AddProduct = async(() => import(/* webpackChunkName: "product" */ "module/product"), "AddProduct");
     const ProductList = async(() => import(/* webpackChunkName: "product" */ "module/product"), "ProductList");
 
@@ -35,4 +35,4 @@ const Main = () => {
     );
 };
 
-export default connect()(Main);
+export default connect()(Home);
