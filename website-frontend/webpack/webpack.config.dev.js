@@ -70,6 +70,13 @@ const config = {
                     name: "static/font/[name].[hash:8].[ext]", // resources from different folder can have same file name, use hash to differentiate
                 },
             },
+            {
+                test: /\.ico$/,
+                loader: "file-loader",
+                options: {
+                    name: "static/icon/[name].[hash:8].[ext]",
+                },
+            },
         ],
     },
     plugins: [

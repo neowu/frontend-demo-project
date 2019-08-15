@@ -110,6 +110,13 @@ const config = {
                     name: "static/font/[name].[hash:8].[ext]",
                 },
             },
+            {
+                test: /\.ico$/,
+                loader: "file-loader",
+                options: {
+                    name: "static/icon/[name].[hash:8].[ext]",
+                },
+            },
         ],
     },
     plugins: [
