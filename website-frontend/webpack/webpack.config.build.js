@@ -122,6 +122,7 @@ const config = {
     plugins: [
         new MiniCSSExtractPlugin({
             filename: "static/css/[name].[contenthash:8].css",
+            ignoreOrder: true,
         }),
         new ForkTSCheckerPlugin({
             tsconfig: env.tsConfig,
