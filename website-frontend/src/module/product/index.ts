@@ -1,6 +1,5 @@
-import {call, Loading, register, Interval, Module, Lifecycle} from "core-fe";
+import {call, Loading, register, Interval, Module, Lifecycle, SagaIterator} from "core-fe";
 import {Location} from "history";
-import {SagaIterator} from "redux-saga";
 import {ProductAJAXWebService} from "service/ProductAJAXWebService";
 import AddProductComponent from "./component/AddProduct";
 import ProductListComponent from "./component/ProductList";
@@ -15,9 +14,7 @@ const initialState: State = {
 
 class ProductModule extends Module<State> {
     *loadCreateProductConfig(): SagaIterator {
-        const effect = call(ProductAJAXWebService.createConfig);
-        yield effect;
-        const response = effect.result();
+        const response = yield* call(ProductAJAXWebService.createConfig);
         const types = response.types.map(type => {
             return {name: type.name, value: type.value};
         });
@@ -28,7 +25,7 @@ class ProductModule extends Module<State> {
 
     @Loading(LOADING_PRODUCT_LIST)
     *loadProductList(): SagaIterator {
-        yield call(ProductAJAXWebService.list);
+        yield* call(ProductAJAXWebService.list);
     }
 
     @Lifecycle()

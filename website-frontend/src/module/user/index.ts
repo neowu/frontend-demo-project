@@ -1,7 +1,6 @@
-import {call, Lifecycle, Module, register} from "core-fe";
+import {call, Lifecycle, Module, register, SagaIterator} from "core-fe";
 import {AccountAJAXWebService} from "service/AccountAJAXWebService";
 import {State} from "./type";
-import {SagaIterator} from "redux-saga";
 
 const initialState: State = {
     currentUser: {
@@ -17,7 +16,7 @@ const initialState: State = {
 
 class UserModule extends Module<State, {}, {}> {
     *logout(): SagaIterator {
-        yield call(AccountAJAXWebService.logout);
+        yield* call(AccountAJAXWebService.logout);
         this.setState({
             login: {
                 success: false,
@@ -32,9 +31,7 @@ class UserModule extends Module<State, {}, {}> {
     }
 
     *login(username: string, password: string): SagaIterator {
-        const effect = call(AccountAJAXWebService.login, {username, password});
-        yield effect;
-        const response = effect.result();
+        const response = yield* call(AccountAJAXWebService.login, {username, password});
         this.setState({
             login: {
                 success: response.success,
@@ -53,9 +50,7 @@ class UserModule extends Module<State, {}, {}> {
 
     @Lifecycle()
     *onRender(): SagaIterator {
-        const effect = call(AccountAJAXWebService.currentUser);
-        yield effect;
-        const response = effect.result();
+        const response = yield* call(AccountAJAXWebService.currentUser);
         this.setState({
             currentUser: {
                 loggedIn: response.loggedIn,
