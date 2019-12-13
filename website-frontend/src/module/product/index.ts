@@ -1,4 +1,4 @@
-import {call, Loading, register, Interval, Module, Lifecycle, SagaIterator} from "core-fe";
+import {call, Interval, Lifecycle, Loading, Module, register, SagaIterator} from "core-fe";
 import {Location} from "history";
 import {ProductAJAXWebService} from "service/ProductAJAXWebService";
 import AddProductComponent from "./component/AddProduct";
