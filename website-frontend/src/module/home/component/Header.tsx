@@ -14,7 +14,7 @@ interface Props {
     logout: () => void;
 }
 
-const Header: React.FunctionComponent<Props> = ({logout, loggedIn, userName}) => {
+const Header: React.FunctionComponent<Props> = ({logout, loggedIn, userName}: Props) => {
     const loginMenu = () => (
         <Menu mode="horizontal" defaultSelectedKeys={["1"]}>
             <Menu.Item key="1">

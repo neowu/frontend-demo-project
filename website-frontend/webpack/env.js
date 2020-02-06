@@ -25,7 +25,6 @@ module.exports = {
     conf: env == null ? resolve("src/conf") : resolve(`conf/${env}`),
     lib: resolve("lib"),
     tsConfig: resolve("webpack/tsconfig.json"),
-    tslintConfig: resolve("webpack/lint/tslint.json"),
     stylelintConfig: resolve("webpack/lint/stylelint.json"),
     webpackJSON: webpackJSON(),
     profile: profile,

@@ -88,7 +88,7 @@ const config = {
         }),
         new ForkTSCheckerPlugin({
             tsconfig: env.tsConfig,
-            tslint: env.tslintConfig,
+            eslint: true
         }),
         new HTMLPlugin({
             template: `${env.src}/index.html`,

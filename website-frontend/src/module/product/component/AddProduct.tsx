@@ -16,7 +16,7 @@ interface StateProps {
 
 interface Props extends StateProps, FormComponentProps, DispatchProp {}
 
-const AddProduct: React.SFC<Props> = ({ui, form}) => {
+const AddProduct: React.FunctionComponent<Props> = ({ui, form}: Props) => {
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         form.validateFields((errors, values) => {

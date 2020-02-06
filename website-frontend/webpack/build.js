@@ -39,11 +39,6 @@ function copyStatic() {
     fs.copySync(env.static, env.dist, {dereference: true});
 }
 
-function compileCustomLintRule() {
-    console.info(chalk`{green.bold [task]} {white.bold compile custom ts-lint rule}`);
-    spawn("tsc", ["-p", "webpack/lint/lintTSConfig.json"]);
-}
-
 function build() {
     checkCodeStyle();
     test();
@@ -54,7 +49,6 @@ function build() {
     cleanup();
     copyStatic();
 
-    compileCustomLintRule();
     console.info(chalk`{green.bold [task]} {white.bold webpack}`);
     const compiler = webpack(webpackConfig);
     compiler.run((error, stats) => {

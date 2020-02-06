@@ -8,7 +8,7 @@ interface Props {
     role: string | null;
 }
 
-const Nav: React.SFC<Props> = ({role}) => {
+const Nav: React.FunctionComponent<Props> = ({role}: Props) => {
     function adminMenu() {
         return role === "admin" ? (
             <Menu.SubMenu

@@ -13,7 +13,7 @@ interface StateProps {
 
 interface Props extends StateProps, FormComponentProps, DispatchProp {}
 
-const LoginForm: React.FunctionComponent<Props> = ({dispatch, form, errorMessage}) => {
+const LoginForm: React.FunctionComponent<Props> = ({dispatch, form, errorMessage}: Props) => {
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         form.validateFields((errors, values) => {
