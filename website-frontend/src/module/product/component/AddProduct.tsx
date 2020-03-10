@@ -1,5 +1,4 @@
 import {Button, Form, Radio} from "antd";
-import {FormComponentProps} from "antd/lib/form";
 import React from "react";
 import {connect, DispatchProp} from "react-redux";
 import {RootState} from "type/state";
@@ -14,32 +13,25 @@ interface StateProps {
     };
 }
 
-interface Props extends StateProps, FormComponentProps, DispatchProp {}
+interface Props extends StateProps, DispatchProp {}
 
-const AddProduct: React.FunctionComponent<Props> = ({ui, form}: Props) => {
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        form.validateFields((errors, values) => {
-            // console.info(values);
-        });
+const AddProduct: React.FunctionComponent<Props> = ({ui}: Props) => {
+    const onFinish = (values: {[name: string]: string}) => {
+        // console.info(values);
     };
-
-    const typeDecorator = form.getFieldDecorator("type");
 
     return (
         <div>
             <h1>{ui.now == null ? "" : ui.now.toDateString()}</h1>
-            <Form onSubmit={onSubmit}>
-                <Form.Item>
-                    {typeDecorator(
-                        <Radio.Group>
-                            {ui.types.map(type => (
-                                <Radio.Button key={type.value} value={type.value}>
-                                    {type.name}
-                                </Radio.Button>
-                            ))}
-                        </Radio.Group>
-                    )}
+            <Form onFinish={onFinish}>
+                <Form.Item name="type">
+                    <Radio.Group>
+                        {ui.types.map(type => (
+                            <Radio.Button key={type.value} value={type.value}>
+                                {type.name}
+                            </Radio.Button>
+                        ))}
+                    </Radio.Group>
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
@@ -57,4 +49,4 @@ const mapStateToProps = (state: RootState): StateProps => {
     };
 };
 
-export default connect(mapStateToProps)(Form.create()(AddProduct));
+export default connect(mapStateToProps)(AddProduct);

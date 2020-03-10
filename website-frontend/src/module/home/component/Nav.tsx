@@ -1,4 +1,5 @@
-import {Icon, Layout, Menu} from "antd";
+import {AppstoreOutlined, LaptopOutlined, UserOutlined} from "@ant-design/icons";
+import {Layout, Menu} from "antd";
 import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
@@ -15,7 +16,7 @@ const Nav: React.FunctionComponent<Props> = ({role}: Props) => {
                 key="sub1"
                 title={
                     <span>
-                        <Icon type="user" />
+                        <UserOutlined />
                         Users
                     </span>
                 }
@@ -40,7 +41,7 @@ const Nav: React.FunctionComponent<Props> = ({role}: Props) => {
                     key="sub2"
                     title={
                         <span>
-                            <Icon type="laptop" />
+                            <LaptopOutlined />
                             Games
                         </span>
                     }
@@ -52,7 +53,7 @@ const Nav: React.FunctionComponent<Props> = ({role}: Props) => {
                     key="sub3"
                     title={
                         <span>
-                            <Icon type="appstore" />
+                            <AppstoreOutlined />
                             Product
                         </span>
                     }

@@ -23,10 +23,9 @@ const config = {
         alias: {
             conf: env.conf,
             lib: env.lib,
-            "@ant-design/icons/lib/dist$": `${env.src}/asset/ant-icons.ts`,
         },
     },
-    devtool: "nosources-source-map",
+    devtool: false,
     bail: true,
     optimization: {
         namedModules: true,
@@ -39,13 +38,11 @@ const config = {
             new TerserPlugin({
                 cache: true,
                 parallel: true,
-                sourceMap: true,
+                sourceMap: false,
             }),
             new OptimizeCSSAssetsPlugin({
                 cssProcessorOptions: {
-                    map: {
-                        inline: false,
-                    },
+                    map: false,
                 },
             }),
         ],
@@ -75,14 +72,14 @@ const config = {
                     {
                         loader: "css-loader",
                         options: {
-                            sourceMap: true,
+                            sourceMap: false,
                             importLoaders: 2,
                         },
                     },
                     {
                         loader: "postcss-loader",
                         options: {
-                            sourceMap: true,
+                            sourceMap: false,
                             plugins: () => [autoprefixer],
                         },
                     },
@@ -90,7 +87,7 @@ const config = {
                         loader: "less-loader",
                         options: {
                             javascriptEnabled: true,
-                            sourceMap: true,
+                            sourceMap: false,
                         },
                     },
                 ],

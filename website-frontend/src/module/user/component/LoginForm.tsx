@@ -1,5 +1,5 @@
 import {Alert, Button, Form, Input} from "antd";
-import {FormComponentProps} from "antd/lib/form";
+import {FormProps} from "antd/lib/form";
 
 import {actions} from "module/user";
 import React from "react";
@@ -11,42 +11,23 @@ interface StateProps {
     errorMessage: string | null;
 }
 
-interface Props extends StateProps, FormComponentProps, DispatchProp {}
+interface Props extends StateProps, FormProps, DispatchProp {}
 
-const LoginForm: React.FunctionComponent<Props> = ({dispatch, form, errorMessage}: Props) => {
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        form.validateFields((errors, values) => {
-            if (!errors) {
-                dispatch(actions.login(values.username, values.password));
-            }
-        });
+const LoginForm: React.FunctionComponent<Props> = ({dispatch, errorMessage}: Props) => {
+    const onFinish = (values: {[name: string]: string}) => {
+        dispatch(actions.login(values.username, values.password));
     };
-
-    const usernameDecorator = form.getFieldDecorator("username", {
-        rules: [
-            {
-                required: true,
-                message: "Please input your username!",
-            },
-        ],
-    });
-
-    const passwordDecorator = form.getFieldDecorator("password", {
-        rules: [
-            {
-                required: true,
-                message: "Please input your Password!",
-            },
-        ],
-    });
 
     return (
         <div>
             {errorMessage ? <Alert message="Login Failed" description={errorMessage} type="error" closable /> : null}
-            <Form onSubmit={onSubmit} className="login-form">
-                <Form.Item>{usernameDecorator(<Input placeholder="Username" />)}</Form.Item>
-                <Form.Item>{passwordDecorator(<Input type="password" placeholder="Password" />)}</Form.Item>
+            <Form onFinish={onFinish} className="login-form">
+                <Form.Item name="username" rules={[{required: true, message: "Please input your username!"}]}>
+                    <Input placeholder="Username" />
+                </Form.Item>
+                <Form.Item name="password" rules={[{required: true, message: "Please input your password!"}]}>
+                    <Input type="password" placeholder="Password" />
+                </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Log in
@@ -63,4 +44,4 @@ const mapStateToProps = (state: RootState): StateProps => {
     };
 };
 
-export default connect(mapStateToProps)(Form.create()(LoginForm));
+export default connect(mapStateToProps)(LoginForm);
