@@ -28,7 +28,7 @@ afterEvaluate {
             delete 'src/main/dist/web'
             copy {
                 from "${frontendDir}/build/dist"
-                if (env != null) exclude 'static'    // not copy static folder on server env
+                if (env != null) exclude 'static/*'    // exclude everything in static folder on server env, but keep static folder if exists
                 into 'src/main/dist/web'
             }
         }
