@@ -1,8 +1,8 @@
 package app.api.user;
 
 import core.framework.api.json.Property;
-import core.framework.api.validate.Length;
 import core.framework.api.validate.NotNull;
+import core.framework.api.validate.Size;
 
 public class LoginAJAXRequest {
     @NotNull
@@ -10,7 +10,7 @@ public class LoginAJAXRequest {
     public String username;
 
     @NotNull
-    @Length(min = 3)
+    @Size(min = 3)
     @Property(name = "password")
     public String password;
 }

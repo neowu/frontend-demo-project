@@ -7,13 +7,12 @@ subprojects {
 
     apply plugin: 'java'
 
-    sourceCompatibility = JavaVersion.VERSION_13
-    targetCompatibility = JavaVersion.VERSION_13
+    sourceCompatibility = JavaVersion.VERSION_14
+    targetCompatibility = JavaVersion.VERSION_14
 
     tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
-        options.deprecation = true
-        options.compilerArgs += ['-Xlint:all', '-proc:none']
+        options.compilerArgs += ['-Xlint:all', '-proc:none', '-Werror']
     }
 
     repositories {
@@ -28,13 +27,6 @@ subprojects {
         failFast = true
         testLogging.showStandardStreams = true
         testLogging.exceptionFormat 'full'
-    }
-
-    tasks.named('jar') {
-        // put parent name in final jar name, to resolve collision of child projects with same name under different parents
-        if (parent.depth > 0) {
-            archiveBaseName = "${parent.name}-${archiveBaseName.get()}"
-        }
     }
 
     tasks.register('mkdir') {
@@ -53,12 +45,15 @@ subprojects {
         }
 
         tasks.withType(Jar).configureEach {
+            // put group name in final jar name, to resolve collision of child projects with same name under different parents
+            archiveBaseName = "${project.group}.${archiveBaseName.get()}"
+
             manifest {
                 attributes 'Implementation-Title': project.name,
-                    'Implementation-Version': project.version,
-                    'Created-By': "${System.getProperty('java.version')} (${System.getProperty('java.vendor')})",
-                    'Built-With': "gradle ${project.gradle.gradleVersion}",
-                    'Build-Time': Instant.now().toString()
+                        'Implementation-Version': project.version,
+                        'Created-By': "${System.getProperty('java.version')} (${System.getProperty('java.vendor')})",
+                        'Built-With': "gradle ${project.gradle.gradleVersion}",
+                        'Build-Time': Instant.now().toString()
             }
         }
     }
@@ -72,5 +67,5 @@ allprojects {
 }
 
 tasks.named('wrapper') {
-    gradleVersion = '6.2.1'
+    gradleVersion = '6.5'
 }
