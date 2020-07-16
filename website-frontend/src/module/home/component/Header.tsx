@@ -18,7 +18,7 @@ const Header: React.FunctionComponent<Props> = ({logout, loggedIn, userName}: Pr
     const loginMenu = () => (
         <Menu mode="horizontal" defaultSelectedKeys={["1"]}>
             <Menu.Item key="1">
-                <Link to={"/login"}>Login</Link>
+                <Link to="/login">Login</Link>
             </Menu.Item>
         </Menu>
     );

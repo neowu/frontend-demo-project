@@ -86,8 +86,8 @@ const config = {
             syntax: "less",
         }),
         new ForkTSCheckerPlugin({
-            tsconfig: env.tsConfig,
-            eslint: true
+            typescript: { configFile: env.tsConfig },
+            eslint: { files: `${env.src}/**/*.{ts,tsx}` }
         }),
         new HTMLPlugin({
             template: `${env.src}/index.html`,

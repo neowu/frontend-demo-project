@@ -1,6 +1,7 @@
 import {call, Lifecycle, Module, register, SagaIterator} from "core-fe";
 import {AccountAJAXWebService} from "service/AccountAJAXWebService";
 import {State} from "./type";
+import {RootState} from "type/state";
 
 const initialState: State = {
     currentUser: {
@@ -14,7 +15,19 @@ const initialState: State = {
     },
 };
 
-class UserModule extends Module<State, {}, {}> {
+class UserModule extends Module<RootState, "user", {}, {}> {
+    @Lifecycle()
+    *onRender(): SagaIterator {
+        const response = yield* call(AccountAJAXWebService.currentUser);
+        this.setState({
+            currentUser: {
+                loggedIn: response.loggedIn,
+                role: response.role,
+                name: response.name,
+            },
+        });
+    }
+
     *logout(): SagaIterator {
         yield* call(AccountAJAXWebService.logout);
         this.setState({
@@ -44,20 +57,8 @@ class UserModule extends Module<State, {}, {}> {
             },
         });
         if (response.success) {
-            this.setHistory("/");
+            yield *this.pushHistory("/");
         }
-    }
-
-    @Lifecycle()
-    *onRender(): SagaIterator {
-        const response = yield* call(AccountAJAXWebService.currentUser);
-        this.setState({
-            currentUser: {
-                loggedIn: response.loggedIn,
-                role: response.role,
-                name: response.name,
-            },
-        });
     }
 }
 

@@ -4,6 +4,7 @@ import {ProductAJAXWebService} from "service/ProductAJAXWebService";
 import AddProductComponent from "./component/AddProduct";
 import ProductListComponent from "./component/ProductList";
 import {LOADING_PRODUCT_LIST, State} from "./type";
+import {RootState} from "type/state";
 
 const initialState: State = {
     createProductUI: {
@@ -12,7 +13,7 @@ const initialState: State = {
     },
 };
 
-class ProductModule extends Module<State> {
+class ProductModule extends Module<RootState, "product"> {
     *loadCreateProductConfig(): SagaIterator {
         const response = yield* call(ProductAJAXWebService.createConfig);
         const types = response.types.map(type => {

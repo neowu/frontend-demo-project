@@ -14,7 +14,7 @@ interface Props extends StateProps {}
 class Component extends React.PureComponent<Props> {
     render() {
         return (
-            <Spin size={"large"} spinning={this.props.showLoading}>
+            <Spin size="large" spinning={this.props.showLoading}>
                 <div>
                     <h1>product list</h1>
                 </div>

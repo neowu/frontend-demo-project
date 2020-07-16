@@ -4,6 +4,7 @@ import {State as UserState} from "module/user/type";
 
 export interface RootState extends State {
     app: {
+        home: {};
         user: UserState;
         product: ProductState;
     };
