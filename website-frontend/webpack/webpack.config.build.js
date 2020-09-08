@@ -15,15 +15,15 @@ const config = {
     output: {
         path: env.dist,
         filename: "static/js/[name].[chunkhash:8].js",
-        publicPath: env.webpackJSON === null ? "/" : env.webpackJSON.publicPath
+        publicPath: env.webpackJSON === null ? "/" : env.webpackJSON.publicPath,
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".less"],
         modules: [env.src, "node_modules"],
         alias: {
             conf: env.conf,
-            lib: env.lib
-        }
+            lib: env.lib,
+        },
     },
     devtool: false,
     bail: true,
@@ -32,24 +32,24 @@ const config = {
         runtimeChunk: "single",
         splitChunks: {
             automaticNameDelimiter: "-",
-            maxAsyncRequests: 10
+            maxAsyncRequests: 10,
         },
         minimizer: [
             new TerserPlugin({
                 cache: true,
                 parallel: true,
-                sourceMap: false
+                sourceMap: false,
             }),
             new OptimizeCSSAssetsPlugin({
                 cssProcessorOptions: {
-                    map: false
-                }
-            })
-        ]
+                    map: false,
+                },
+            }),
+        ],
     },
     performance: {
         maxEntrypointSize: 1000000,
-        maxAssetSize: 1000000
+        maxAssetSize: 1000000,
     },
     module: {
         rules: [
@@ -61,9 +61,9 @@ const config = {
                     configFile: env.tsConfig,
                     transpileOnly: true,
                     getCustomTransformers: () => ({
-                        before: [TSImportPlugin({ libraryName: "antd", libraryDirectory: "es", style: true })]
-                    })
-                }
+                        before: [TSImportPlugin({libraryName: "antd", libraryDirectory: "es", style: true})],
+                    }),
+                },
             },
             {
                 test: /\.(css|less)$/,
@@ -73,63 +73,67 @@ const config = {
                         loader: "css-loader",
                         options: {
                             sourceMap: false,
-                            importLoaders: 2
-                        }
+                            importLoaders: 2,
+                        },
                     },
                     {
                         loader: "postcss-loader",
                         options: {
                             sourceMap: false,
-                            plugins: () => [autoprefixer]
-                        }
+                            postcssOptions: {
+                                plugins: [autoprefixer],
+                            },
+                        },
                     },
                     {
                         loader: "less-loader",
                         options: {
-                            javascriptEnabled: true,
-                            sourceMap: false
-                        }
-                    }
-                ]
+                            sourceMap: false,
+                            lessOptions: {
+                                javascriptEnabled: true,
+                            },
+                        },
+                    },
+                ],
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
                 loader: "url-loader",
                 query: {
                     limit: 1024,
-                    name: "static/img/[name].[hash:8].[ext]"
-                }
+                    name: "static/img/[name].[hash:8].[ext]",
+                },
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 loader: "file-loader",
                 options: {
-                    name: "static/font/[name].[hash:8].[ext]"
-                }
+                    name: "static/font/[name].[hash:8].[ext]",
+                },
             },
             {
                 test: /\.ico$/,
                 loader: "file-loader",
                 options: {
-                    name: "static/icon/[name].[hash:8].[ext]"
-                }
-            }
-        ]
+                    name: "static/icon/[name].[hash:8].[ext]",
+                },
+            },
+        ],
     },
     plugins: [
         new MiniCSSExtractPlugin({
             filename: "static/css/[name].[contenthash:8].css",
-            ignoreOrder: true
+            ignoreOrder: true,
         }),
         new ForkTSCheckerPlugin({
-            typescript: { configFile: env.tsConfig },
-            eslint: { files: `${env.src}/**/*.{ts,tsx}` }
+            typescript: {configFile: env.tsConfig},
+            eslint: {files: `${env.src}/**/*.{ts,tsx}`},
         }),
         new StylelintPlugin({
             configFile: env.stylelintConfig,
             context: env.src,
             files: "**/*.less",
-            syntax: "less"
+            syntax: "less",
         }),
         new HTMLPlugin({
             template: `${env.src}/index.html`,
@@ -149,12 +153,12 @@ const config = {
                 removeScriptTypeAttributes: true,
                 removeStyleLinkTypeAttributes: true,
                 removeTagWhitespace: true,
-                useShortDoctype: true
-            }
+                useShortDoctype: true,
+            },
         }),
-        new webpack.ProgressPlugin({ profile: env.profile }),
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-    ]
+        new webpack.ProgressPlugin({profile: env.profile}),
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    ],
 };
 
 module.exports = config;

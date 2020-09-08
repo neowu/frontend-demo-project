@@ -57,7 +57,7 @@ class UserModule extends Module<RootState, "user", {}, {}> {
             },
         });
         if (response.success) {
-            yield *this.pushHistory("/");
+            yield* this.pushHistory("/");
         }
     }
 }

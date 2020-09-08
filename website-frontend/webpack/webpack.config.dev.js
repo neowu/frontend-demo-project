@@ -49,7 +49,9 @@ const config = {
                     {
                         loader: "less-loader",
                         options: {
-                            javascriptEnabled: true,
+                            lessOptions: {
+                                javascriptEnabled: true,
+                            },
                         },
                     },
                 ],
@@ -86,8 +88,8 @@ const config = {
             syntax: "less",
         }),
         new ForkTSCheckerPlugin({
-            typescript: { configFile: env.tsConfig },
-            eslint: { files: `${env.src}/**/*.{ts,tsx}` }
+            typescript: {configFile: env.tsConfig},
+            eslint: {files: `${env.src}/**/*.{ts,tsx}`},
         }),
         new HTMLPlugin({
             template: `${env.src}/index.html`,
