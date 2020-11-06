@@ -11,7 +11,7 @@
   "moduleDirectories": ["node_modules", "src"],
   "globals": {
     "ts-jest": {
-      "tsConfig": "./webpack/tsconfig.json",
+      "tsconfig": "./webpack/tsconfig.json",
       "diagnostics": true
     }
   }

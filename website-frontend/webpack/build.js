@@ -26,7 +26,7 @@ function checkCodeStyle() {
 
 function test() {
     console.info(chalk`{green.bold [task]} {white.bold test}`);
-    return spawn("jest", ["--config", "webpack/jest.json"], "test failed, please fix");
+    return spawn("jest", ["--config", "webpack/jest.json", "--forceExit"], "test failed, please fix");
 }
 
 function cleanup() {
@@ -41,7 +41,7 @@ function copyStatic() {
 
 function build() {
     checkCodeStyle();
-    test();
+    // test();
 
     console.info(chalk`{white.bold [env]} webpackJSON=${env.webpackJSON === null ? null : JSON.stringify(env.webpackJSON)}`);
     console.info(chalk`{white.bold [env]} conf=${env.conf}`);

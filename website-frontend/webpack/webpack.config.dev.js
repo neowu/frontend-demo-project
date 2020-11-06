@@ -30,6 +30,12 @@ const config = {
     module: {
         rules: [
             {
+                test: /\.m?js/,
+                resolve: {
+                    fullySpecified: false,
+                },
+            },
+            {
                 test: /\.(ts|tsx)$/,
                 include: env.src,
                 loader: "ts-loader",
@@ -58,24 +64,23 @@ const config = {
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
-                loader: "url-loader",
-                query: {
-                    limit: 1024,
-                    name: "static/img/[name].[hash:8].[ext]", // resources from different folder can have same file name, use hash to differentiate
+                type: "asset/resource",
+                generator: {
+                    filename: "static/img/[name].[hash:8].[ext]",
                 },
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
-                loader: "file-loader",
-                options: {
-                    name: "static/font/[name].[hash:8].[ext]", // resources from different folder can have same file name, use hash to differentiate
+                type: "asset/resource",
+                generator: {
+                    filename: "static/font/[name].[hash:8].[ext]",
                 },
             },
             {
                 test: /\.ico$/,
-                loader: "file-loader",
-                options: {
-                    name: "static/icon/[name].[hash:8].[ext]",
+                type: "asset/resource",
+                generator: {
+                    filename: "static/ico/[name].[hash:8].ico",
                 },
             },
         ],

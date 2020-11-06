@@ -2,12 +2,12 @@ const webpack = require("webpack");
 const env = require("./env");
 const autoprefixer = require("autoprefixer");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
+const CSSMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ForkTSCheckerPlugin = require("fork-ts-checker-webpack-plugin");
 const HTMLPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const TSImportPlugin = require("ts-import-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const config = {
     mode: "production",
@@ -28,7 +28,7 @@ const config = {
     devtool: false,
     bail: true,
     optimization: {
-        namedModules: true,
+        moduleIds: "named",
         runtimeChunk: "single",
         splitChunks: {
             automaticNameDelimiter: "-",
@@ -36,15 +36,9 @@ const config = {
         },
         minimizer: [
             new TerserPlugin({
-                cache: true,
                 parallel: true,
-                sourceMap: false,
             }),
-            new OptimizeCSSAssetsPlugin({
-                cssProcessorOptions: {
-                    map: false,
-                },
-            }),
+            new CSSMinimizerPlugin(),
         ],
     },
     performance: {
@@ -53,6 +47,12 @@ const config = {
     },
     module: {
         rules: [
+            {
+                test: /\.m?js/,
+                resolve: {
+                    fullySpecified: false,
+                },
+            },
             {
                 test: /\.(ts|tsx)$/,
                 include: env.src,
@@ -98,24 +98,23 @@ const config = {
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
-                loader: "url-loader",
-                query: {
-                    limit: 1024,
-                    name: "static/img/[name].[hash:8].[ext]",
+                type: "asset/resource",
+                generator: {
+                    filename: "static/img/[name].[hash:8].[ext]",
                 },
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
-                loader: "file-loader",
-                options: {
-                    name: "static/font/[name].[hash:8].[ext]",
+                type: "asset/resource",
+                generator: {
+                    filename: "static/font/[name].[hash:8].[ext]",
                 },
             },
             {
                 test: /\.ico$/,
-                loader: "file-loader",
-                options: {
-                    name: "static/icon/[name].[hash:8].[ext]",
+                type: "asset/resource",
+                generator: {
+                    filename: "static/ico/[name].[hash:8].ico",
                 },
             },
         ],
