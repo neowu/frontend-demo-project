@@ -41,7 +41,7 @@ function copyStatic() {
 
 function build() {
     checkCodeStyle();
-    // test();
+    test();
 
     console.info(chalk`{white.bold [env]} webpackJSON=${env.webpackJSON === null ? null : JSON.stringify(env.webpackJSON)}`);
     console.info(chalk`{white.bold [env]} conf=${env.conf}`);
