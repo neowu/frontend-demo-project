@@ -16,7 +16,7 @@ const config = {
         path: env.dist,
         filename: "static/js/[name].[chunkhash:8].js",
         publicPath: env.webpackJSON === null ? "/" : env.webpackJSON.publicPath,
-        environment: {
+        environment: {  // to support IE 11
             arrowFunction: false,
             bigIntLiteral: false,
             const: false,
