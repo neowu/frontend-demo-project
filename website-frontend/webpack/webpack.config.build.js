@@ -16,6 +16,15 @@ const config = {
         path: env.dist,
         filename: "static/js/[name].[chunkhash:8].js",
         publicPath: env.webpackJSON === null ? "/" : env.webpackJSON.publicPath,
+        environment: {
+            arrowFunction: false,
+            bigIntLiteral: false,
+            const: false,
+            destructuring: false,
+            dynamicImport: false,
+            forOf: false,
+            module: false,
+        },
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".less"],
