@@ -12,19 +12,11 @@ const TSImportPlugin = require("ts-import-plugin");
 const config = {
     mode: "production",
     entry: `${env.src}/index.tsx`,
+    target: ["web", "es5"], // to support IE 11
     output: {
         path: env.dist,
         filename: "static/js/[name].[chunkhash:8].js",
         publicPath: env.webpackJSON === null ? "/" : env.webpackJSON.publicPath,
-        environment: {  // to support IE 11
-            arrowFunction: false,
-            bigIntLiteral: false,
-            const: false,
-            destructuring: false,
-            dynamicImport: false,
-            forOf: false,
-            module: false,
-        },
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx", ".less"],
