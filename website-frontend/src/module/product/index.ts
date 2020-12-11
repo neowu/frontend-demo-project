@@ -30,7 +30,7 @@ class ProductModule extends Module<RootState, "product"> {
     }
 
     @Lifecycle()
-    *onRender(routeParameters: {}, location: Location): SagaIterator {
+    *onLocationMatched(routeParameters: {}, location: Location): SagaIterator {
         if (location.pathname === "/product/add") {
             yield* this.loadCreateProductConfig();
         } else if (location.pathname === "/product/list") {

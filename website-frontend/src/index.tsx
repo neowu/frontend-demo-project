@@ -1,4 +1,4 @@
-import {async, startApp} from "core-fe";
+import {async, bootstrap} from "core-fe";
 import {ErrorHandler} from "./module/ErrorHandler";
 
 // use async to load first component, so any error during component construction will be caught and reported by framework
@@ -10,7 +10,7 @@ const Home = async(() => import(/* webpackChunkName: "home" */ "module/home"), "
 // but since the path in index.html can't be changed,
 // so usually it's better handle in backend to dynamically replace static cdn domain when response index.html content
 
-startApp({
+bootstrap({
     componentType: Home,
     errorListener: new ErrorHandler(),
 });

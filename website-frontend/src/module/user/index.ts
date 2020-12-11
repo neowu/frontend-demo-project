@@ -17,7 +17,7 @@ const initialState: State = {
 
 class UserModule extends Module<RootState, "user", {}, {}> {
     @Lifecycle()
-    *onRender(): SagaIterator {
+    *onLocationMatched(): SagaIterator {
         const response = yield* call(AccountAJAXWebService.currentUser);
         this.setState({
             currentUser: {
