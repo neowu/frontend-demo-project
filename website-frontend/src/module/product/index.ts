@@ -1,4 +1,4 @@
-import {call, Interval, Lifecycle, Loading, Module, register, SagaIterator} from "core-fe";
+import {call, Interval, Lifecycle, Loading, Module, register, SagaGenerator} from "core-fe";
 import {Location} from "history";
 import {ProductAJAXWebService} from "service/ProductAJAXWebService";
 import AddProductComponent from "./component/AddProduct";
@@ -14,7 +14,7 @@ const initialState: State = {
 };
 
 class ProductModule extends Module<RootState, "product"> {
-    *loadCreateProductConfig(): SagaIterator {
+    *loadCreateProductConfig(): SagaGenerator {
         const response = yield* call(ProductAJAXWebService.createConfig);
         const types = response.types.map(type => {
             return {name: type.name, value: type.value};
@@ -25,12 +25,12 @@ class ProductModule extends Module<RootState, "product"> {
     }
 
     @Loading(LOADING_PRODUCT_LIST)
-    *loadProductList(): SagaIterator {
+    *loadProductList(): SagaGenerator {
         yield* call(ProductAJAXWebService.list);
     }
 
     @Lifecycle()
-    *onLocationMatched(routeParameters: {}, location: Location): SagaIterator {
+    *onLocationMatched(routeParameters: {}, location: Location): SagaGenerator {
         if (location.pathname === "/product/add") {
             yield* this.loadCreateProductConfig();
         } else if (location.pathname === "/product/list") {
@@ -40,7 +40,7 @@ class ProductModule extends Module<RootState, "product"> {
 
     @Lifecycle()
     @Interval(3)
-    *onTick(): SagaIterator {
+    *onTick(): SagaGenerator {
         // console.log("from product module, print every 3 secs");
     }
 }

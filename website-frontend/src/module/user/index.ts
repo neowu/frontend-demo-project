@@ -1,4 +1,4 @@
-import {call, Lifecycle, Module, register, SagaIterator} from "core-fe";
+import {call, Lifecycle, Module, register, SagaGenerator} from "core-fe";
 import {AccountAJAXWebService} from "service/AccountAJAXWebService";
 import {State} from "./type";
 import {RootState} from "type/state";
@@ -17,7 +17,7 @@ const initialState: State = {
 
 class UserModule extends Module<RootState, "user", {}, {}> {
     @Lifecycle()
-    *onLocationMatched(): SagaIterator {
+    *onLocationMatched(): SagaGenerator {
         const response = yield* call(AccountAJAXWebService.currentUser);
         this.setState({
             currentUser: {
@@ -28,7 +28,7 @@ class UserModule extends Module<RootState, "user", {}, {}> {
         });
     }
 
-    *logout(): SagaIterator {
+    *logout(): SagaGenerator {
         yield* call(AccountAJAXWebService.logout);
         this.setState({
             login: {
@@ -43,7 +43,7 @@ class UserModule extends Module<RootState, "user", {}, {}> {
         });
     }
 
-    *login(username: string, password: string): SagaIterator {
+    *login(username: string, password: string): SagaGenerator {
         const response = yield* call(AccountAJAXWebService.login, {username, password});
         this.setState({
             login: {
