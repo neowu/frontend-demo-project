@@ -1,10 +1,10 @@
 import {call, Interval, Lifecycle, Loading, Module, register, SagaGenerator} from "core-fe";
 import {Location} from "history";
 import {ProductAJAXWebService} from "service/ProductAJAXWebService";
+import {RootState} from "type/state";
 import AddProductComponent from "./component/AddProduct";
 import ProductListComponent from "./component/ProductList";
 import {LOADING_PRODUCT_LIST, State} from "./type";
-import {RootState} from "type/state";
 
 const initialState: State = {
     createProductUI: {
