@@ -1,3 +1,4 @@
+.DS_Store
 /.idea
 /.gradle
 node_modules/
@@ -5,7 +6,5 @@ build/
 *.iml
 /classes/
 */src/dev/java/
-.DS_Store
 website/src/main/dist
 .vscode
-customLintRule.js
