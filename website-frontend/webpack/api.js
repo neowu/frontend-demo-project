@@ -20,6 +20,7 @@ function generateTypes(types) {
             type.fields.forEach(field => {
                 builder.push(`${field.name}: ${fieldType(field)}`);
                 if (!field.constraints.notNull) builder.push(` | null`);
+                builder.push(";");
                 builder.push(fieldConstraintsComment(field.constraints));
                 builder.push("\n");
             });
