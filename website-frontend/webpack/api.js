@@ -6,17 +6,75 @@ const yargs = require("yargs");
 const childProcess = require("child_process");
 const Agent = require("https").Agent;
 
-const apiURL = yargs.argv.url || "https://localhost:8443/_sys/api";
+const apiURL = yargs.argv.url || "https://localhost:8443/_sys/api/v2";
 const typeModule = "type";
 const typeSourcePath = path.resolve(__dirname, `../src/${typeModule}/api.ts`);
 const serviceModule = "service";
 const serviceSourceDir = path.resolve(__dirname, `../src/${serviceModule}`);
 
 function generateTypes(types) {
-    const lines = [];
-    types.forEach(type => lines.push(`export ${type.type} ${type.name} ${type.definition}`));
-    fs.writeFileSync(typeSourcePath, lines.join("\n"), "utf8");
+    const builder = [];
+    types.forEach(type => {
+        if (type.type === "bean") {
+            builder.push(`export interface ${type.name} {`);
+            type.fields.forEach(field => {
+                builder.push(`${field.name}: ${fieldType(field)}`);
+                if (!field.constraints.notNull) builder.push(` | null`);
+                builder.push(fieldConstraintsComment(field.constraints));
+                builder.push("\n");
+            });
+            builder.push(`}`);
+        } else if (type.type === "enum") {
+            builder.push(`export enum ${type.name} {`);
+            type.enumConstants.forEach(constant => builder.push(`${constant.name} = "${constant.value}",`));
+            builder.push(`}`);
+        }
+        builder.push("\n");
+    });
+    fs.writeFileSync(typeSourcePath, builder.join(""), "utf8");
     console.info(chalk`{white.bold api type generated}, source=${typeSourcePath}`);
+}
+
+function fieldType(field) {
+    if (field.type === "List") return `${tsType(field.typeParams[0])}[]`;
+    if (field.type === "Map") {
+        const builder = [];
+        builder.push("{[key");
+        if (field.typeParams[0] === "String") {
+            builder.push(":string]: ");
+        } else {
+            // map key can only be string or enum
+            builder.push(` in ${field.typeParams[0]}]?: `);
+        }
+        if (field.typeParams[1] === "List") {
+            // map value can only be List<V> or Bean type
+            builder.push(`${tsType(field.typeParams[2])}[];}`);
+        } else {
+            builder.push(`${tsType(field.typeParams[1])};}`);
+        }
+        return builder.join("");
+    }
+    return tsType(field.type);
+}
+
+function fieldConstraintsComment(constraints) {
+    const builder = [];
+    if (constraints.notBlank === true) builder.push(`notBlank=true`);
+    if (constraints.min !== null) builder.push(`min=${constraints.min}`);
+    if (constraints.max !== null) builder.push(`max=${constraints.max}`);
+    if (constraints.size !== null) builder.push(`size=(${constraints.size.min}, ${constraints.size.max})`);
+    if (constraints.pattern !== null) builder.push(`pattern=${constraints.pattern}`);
+    if (builder.length === 0) return "";
+    return " // constraints: " + builder.join(", ");
+}
+
+function tsType(type) {
+    if (type === "String") return "string";
+    if (type === "Boolean") return "boolean";
+    if (type === "Integer" || type === "Long" || type === "Double" || type === "BigDecimal") return "number";
+    if (type === "ZonedDateTime") return "Date";
+    if (type === "LocalDate" || type === "LocalDateTime" || type === "LocalTime") return "string"; // in ts/js, Date is always convert to ISO datetime utc format, so here use string for date/datetime without timezone
+    return type;
 }
 
 function generateService(serviceName, operations) {
@@ -34,17 +92,17 @@ function generateService(serviceName, operations) {
     lines.push(``);
     lines.push(`export class ${serviceName} {`);
     operations.forEach(operation => {
-        const pathParams = "{" + operation.pathParams.map(param => param.name).join(",") + "}";
+        const pathParams = "{" + (operation.pathParams||[]).map(param => param.name).join(",") + "}";
 
         let requestBody = "null";
-        const parameters = operation.pathParams.slice();
+        const parameters = (operation.pathParams||[]).slice();
         if (operation.requestType) {
             parameters.push({name: "request", type: operation.requestType});
             requestBody = `request`;
         }
-        const parameterSignature = parameters.map(param => param.name + ":" + checkType(param.type)).join(",");
+        const parameterSignature = parameters.map(param => param.name + ":" + checkType(tsType(param.type))).join(",");
 
-        lines.push(`static ${operation.name}(${parameterSignature}): Promise<${checkType(operation.responseType)}>{`);
+        lines.push(`static ${operation.name}(${parameterSignature}): Promise<${checkType(operation.responseType) + (operation.optional ? " | null" : "")}>{`);
         lines.push(`return ajax("${operation.method}", "${operation.path}", ${pathParams}, ${requestBody});`);
         lines.push("}");
     });

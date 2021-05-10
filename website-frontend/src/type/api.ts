@@ -5,7 +5,7 @@ export interface CurrentUserAJAXResponse {
 }
 export interface LoginAJAXRequest {
     username: string;
-    password: string;
+    password: string; // constraints: size=(3, -1)
 }
 export interface LoginAJAXResponse {
     success: boolean;
