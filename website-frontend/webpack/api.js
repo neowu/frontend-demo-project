@@ -91,21 +91,23 @@ function generateService(serviceName, operations) {
     lines.push(`import {ajax} from "core-fe";`);
     lines.push(``);
     lines.push(`export class ${serviceName} {`);
-    operations.forEach(operation => {
-        const pathParams = "{" + (operation.pathParams||[]).map(param => param.name).join(",") + "}";
+    operations
+        .filter(operation => !operation.deprecated)
+        .forEach(operation => {
+            const pathParams = "{" + (operation.pathParams || []).map(param => param.name).join(",") + "}";
 
-        let requestBody = "null";
-        const parameters = (operation.pathParams||[]).slice();
-        if (operation.requestType) {
-            parameters.push({name: "request", type: operation.requestType});
-            requestBody = `request`;
-        }
-        const parameterSignature = parameters.map(param => param.name + ":" + checkType(tsType(param.type))).join(",");
+            let requestBody = "null";
+            const parameters = (operation.pathParams || []).slice();
+            if (operation.requestType) {
+                parameters.push({name: "request", type: operation.requestType});
+                requestBody = `request`;
+            }
+            const parameterSignature = parameters.map(param => param.name + ":" + checkType(tsType(param.type))).join(",");
 
-        lines.push(`static ${operation.name}(${parameterSignature}): Promise<${checkType(operation.responseType) + (operation.optional ? " | null" : "")}>{`);
-        lines.push(`return ajax("${operation.method}", "${operation.path}", ${pathParams}, ${requestBody});`);
-        lines.push("}");
-    });
+            lines.push(`static ${operation.name}(${parameterSignature}): Promise<${checkType(operation.responseType) + (operation.optional ? " | null" : "")}>{`);
+            lines.push(`return ajax("${operation.method}", "${operation.path}", ${pathParams}, ${requestBody});`);
+            lines.push("}");
+        });
 
     lines.push(`}`);
     if (requiredTypes.length > 0) lines.unshift(`import {${requiredTypes.join(",")}} from "${typeModule}/api";`);
