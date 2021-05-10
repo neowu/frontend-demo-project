@@ -94,10 +94,10 @@ function generateService(serviceName, operations) {
     operations
         .filter(operation => !operation.deprecated)
         .forEach(operation => {
-            const pathParams = "{" + (operation.pathParams || []).map(param => param.name).join(",") + "}";
+            const pathParams = "{" + operation.pathParams.map(param => param.name).join(",") + "}";
 
             let requestBody = "null";
-            const parameters = (operation.pathParams || []).slice();
+            const parameters = operation.pathParams.slice();
             if (operation.requestType) {
                 parameters.push({name: "request", type: operation.requestType});
                 requestBody = `request`;
