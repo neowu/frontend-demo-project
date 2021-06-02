@@ -26,7 +26,7 @@ function checkCodeStyle() {
 
 function test() {
     console.info(chalk`{green.bold [task]} {white.bold test}`);
-    return spawn("jest", ["--config", "webpack/jest.json", "--forceExit"], "test failed, please fix");
+    return spawn("jest", ["--config", "webpack/jest.json", "--detectOpenHandles"], "test failed, please fix");
 }
 
 function cleanup() {
