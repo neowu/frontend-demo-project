@@ -1,7 +1,7 @@
 import {call, Lifecycle, Module, register, SagaGenerator} from "core-fe";
 import {AccountAJAXWebService} from "service/AccountAJAXWebService";
-import {State} from "./type";
 import {RootState} from "type/state";
+import {State} from "./type";
 
 const initialState: State = {
     currentUser: {
@@ -65,4 +65,4 @@ class UserModule extends Module<RootState, "user", {}, {}> {
 const module = register(new UserModule("user", initialState));
 export const actions = module.getActions();
 export {default as LoginForm} from "./component/LoginForm";
-export {UserModule, initialState}
+export {UserModule, initialState};

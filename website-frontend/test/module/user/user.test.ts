@@ -1,32 +1,26 @@
-import {call} from "core-fe";
-
-import {AccountAJAXWebService} from "service/AccountAJAXWebService";
-// AccountAJAXWebService.login = () => Promise.resolve({success: true, name: "test", role: "user", errorMessage: null});
-
+import {push} from "connected-react-router";
 import {initialState, UserModule} from "module/user";
+import {runSaga} from "redux-saga";
+import {AccountAJAXWebService} from "service/AccountAJAXWebService";
 
-// jest.mock("service/AccountAJAXWebService", () => ({
-//     AccountAJAXWebService: {
-//         login: jest.fn()
-//     }
-// }));
+test("login_succeed", async () => {
+    jest.spyOn(AccountAJAXWebService, "login").mockImplementation(() => Promise.resolve({success: true, name: "test", role: "user", errorMessage: null}));
 
-test("login", () => {
-    // jest.fn(AccountAJAXWebService.login).mockImplementation(()=>Promise.resolve({success: true, name: "test", role: "user", errorMessage: null}));
-
-    // jest.spyOn(AccountAJAXWebService, "login").mockImplementation(() => {
-    //     console.warn("test here");
-    //     return Promise.resolve({success: true, name: "test", role: "user", errorMessage: null})
-    // });
-
-    const login = AccountAJAXWebService.login({username: "test", password: "password"});
-
+    const dispatched: any[] = [];
     const module = new UserModule("user", initialState);
-    const saga = module.login("test", "password");
-    const result = saga.next();
-    // const next = saga.next();
-    // console.warn("print "+ JSON.stringify(result));
-    // // expect(result.value).toBe(call(AccountAJAXWebService.login, {username: "test", password: "password"}).next().value);
-    // expect(next.value).toBe(true);
-    // expect(module.rootState.app.user.currentUser.loggedIn).toBe(true);
+    await runSaga({dispatch: action => dispatched.push(action)}, module.login.bind(module), "test", "password").toPromise();
+
+    expect(module.rootState.app.user.currentUser).toStrictEqual({loggedIn: true, role: "user", name: "test"});
+    expect(dispatched).toStrictEqual([push("/")]);
+});
+
+test("login_failed", async () => {
+    jest.spyOn(AccountAJAXWebService, "login").mockImplementation(() => Promise.resolve({success: false, name: null, role: null, errorMessage: "user not found"}));
+
+    const dispatched: any[] = [];
+    const module = new UserModule("user", initialState);
+    await runSaga({dispatch: action => dispatched.push(action)}, module.login.bind(module), "test", "password").toPromise();
+
+    expect(module.rootState.app.user.currentUser.loggedIn).toBe(false);
+    expect(dispatched).toStrictEqual([]);
 });
