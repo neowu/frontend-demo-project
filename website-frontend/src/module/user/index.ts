@@ -65,3 +65,4 @@ class UserModule extends Module<RootState, "user", {}, {}> {
 const module = register(new UserModule("user", initialState));
 export const actions = module.getActions();
 export {default as LoginForm} from "./component/LoginForm";
+export {UserModule, initialState}

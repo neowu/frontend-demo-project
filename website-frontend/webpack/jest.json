@@ -3,8 +3,10 @@
   "rootDir": "..",
   "roots": ["<rootDir>/test"],
   "transform": {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.(js|jsx|ts|tsx)$": "ts-jest"
   },
+  "transformIgnorePatterns": ["/node_modules/(?!core-fe/.*)"],
+  "testEnvironment": "jsdom",
   "testRegex": "\\.test\\.tsx?$",
   "testURL": "http://127.0.0.1",
   "moduleFileExtensions": ["ts", "tsx", "js"],
@@ -14,5 +16,8 @@
       "tsconfig": "./webpack/tsconfig.json",
       "diagnostics": true
     }
+  },
+  "moduleNameMapper": {
+    "\\.(css|less)$": "<rootDir>/test/styleMock.js"
   }
 }
