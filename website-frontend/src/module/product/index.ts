@@ -1,4 +1,4 @@
-import {call, Interval, Lifecycle, Loading, Module, register, SagaGenerator} from "core-fe";
+import {call, Interval, Loading, Module, register, SagaGenerator} from "core-fe";
 import {Location} from "history";
 import {ProductAJAXWebService} from "service/ProductAJAXWebService";
 import {RootState} from "type/state";
@@ -29,8 +29,7 @@ class ProductModule extends Module<RootState, "product"> {
         yield* call(ProductAJAXWebService.list);
     }
 
-    @Lifecycle()
-    *onLocationMatched(routeParameters: {}, location: Location): SagaGenerator {
+    override *onLocationMatched(routeParam: {}, location: Location): SagaGenerator {
         if (location.pathname === "/product/add") {
             yield* this.loadCreateProductConfig();
         } else if (location.pathname === "/product/list") {
@@ -38,9 +37,8 @@ class ProductModule extends Module<RootState, "product"> {
         }
     }
 
-    @Lifecycle()
     @Interval(3)
-    *onTick(): SagaGenerator {
+    override *onTick(): SagaGenerator {
         // console.log("from product module, print every 3 secs");
     }
 }

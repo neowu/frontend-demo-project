@@ -1,4 +1,4 @@
-import {call, Lifecycle, Module, register, SagaGenerator} from "core-fe";
+import {call, Module, register, SagaGenerator} from "core-fe";
 import {AccountAJAXWebService} from "service/AccountAJAXWebService";
 import {RootState} from "type/state";
 import {State} from "./type";
@@ -16,8 +16,7 @@ const initialState: State = {
 };
 
 class UserModule extends Module<RootState, "user", {}, {}> {
-    @Lifecycle()
-    *onLocationMatched(): SagaGenerator {
+    override *onLocationMatched(): SagaGenerator {
         const response = yield* call(AccountAJAXWebService.currentUser);
         this.setState({
             currentUser: {

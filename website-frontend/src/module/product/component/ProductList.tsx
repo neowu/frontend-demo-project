@@ -12,7 +12,7 @@ interface StateProps {
 interface Props extends StateProps {}
 
 class Component extends React.PureComponent<Props> {
-    render() {
+    override render() {
         return (
             <Spin size="large" spinning={this.props.showLoading}>
                 <div>

@@ -9,6 +9,7 @@
     "strict": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "noImplicitOverride": true,
     "importHelpers": true,
     "jsx": "react",
     "lib": ["dom", "es2017"],
