@@ -157,7 +157,10 @@ const config = {
             },
         }),
         new webpack.ProgressPlugin({profile: env.profile}),
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new webpack.IgnorePlugin({
+            resourceRegExp: /^\.\/locale$/,
+            contextRegExp: /moment$/,
+        }),
     ],
 };
 

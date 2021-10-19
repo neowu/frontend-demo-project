@@ -101,7 +101,10 @@ const config = {
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.ProgressPlugin(),
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new webpack.IgnorePlugin({
+            resourceRegExp: /^\.\/locale$/,
+            contextRegExp: /moment$/,
+        }),
     ],
 };
 
