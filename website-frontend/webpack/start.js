@@ -6,18 +6,13 @@ const DevServer = require("webpack-dev-server");
 
 function devServer(compiler) {
     return new DevServer(compiler, {
-        contentBase: env.static,
+        static: {
+            directory: env.static
+        },
         https: true,
         historyApiFallback: true,
         hot: true,
         compress: true,
-        overlay: {
-            warnings: true,
-            errors: true,
-        },
-        stats: {
-            colors: true
-        },
         proxy: {
             "/ajax": {
                 target: "https://localhost:8443/",
