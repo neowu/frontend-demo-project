@@ -23,7 +23,7 @@ export interface CreateProductConfigResponse$ProductType {
     name: string;
     value: string;
 }
-export interface AJAXErrorResponse {
+export interface ErrorResponse {
     id: string | null;
     errorCode: string | null;
     message: string | null;
